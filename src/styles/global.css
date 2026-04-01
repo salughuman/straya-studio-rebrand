@@ -4,6 +4,8 @@
 
 @layer base {
 	html {
+		width: 100%;
+		max-width: 100%;
 		font-family: theme('fontFamily.display'), theme('fontFamily.sans'), system-ui, sans-serif;
 		background-color: theme('colors.bg-base');
 		color: theme('colors.text-primary');
@@ -19,12 +21,20 @@
 
 	body {
 		margin: 0;
+		width: 100%;
+		max-width: 100%;
 		min-height: 100vh;
 		background-color: theme('colors.bg-base');
 		color: theme('colors.text-primary');
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		overflow-x: hidden;
+	}
+
+	main,
+	#main-content {
+		width: 100%;
+		max-width: 100%;
 	}
 
 	/* GEMINI §5.O — visible focus for keyboard users */
