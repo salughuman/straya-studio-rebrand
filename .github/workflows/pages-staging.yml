@@ -40,7 +40,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages-staging
+          name: github-pages-staging-${{ github.run_id }}-${{ github.run_attempt }}
           path: dist
 
   deploy:
@@ -54,4 +54,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: github-pages-staging
+          artifact_name: github-pages-staging-${{ github.run_id }}-${{ github.run_attempt }}
