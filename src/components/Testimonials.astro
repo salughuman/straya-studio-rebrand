@@ -27,12 +27,12 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Working with Straya Studio felt like having a technical co-founder on the team. They didn't just build our site — they architected our entire digital strategy.",
-    name: "Sophie Chen",
-    gender: "female",
-    country: "Canada",
+      "Working with Salman has been an amazing experience. He’s hardworking, communicative, and always overdelivers. His web design and animations are top-notch—creative, polished, and exactly what I envisioned. Salman’s positive energy makes collaboration effortless and enjoyable. I highly recommend him to anyone looking for high-quality work and a reliable partner. Looking forward to working with him again!",
+    name: "Sergio Apollo",
+    gender: "male",
+    country: "",
     role: "CEO",
-    company: "Meridian Health",
+    company: "Better Match",
     stars: 5,
     featured: true,
     video: "https://youtu.be/Aq2wnh6KRz0",
@@ -172,6 +172,47 @@ const getFallbackAvatarSrc = (t: Testimonial) =>
 
 const getPrimaryMeta = (t: Testimonial) =>
   [t.role, t.company].filter(Boolean).join(", ");
+
+const getYouTubeId = (url: string) => {
+  const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+  if (shortMatch?.[1]) return shortMatch[1];
+
+  const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
+  if (watchMatch?.[1]) return watchMatch[1];
+
+  const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
+  if (embedMatch?.[1]) return embedMatch[1];
+
+  return null;
+};
+
+const getVimeoId = (url: string) => {
+  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return match?.[1] ?? null;
+};
+
+const getVideoSource = (url: string) => {
+  const youtubeId = getYouTubeId(url);
+  if (youtubeId) {
+    return {
+      type: "iframe" as const,
+      src: `https://www.youtube.com/embed/${youtubeId}?rel=0`,
+    };
+  }
+
+  const vimeoId = getVimeoId(url);
+  if (vimeoId) {
+    return {
+      type: "iframe" as const,
+      src: `https://player.vimeo.com/video/${vimeoId}`,
+    };
+  }
+
+  return {
+    type: "video" as const,
+    src: url,
+  };
+};
 ---
 
 <section class="testimonials-section section-y relative z-10 bg-[#0F1115] text-[#FFFFFF]" aria-label="Client testimonials">
@@ -203,14 +244,27 @@ const getPrimaryMeta = (t: Testimonial) =>
           >
             {t.video && (
               <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
-                <iframe
-                  src={t.video}
-                  title={`Video testimonial from ${t.name}`}
-                  class="aspect-video w-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                  loading="lazy"
-                />
+                {getVideoSource(t.video).type === "iframe" ? (
+                  <iframe
+                    src={getVideoSource(t.video).src}
+                    title={`Video testimonial from ${t.name}`}
+                    class="aspect-video w-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <video
+                    class="aspect-video w-full"
+                    controls
+                    playsinline
+                    preload="metadata"
+                  >
+                    <source src={getVideoSource(t.video).src} />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
               </div>
             )}
 
