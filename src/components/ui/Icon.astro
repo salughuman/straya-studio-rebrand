@@ -1,0 +1,50 @@
+---
+// Icon.astro — Straya Studio
+// Centralized SVG component for consistent stroke-scaling and platform branding
+interface Props {
+  name: "framer" | "webflow" | "shopify" | "linkedin" | "chevron-right" | "arrow-right" | "external";
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+// SVG paths mapped to brand identity. 
+// Standardized on 24x24 viewBox with currentColor and consistent stroke-scaling.
+const icons = {
+  framer: `
+    <path d="M5 2h14v7h-7l7 7v7l-14-14v-7z" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  webflow: `
+    <path d="M16 6l-3.5 12h-2L7 9l-3.5 9h-2L5 6h2l2.5 8 2.5-8h2zM22 6l-3.5 12h-2L13 9l-3.5 9h-2L11 6h2l2.5 8 2.5-8h2z" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  shopify: `
+    <path d="M18.8 6.5l-3.5-3s-1.5-.5-2.5 1.5l-.5 1-4.8-.5S6.5 5.5 6 7l-1 8.5s-.5 4.5 3 5l2 .5 7 .5s4.5-.5 5-5L18.8 6.5zM12 4.5s.5-1 1.5-1 1 1 1 1l-.5 1-2.5-.5.5-.5z" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  linkedin: `
+    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 100 4 2 2 0 000-4z" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  "chevron-right": `
+    <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  "arrow-right": `
+    <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+  `,
+  external: `
+    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-linecap="round" stroke-linejoin="round" />
+  `
+};
+
+const iconContent = icons[name];
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  class={className}
+  set:html={iconContent}
+/>

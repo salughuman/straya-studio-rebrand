@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_CONFIG } from "../data/site-config";
+import Footer from "../components/Footer.astro";
+
+const title = "Start a Project | Straya Studio";
+const description =
+  "Share your project brief with Straya Studio. We review scope, align on fit, and reply with a clear fixed project quote.";
+---
+
+<BaseLayout title={title} description={description}>
+  <section
+    id="contact"
+    class="section-y relative z-10 bg-[#0A0A0A] text-[#FFFFFF]"
+    aria-label="Start a project form"
+  >
+    <div class="main-container">
+      <p class="sr-only">
+        This page captures qualified project briefs.
+      </p>
+
+      <header class="mx-auto mb-12 flex max-w-[30rem] flex-col gap-3 text-center md:mb-14">
+        <p class="type-label">Start a project</p>
+        <h1 class="type-h2">Send your brief and get a fixed quote.</h1>
+        <p class="type-body text-[#9CA3AF]">
+          Tell us what you are building, what success looks like, and any constraints
+          we should account for. We review every brief directly and reply with the next
+          best step.
+        </p>
+      </header>
+
+      <div class="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4">
+        <article class="w-full rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#050505] p-6 md:p-8">
+          <form
+            action={`https://formsubmit.co/${SITE_CONFIG.contactEmail}`}
+            method="POST"
+            id="project-brief-form"
+            data-calendly={SITE_CONFIG.socials.calendly}
+            data-contact-email={SITE_CONFIG.contactEmail}
+            class="grid w-full grid-cols-1 gap-4 md:grid-cols-2"
+          >
+            <input type="hidden" name="_subject" value="New Project Brief — Straya Studio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value={`${SITE_CONFIG.url}/contact/thanks`} />
+            <input type="hidden" name="leadSource" value="pricing-start-project" />
+            <input type="hidden" name="cta_source" id="cta-source" value="direct-contact-page" />
+            <input type="hidden" name="cta_tier" id="cta-tier" value="unknown" />
+            <input type="hidden" name="tier" id="tier-hidden" value="unknown" />
+            <input type="hidden" name="landing_page" value="/contact" />
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+            <label class="flex w-full flex-col gap-2">
+              <span class="type-caption text-[#D1D5DB]">Full name</span>
+              <input required name="name" type="text" placeholder="e.g. Alex Morgan" class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+            </label>
+
+            <label class="flex w-full flex-col gap-2">
+              <span class="type-caption text-[#D1D5DB]">Email</span>
+              <input required name="email" type="email" placeholder="you@example.com" class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+            </label>
+
+            <label class="flex w-full flex-col gap-2 md:col-span-2">
+              <span class="type-caption text-[#D1D5DB]">Project brief</span>
+              <textarea required name="brief" rows={6} placeholder="Share your goals, scope, platform preference, and any deadline constraints." class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+            </label>
+
+            <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm border border-[#3CCD7F] bg-[#3CCD7F] px-6 py-3 text-sm font-semibold text-[#050505] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[#2FB96D] hover:bg-[#2FB96D] motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:col-span-2">
+              Send project brief
+            </button>
+            <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite"></p>
+          </form>
+        </article>
+
+      </div>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("source");
+    const tier = params.get("tier");
+
+    const sourceField = document.getElementById("cta-source");
+    const tierField = document.getElementById("cta-tier");
+    const tierHidden = document.getElementById("tier-hidden");
+    const form = document.getElementById("project-brief-form");
+    const status = document.getElementById("form-status");
+
+    if (source && sourceField instanceof HTMLInputElement) {
+      sourceField.value = source;
+    }
+
+    if (tier && tierField instanceof HTMLInputElement) {
+      const normalized = tier.toLowerCase();
+      tierField.value = normalized;
+        if (tierHidden instanceof HTMLInputElement) {
+          if (normalized === "starter") tierHidden.value = "Starter";
+          if (normalized === "growth") tierHidden.value = "Growth";
+        }
+    }
+
+    if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        status.classList.remove("hidden", "text-[#EF4444]", "text-[#3CCD7F]");
+        status.classList.add("text-[#9CA3AF]");
+        status.textContent = "Sending your brief...";
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = true;
+        }
+
+        try {
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          });
+
+          if (!response.ok) throw new Error("Submission failed");
+
+          const nextInput = form.querySelector('input[name="_next"]');
+          if (nextInput instanceof HTMLInputElement && nextInput.value) {
+            window.location.href = nextInput.value;
+            return;
+          }
+          window.location.href = "/contact/thanks";
+        } catch {
+          const calendly = form.dataset.calendly ?? "#";
+          const email = form.dataset.contactEmail ?? "";
+          status.classList.remove("text-[#9CA3AF]");
+          status.classList.add("text-[#EF4444]");
+          status.innerHTML = `Submission service is temporarily unavailable. Please <a href="${calendly}" class="underline text-[#FFFFFF]">book a call</a> or email <a href="mailto:${email}" class="underline text-[#FFFFFF]">${email}</a>.`;
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+          }
+        }
+      });
+    }
+  })();
+</script>

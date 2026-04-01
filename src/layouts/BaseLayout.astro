@@ -1,0 +1,72 @@
+---
+import GlobalSchema from "../components/GlobalSchema.astro";
+import Meta from "../components/Meta.astro";
+import Navbar from "../components/Navbar.astro";
+import GlobalGrain from "../components/design-effects/GlobalGrain.astro";
+import "../styles/global.css";
+import { SITE_CONFIG } from "../data/site-config";
+
+const {
+	title,
+	description = SITE_CONFIG.description,
+	image,
+	canonicalUrl,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- SEO: Title, Description, OG, Twitter -->
+		<Meta
+			title={title}
+			description={description}
+			image={image}
+			canonicalUrl={canonicalUrl}
+		/>
+
+		<!-- AEO / LLM Discovery -->
+		<link
+			rel="alternate"
+			type="text/plain"
+			title="LLM-friendly content"
+			href="/llms.txt"
+		/>
+		<link
+			rel="alternate"
+			type="text/plain"
+			title="Full LLM profile"
+			href="/llms-full.txt"
+		/>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Global Schema -->
+		<GlobalSchema />
+	</head>
+	<body class="bg-bg-base text-text-primary selection:bg-brand-muted">
+		<!-- GEMINI §5.O — first focusable element -->
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:px-4 focus:py-3 focus:bg-brand-accent focus:text-bg-base focus:outline-none focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:ring-offset-bg-base transition-none"
+		>
+			Skip to main content
+		</a>
+		<Navbar />
+		<main id="main-content">
+			<slot />
+		</main>
+		<GlobalGrain />
+	</body>
+</html>

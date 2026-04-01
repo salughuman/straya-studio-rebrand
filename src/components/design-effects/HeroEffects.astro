@@ -1,0 +1,153 @@
+---
+// HeroEffects.astro — Straya Studio
+// Layered background effects for the hero section.
+// Drop this INSIDE the hero <section>, before any content.
+//
+// Layers (bottom to top):
+//   1. Beam of light — static angled gradient from top-right
+//   2. Mouse-reactive gradient orb — follows cursor with easing
+//   (Grain is now handled globally by GlobalGrain.astro)
+//
+// Zero layout impact. All layers are position: absolute + pointer-events: none.
+// Respects prefers-reduced-motion (disables mouse tracking).
+---
+
+<div class="hero-fx" aria-hidden="true">
+    <!-- Layer 1: Light beam from top-right -->
+    <div class="fx-beam"></div>
+</div>
+
+<style>
+    .hero-fx {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+        /* Stay behind the navbar — nav should have z-index >= 50 */
+    }
+
+    /* ── Beam of light ──
+       Angled cone from top-right corner, fading into the dark.
+       Resembles a spotlight or ray cutting through space. */
+    .fx-beam {
+        position: absolute;
+        top: -18%;
+        right: -8%;
+        width: 78%;
+        height: 128%;
+        background: conic-gradient(
+            from 200deg at 80% 0%,
+            rgba(60, 205, 127, 0.12) 0deg,
+            rgba(60, 205, 127, 0.07) 15deg,
+            transparent 40deg,
+            transparent 320deg,
+            rgba(60, 205, 127, 0.05) 340deg,
+            rgba(60, 205, 127, 0.12) 360deg
+        );
+        filter: blur(34px);
+        opacity: 0.95;
+    }
+
+    /* Secondary beam — wider, softer, different angle */
+    .fx-beam::after {
+        content: "";
+        position: absolute;
+        top: 5%;
+        right: 10%;
+        width: 60%;
+        height: 80%;
+        background: radial-gradient(
+            ellipse at 90% 10%,
+            rgba(60, 205, 127, 0.08) 0%,
+            rgba(60, 205, 127, 0.03) 32%,
+            transparent 65%
+        );
+    }
+
+    /* Keep beam visible on smaller screens where hero is shorter */
+    @media (max-width: 809px) {
+        .fx-beam {
+            top: -14%;
+            right: -14%;
+            width: 115%;
+            height: 125%;
+            filter: blur(28px);
+            opacity: 1;
+        }
+
+        .fx-beam::after {
+            top: 0;
+            right: 4%;
+            width: 76%;
+            height: 76%;
+        }
+    }
+
+</style>
+
+<script>
+    const initHeroFx = () => {
+        const orb = document.getElementById("hero-orb");
+        if (!orb) return;
+
+        // Respect reduced motion
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        // Only track mouse within the hero section
+        const hero = orb.closest("section") || orb.parentElement?.parentElement;
+        if (!hero) return;
+
+        let rafId: number | null = null;
+        let targetX = 50;
+        let targetY = 40;
+        let currentX = 50;
+        let currentY = 40;
+
+        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+        const tick = () => {
+            currentX = lerp(currentX, targetX, 0.08);
+            currentY = lerp(currentY, targetY, 0.08);
+
+            orb.style.left = `${currentX}%`;
+            orb.style.top = `${currentY}%`;
+
+            rafId = requestAnimationFrame(tick);
+        };
+
+        const handleMove = (e: MouseEvent) => {
+            const rect = hero.getBoundingClientRect();
+            targetX = ((e.clientX - rect.left) / rect.width) * 100;
+            targetY = ((e.clientY - rect.top) / rect.height) * 100;
+        };
+
+        const handleLeave = () => {
+            // Drift back to default position
+            targetX = 50;
+            targetY = 40;
+        };
+
+        hero.addEventListener("mousemove", handleMove);
+        hero.addEventListener("mouseleave", handleLeave);
+
+        // Start animation loop
+        rafId = requestAnimationFrame(tick);
+
+        // Cleanup on page navigation (Astro view transitions)
+        document.addEventListener(
+            "astro:before-swap",
+            () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                hero.removeEventListener("mousemove", handleMove);
+                hero.removeEventListener("mouseleave", handleLeave);
+            },
+            { once: true }
+        );
+    };
+
+    // Init on load and on Astro page transitions
+    initHeroFx();
+    document.addEventListener("astro:page-load", initHeroFx);
+</script>
+

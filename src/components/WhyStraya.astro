@@ -1,0 +1,171 @@
+---
+// WhyStraya.astro — utility-first bento section (GEMINI §5/§6)
+import Button from "./ui/buttons/Button.astro";
+
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+  mockupLabel: string;
+  layout: string;
+  minH: string;
+  mockupTint: string;
+}
+
+const features: Feature[] = [
+  {
+    icon: "bolt",
+    title: "Launch-ready in days, not months",
+    description:
+      "We move fast without cutting corners. Most projects go from kickoff to live deployment within 2–4 weeks.",
+    mockupLabel: "Project timeline",
+    layout: "md:col-span-6 lg:col-span-5",
+    minH: "min-h-[320px]",
+    mockupTint: "from-[rgba(60,205,127,0.1)] via-[rgba(15,17,21,0.75)] to-[#050505]",
+  },
+  {
+    icon: "diamond",
+    title: "Pixel-perfect, every time",
+    description:
+      "Every build is hand-checked across breakpoints. No template shortcuts — just clean, intentional craft.",
+    mockupLabel: "Quality checklist",
+    layout: "md:col-span-6 lg:col-span-3",
+    minH: "min-h-[320px]",
+    mockupTint: "from-[rgba(255,255,255,0.06)] via-[rgba(15,17,21,0.72)] to-[#050505]",
+  },
+  {
+    icon: "shield",
+    title: "Built for performance and scale",
+    description:
+      "Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking.",
+    mockupLabel: "Performance metrics",
+    layout: "md:col-span-12 lg:col-span-4 lg:row-span-2",
+    minH: "min-h-[360px] lg:min-h-[688px]",
+    mockupTint: "from-[rgba(60,205,127,0.08)] via-[rgba(10,10,10,0.85)] to-[#050505]",
+  },
+  {
+    icon: "chat",
+    title: "Direct line to the engineers building your platform",
+    description:
+      "No account managers or ticket queues. You work with the same senior engineers from discovery through launch — every time.",
+    mockupLabel: "Slack thread",
+    layout: "md:col-span-7 lg:col-span-4",
+    minH: "min-h-[360px]",
+    mockupTint: "from-[rgba(255,255,255,0.05)] via-[rgba(10,10,10,0.85)] to-[#050505]",
+  },
+  {
+    icon: "package",
+    title: "Full ownership of every deliverable",
+    description:
+      "Clean, documented, optimised code on your infrastructure. No lock-in. Every asset, token and component is yours.",
+    mockupLabel: "Deliverables dashboard",
+    layout: "md:col-span-5 lg:col-span-4",
+    minH: "min-h-[360px]",
+    mockupTint: "from-[rgba(60,205,127,0.07)] via-[rgba(15,17,21,0.76)] to-[#050505]",
+  },
+];
+
+const icons: Record<string, string> = {
+  bolt: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  diamond: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/></svg>`,
+  chat: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`,
+  package: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
+  shield: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+};
+---
+
+<section class="why-section section-y relative z-10 bg-[#050505] text-[#FFFFFF]" aria-label="Why work with Straya Studio">
+  <div class="main-container">
+    <p class="sr-only">
+      Why Straya is a five-card bento section covering speed, quality, performance,
+      direct communication, and full ownership. Cards use an asymmetric layout to
+      show different strategic strengths.
+    </p>
+
+    <header class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
+      <div class="flex flex-col gap-4">
+        <p class="type-label">The Straya offer</p>
+        <h2 class="type-h2">Engineered for founders who ship fast.</h2>
+      </div>
+
+      <Button
+        href="#pricing"
+        label="Start a project"
+        variant="light"
+        class="group !w-fit !rounded-xs !px-5 !py-3 !text-[#FFFFFF] !border-[rgba(255,255,255,0.05)] hover:!border-[rgba(255,255,255,0.1)] hover:!bg-[rgba(255,255,255,0.03)] hover:!shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]"
+      >
+        <svg
+          class="h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </Button>
+    </header>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
+      {
+        features.map((f) => (
+          <article
+            class:list={[
+              "group relative overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
+              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+              f.layout,
+              f.minH,
+            ]}
+          >
+            <div class="relative z-[1] flex h-full flex-col">
+              <div class="flex flex-col gap-4 p-6 md:p-8">
+                <div
+                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.04)] text-[#9CA3AF]"
+                  set:html={icons[f.icon]}
+                  aria-hidden="true"
+                />
+                <h3 class="type-h3">{f.title}</h3>
+                <p class="type-body text-[#6B7280]">{f.description}</p>
+              </div>
+
+              <div class:list={[
+                "mt-auto border-t border-[rgba(255,255,255,0.05)] bg-gradient-to-br p-4 md:p-6",
+                f.mockupTint,
+              ]}>
+                <div
+                  class="mx-auto w-full max-w-sm rounded-t-sm border border-[rgba(255,255,255,0.08)] border-b-0 bg-[rgba(0,0,0,0.4)]"
+                  aria-hidden="true"
+                >
+                  <div class="flex items-center gap-2 border-b border-[rgba(255,255,255,0.06)] px-3 py-2">
+                    <div class="flex gap-1">
+                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
+                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
+                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
+                    </div>
+                    <span class="type-small text-[rgba(255,255,255,0.42)]">{f.mockupLabel}</span>
+                  </div>
+                  <div class="flex flex-col gap-1.5 p-3">
+                    <div class="h-[5px] w-[70%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
+                    <div class="h-[5px] w-[50%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
+                    <div class="h-[5px] w-[85%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
+                    <div class="my-1 flex gap-1.5">
+                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
+                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
+                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
+                    </div>
+                    <div class="h-[5px] w-[60%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
+                    <div class="h-[5px] w-[40%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

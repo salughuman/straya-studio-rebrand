@@ -1,0 +1,50 @@
+# Straya Studio | Boutique Web Design & Development Studio
+
+> Straya Studio is a selective, founder-led technical studio that takes
+on 2–3 projects at a time. We deliver custom web design, web
+development, and graphic design across Framer, Webflow, Shopify, Wix,
+and WordPress for tech founders, startups, and growth-stage businesses
+in the US, Canada, UK, Europe, and Australia.
+
+## What We Do
+- **Web Design:** Custom responsive layouts, wireframes, creative
+  direction, brand-led visual design. No templates, ever.
+- **Web Development:** Production builds on Framer, Webflow, Shopify,
+  Wix, and WordPress. CMS architecture, custom interactions, 90+
+  Lighthouse performance.
+- **Graphic Design:** Social media kits, pitch decks, brand assets,
+  marketing collateral, ad creatives, and presentation design.
+
+## Platform Expertise
+- **Framer:** Site builds, CMS, custom React components, plugin
+  development, animations, responsivity, migration, and deployment.
+- **Webflow:** Site builds, CMS architecture, Ecommerce, interactions,
+  automation (Make.com/Zapier), memberships, SEO, and migration.
+- **Shopify:** Full store builds, theme customization, Liquid
+  engineering, app integration, checkout optimization, and headless.
+- **Wix:** Custom builds, Velo development, CMS setup, e-commerce,
+  and migration from other platforms.
+- **WordPress:** Custom themes, Elementor, ACF, WooCommerce, page
+  speed, security hardening, migration, and Gutenberg blocks.
+
+## How We Work
+- **Project-based only.** No retainers, no subscriptions. Every
+  engagement is scoped, quoted, and delivered as a complete project.
+- **3 tiers:** Starter ($2,500–$5,000) · Growth ($5,000–$12,000) ·
+  Premium ($12,000–$25,000+)
+- **Direct access.** You work with the founder — no account managers,
+  no ticket queues.
+- **Fast delivery.** Most projects ship in 1–4 weeks.
+
+## Key Pages
+- [Home](https://strayastudio.com): Main studio overview, positioning,
+  and service proof.
+- [Contact](https://strayastudio.com/contact): Start a project or
+  book a free 15-minute scoping call.
+
+## Credentials
+- Official Certified Framer Expert
+- 100+ successful deployments
+- 5.0★ average client rating
+
+[Full Profile for AI](https://strayastudio.com/llms-full.txt)

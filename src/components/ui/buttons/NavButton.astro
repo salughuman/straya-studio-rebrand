@@ -1,0 +1,28 @@
+---
+// NavButton.astro — Straya Studio
+// High-precision, compact action for the Header
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  href: string;
+  label: string;
+  variant?: 'ghost' | 'frosted';
+}
+
+const { href, label, variant = 'frosted', class: className, ...rest } = Astro.props;
+---
+
+<a
+  href={href}
+  {...rest}
+  class:list={[
+    "inline-flex items-center justify-center px-4 py-2 rounded-sm",
+    "text-sm font-bold tracking-tight transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury",
+    "no-underline min-h-[44px]", // Ensuring touch target accessibility
+    variant === 'frosted' && "bg-transparent border border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-bg-base hover:shadow-[0_0_20px_rgba(60,205,127,0.2)] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    variant === 'ghost' && "text-text-secondary hover:text-text-primary hover:bg-white/[0.05] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    className
+  ]}
+  aria-label={label}
+>
+  <slot />
+  {label}
+</a>

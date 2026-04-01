@@ -1,0 +1,94 @@
+---
+import { SITE_CONFIG } from "../data/site-config";
+import Button from "./ui/buttons/Button.astro";
+import NavLink from "./ui/links/NavLink.astro";
+---
+
+<footer
+  id="footer"
+  class="border-t border-border-subtle bg-bg-base"
+  aria-label="Footer"
+>
+  <div class="main-container py-14 md:py-16">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div class="max-w-xl">
+        <div class="flex items-center gap-2">
+          <span class="type-h5 text-white font-bold tracking-tighter uppercase tabular-nums leading-none"
+            >Straya</span
+          >
+          <span
+            class="type-h5 text-brand-secondary font-bold tracking-tighter uppercase tabular-nums italic leading-none"
+            >Studio</span
+          >
+        </div>
+
+        <p class="type-small mt-4 text-text-secondary leading-relaxed">
+          {SITE_CONFIG.tagline}
+          <br />
+          <span class="text-text-muted">{SITE_CONFIG.email}</span>
+          <br />
+          <span class="text-text-muted">Lahore, Pakistan</span>
+        </p>
+
+        <div class="mt-5 flex flex-wrap gap-4">
+          <NavLink
+            href={SITE_CONFIG.socials.linkedIn}
+            label="LinkedIn"
+            variant="social"
+          />
+          <NavLink
+            href={SITE_CONFIG.socials.fiverr}
+            label="Fiverr"
+            variant="social"
+          />
+          <NavLink
+            href={SITE_CONFIG.socials.contra}
+            label="Contra"
+            variant="social"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-6 md:items-end">
+        <nav class="flex flex-col sm:flex-row gap-4 sm:items-center" aria-label="Footer navigation">
+          <NavLink
+            href="/"
+            label="Home"
+            variant="main"
+            class="nav-link"
+          />
+          <NavLink
+            href="#work"
+            label="Work"
+            variant="main"
+            class="nav-link"
+          />
+          <NavLink
+            href="#services"
+            label="Services"
+            variant="main"
+            class="nav-link"
+          />
+          <NavLink
+            href="#pricing"
+            label="Pricing"
+            variant="main"
+            class="nav-link"
+          />
+        </nav>
+
+        <Button href={SITE_CONFIG.socials.calendly} label="Book a call" variant="primary" target="_blank" rel="noopener noreferrer" class="!rounded-sm !px-8 !py-3 !text-sm hover:brightness-110" />
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-border-subtle pt-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+      <p class="type-small text-text-muted">
+        © {new Date().getFullYear()} Straya Studio. All rights reserved.
+      </p>
+      <p class="type-small text-text-muted">
+        Built with Astro.
+      </p>
+    </div>
+  </div>
+</footer>
+

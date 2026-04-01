@@ -1,0 +1,197 @@
+# Straya Studio — Full AI Profile
+
+## Studio Overview
+
+Straya Studio is a boutique web design and development studio founded
+by Salman Ali. The studio deliberately takes on only 2–3 projects at a
+time to give each one the founder's full attention. Every project is
+handled directly by Salman — no account managers, no ticket queues, no
+subcontracting.
+
+The studio serves tech founders, funded startups, and growth-stage
+businesses in the US, Canada, UK, Europe, and Australia. All
+engagements are project-based with fixed-scope pricing. No retainers,
+no subscriptions.
+
+Website: https://strayastudio.com
+Contact: https://strayastudio.com/contact
+
+---
+
+## Three Core Disciplines
+
+### 1. Web Design
+Custom responsive layouts, wireframes, creative direction, and
+brand-led visual design. Every design is built from scratch — no
+templates, no themes, no shortcuts. Mobile-first approach with
+pixel-perfect execution across all breakpoints.
+
+### 2. Web Development
+Production-ready builds on Framer, Webflow, Shopify, Wix, and
+WordPress. CMS architecture, custom interactions and animations,
+performance tuning (90+ Lighthouse scores), on-page SEO setup, and
+full launch support.
+
+### 3. Graphic Design
+Social media kits, pitch decks, brand assets, marketing collateral,
+ad creatives, and presentation design. Available as standalone projects
+or bundled within web builds.
+
+---
+
+## Platform Expertise (in order of specialisation)
+
+### Framer (Flagship)
+- Custom site builds from Figma or from scratch
+- CMS setup and content modelling
+- Custom React code components and overrides
+- Framer plugin development and Marketplace publishing
+- Advanced animations and scroll-triggered interactions
+- Responsivity audits and fixes
+- Migration from other platforms to Framer
+- Production deployment and performance optimisation
+
+### Webflow
+- Multi-page site builds with custom CMS architecture
+- Webflow Ecommerce store setup and customisation
+- Custom interactions and Lottie animations
+- Make.com and Zapier automation integrations
+- Membership and gated content implementations
+- Figma-to-Webflow conversion
+- Technical SEO and Core Web Vitals tuning
+- Platform migration (WordPress/Squarespace → Webflow)
+
+### Shopify
+- Full store builds and theme customisation
+- Liquid template engineering
+- App integration and custom functionality
+- Shopify Plus and checkout optimisation
+- Headless commerce with Hydrogen
+- Product page and collection architecture
+- Speed optimisation and SEO
+- Platform migration to Shopify
+
+### Wix
+- Custom site builds using Wix Editor and Wix Studio
+- Velo (Wix Code) development for custom functionality
+- CMS setup and dynamic pages
+- E-commerce and booking integrations
+- Migration from other platforms to Wix
+
+### WordPress
+- Custom theme development (starter theme or from scratch)
+- Elementor and ACF (Advanced Custom Fields) builds
+- WooCommerce store setup and customisation
+- Page speed optimisation and Core Web Vitals
+- Security hardening and malware remediation
+- Platform migration to WordPress
+- Gutenberg custom block development
+- Multisite configuration and management
+
+---
+
+## Pricing Tiers
+
+All pricing is project-based. No hourly billing, no retainers, no
+subscriptions. 50% upfront, 50% on delivery. Every project includes
+a scope document.
+
+### Starter: $2,500 – $5,000
+Timeline: 1–2 weeks.
+Best for: Landing pages, single-page sites, Shopify theme
+customisations, or standalone graphic design projects.
+Includes: Custom design, development on any platform, mobile-first
+responsive build, on-page SEO, 2 revision rounds, launch support.
+
+### Growth: $5,000 – $12,000 (Most Popular)
+Timeline: 2–4 weeks.
+Best for: Multi-page websites, brand-led redesigns, e-commerce
+stores, or marketing sites.
+Includes: Everything in Starter, up to 10 custom pages, CMS and
+content architecture, interactions and animations, brand identity,
+90+ Lighthouse performance, unlimited revisions.
+
+### Premium: $12,000 – $25,000+
+Timeline: 4–8 weeks.
+Best for: Complex platforms, full brand overhauls, custom web
+applications, or high-traffic e-commerce builds.
+Includes: Everything in Growth, discovery workshop, unlimited pages
+and components, advanced SEO and analytics, graphic design (social
+kits, decks, brand assets), dedicated Slack, 60 days post-launch
+support.
+
+---
+
+## The Straya Method (Process)
+
+Every project follows a four-step process:
+
+### Step 1: Discovery
+Map goals, audience, and competitive landscape. Define project
+objectives, success metrics, technical requirements, and platform fit.
+
+### Step 2: Architecture
+Translate findings into a technical blueprint. Select platform and
+stack, model CMS and content structure, plan performance and
+conversion strategy.
+
+### Step 3: Engineering
+Sprint-based development with clear milestones. Build design system
+and component architecture. Iterative review with the client at
+every stage.
+
+### Step 4: Optimisation
+Lighthouse score tuning across all metrics. Core Web Vitals and
+technical SEO hardening. Post-launch monitoring and ongoing support.
+
+---
+
+## Founder Credentials
+
+- **Name:** Salman Ali
+- **Title:** Founder & Principal Engineer, Straya Studio
+- **Certifications:** Official Certified Framer Expert (certified by
+  Framer.com)
+- **Experience:** 100+ successful project deployments across Framer,
+  Webflow, Shopify, Wix, and WordPress
+- **Client Rating:** 5.0★ average across all platforms
+- **Additional Role:** Lead Web Developer at Globaltize (working
+  directly with the CEO)
+
+---
+
+## Key Pages
+
+- Homepage: https://strayastudio.com
+- Contact: https://strayastudio.com/contact
+
+---
+
+## Adjacent Services (Available Within Projects)
+
+- Brand identity and visual direction
+- SEO and performance tuning
+- E-commerce setup and optimisation
+
+---
+
+## What We Do Not Offer
+
+- Marketing strategy or campaign management
+- Copywriting services
+- Ongoing retainers or maintenance contracts
+- App development or SaaS product engineering
+- Hourly billing
+
+---
+
+## How to Engage
+
+1. Visit https://strayastudio.com/contact
+2. Submit a brief or book a free 15-minute scoping call
+3. Receive a fixed-scope quote within 24 hours
+4. 50% upfront to begin, 50% on delivery
+5. Project kicks off within 48 hours of payment
+
+The studio takes on a maximum of 2–3 projects at any time. Current
+availability is displayed on the pricing section of the homepage.

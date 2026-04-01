@@ -1,0 +1,187 @@
+---
+import Button from "./ui/buttons/Button.astro";
+import { SITE_CONFIG } from "../data/site-config";
+import Icon from "./ui/Icon.astro";
+import HeroEffects from "./design-effects/HeroEffects.astro";
+---
+
+<section
+  id="hero"
+  class="relative z-10 min-h-[95vh] flex flex-col items-center justify-center overflow-visible blueprint-grid"
+  aria-label="Hero — Straya Studio"
+>
+  <HeroEffects />
+  <!-- Content Stack — Gap Alignment (80px Mobile / 160px Desktop) -->
+  <div
+    class="relative z-10 w-full max-w-5xl mx-auto px-[var(--gutter-mobile)] md:px-[var(--gutter-tablet)] lg:px-[var(--gutter-desktop)] text-center pt-32 lg:pt-36 lg:pb-40"
+  >
+    <!-- AEO Primary Summary -->
+    <p class="sr-only">{SITE_CONFIG.aeo.summary}</p>
+
+    <!-- Authority Badge — 8pt Grid Lock (h-8 / 32px) -->
+    <div
+      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-white/10 mb-4 animate-fade-in"
+    >
+      <div
+        class="w-2 h-2 rounded-full bg-brand-secondary animate-pulse flex-shrink-0 shadow-primary"
+      >
+      </div>
+      <span
+        class="type-label text-text-secondary leading-none"
+      >
+        {SITE_CONFIG.authority.certifications[0]}
+      </span>
+    </div>
+
+    <!-- Main Headline — 20% Increase on Mobile (sm: 390px-809px) -->
+    <h1
+      class="type-h1 text-white tracking-tighter mb-8 max-w-4xl mx-auto leading-[1.05] sm:text-[2.9rem] md:text-[clamp(2.5rem,5vw,4.5rem)]"
+    >
+      Designing & developing<br />
+      <span class="text-brand-secondary italic">Ideas</span> Into Icons
+    </h1>
+
+    <!-- Subheadline -->
+    <p
+      class="subtitle type-body-lg text-text-secondary mx-auto max-w-[640px] mb-12"
+    >
+      From Framer to Shopify — we engineer platforms that load faster, convert
+      higher, and look like nothing else in your market.
+    </p>
+
+    <!-- Unified CTA System — Vertical on Mobile (<810px), Horizontal on Tablet+ (>=810px) -->
+    <div
+      class="flex flex-col md:flex-row items-center justify-center gap-6 mb-24"
+    >
+      <Button href="#pricing" label="Elevate my brand" variant="primary">
+        <Icon
+          name="arrow-right"
+          class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
+        />
+      </Button>
+      <Button href="#work" label="Explore Labs" variant="secondary" />
+    </div>
+  </div>
+
+  <!-- Bento Foundation — Negative margin removed on <1200px -->
+  <div
+    class="relative z-10 w-full main-container lg:-mt-40 pb-12"
+  >
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch lg:items-end"
+      id="hero-bento"
+    >
+      <!-- Authority Card -->
+      <div
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-white/10"
+      >
+        <div class="bento-glow" aria-hidden="true"></div>
+        <div class="relative z-10">
+          <span
+            class="type-h3 text-brand-secondary mb-2 block italic text-glow-emerald"
+            >100+</span
+          >
+          <span class="type-mono text-text-secondary block"
+            >SUCCESSFUL DEPLOYMENTS<br />Across AU, US & EU</span
+          >
+        </div>
+      </div>
+
+      <!-- Tech Stack Elevation -->
+      <div
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-white/5"
+      >
+        <div class="bento-glow" aria-hidden="true"></div>
+        <div class="relative z-10">
+          <span
+            class="type-h3 text-brand-secondary mb-2 block italic text-glow-emerald"
+            >Enterprise</span
+          >
+          <span class="type-mono text-text-secondary block"
+            >MULTI-PLATFORM EXPERTISE<br />Framer, Webflow, Shopify & WordPress</span
+          >
+        </div>
+      </div>
+
+      <!-- Performance Lab -->
+      <div
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-white/5"
+      >
+        <div class="bento-glow" aria-hidden="true"></div>
+        <div class="relative z-10">
+          <span
+            class="type-h3 text-brand-secondary mb-2 block italic text-glow-emerald"
+            >5.0 <span class="text-[0.5em] not-italic ml-1 align-middle"
+              >★ ★ ★ ★ ★</span
+            ></span
+          >
+          <span class="type-mono text-text-secondary block"
+            >AVERAGE CLIENT RATING<br />100+ reviews across Fiverr & Contra</span
+          >
+        </div>
+      </div>
+
+      <!-- Founder Authority -->
+      <div
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-white/10"
+      >
+        <div class="bento-glow" aria-hidden="true"></div>
+        <div class="relative z-10">
+          <span
+            class="type-h3 text-brand-secondary mb-2 block italic text-glow-emerald"
+            >100%</span
+          >
+          <span class="type-mono text-text-secondary block"
+            >GLOBALLY COLLABORATIVE <br />team</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    overflow: visible;
+    background-image:
+      linear-gradient(
+        to bottom,
+        var(--color-background-base) 0%,
+        rgb(var(--rgb-bg-base) / 0.4) 20%,
+        rgb(var(--rgb-bg-base) / 0.4) 80%,
+        var(--color-background-base) 100%
+      ),
+      linear-gradient(var(--color-border-subtle) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-border-subtle) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      2rem 2rem,
+      2rem 2rem;
+  }
+
+  .text-glow-emerald {
+    text-shadow: var(--shadow-primary);
+  }
+
+  @media (min-width: 1200px) {
+    #hero-bento {
+      grid-template-columns: 1fr 1.3fr 1.3fr 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .bento-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20rem;
+    height: 20rem;
+    background: radial-gradient(
+      ellipse at top right,
+      color-mix(in srgb, var(--color-accent) 15%, transparent) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

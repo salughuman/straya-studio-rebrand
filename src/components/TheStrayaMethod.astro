@@ -1,0 +1,151 @@
+---
+// TheStrayaMethod.astro — Straya Studio
+// GEMINI §5 / §6: base background (#050505), master type utilities, luxury motion, sr-only summary.
+
+const steps = [
+  {
+    num: "01",
+    title: "Discovery",
+    desc: "We map your goals, audience, and competitive landscape before a single line of code is written.",
+    deliverables: [
+      "Project objectives and success metrics",
+      "Brand, market, and competitor deep-dive",
+      "Technical requirements and platform fit",
+    ],
+  },
+  {
+    num: "02",
+    title: "Architecture",
+    desc: "Findings become a precise technical blueprint. Structure, stack, and system are mapped before anything is built.",
+    deliverables: [
+      "Platform and technology stack selection",
+      "CMS structure and content modelling",
+      "Performance, AEO, and conversion strategy",
+    ],
+  },
+  {
+    num: "03",
+    title: "Engineering",
+    desc: "This is where the elevation happens. We build fast, precise, and production-ready — with you in the loop at every sprint.",
+    deliverables: [
+      "Sprint-based development with milestones",
+      "Design system and component architecture",
+      "Iterative review at every stage",
+    ],
+  },
+  {
+    num: "04",
+    title: "Optimisation",
+    desc: "We don't just launch and leave. Every metric is tuned until the platform performs at its absolute peak.",
+    deliverables: [
+      "100/100 Lighthouse score tuning",
+      "Core Web Vitals and technical SEO",
+      "Post-launch monitoring and support",
+    ],
+  },
+];
+---
+
+<section
+  id="method"
+  class="method-section section-y relative z-10 bg-[#050505] text-[#FFFFFF]"
+  aria-label="The Straya Method — our process"
+>
+  <div class="main-container">
+    <p class="sr-only">
+      Straya Studio follows a four-step technical process called The Straya
+      Method — Discovery, Architecture, Engineering, and Optimisation — to
+      deliver high-performance digital platforms across Framer, Webflow,
+      Shopify, Wix, and WordPress.
+    </p>
+
+    <header class="mb-12 flex flex-col items-center gap-4 text-center md:mb-16">
+      <p class="type-label">Our process</p>
+      <h2 class="type-h2">The Straya Method</h2>
+      <p class="type-caption max-w-md">
+        A precise four-step process engineered to take your brand from where it
+        is to where it deserves to be.
+      </p>
+    </header>
+
+    <div
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+    >
+      {
+        steps.map((step, i) => (
+          <article
+            class:list={[
+              "method-card group relative flex flex-col overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
+              "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-luxury",
+              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none",
+            ]}
+          >
+            <div
+              class="h-0.5 bg-gradient-to-r from-[#3CCD7F] to-transparent opacity-50 transition-opacity duration-300 ease-luxury group-hover:opacity-100 motion-reduce:transition-none motion-reduce:group-hover:opacity-50"
+              aria-hidden="true"
+            />
+
+            <span
+              class="pointer-events-none absolute top-2 right-4 select-none font-display text-[5rem] font-bold leading-none tracking-tighter text-[#3CCD7F] opacity-[0.04] transition-opacity duration-300 ease-luxury group-hover:opacity-[0.08] md:text-[6rem] motion-reduce:transition-none motion-reduce:group-hover:opacity-[0.04]"
+              aria-hidden="true"
+            >
+              {step.num}
+            </span>
+
+            <div class="relative z-[1] flex flex-1 flex-col gap-4 p-6">
+              <div class="flex flex-col gap-2">
+                <span class="type-label text-[#3CCD7F]/70">{step.num}</span>
+                <h3 class="type-h3">{step.title}</h3>
+              </div>
+              <p class="type-body text-[#9CA3AF]">{step.desc}</p>
+
+              <ul class="mt-2 flex list-none flex-col gap-2 border-t border-[rgba(255,255,255,0.05)] pt-4">
+                {step.deliverables.map((d) => (
+                  <li class="flex items-start gap-2 type-body text-[#9CA3AF]">
+                    <svg
+                      class="mt-1 h-3.5 w-3.5 flex-shrink-0 text-[#3CCD7F] opacity-60"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3.5 8.5L6.5 11.5L12.5 5.5"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {i < steps.length - 1 && (
+              <div
+                class="absolute top-1/2 -right-5 z-[2] hidden h-6 w-6 -translate-y-1/2 items-center justify-center text-[#3CCD7F] opacity-25 lg:flex motion-reduce:hidden"
+                aria-hidden="true"
+              >
+                <svg
+                  class="h-full w-full"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

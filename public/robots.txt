@@ -1,0 +1,80 @@
+# robots.txt — Straya Studio
+# https://strayastudio.com
+
+# Allow all standard crawlers
+User-agent: *
+Allow: /
+
+# -----------------------------------------------
+# AI / LLM Crawlers — Explicitly Allowed
+# -----------------------------------------------
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic
+User-agent: Anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Meta
+User-agent: FacebookBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# ByteDance
+User-agent: Bytespider
+Allow: /
+
+# Common Crawl (training data)
+User-agent: CCBot
+Allow: /
+
+# -----------------------------------------------
+# LLM Discovery Files
+# -----------------------------------------------
+# These are explicitly surfaced so AI crawlers
+# can locate the machine-readable studio profile.
+
+# /llms.txt      — Summary profile for AI
+# /llms-full.txt — Full professional context for AI
+
+# -----------------------------------------------
+# Sitemap
+# -----------------------------------------------
+Sitemap: https://strayastudio.com/sitemap-index.xml

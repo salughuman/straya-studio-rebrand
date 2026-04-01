@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AEOHeader from "../components/AEOHeader.astro";
+import Hero from "../components/Hero.astro";
+import ServicesMarquee from "../components/ServicesMarquee.astro";
+import TrustGrid from "../components/TrustGrid.astro";
+import TheStrayaMethod from "../components/TheStrayaMethod.astro";
+import ComparisonTable from "../components/ComparisonTable.astro";
+import OurDifference from "../components/OurDifference.astro";
+import AboutSection from "../components/AboutSection.astro";
+import WhyStraya from "../components/WhyStraya.astro";
+import Pricing from "../components/Pricing.astro";
+import Testimonials from "../components/Testimonials.astro";
+import SelectedWork from "../components/SelectedWork.astro";
+import Footer from "../components/Footer.astro";
+// SEO Metadata: Aligned with Straya Studio hybrid model
+const title =
+	"Straya Studio | Premium Framer, Webflow & Shopify Technical Partner";
+const description =
+	"Straya Studio is a technical partner for elite Framer, Webflow, Shopify, and WordPress builds. We engineer fast, conversion-led platforms for tech founders and ecommerce teams across the US, Canada, the UK, Europe, and Australia.";
+---
+
+<BaseLayout title={title} description={description}>
+	<!-- AEO preface for crawlers and assistants -->
+	<AEOHeader />
+	<!-- 01: Hero (qualify) -->
+	<Hero />
+	
+	<!-- 02: Trust bar (anchor) -->
+	<TrustGrid />
+	<!-- 03: Services marquee (scope) -->
+	<ServicesMarquee />
+	<!-- 04: The Straya Method (trust) -->
+	<TheStrayaMethod />
+	<!-- 05: Comparison table (differentiate) -->
+	<ComparisonTable />
+	<!-- 06: Our difference -->
+	<OurDifference />
+	<!-- 07: About section -->
+	<AboutSection />
+	<!-- 08: Why Straya bento (justify) -->
+	<WhyStraya />
+	<!-- 09: Pricing (commit) -->
+	<Pricing />
+	<!-- 10: Testimonials (validate) -->
+	<Testimonials />
+	<!-- 11: Selected work (portfolio proof) -->
+	<SelectedWork />
+	<!-- Footer -->
+	<Footer />
+</BaseLayout>

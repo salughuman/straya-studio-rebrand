@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html {
+		font-family: theme('fontFamily.display'), theme('fontFamily.sans'), system-ui, sans-serif;
+		background-color: theme('colors.bg-base');
+		color: theme('colors.text-primary');
+		scroll-behavior: smooth;
+	}
+
+	/* GEMINI §5.H — respect reduced motion globally */
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	body {
+		margin: 0;
+		min-height: 100vh;
+		background-color: theme('colors.bg-base');
+		color: theme('colors.text-primary');
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		overflow-x: hidden;
+	}
+
+	/* GEMINI §5.O — visible focus for keyboard users */
+	:focus:not(:focus-visible) {
+		outline: none;
+	}
+	:focus-visible {
+		outline: 2px solid theme('colors.brand-secondary');
+		outline-offset: 2px;
+	}
+
+	/* Custom selection color using brand tokens */
+	::selection {
+		background-color: theme('colors.brand-muted');
+		color: theme('colors.text-primary');
+	}
+}
+
+@layer components {
+	/* .main-container — defined in tailwind.config.mjs (GEMINI §5.E) */
+
+	/* Allow global background layers (like grain) to show behind sections */
+	.pricing-section,
+	.testimonials-section,
+	.why-section,
+	.work-section,
+	.difference-section {
+		background-color: transparent !important;
+	}
+}

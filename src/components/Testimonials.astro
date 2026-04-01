@@ -1,0 +1,262 @@
+---
+// Testimonials.astro — Straya Studio
+// Utility-first masonry testimonial section (GEMINI §5/§6)
+
+interface Testimonial {
+  quote: string;
+  name: string;
+  gender: "male" | "female";
+  country: string;
+  role?: string;
+  company?: string;
+  featured?: boolean;
+  video?: string;
+  stars?: number;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Straya Studio completely transformed our online presence. The Framer build they delivered loads in under a second and our conversion rate jumped 40% in the first month.",
+    name: "James Mitchell",
+    gender: "male",
+    country: "United States",
+    role: "",
+    company: "",
+    stars: 5,
+  },
+  {
+    quote:
+      "Working with Straya Studio felt like having a technical co-founder on the team. They didn't just build our site — they architected our entire digital strategy.",
+    name: "Sophie Chen",
+    gender: "female",
+    country: "Canada",
+    role: "CEO",
+    company: "Meridian Health",
+    stars: 5,
+    featured: true,
+    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    quote: "Best Webflow developer we've ever worked with. Period.",
+    name: "Alex Torres",
+    gender: "male",
+    country: "United States",
+    role: "Head of Marketing",
+    company: "Basecamp Ventures",
+    stars: 5,
+  },
+  {
+    quote:
+      "We came to Straya with a messy WordPress site that was losing us customers. They migrated us to Webflow, redesigned everything, and our bounce rate dropped by half. The attention to detail is unreal.",
+    name: "Priya Sharma",
+    gender: "female",
+    country: "United Kingdom",
+    role: "Director of Operations",
+    company: "Luminary Finance",
+    stars: 5,
+  },
+  {
+    quote:
+      "The Shopify store Straya built for us handles 10x the traffic of our old platform without breaking a sweat. Revenue is up 65% since launch.",
+    name: "Marcus Webb",
+    gender: "male",
+    country: "Australia",
+    role: "Founder",
+    company: "Altitude Gear Co.",
+    stars: 5,
+  },
+  {
+    quote:
+      "Straya Studio delivered a level of craft that I've only seen from top-tier Silicon Valley agencies — at a fraction of the cost and twice the speed.",
+    name: "Oliver Brennan",
+    gender: "male",
+    country: "Ireland",
+    role: "CTO",
+    company: "NexGen Systems",
+    stars: 5,
+  },
+  {
+    quote:
+      "They don't just write code — they think in systems. Every component, every interaction, every token was considered.",
+    name: "Lena Karlsson",
+    gender: "female",
+    country: "Sweden",
+    role: "Design Lead",
+    company: "Studio Fjord",
+    stars: 5,
+  },
+  {
+    quote:
+      "Turned our Figma mockups into a pixel-perfect Framer site in under two weeks. Communication was flawless throughout.",
+    name: "Ryan O'Connor",
+    gender: "male",
+    country: "United States",
+    role: "Product Manager",
+    company: "Clearpath AI",
+    stars: 5,
+  },
+  {
+    quote:
+      "We've tried three other agencies before Straya. None of them understood both the design and engineering side the way this studio does. Our investors specifically called out the website as a standout during our Series A.",
+    name: "Amira Hassan",
+    gender: "female",
+    country: "United Arab Emirates",
+    role: "Co-founder & CEO",
+    company: "Solstice Health",
+    stars: 5,
+  },
+  {
+    quote:
+      "Fast, precise, zero hand-holding needed. Exactly what a startup founder wants.",
+    name: "David Kim",
+    gender: "male",
+    country: "United States",
+    role: "Founder",
+    company: "Parallel Studio",
+    stars: 5,
+  },
+  {
+    quote:
+      "The SEO layer they built into our Astro site has us ranking page one for six competitive keywords within three months. Technical SEO is clearly a first-class concern for them, not an afterthought.",
+    name: "Charlotte Reed",
+    gender: "female",
+    country: "United Kingdom",
+    role: "VP Marketing",
+    company: "Canopy Digital",
+    stars: 5,
+  },
+  {
+    quote:
+      "The studio rebuilt our entire Shopify theme from scratch and it now converts better than anything we've tested in three years of A/B testing.",
+    name: "Tom Eriksen",
+    gender: "male",
+    country: "Norway",
+    role: "E-commerce Director",
+    company: "Nordic Collective",
+    stars: 5,
+  },
+];
+
+const featuredTestimonial = testimonials.find((t) => t.featured);
+const standardTestimonials = testimonials.filter((t) => !t.featured);
+const leftColumn: Testimonial[] = [];
+const centerColumn: Testimonial[] = [];
+const rightColumn: Testimonial[] = [];
+
+if (featuredTestimonial) {
+  centerColumn.push(featuredTestimonial);
+}
+
+standardTestimonials.forEach((t, index) => {
+  const mod = index % 3;
+  if (mod === 0) leftColumn.push(t);
+  else if (mod === 1) rightColumn.push(t);
+  else centerColumn.push(t);
+});
+
+const toSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const getAvatarSrc = (t: Testimonial) =>
+  `/images/testimonials/${toSlug(t.name)}.webp`;
+
+const getFallbackAvatarSrc = (t: Testimonial) =>
+  t.gender === "female"
+    ? "/images/avatars/fallback-female.svg"
+    : "/images/avatars/fallback-male.svg";
+
+const getPrimaryMeta = (t: Testimonial) =>
+  [t.role, t.company].filter(Boolean).join(", ");
+---
+
+<section class="testimonials-section section-y relative z-10 bg-[#0F1115] text-[#FFFFFF]" aria-label="Client testimonials">
+  <div class="main-container">
+    <p class="sr-only">
+      Client testimonials from founders and operators across Framer, Webflow,
+      Shopify, and WordPress engagements. Featured feedback appears as a larger
+      card, with all quotes preserving source attribution.
+    </p>
+
+    <header class="mb-12 text-center md:mb-16">
+      <p class="type-label mb-3">What our clients say</p>
+      <h2 class="type-h2">Trusted by founders and teams who demand the best.</h2>
+    </header>
+
+    <div class="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-4">
+      {[leftColumn, centerColumn, rightColumn].map((column, columnIndex) => (
+        <div class="flex flex-col gap-4">
+          {column.map((t) => (
+          <article
+            class:list={[
+              "rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+              t.featured ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]" : "",
+              columnIndex === 1 && t.featured ? "lg:order-first" : "",
+            ]}
+          >
+            {t.video && (
+              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+                <iframe
+                  src={t.video}
+                  title={`Video testimonial from ${t.name}`}
+                  class="aspect-video w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            <div class="mb-4 flex gap-0.5 text-[#3CCD7F]" aria-label={`${t.stars || 5} out of 5 stars`}>
+              {Array.from({ length: t.stars || 5 }).map(() => (
+                <svg class="h-3.5 w-3.5" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                </svg>
+              ))}
+            </div>
+
+            <blockquote class:list={["type-body m-0 leading-relaxed text-[#9CA3AF]", t.featured ? "text-[#FFFFFF]" : ""]}>
+              “{t.quote}”
+            </blockquote>
+
+            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+              <cite class="not-italic">
+                <div class="flex items-center gap-3">
+                  <img
+                    src={getAvatarSrc(t)}
+                    alt={`${t.name} profile photo`}
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                  />
+                  <span>
+                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    {getPrimaryMeta(t) ? (
+                      <>
+                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
+                        <span class="block type-caption">{t.country}</span>
+                      </>
+                    ) : (
+                      <span class="block type-caption">{t.country}</span>
+                    )}
+                  </span>
+                </div>
+              </cite>
+            </footer>
+          </article>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

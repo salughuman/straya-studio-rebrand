@@ -1,0 +1,32 @@
+---
+// Button.astro — Straya Studio
+// Flagship Button component for CTAs with Elevation styling
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'secondary' | 'light' | 'ghost' | 'frosted';
+}
+
+const { href, label, variant = 'primary', class: className, ...rest } = Astro.props;
+---
+
+<a
+  href={href}
+  {...rest}
+  class:list={[
+    "inline-flex items-center justify-center rounded-sm font-semibold",
+    "transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury",
+    "tracking-tight",
+    "w-full md:w-fit px-10 py-4 text-base", // Responsive: full-width on mobile, fit on md (810px+)
+    variant === 'primary' && "bg-brand-secondary text-text-inverted border-t border-border-strong hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    variant === 'secondary' && "bg-transparent border border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-bg-base hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    variant === 'light' && "bg-bg-elevated text-text-primary border border-border-default hover:bg-transparent hover:text-brand-secondary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    variant === 'ghost' && "bg-transparent text-text-secondary hover:text-text-primary hover:bg-white/[0.05] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    variant === 'frosted' && "bg-transparent border border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-bg-base hover:shadow-[0_0_20px_rgba(60,205,127,0.2)] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
+    className
+  ]}
+  aria-label={label}
+>
+  <span class="font-bold tracking-tight">{label}</span>
+  <slot />
+</a>

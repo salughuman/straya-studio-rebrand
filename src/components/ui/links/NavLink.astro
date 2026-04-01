@@ -1,0 +1,73 @@
+---
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  href: string;
+  label: string;
+  variant?: "main" | "social";
+  tone?: "navbar" | "footer";
+}
+
+const { href, label, variant = "main", tone = "footer", class: className, ...rest } = Astro.props;
+
+const isSocial = variant === "social";
+const isNavbarTone = tone === "navbar";
+---
+
+<a
+  href={href}
+  class:list={[
+    "relative block h-6 no-underline group",
+    isSocial ? "overflow-hidden" : "overflow-y-hidden overflow-x-visible px-1 -mx-1 rounded-xs",
+    !isSocial && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]",
+    className,
+  ]}
+  data-navlink
+  data-variant={variant}
+  data-tone={tone}
+  aria-label={rest["aria-label"] ?? label}
+  {...rest}
+>
+  <span
+    class:list={[
+      "navlink-normal h-full w-full flex items-center justify-center transition-transform duration-300 ease-luxury",
+      isSocial ? "type-sm text-[#D1D5DB]" : "type-body-lg font-medium",
+      isSocial ? "" : (isNavbarTone ? "text-[#03170a]" : "text-[#E5E7EB]"),
+    ]}
+  >
+    {label}
+  </span>
+  <span
+    class:list={[
+      "navlink-italic absolute top-0 left-0 h-full w-full flex items-center justify-center translate-y-full transition-transform duration-300 ease-luxury italic",
+      isSocial ? "type-sm text-brand-secondary" : "type-body-lg font-medium",
+      isSocial ? "" : (isNavbarTone ? "text-white" : "text-brand-secondary"),
+    ]}
+  >
+    {label}
+  </span>
+</a>
+
+<style>
+  [data-navlink] .navlink-normal {
+    transform: translateY(0);
+  }
+
+  [data-navlink] .navlink-italic {
+    transform: translateY(100%);
+  }
+
+  [data-navlink]:is(:hover, :focus-visible) .navlink-normal {
+    transform: translateY(-100%);
+  }
+
+  [data-navlink]:is(:hover, :focus-visible) .navlink-italic {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-navlink] .navlink-normal,
+    [data-navlink] .navlink-italic {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

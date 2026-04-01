@@ -1,0 +1,280 @@
+---
+// TrustGrid.astro — infinite platform ticker (GEMINI §6 #02). Order: Framer → Webflow → Shopify → Wix → WordPress.
+
+const platforms = [
+	"Framer",
+	"Webflow",
+	"Shopify",
+	"Wix",
+	"WordPress",
+] as const;
+
+/** Enough repeats that total track width always exceeds wide viewports (avoids empty space on the right). */
+const TICKER_REPEATS = 6;
+---
+
+<section
+	id="trust"
+	class="relative z-10 border-y border-[rgba(255,255,255,0.05)] bg-[#050505] py-8 md:py-10"
+	aria-label="Platforms we build on"
+>
+	<p class="sr-only">
+		Straya Studio builds on Framer, Webflow, Shopify, Wix, and WordPress. Premium
+		tier platforms are listed first, followed by accessible tier platforms, per
+		the studio platform hierarchy.
+	</p>
+
+	<div class="main-container">
+		<div
+			class="trust-ticker-root relative select-none"
+			data-trust-ticker
+			role="presentation"
+		>
+			<div class="trust-ticker-viewport overflow-hidden" data-trust-ticker-viewport>
+				<div
+					class="trust-ticker-track flex w-max flex-row items-center will-change-transform"
+					data-trust-ticker-track
+				>
+					{
+						Array.from({ length: TICKER_REPEATS }, (_, dup) => (
+							<div
+								class="trust-ticker-set flex flex-row items-center"
+								data-trust-ticker-set={dup === 0 ? "a" : undefined}
+								aria-hidden={dup !== 0 ? "true" : undefined}
+							>
+								{platforms.map((name) => (
+									<div class="trust-ticker-item flex shrink-0 items-center gap-3 md:gap-4">
+										<span class="trust-bar-mark" aria-hidden="true" />
+										<span class="whitespace-nowrap font-display text-lg font-medium tracking-tight text-[#9CA3AF] md:text-xl lg:text-2xl">
+											{name}
+										</span>
+									</div>
+								))}
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* One gap token: same between items and between the two duplicated sets (seamless loop). */
+	.trust-ticker-track {
+		gap: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.trust-ticker-set {
+		gap: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.trust-ticker-viewport {
+		mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 8%,
+			black 92%,
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 8%,
+			black 92%,
+			transparent 100%
+		);
+	}
+
+	.trust-ticker-root {
+		cursor: grab;
+		touch-action: pan-y;
+	}
+
+	.trust-ticker-root:active {
+		cursor: grabbing;
+	}
+
+	.trust-bar-mark {
+		display: block;
+		width: 3px;
+		height: 1.125rem;
+		flex-shrink: 0;
+		border-radius: 1px;
+		background-color: #3ccd7f;
+		opacity: 0.45;
+	}
+
+	@media (min-width: 810px) {
+		.trust-bar-mark {
+			height: 1.375rem;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.trust-bar-mark {
+			height: 1.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.trust-ticker-viewport {
+			mask-image: none;
+			-webkit-mask-image: none;
+		}
+
+		.trust-ticker-track {
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 1rem clamp(2rem, 5vw, 3.5rem);
+			width: 100% !important;
+			max-width: 100%;
+			transform: none !important;
+		}
+
+		.trust-ticker-set {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.trust-ticker-set[aria-hidden="true"] {
+			display: none;
+		}
+
+		.trust-ticker-root {
+			cursor: default;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		var activeCleanup = null;
+
+		function initTrustTicker() {
+			if (activeCleanup) {
+				activeCleanup();
+				activeCleanup = null;
+			}
+
+			var root = document.querySelector("[data-trust-ticker]");
+			var viewport = document.querySelector("[data-trust-ticker-viewport]");
+			var track = document.querySelector("[data-trust-ticker-track]");
+			var setA = document.querySelector('[data-trust-ticker-set="a"]');
+			if (!root || !track || !setA) return;
+
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+			var cancelled = false;
+			var raf = 0;
+			var cycleWidth = 0;
+			var pos = 0;
+			var momentum = 0;
+			var lastScrollY = window.scrollY;
+
+			var BASE_SPEED = 0.42;
+			var FRICTION = 0.965;
+			var SCROLL_IMPULSE = 0.04;
+			var DRAG_IMPULSE = 0.22;
+
+			function measure() {
+				var sets = track.querySelectorAll(".trust-ticker-set");
+				if (sets.length < 2) return;
+				var a = sets[0];
+				var b = sets[1];
+				var w = b.offsetLeft - a.offsetLeft;
+				cycleWidth = Math.round(w * 100) / 100;
+				if (cycleWidth <= 0) return;
+			}
+
+			function wrapPosition() {
+				if (cycleWidth <= 0) return;
+				while (pos <= -cycleWidth) pos += cycleWidth;
+				while (pos > 0) pos -= cycleWidth;
+			}
+
+			function onScroll() {
+				var y = window.scrollY;
+				var dy = y - lastScrollY;
+				lastScrollY = y;
+				momentum -= dy * SCROLL_IMPULSE;
+				momentum = Math.max(-32, Math.min(32, momentum));
+			}
+
+			function tick() {
+				if (cancelled) return;
+				if (cycleWidth > 0) {
+					pos -= BASE_SPEED + momentum;
+					momentum *= FRICTION;
+					if (Math.abs(momentum) < 0.008) momentum = 0;
+					wrapPosition();
+					track.style.transform = "translate3d(" + pos + "px,0,0)";
+				}
+				raf = requestAnimationFrame(tick);
+			}
+
+			measure();
+			var ro = new ResizeObserver(function () {
+				measure();
+			});
+			ro.observe(track);
+			ro.observe(setA);
+			if (viewport) ro.observe(viewport);
+
+			raf = requestAnimationFrame(tick);
+
+			window.addEventListener("scroll", onScroll, { passive: true });
+
+			var dragging = false;
+			var lastX = 0;
+
+			function onPointerDown(e) {
+				if (e.button !== 0) return;
+				dragging = true;
+				lastX = e.clientX;
+				try {
+					root.setPointerCapture(e.pointerId);
+				} catch (err) {
+					void err;
+				}
+			}
+
+			function onPointerMove(e) {
+				if (!dragging) return;
+				var dx = e.clientX - lastX;
+				lastX = e.clientX;
+				pos += dx;
+				momentum += dx * DRAG_IMPULSE;
+				momentum = Math.max(-22, Math.min(22, momentum));
+				wrapPosition();
+				track.style.transform = "translate3d(" + pos + "px,0,0)";
+			}
+
+			function endDrag() {
+				dragging = false;
+			}
+
+			root.addEventListener("pointerdown", onPointerDown);
+			root.addEventListener("pointermove", onPointerMove);
+			root.addEventListener("pointerup", endDrag);
+			root.addEventListener("pointercancel", endDrag);
+
+			function cleanup() {
+				cancelled = true;
+				cancelAnimationFrame(raf);
+				ro.disconnect();
+				window.removeEventListener("scroll", onScroll);
+				root.removeEventListener("pointerdown", onPointerDown);
+				root.removeEventListener("pointermove", onPointerMove);
+				root.removeEventListener("pointerup", endDrag);
+				root.removeEventListener("pointercancel", endDrag);
+				track.style.transform = "";
+			}
+
+			activeCleanup = cleanup;
+		}
+
+		initTrustTicker();
+		document.addEventListener("astro:page-load", initTrustTicker);
+	})();
+</script>

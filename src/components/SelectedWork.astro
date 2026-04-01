@@ -1,0 +1,133 @@
+---
+// SelectedWork.astro — Straya Studio
+// Utility-first compliance refactor.
+import Button from "./ui/buttons/Button.astro";
+import { SELECTED_PROJECTS } from "../data/selected-work";
+import { SITE_CONFIG } from "../data/site-config";
+
+const thumbnailFallbacks = [
+  "bg-[radial-gradient(ellipse_at_top_right,rgba(60,205,127,0.22),transparent_55%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+  "bg-[radial-gradient(ellipse_at_20%_20%,rgba(99,102,241,0.22),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+  "bg-[radial-gradient(ellipse_at_80%_30%,rgba(245,158,11,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+  "bg-[radial-gradient(ellipse_at_25%_75%,rgba(236,72,153,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+  "bg-[radial-gradient(ellipse_at_85%_70%,rgba(14,165,233,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+  "bg-[radial-gradient(ellipse_at_50%_10%,rgba(168,85,247,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
+];
+---
+
+<section
+  id="work"
+  class="section-y relative z-10 bg-[#050505] text-[#FFFFFF]"
+  aria-label="Selected work and case studies"
+>
+  <div class="main-container">
+    <p class="sr-only">
+      {SITE_CONFIG.name} showcases selected Framer, Webflow, Shopify, and
+      WordPress builds for founders in {SITE_CONFIG.aeo.primaryMarkets.join(", ")}.
+      Each project emphasises performance, conversion, and long-term maintainability.
+    </p>
+
+    <!-- Section header -->
+    <div class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
+      <div class="flex max-w-[40rem] flex-col gap-3">
+        <p class="type-label">Selected work</p>
+        <h2 class="type-h2">
+          Platforms we ship<br class="hidden md:inline" /> in production.
+        </h2>
+        <p class="type-body text-[#9CA3AF]">
+          A snapshot of recent builds — from marketing sites to ecommerce and CMS-heavy
+          platforms. Every engagement is engineered for speed, clarity, and scale.
+        </p>
+      </div>
+      <Button
+        href="#pricing"
+        label="Start a project"
+        variant="secondary"
+        class="group mt-2 shrink-0 md:mt-0"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="ml-2 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+          aria-hidden="true"
+        >
+          <path
+            d="M6 3L11 8L6 13"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </Button>
+    </div>
+
+    <!-- Work cards -->
+    <ul class="grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+      {
+        SELECTED_PROJECTS.map((project, index) => (
+          <li class:list={[project.featured && "md:col-span-2 lg:col-span-2"]}>
+            <a
+              href={project.href}
+              class="group flex h-full flex-col overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] text-inherit no-underline transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
+              class:list={[project.featured && "is-featured md:flex-row md:items-stretch"]}
+            >
+              <div
+                class:list={[
+                  "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#0F1115]",
+                  thumbnailFallbacks[index % thumbnailFallbacks.length],
+                  project.featured && "md:min-h-56 md:w-[42%] md:aspect-auto",
+                ]}
+                aria-hidden="true"
+              >
+                <img
+                  src={project.thumbnail}
+                  alt=""
+                  loading="lazy"
+                  width="1280"
+                  height="800"
+                  class="absolute inset-0 h-full w-full object-cover"
+                  onerror="this.style.display='none'"
+                />
+                <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,0,0,0.2),transparent_55%)]" />
+                <span class="relative z-[1] font-display text-[clamp(2rem,4vw,3rem)] font-semibold tracking-[-0.03em] text-[rgba(60,205,127,0.85)]" aria-hidden="true">
+                  {project.title
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                    .slice(0, 3)}
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
+                <p class="text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">{project.sector}</p>
+                <h3 class="type-h3">{project.title}</h3>
+                <p class="type-body flex-1 text-[#9CA3AF]">{project.description}</p>
+                <span class="mt-1 inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#FFFFFF]">
+                  Discuss this build
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    class="transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6 3L11 8L6 13"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
