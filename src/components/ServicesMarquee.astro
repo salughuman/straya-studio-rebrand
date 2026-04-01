@@ -5,6 +5,8 @@
 // Card art: put webp (or avif) files in `public/images/services/` — URLs are `/images/services/<file>.webp` (§5.N).
 import Button from "./ui/buttons/Button.astro";
 
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
 type ServiceItem = {
 	title: string;
 	tags: string[];
@@ -14,7 +16,7 @@ type ServiceItem = {
 const services: ServiceItem[] = [
     {
         title: "Web design",
-        image: "/images/services/web-design.webp",
+        image: withBase("/images/services/web-design.webp"),
         tags: [
             "Responsive layouts",
             "Visual hierarchy",
@@ -26,7 +28,7 @@ const services: ServiceItem[] = [
     },
     {
         title: "Web development",
-        image: "/images/services/web-development.webp",
+        image: withBase("/images/services/web-development.webp"),
         tags: [
             "Framer",
             "Webflow",
@@ -38,7 +40,7 @@ const services: ServiceItem[] = [
     },
     {
         title: "Graphic design",
-        image: "/images/services/graphic-design.webp",
+        image: withBase("/images/services/graphic-design.webp"),
         tags: [
             "Social media kits",
             "Pitch decks",
@@ -50,7 +52,7 @@ const services: ServiceItem[] = [
     },
     {
         title: "E-commerce",
-        image: "/images/services/e-commerce.webp",
+        image: withBase("/images/services/e-commerce.webp"),
         tags: [
             "Shopify stores",
             "Product pages",
@@ -62,7 +64,7 @@ const services: ServiceItem[] = [
     },
     {
         title: "Brand identity",
-        image: "/images/services/brand-identity.webp",
+        image: withBase("/images/services/brand-identity.webp"),
         tags: [
             "Logo design",
             "Visual identity",
@@ -74,7 +76,7 @@ const services: ServiceItem[] = [
     },
     {
         title: "SEO and performance",
-        image: "/images/services/seo-performance.webp",
+        image: withBase("/images/services/seo-performance.webp"),
         tags: [
             "On-page SEO",
             "Core Web Vitals",
@@ -108,7 +110,7 @@ const duplicatedServices = [...services, ...services];
                     {" "}design — across every no-code platform.
                 </h2>
             </div>
-            <Button href="/work" label="See our work" variant="secondary" class="group mt-2 shrink-0 md:mt-0">
+            <Button href={`${import.meta.env.BASE_URL}#work`} label="See our work" variant="secondary" class="group mt-2 shrink-0 md:mt-0">
                 <svg
                     width="16"
                     height="16"
