@@ -74,7 +74,7 @@ const withBaseHref = (href: string) =>
           <li class:list={[project.featured && "md:col-span-2 lg:col-span-2"]}>
             <a
               href={withBaseHref(project.href)}
-              class="group flex h-full flex-col overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] text-inherit no-underline transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
+              class="group flex h-full flex-col overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] text-inherit no-underline transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
               class:list={[project.featured && "is-featured md:flex-row md:items-stretch"]}
             >
               <div

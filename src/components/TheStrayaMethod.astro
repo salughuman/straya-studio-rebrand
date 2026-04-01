@@ -75,7 +75,7 @@ const steps = [
         steps.map((step, i) => (
           <article
             class:list={[
-              "method-card group relative flex flex-col overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
+              "method-card group relative flex flex-col overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
               "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-luxury",
               "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none",
@@ -127,7 +127,7 @@ const steps = [
 
             {i < steps.length - 1 && (
               <div
-                class="absolute top-1/2 -right-5 z-[2] hidden h-6 w-6 -translate-y-1/2 items-center justify-center text-[#3CCD7F] opacity-25 lg:flex motion-reduce:hidden"
+                class="absolute top-1/2 -right-5 z-[2] hidden h-6 w-6 items-center justify-center text-[#3CCD7F] lg:flex motion-safe:animate-[connectorSlide_2.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:hidden"
                 aria-hidden="true"
               >
                 <svg

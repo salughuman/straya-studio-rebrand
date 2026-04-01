@@ -7,6 +7,7 @@ interface Feature {
   title: string;
   description: string;
   mockupLabel: string;
+  mockupKind: "timeline" | "checklist" | "metrics" | "chat" | "dashboard";
   layout: string;
   minH: string;
   mockupTint: string;
@@ -19,6 +20,7 @@ const features: Feature[] = [
     description:
       "We move fast without cutting corners. Most projects go from kickoff to live deployment within 2–4 weeks.",
     mockupLabel: "Project timeline",
+    mockupKind: "timeline",
     layout: "md:col-span-6 lg:col-span-5",
     minH: "min-h-[320px]",
     mockupTint: "from-[rgba(60,205,127,0.1)] via-[rgba(15,17,21,0.75)] to-[#050505]",
@@ -29,6 +31,7 @@ const features: Feature[] = [
     description:
       "Every build is hand-checked across breakpoints. No template shortcuts — just clean, intentional craft.",
     mockupLabel: "Quality checklist",
+    mockupKind: "checklist",
     layout: "md:col-span-6 lg:col-span-3",
     minH: "min-h-[320px]",
     mockupTint: "from-[rgba(255,255,255,0.06)] via-[rgba(15,17,21,0.72)] to-[#050505]",
@@ -39,6 +42,7 @@ const features: Feature[] = [
     description:
       "Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking.",
     mockupLabel: "Performance metrics",
+    mockupKind: "metrics",
     layout: "md:col-span-12 lg:col-span-4 lg:row-span-2",
     minH: "min-h-[360px] lg:min-h-[688px]",
     mockupTint: "from-[rgba(60,205,127,0.08)] via-[rgba(10,10,10,0.85)] to-[#050505]",
@@ -49,6 +53,7 @@ const features: Feature[] = [
     description:
       "No account managers or ticket queues. You work with the same senior engineers from discovery through launch — every time.",
     mockupLabel: "Slack thread",
+    mockupKind: "chat",
     layout: "md:col-span-7 lg:col-span-4",
     minH: "min-h-[360px]",
     mockupTint: "from-[rgba(255,255,255,0.05)] via-[rgba(10,10,10,0.85)] to-[#050505]",
@@ -59,6 +64,7 @@ const features: Feature[] = [
     description:
       "Clean, documented, optimised code on your infrastructure. No lock-in. Every asset, token and component is yours.",
     mockupLabel: "Deliverables dashboard",
+    mockupKind: "dashboard",
     layout: "md:col-span-5 lg:col-span-4",
     minH: "min-h-[360px]",
     mockupTint: "from-[rgba(60,205,127,0.07)] via-[rgba(15,17,21,0.76)] to-[#050505]",
@@ -110,10 +116,10 @@ const icons: Record<string, string> = {
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
       {
-        features.map((f) => (
+        features.map((f, fIdx) => (
           <article
             class:list={[
-              "group relative overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
+              "group relative overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
               "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
@@ -124,9 +130,10 @@ const icons: Record<string, string> = {
             <div class="relative z-[1] flex h-full flex-col">
               <div class="flex flex-col gap-4 p-6 md:p-8">
                 <div
-                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.04)] text-[#9CA3AF]"
+                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.04)] text-[#9CA3AF] motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
                   set:html={icons[f.icon]}
                   aria-hidden="true"
+                  style={`animation-delay:${fIdx * 600}ms;`}
                 />
                 <h3 class="type-h3">{f.title}</h3>
                 <p class="type-body text-[#6B7280]">{f.description}</p>
@@ -148,18 +155,81 @@ const icons: Record<string, string> = {
                     </div>
                     <span class="type-small text-[rgba(255,255,255,0.42)]">{f.mockupLabel}</span>
                   </div>
-                  <div class="flex flex-col gap-1.5 p-3">
-                    <div class="h-[5px] w-[70%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
-                    <div class="h-[5px] w-[50%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
-                    <div class="h-[5px] w-[85%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
-                    <div class="my-1 flex gap-1.5">
-                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
-                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
-                      <div class="h-8 flex-1 rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]" />
+                  {f.mockupKind === "timeline" ? (
+                    <div class="flex flex-col gap-2.5 p-3">
+                      {[
+                        { label: "Discovery", w: "60%" },
+                        { label: "Design", w: "80%" },
+                        { label: "Build", w: "100%" },
+                        { label: "Launch", w: "45%" },
+                      ].map((step, i) => (
+                        <div class="flex items-center gap-2">
+                          <span class="w-12 shrink-0 text-[8px] uppercase tracking-wider text-white/30">{step.label}</span>
+                          <div class="relative h-[6px] flex-1 overflow-hidden rounded-[2px] bg-[rgba(255,255,255,0.05)]">
+                            <div
+                              class="absolute inset-y-0 left-0 origin-left rounded-[2px] bg-gradient-to-r from-[#3CCD7F]/70 to-[#3CCD7F]/30 motion-safe:animate-[timelineFill_3.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                              style={`animation-delay:${i * 280}ms; width:${step.w};`}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div class="h-[5px] w-[60%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
-                    <div class="h-[5px] w-[40%] rounded-[2px] bg-[rgba(255,255,255,0.08)]" />
-                  </div>
+                  ) : f.mockupKind === "checklist" ? (
+                    <div class="relative flex flex-col gap-2 overflow-hidden p-3">
+                      {["Responsive audit", "Lighthouse 98+", "Cross-browser", "A11y pass"].map((item, i) => (
+                        <div class="flex items-center gap-2">
+                          <div
+                            class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[3px] border border-[#3CCD7F]/30 bg-[#3CCD7F]/10 motion-safe:animate-[checkPop_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                            style={`animation-delay:${i * 400}ms;`}
+                          >
+                            <svg class="h-2 w-2 text-[#3CCD7F]" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                              <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                          </div>
+                          <span class="text-[9px] text-white/35">{item}</span>
+                        </div>
+                      ))}
+                      <div class="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[#3CCD7F] to-transparent shadow-[0_0_10px_rgba(60,205,127,0.7)] motion-safe:animate-[checkSweep_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
+                    </div>
+                  ) : f.mockupKind === "metrics" ? (
+                    <div class="relative flex h-28 items-end gap-1.5 p-3 pt-8">
+                      <span class="absolute right-3 top-3 font-display text-xl text-[#3CCD7F] drop-shadow-[0_0_8px_rgba(60,205,127,0.35)] motion-safe:animate-[scoreGlow_2.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">98</span>
+                      {[55, 72, 48, 88, 65, 92].map((h, i) => (
+                        <div class="relative flex-1 overflow-hidden rounded-t-[2px] border border-white/10 border-b-0 bg-white/5" style={`height:${h}%;`}>
+                          <div
+                            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#3CCD7F]/55 via-[#3CCD7F]/25 to-transparent motion-safe:animate-[metricRise_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                            style={`animation-delay:${i * 140}ms;`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : f.mockupKind === "chat" ? (
+                    <div class="flex flex-col gap-2 p-3">
+                      <div class="ml-auto w-[72%] rounded-sm rounded-tr-none border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 p-2 motion-safe:animate-[chatSlide_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
+                        <div class="h-[4px] w-[80%] rounded-[2px] bg-white/10" />
+                        <div class="mt-1.5 h-[4px] w-[55%] rounded-[2px] bg-white/7" />
+                      </div>
+                      <div class="mr-auto w-[60%] rounded-sm rounded-tl-none border border-white/10 bg-white/5 p-2 motion-safe:animate-[chatSlide_4s_0.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
+                        <div class="h-[4px] w-[70%] rounded-[2px] bg-white/10" />
+                      </div>
+                      <div class="flex gap-1.5 pl-1 motion-safe:animate-[chatSlide_4s_1.2s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
+                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
+                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_0.2s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
+                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_0.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div class="grid grid-cols-3 gap-1.5 p-3">
+                      {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <div class="relative h-8 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.03)]">
+                          <div
+                            class="absolute inset-0 rounded-xs border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 motion-safe:animate-[dashComplete_4.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                            style={`animation-delay:${i * 350}ms;`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -169,3 +239,62 @@ const icons: Record<string, string> = {
     </div>
   </div>
 </section>
+
+<style>
+  /* Timeline: Gantt bars fill left-to-right */
+  @keyframes timelineFill {
+    0%, 5% { transform: scaleX(0); opacity: 0; }
+    20% { transform: scaleX(1); opacity: 1; }
+    70% { transform: scaleX(1); opacity: 1; }
+    90%, 100% { transform: scaleX(0); opacity: 0; }
+  }
+
+  /* Checklist: check marks pop in */
+  @keyframes checkPop {
+    0%, 5% { transform: scale(0); opacity: 0; }
+    18% { transform: scale(1.2); opacity: 1; }
+    28%, 68% { transform: scale(1); opacity: 1; }
+    88%, 100% { transform: scale(0); opacity: 0; }
+  }
+
+  /* Checklist: vertical scan line */
+  @keyframes checkSweep {
+    0% { transform: translateY(-100%); opacity: 0; }
+    10% { opacity: 0.9; }
+    85% { opacity: 0.9; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+
+  /* Metrics: bar chart fill */
+  @keyframes metricRise {
+    0%, 100% { height: 15%; opacity: 0.35; }
+    30% { height: 100%; opacity: 1; }
+    60% { height: 55%; opacity: 0.8; }
+  }
+
+  /* Metrics: score number glow */
+  @keyframes scoreGlow {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; text-shadow: 0 0 12px rgba(60, 205, 127, 0.5); }
+  }
+
+  /* Chat: message bubbles slide in */
+  @keyframes chatSlide {
+    0%, 5% { transform: translateY(8px); opacity: 0; }
+    18%, 72% { transform: translateY(0); opacity: 1; }
+    88%, 100% { transform: translateY(-4px); opacity: 0; }
+  }
+
+  /* Chat: typing indicator dots */
+  @keyframes typingDot {
+    0%, 60%, 100% { opacity: 0.15; transform: translateY(0); }
+    30% { opacity: 0.7; transform: translateY(-2px); }
+  }
+
+  /* Dashboard: grid items complete */
+  @keyframes dashComplete {
+    0%, 6% { transform: scale(0.8); opacity: 0; }
+    22%, 68% { transform: scale(1); opacity: 1; }
+    86%, 100% { transform: scale(0.8); opacity: 0; }
+  }
+</style>

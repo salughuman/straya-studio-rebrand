@@ -35,7 +35,7 @@ const testimonials: Testimonial[] = [
     company: "Meridian Health",
     stars: 5,
     featured: true,
-    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    video: "https://youtu.be/Aq2wnh6KRz0",
   },
   {
     quote: "Best Webflow developer we've ever worked with. Period.",
@@ -193,7 +193,7 @@ const getPrimaryMeta = (t: Testimonial) =>
           {column.map((t) => (
           <article
             class:list={[
-              "rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
               "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
@@ -215,8 +215,8 @@ const getPrimaryMeta = (t: Testimonial) =>
             )}
 
             <div class="mb-4 flex gap-0.5 text-[#3CCD7F]" aria-label={`${t.stars || 5} out of 5 stars`}>
-              {Array.from({ length: t.stars || 5 }).map(() => (
-                <svg class="h-3.5 w-3.5" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+              {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                <svg class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" style={`animation-delay:${si * 150}ms;`} width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
                   <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
                 </svg>
               ))}

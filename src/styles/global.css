@@ -80,3 +80,29 @@
 		background-color: transparent !important;
 	}
 }
+
+/* Shared icon micro-interaction keyframes (GEMINI §5.F — @keyframes allowed) */
+@keyframes iconGlow {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
+	50% { box-shadow: 0 0 16px -2px rgba(60, 205, 127, 0.12); }
+}
+
+@keyframes iconGlowBrand {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
+	50% { box-shadow: 0 0 20px -2px rgba(60, 205, 127, 0.25); }
+}
+
+@keyframes starShimmer {
+	0%, 100% { filter: brightness(0.88) drop-shadow(0 0 0 transparent); }
+	50% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(60, 205, 127, 0.3)); }
+}
+
+@keyframes connectorSlide {
+	0%, 100% { opacity: 0.25; transform: translate(-50%, -50%) translateX(0); }
+	50% { opacity: 0.55; transform: translate(-50%, -50%) translateX(3px); }
+}
+
+@keyframes clockTick {
+	0%, 100% { opacity: 0.6; }
+	50% { opacity: 1; filter: drop-shadow(0 0 4px rgba(60, 205, 127, 0.25)); }
+}
