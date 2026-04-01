@@ -20,7 +20,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "Marketing site and CMS on Framer — sub-second loads and a conversion-led narrative for a technical audience.",
     thumbnail: "/images/work/kova-labs.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=kova-labs",
     featured: true,
   },
   {
@@ -29,7 +29,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "Patient-facing Webflow build with structured CMS, accessibility hardening, and performance tuned for Core Web Vitals.",
     thumbnail: "/images/work/meridian-health.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=meridian-health",
   },
   {
     title: "Altitude Gear Co.",
@@ -37,7 +37,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "Custom Shopify storefront with Liquid sections, checkout optimisation, and analytics-ready event layer.",
     thumbnail: "/images/work/altitude-gear.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=altitude-gear",
   },
   {
     title: "Luminary Finance",
@@ -45,7 +45,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "WordPress to Webflow migration — design system, gated content, and SEO layer rebuilt for scale.",
     thumbnail: "/images/work/luminary-finance.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=luminary-finance",
   },
   {
     title: "NexGen Systems",
@@ -53,7 +53,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "Framer site plus custom code components and CMS modelling for a multi-region product launch.",
     thumbnail: "/images/work/nexgen-systems.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=nexgen-systems",
   },
   {
     title: "Parallel Studio",
@@ -61,6 +61,6 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
     description:
       "Shopify Plus build with app integrations, subscription flows, and performance budget enforced in production.",
     thumbnail: "/images/work/parallel-studio.webp",
-    href: "#contact",
+    href: "/contact?source=selected-work&project=parallel-studio",
   },
 ];

@@ -10,12 +10,14 @@
 		background-color: theme('colors.bg-base');
 		color: theme('colors.text-primary');
 		scroll-behavior: smooth;
+		overflow-x: hidden;
 	}
 
 	/* GEMINI §5.H — respect reduced motion globally */
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
+			
 		}
 	}
 
@@ -50,6 +52,19 @@
 	::selection {
 		background-color: theme('colors.brand-muted');
 		color: theme('colors.text-primary');
+	}
+
+	/* Mobile anchor offset so hash links do not tuck under the fixed navbar */
+	@media (max-width: 809px) {
+		html {
+			scroll-padding-top: 20px;
+		}
+
+		section[id],
+		footer[id],
+		main [id] {
+			scroll-margin-top: 20px;
+		}
 	}
 }
 
