@@ -97,20 +97,20 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 					</tr>
 				</thead>
 				<tbody class="border-x border-b border-[rgba(255,255,255,0.05)]">
-					<tr class="border-t border-[rgba(60,205,127,0.3)] bg-[#3CCD7F]">
+					<tr class="border-t border-[rgba(5,5,5,0.15)] bg-[#3CCD7F]" aria-label="Straya Studio — recommended">
 						<th
 							scope="row"
 							class="max-w-[20rem] px-4 py-5 align-top md:px-6"
 						>
 							<div class="flex items-start gap-4">
 								<div
-									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-[rgba(60,205,127,0.35)] bg-[rgba(5,5,5,0.35)] text-[#3CCD7F] motion-safe:animate-[iconGlowBrand_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-[rgba(5,5,5,0.15)] bg-[rgba(5,5,5,0.12)] text-[#050505]"
 									set:html={strayaIcon}
 									aria-hidden="true"
 								/>
 								<div class="min-w-0">
-									<h3 class="type-h3 mb-1 text-[#050505]">{studio.name}</h3>
-									<p class="type-body text-[#050505]/80">{studio.description}</p>
+									<h3 class="type-h3 mb-1 text-[#03170a]">{studio.name}</h3>
+									<p class="type-body text-[#05210f]/90">{studio.description}</p>
 								</div>
 							</div>
 						</th>
@@ -125,7 +125,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 										{columns[i]}: {check ? "yes" : "no"}
 									</span>
 									<svg
-										class="mx-auto h-5 w-5 text-[#3CCD7F]"
+										class="mx-auto h-5 w-5 text-[#050505]"
 										width="20"
 										height="20"
 										viewBox="0 0 20 20"
