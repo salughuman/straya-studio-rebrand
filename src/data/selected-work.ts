@@ -10,6 +10,8 @@ export interface SelectedProject {
   /** Optional thumbnail path (recommended: /images/work/<slug>.webp) */
   thumbnail?: string;
   href: string;
+  /** Optional live site or case study URL shown in the expanded panel */
+  liveUrl?: string;
   featured?: boolean;
 }
 

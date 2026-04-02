@@ -1,9 +1,15 @@
 ---
-// SelectedWork.astro — Straya Studio
-// Utility-first compliance refactor.
 import Button from "./ui/buttons/Button.astro";
 import { SELECTED_PROJECTS } from "../data/selected-work";
 import { SITE_CONFIG } from "../data/site-config";
+
+const baseUrl = import.meta.env.BASE_URL;
+
+const withBaseHref = (href: string) =>
+  href.startsWith("/") ? `${baseUrl}${href.replace(/^\//, "")}` : href;
+
+const defaultIndex = SELECTED_PROJECTS.findIndex((p) => p.featured);
+const activeIndex = defaultIndex >= 0 ? defaultIndex : 0;
 
 const thumbnailFallbacks = [
   "bg-[radial-gradient(ellipse_at_top_right,rgba(60,205,127,0.22),transparent_55%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
@@ -14,8 +20,8 @@ const thumbnailFallbacks = [
   "bg-[radial-gradient(ellipse_at_50%_10%,rgba(168,85,247,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
 ];
 
-const withBaseHref = (href: string) =>
-  href.startsWith("/") ? `${import.meta.env.BASE_URL}${href.replace(/^\//, "")}` : href;
+const getInitials = (title: string) =>
+  title.split(" ").map((w) => w[0]).join("").slice(0, 3);
 ---
 
 <section
@@ -30,8 +36,7 @@ const withBaseHref = (href: string) =>
       Each project emphasises performance, conversion, and long-term maintainability.
     </p>
 
-    <!-- Section header -->
-    <div class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
+    <header class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
       <div class="flex max-w-[40rem] flex-col gap-3">
         <p class="type-label">Selected work</p>
         <h2 class="type-h2">
@@ -45,92 +50,285 @@ const withBaseHref = (href: string) =>
       <Button
         href="#pricing"
         label="Start a project"
-        variant="secondary"
-        class="group mt-2 shrink-0 md:mt-0"
+        variant="ghost"
+        class="group !w-fit !px-5 !py-3 !text-sm"
       >
         <svg
+          class="ml-2 h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
           width="16"
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="ml-2 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
           aria-hidden="true"
         >
-          <path
-            d="M6 3L11 8L6 13"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
+          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </Button>
-    </div>
+    </header>
 
-    <!-- Work cards -->
-    <ul class="grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-      {
-        SELECTED_PROJECTS.map((project, index) => (
-          <li class:list={[project.featured && "md:col-span-2 lg:col-span-2"]}>
-            <a
-              href={withBaseHref(project.href)}
-              class="group flex h-full flex-col overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] text-inherit no-underline transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
-              class:list={[project.featured && "is-featured md:flex-row md:items-stretch"]}
+    <div class="work-tabs flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6" data-active={activeIndex}>
+
+      {/* ── Preview panel (stacked cards on mobile, tabbed at lg) ── */}
+      <div class="work-preview flex flex-col gap-4 lg:relative lg:block lg:w-[55%]" aria-live="polite">
+        {SELECTED_PROJECTS.map((project, i) => (
+          <div
+            class="work-panel rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] overflow-hidden flex flex-col"
+            data-panel={i}
+            aria-hidden={i !== activeIndex ? "true" : undefined}
+          >
+            <div
+              class:list={[
+                "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#0F1115]",
+                thumbnailFallbacks[i % thumbnailFallbacks.length],
+              ]}
+              aria-hidden="true"
             >
-              <div
-                class:list={[
-                  "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#0F1115]",
-                  thumbnailFallbacks[index % thumbnailFallbacks.length],
-                  project.featured && "md:min-h-56 md:w-[42%] md:aspect-auto",
-                ]}
-                aria-hidden="true"
-              >
-                <img
-                  src={project.thumbnail}
-                  alt=""
-                  loading="lazy"
-                  width="1280"
-                  height="800"
-                  class="absolute inset-0 h-full w-full object-cover"
-                  onerror="this.style.display='none'"
-                />
-                <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,0,0,0.2),transparent_55%)]" />
-                <span class="relative z-[1] font-display text-[clamp(2rem,4vw,3rem)] font-semibold tracking-[-0.03em] text-[rgba(60,205,127,0.85)]" aria-hidden="true">
-                  {project.title
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 3)}
+              <img
+                src={project.thumbnail}
+                alt=""
+                loading={i === activeIndex ? "eager" : "lazy"}
+                width="1280"
+                height="800"
+                class="absolute inset-0 h-full w-full object-cover"
+                onerror="this.style.display='none'"
+              />
+              <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.6)_0%,transparent_50%)]" />
+              <span class="relative z-[1] font-display text-[clamp(2.5rem,5vw,4rem)] font-semibold tracking-[-0.03em] text-[rgba(60,205,127,0.7)]" aria-hidden="true">
+                {getInitials(project.title)}
+              </span>
+            </div>
+
+            <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
+              <div class="flex items-center gap-3">
+                {project.featured && (
+                  <span class="inline-block rounded-xs border border-[rgba(60,205,127,0.2)] bg-[rgba(60,205,127,0.06)] px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-[#3CCD7F]">
+                    Featured
+                  </span>
+                )}
+                <span class="text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+                  {project.sector}
                 </span>
               </div>
-              <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
-                <p class="text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">{project.sector}</p>
-                <h3 class="type-h3">{project.title}</h3>
-                <p class="type-body flex-1 text-[#9CA3AF]">{project.description}</p>
-                <span class="mt-1 inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#FFFFFF]">
-                  Discuss this build
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    class="transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-                    aria-hidden="true"
+              <h3 class="type-h3 text-[#FFFFFF]">{project.title}</h3>
+              <p class="type-body flex-1 text-[#9CA3AF] leading-relaxed">{project.description}</p>
+
+              <div class="mt-1 flex flex-wrap items-center gap-4">
+                {project.liveUrl ? (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#3CCD7F] no-underline transition-colors duration-300 ease-luxury hover:text-[#2FB96D]"
                   >
-                    <path
-                      d="M6 3L11 8L6 13"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
+                    View live site
+                    <svg
+                      class="h-3.5 w-3.5 transition-transform duration-300 ease-luxury group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 motion-reduce:transition-none"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                ) : (
+                  <a
+                    href={withBaseHref(project.href)}
+                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#FFFFFF] no-underline transition-colors duration-300 ease-luxury hover:text-[#3CCD7F]"
+                  >
+                    Discuss this build
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      class="transition-transform duration-300 ease-luxury group-hover/link:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover/link:translate-x-0"
+                      aria-hidden="true"
+                    >
+                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                )}
               </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Project index (tab triggers — desktop only) ── */}
+      <div class="hidden lg:flex flex-col lg:w-[45%]" role="tablist" aria-label="Project list">
+        <ol class="flex flex-1 list-none flex-col justify-between p-0 m-0">
+          {SELECTED_PROJECTS.map((project, i) => (
+            <li class:list={[
+              "border-b border-[rgba(255,255,255,0.05)]",
+              i === 0 && "border-t border-[rgba(255,255,255,0.05)]",
+            ]}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={i === activeIndex ? "true" : "false"}
+                class="work-tab group flex w-full cursor-pointer items-center gap-4 border-none bg-transparent py-5 text-left transition-[background-color,padding] duration-300 ease-luxury hover:bg-[rgba(255,255,255,0.02)] hover:pl-2 motion-reduce:transition-none motion-reduce:hover:pl-0 md:gap-5 md:py-6"
+                data-tab={i}
+              >
+                <span class="work-tab-index shrink-0 font-display text-[1.5rem] font-semibold leading-none tracking-[-0.03em] text-[rgba(255,255,255,0.08)] transition-colors duration-300 ease-luxury group-hover:text-[rgba(60,205,127,0.5)] md:text-[2rem]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div class="flex flex-1 flex-col gap-1">
+                  <span class="work-tab-title type-body font-medium text-[#FFFFFF] transition-colors duration-300 ease-luxury group-hover:text-[#3CCD7F]">
+                    {project.title}
+                  </span>
+                  <span class="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-[#6B7280]">
+                    {project.sector}
+                  </span>
+                </div>
+
+                <svg
+                  class="shrink-0 h-4 w-4 text-[rgba(255,255,255,0.1)] transition-[transform,color] duration-300 ease-luxury group-hover:translate-x-1 group-hover:text-[#3CCD7F] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+    </div>
   </div>
 </section>
+
+<style>
+  @media (min-width: 1200px) {
+    .work-panel {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity;
+    }
+    .work-panel.is-active {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .work-tab[aria-selected="true"] {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding-left: 0.5rem;
+  }
+  .work-tab[aria-selected="true"] .work-tab-index {
+    color: rgba(60, 205, 127, 0.6);
+  }
+  .work-tab[aria-selected="true"] .work-tab-title {
+    color: #3CCD7F;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-panel {
+      will-change: auto;
+    }
+  }
+</style>
+
+<script>
+  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+  const DURATION = 350;
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const container = document.querySelector<HTMLElement>(".work-tabs");
+  if (container) {
+    const panels = Array.from(container.querySelectorAll<HTMLElement>(".work-panel"));
+    const tabs = Array.from(container.querySelectorAll<HTMLButtonElement>(".work-tab"));
+    let current = Number(container.dataset.active ?? 0);
+    let activeAnim: Animation | null = null;
+
+    const setActive = (index: number) => {
+      panels.forEach((p, i) => {
+        if (i === index) {
+          p.classList.add("is-active");
+          p.removeAttribute("aria-hidden");
+        } else {
+          p.classList.remove("is-active");
+          p.setAttribute("aria-hidden", "true");
+        }
+      });
+      tabs.forEach((t, i) =>
+        t.setAttribute("aria-selected", i === index ? "true" : "false")
+      );
+      current = index;
+    };
+
+    setActive(current);
+
+    const switchTo = (index: number) => {
+      if (index === current) return;
+
+      if (activeAnim) {
+        activeAnim.cancel();
+        activeAnim = null;
+      }
+
+      const outPanel = panels[current];
+      const inPanel = panels[index];
+      if (!outPanel || !inPanel) return;
+
+      tabs.forEach((t, i) =>
+        t.setAttribute("aria-selected", i === index ? "true" : "false")
+      );
+
+      if (prefersReduced) {
+        setActive(index);
+        return;
+      }
+
+      inPanel.classList.add("is-active");
+      inPanel.removeAttribute("aria-hidden");
+      inPanel.style.position = "absolute";
+      inPanel.style.opacity = "0";
+
+      const outAnim = outPanel.animate(
+        [{ opacity: 1 }, { opacity: 0 }],
+        { duration: DURATION / 2, easing: EASE }
+      );
+      activeAnim = outAnim;
+
+      outAnim.onfinish = () => {
+        outPanel.classList.remove("is-active");
+        outPanel.setAttribute("aria-hidden", "true");
+        outPanel.style.opacity = "";
+        outPanel.style.position = "";
+
+        inPanel.style.position = "relative";
+
+        const inAnim = inPanel.animate(
+          [{ opacity: 0 }, { opacity: 1 }],
+          { duration: DURATION / 2, easing: EASE }
+        );
+        activeAnim = inAnim;
+
+        inAnim.onfinish = () => {
+          inPanel.style.opacity = "";
+          inPanel.style.position = "";
+          inPanel.classList.add("is-active");
+          activeAnim = null;
+          current = index;
+        };
+      };
+    };
+
+    tabs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.dataset.tab);
+        if (!Number.isNaN(idx)) switchTo(idx);
+      });
+    });
+  }
+</script>
