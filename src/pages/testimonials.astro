@@ -22,13 +22,15 @@ const toSlug = (name: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const getAvatarSrc = (t: TestimonialsPageTestimonial) =>
-  t.avatar ?? `/images/testimonials/${toSlug(t.name)}.webp`;
+  t.avatar ?? `${baseUrl}images/testimonials/${toSlug(t.name)}.webp`;
 
 const getFallbackAvatarSrc = (t: TestimonialsPageTestimonial) =>
   t.gender === "female"
-    ? "/images/avatars/fallback-female.svg"
-    : "/images/avatars/fallback-male.svg";
+    ? `${baseUrl}images/avatars/fallback-female.svg`
+    : `${baseUrl}images/avatars/fallback-male.svg`;
 
 const getPrimaryMeta = (t: TestimonialsPageTestimonial) =>
   [t.role, t.company].filter(Boolean).join(", ");

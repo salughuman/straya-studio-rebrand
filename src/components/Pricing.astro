@@ -32,6 +32,7 @@ const tierGlowClass = [
 // Accent line width grows per tier
 const tierLineClass = ["w-1/4", "w-1/2", "w-full"];
 const START_PROJECT_TIERS = 2;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section
@@ -187,7 +188,7 @@ const START_PROJECT_TIERS = 2;
               <Button
                 href={
                   i < START_PROJECT_TIERS
-                    ? `/contact?source=pricing-card&tier=${encodeURIComponent(tier.name.toLowerCase())}`
+                    ? `${baseUrl}contact?source=pricing-card&tier=${encodeURIComponent(tier.name.toLowerCase())}`
                     : SITE_CONFIG.socials.calendly
                 }
                 target={i < START_PROJECT_TIERS ? undefined : "_blank"}

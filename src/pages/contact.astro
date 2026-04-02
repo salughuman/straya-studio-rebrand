@@ -44,7 +44,7 @@ const description =
             <input type="hidden" name="_subject" value="New Project Brief — Straya Studio" />
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value={`${SITE_CONFIG.url}/contact/thanks`} />
+            <input type="hidden" name="_next" value={`${SITE_CONFIG.url}/contact`} />
             <input type="hidden" name="leadSource" value="pricing-start-project" />
             <input type="hidden" name="cta_source" id="cta-source" value="direct-contact-page" />
             <input type="hidden" name="cta_tier" id="cta-tier" value="unknown" />
@@ -70,7 +70,7 @@ const description =
             <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm font-semibold tracking-tight px-10 py-4 text-base bg-brand-secondary text-text-inverted border-t border-border-strong transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none md:col-span-2">
               <span class="font-bold tracking-tight">Send project brief</span>
             </button>
-            <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite"></p>
+            <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite" aria-hidden="true"></p>
           </form>
         </article>
 
@@ -92,7 +92,6 @@ const description =
     const tierField = document.getElementById("cta-tier");
     const tierHidden = document.getElementById("tier-hidden");
     const form = document.getElementById("project-brief-form");
-    const status = document.getElementById("form-status");
 
     if (source && sourceField instanceof HTMLInputElement) {
       sourceField.value = source;
@@ -107,15 +106,13 @@ const description =
         }
     }
 
-    if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
+    if (form instanceof HTMLFormElement) {
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        status.classList.remove("hidden", "text-[#EF4444]", "text-[#3CCD7F]");
-        status.classList.add("text-[#9CA3AF]");
-        status.textContent = "Sending your brief...";
-
         const submitButton = form.querySelector('button[type="submit"]');
+        const buttonLabel = submitButton ? submitButton.querySelector("span") : null;
+
         if (submitButton instanceof HTMLButtonElement) {
           submitButton.disabled = true;
         }
@@ -129,18 +126,17 @@ const description =
 
           if (!response.ok) throw new Error("Submission failed");
 
-          const nextInput = form.querySelector('input[name="_next"]');
-          if (nextInput instanceof HTMLInputElement && nextInput.value) {
-            window.location.href = nextInput.value;
-            return;
+          if (buttonLabel) {
+            buttonLabel.textContent = "Thank you";
+          } else if (submitButton) {
+            submitButton.textContent = "Thank you";
           }
-          window.location.href = "/contact/thanks";
+
+          form.reset();
         } catch {
-          const calendly = form.dataset.calendly ?? "#";
-          const email = form.dataset.contactEmail ?? "";
-          status.classList.remove("text-[#9CA3AF]");
-          status.classList.add("text-[#EF4444]");
-          status.innerHTML = `Submission service is temporarily unavailable. Please <a href="${calendly}" class="underline text-[#FFFFFF]">book a call</a> or email <a href="mailto:${email}" class="underline text-[#FFFFFF]">${email}</a>.`;
+          if (buttonLabel) {
+            buttonLabel.textContent = "Send project brief";
+          }
           if (submitButton instanceof HTMLButtonElement) {
             submitButton.disabled = false;
           }

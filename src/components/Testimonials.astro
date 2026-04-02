@@ -145,12 +145,12 @@ const toSlug = (name: string) =>
     .replace(/^-+|-+$/g, "");
 
 const getAvatarSrc = (t: Testimonial) =>
-  t.avatar ?? `/images/testimonials/${toSlug(t.name)}.webp`;
+  t.avatar ?? `${baseUrl}images/testimonials/${toSlug(t.name)}.webp`;
 
 const getFallbackAvatarSrc = (t: Testimonial) =>
   t.gender === "female"
-    ? "/images/avatars/fallback-female.svg"
-    : "/images/avatars/fallback-male.svg";
+    ? `${baseUrl}images/avatars/fallback-female.svg`
+    : `${baseUrl}images/avatars/fallback-male.svg`;
 
 const getPrimaryMeta = (t: Testimonial) =>
   [t.role, t.company].filter(Boolean).join(", ");
