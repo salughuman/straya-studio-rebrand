@@ -15,14 +15,28 @@ import SelectedWork from "../components/SelectedWork.astro";
 import FAQ from "../components/FAQ.astro";
 import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
+import { SITE_CONFIG } from "../data/site-config";
 // SEO Metadata: Aligned with Straya Studio hybrid model
-const title =
-	"Straya Studio | Premium Framer, Webflow & Shopify Technical Partner";
+const title = "Straya Studio — Framer, Webflow & Shopify Partner";
 const description =
-	"Straya Studio is a technical partner for elite Framer, Webflow, Shopify, and WordPress builds. We engineer fast, conversion-led platforms for tech founders and ecommerce teams across the US, Canada, the UK, Europe, and Australia.";
+	"Premium technical partner for Framer, Webflow, Shopify & WordPress builds. Fast, conversion-led platforms for tech founders and ecommerce teams.";
+const image = "/og-home.png";
+
+const pageSchema = {
+	"@context": "https://schema.org",
+	"@type": "WebPage",
+	name: title,
+	description,
+	url: `${SITE_CONFIG.url}/`,
+	isPartOf: {
+		"@type": "WebSite",
+		name: SITE_CONFIG.name,
+		url: `${SITE_CONFIG.url}/`,
+	},
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={image}>
 	<!-- AEO preface for crawlers and assistants -->
 	<AEOHeader />
 	<!-- 01: Hero (qualify) -->
@@ -54,4 +68,5 @@ const description =
 	<FinalCTA />
 	<!-- Footer -->
 	<Footer />
+	<script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
 </BaseLayout>

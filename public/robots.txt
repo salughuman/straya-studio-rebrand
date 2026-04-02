@@ -4,6 +4,7 @@
 # Allow all standard crawlers
 User-agent: *
 Allow: /
+Disallow: /styleguide
 
 # -----------------------------------------------
 # AI / LLM Crawlers — Explicitly Allowed

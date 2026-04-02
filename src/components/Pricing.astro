@@ -89,11 +89,11 @@ const baseUrl = import.meta.env.BASE_URL;
               aria-hidden="true"
             />
 
-            {/* ── Accent line at top (grows wider per tier) ── */}
+            {/* ── Accent line at top (full width, opacity increases per tier on hover) ── */}
             <div
               class:list={[
-                "h-0.5 bg-gradient-to-r from-[#3CCD7F] to-[rgba(60,205,127,0.2)] transition-[width] duration-300 ease-luxury group-hover:w-full",
-                tierLineClass[i] ?? "w-1/2",
+                "h-[2px] w-full bg-gradient-to-r from-[#3CCD7F] via-[#3CCD7F]/25 to-transparent transition-opacity duration-300 ease-luxury group-hover:opacity-100",
+                i === 0 ? "opacity-[0.04]" : i === 1 ? "opacity-50" : "opacity-90",
               ]}
               aria-hidden="true"
             />
@@ -256,12 +256,12 @@ const baseUrl = import.meta.env.BASE_URL;
 <style>
   /* GEMINI §5.F — keyframes only */
   .availability-dot {
-    animation: pulse-dot 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    animation: pulse-dot 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
+    50% { opacity: 0.85; box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35); }
   }
 
   /* ── Reduced motion ── */

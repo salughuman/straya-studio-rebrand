@@ -41,6 +41,8 @@ in the US, Canada, UK, Europe, and Australia.
   and service proof.
 - [Contact](https://strayastudio.com/contact): Start a project or
   book a free 15-minute scoping call.
+- [Testimonials](https://strayastudio.com/testimonials): Client proof,
+  delivery feedback, and trust signals from real projects.
 
 ## Credentials
 - Official Certified Framer Expert

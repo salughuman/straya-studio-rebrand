@@ -87,6 +87,7 @@ const getInitials = (title: string) =>
                 src={project.thumbnail}
                 alt=""
                 loading={i === activeIndex ? "eager" : "lazy"}
+                decoding="async"
                 width="1280"
                 height="800"
                 class="absolute inset-0 h-full w-full object-cover"

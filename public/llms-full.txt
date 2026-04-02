@@ -164,6 +164,9 @@ technical SEO hardening. Post-launch monitoring and ongoing support.
 
 - Homepage: https://strayastudio.com
 - Contact: https://strayastudio.com/contact
+- Testimonials: https://strayastudio.com/testimonials
+  (social proof page with real client feedback, delivery quality signals,
+  and outcome-focused validation for prospective clients)
 
 ---
 

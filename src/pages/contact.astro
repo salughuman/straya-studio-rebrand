@@ -7,10 +7,43 @@ import Footer from "../components/Footer.astro";
 
 const title = "Start a Project | Straya Studio";
 const description =
-  "Share your project brief with Straya Studio. We review scope, align on fit, and reply with a clear fixed project quote.";
+  "Share your project brief with Straya Studio. We review every submission, confirm scope and fit, and reply with a clear fixed quote — no surprises.";
+const image = "/og-contact.png";
+
+const pageUrl = `${SITE_CONFIG.url}/contact/`;
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description,
+  url: pageUrl,
+  isPartOf: {
+    "@type": "WebSite",
+    name: SITE_CONFIG.name,
+    url: `${SITE_CONFIG.url}/`,
+  },
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: `${SITE_CONFIG.url}/`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+      item: pageUrl,
+    },
+  ],
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={image}>
   <section
     id="contact"
     class="section-y pt-28 md:pt-32 relative z-10 bg-[#0A0A0A] text-[#FFFFFF]"
@@ -80,68 +113,69 @@ const description =
   <FAQ />
   <FinalCTA />
   <Footer />
-</BaseLayout>
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script is:inline>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const source = params.get("source");
+      const tier = params.get("tier");
 
-<script is:inline>
-  (() => {
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("source");
-    const tier = params.get("tier");
+      const sourceField = document.getElementById("cta-source");
+      const tierField = document.getElementById("cta-tier");
+      const tierHidden = document.getElementById("tier-hidden");
+      const form = document.getElementById("project-brief-form");
 
-    const sourceField = document.getElementById("cta-source");
-    const tierField = document.getElementById("cta-tier");
-    const tierHidden = document.getElementById("tier-hidden");
-    const form = document.getElementById("project-brief-form");
+      if (source && sourceField instanceof HTMLInputElement) {
+        sourceField.value = source;
+      }
 
-    if (source && sourceField instanceof HTMLInputElement) {
-      sourceField.value = source;
-    }
-
-    if (tier && tierField instanceof HTMLInputElement) {
-      const normalized = tier.toLowerCase();
-      tierField.value = normalized;
+      if (tier && tierField instanceof HTMLInputElement) {
+        const normalized = tier.toLowerCase();
+        tierField.value = normalized;
         if (tierHidden instanceof HTMLInputElement) {
           if (normalized === "starter") tierHidden.value = "Starter";
           if (normalized === "growth") tierHidden.value = "Growth";
         }
-    }
+      }
 
-    if (form instanceof HTMLFormElement) {
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+      if (form instanceof HTMLFormElement) {
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-        const submitButton = form.querySelector('button[type="submit"]');
-        const buttonLabel = submitButton ? submitButton.querySelector("span") : null;
+          const submitButton = form.querySelector('button[type="submit"]');
+          const buttonLabel = submitButton ? submitButton.querySelector("span") : null;
 
-        if (submitButton instanceof HTMLButtonElement) {
-          submitButton.disabled = true;
-        }
-
-        try {
-          const response = await fetch(form.action, {
-            method: "POST",
-            body: new FormData(form),
-            headers: { Accept: "application/json" },
-          });
-
-          if (!response.ok) throw new Error("Submission failed");
-
-          if (buttonLabel) {
-            buttonLabel.textContent = "Thank you";
-          } else if (submitButton) {
-            submitButton.textContent = "Thank you";
-          }
-
-          form.reset();
-        } catch {
-          if (buttonLabel) {
-            buttonLabel.textContent = "Send project brief";
-          }
           if (submitButton instanceof HTMLButtonElement) {
-            submitButton.disabled = false;
+            submitButton.disabled = true;
           }
-        }
-      });
-    }
-  })();
-</script>
+
+          try {
+            const response = await fetch(form.action, {
+              method: "POST",
+              body: new FormData(form),
+              headers: { Accept: "application/json" },
+            });
+
+            if (!response.ok) throw new Error("Submission failed");
+
+            if (buttonLabel) {
+              buttonLabel.textContent = "Thank you";
+            } else if (submitButton) {
+              submitButton.textContent = "Thank you";
+            }
+
+            form.reset();
+          } catch {
+            if (buttonLabel) {
+              buttonLabel.textContent = "Send project brief";
+            }
+            if (submitButton instanceof HTMLButtonElement) {
+              submitButton.disabled = false;
+            }
+          }
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

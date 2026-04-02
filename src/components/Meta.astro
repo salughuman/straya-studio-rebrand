@@ -7,25 +7,51 @@ export interface Props {
   image?: string;
   canonicalUrl?: string;
   type?: "website" | "article";
+  noindex?: boolean;
 }
 
 const {
   title,
   description = "Straya Studio is a founder-led technical agency by Salman — Certified Framer Expert, Webflow Architect, and Shopify Developer. We deliver high-end Framer, Webflow, Shopify, and WordPress solutions for tech startups and ecommerce brands in the US, CA, EU, AU, and UK.",
-  image = "/og-default.png",
-  canonicalUrl = Astro.url.href,
+  image = "/favicon.svg",
+  canonicalUrl,
   type = "website",
+  noindex = false,
 } = Astro.props;
 
 const siteName = "Straya Studio — Founder-Led Technical Partner";
 const twitterHandle = "@strayastudio";
+const productionOrigin = "https://strayastudio.com";
+const productionHosts = new Set(["strayastudio.com", "www.strayastudio.com"]);
+const explicitEnv = (
+  import.meta.env.PUBLIC_DEPLOY_ENV ??
+  import.meta.env.PUBLIC_SITE_ENV ??
+  ""
+).toLowerCase();
+const isProduction = explicitEnv
+  ? ["prod", "production", "live"].includes(explicitEnv)
+  : productionHosts.has(Astro.url.hostname.toLowerCase());
+
+const normalizeCanonical = (raw: string) => {
+  try {
+    const parsed = new URL(raw, productionOrigin);
+    return new URL(
+      `${parsed.pathname}${parsed.search}${parsed.hash}`,
+      productionOrigin
+    ).href;
+  } catch {
+    return productionOrigin;
+  }
+};
+
+const canonical = normalizeCanonical(canonicalUrl ?? Astro.url.href);
 ---
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-<link rel="canonical" href={canonicalUrl} />
+<link rel="canonical" href={canonical} />
 
 <!-- Author & Theme -->
 <meta name="author" content="Salman — Straya Studio" />
@@ -33,7 +59,7 @@ const twitterHandle = "@strayastudio";
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalUrl} />
+<meta property="og:url" content={canonical} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta
@@ -50,7 +76,7 @@ const twitterHandle = "@strayastudio";
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content={twitterHandle} />
 <meta name="twitter:creator" content={twitterHandle} />
-<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:url" content={canonical} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta
@@ -60,14 +86,13 @@ const twitterHandle = "@strayastudio";
 <meta name="twitter:image:alt" content={`${title} — Straya Studio`} />
 
 <!-- Additional SEO -->
-<meta name="robots" content="index, follow" />
+<meta name="robots" content={(!isProduction || noindex) ? "noindex, nofollow" : "index, follow"} />
 <meta
   name="googlebot"
-  content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
+  content={
+    (!isProduction || noindex)
+      ? "noindex, nofollow, noarchive, nosnippet, noimageindex"
+      : "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
+  }
 />
 
-<!-- AEO: Keyword Signals -->
-<meta
-  name="keywords"
-  content="Framer Expert, Framer Developer, Framer Plugin Development, Webflow Developer, Webflow CMS, Shopify Developer, Shopify Store, WordPress Developer, WooCommerce, No-Code Agency, Technical Agency, Straya Studio"
-/>

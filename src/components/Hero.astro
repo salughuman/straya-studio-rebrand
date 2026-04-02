@@ -20,10 +20,10 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
     <!-- Authority Badge — 8pt Grid Lock (h-8 / 32px) -->
     <div
-      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-white/10 mb-4 animate-fade-in"
+      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-white/10 mb-4"
     >
       <div
-        class="w-2 h-2 rounded-full bg-brand-secondary animate-pulse flex-shrink-0 shadow-primary"
+        class="hero-dot w-2 h-2 rounded-full bg-brand-secondary flex-shrink-0 shadow-primary"
       >
       </div>
       <span
@@ -168,6 +168,19 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
       grid-template-columns: 1fr 1.3fr 1.3fr 1fr;
       gap: 2rem;
     }
+  }
+
+  @keyframes heroDotBreathe {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
+    50% { opacity: 0.85; box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35); }
+  }
+
+  .hero-dot {
+    animation: heroDotBreathe 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-dot { animation: none; }
   }
 
   .bento-glow {
