@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import {
+  testimonialsPageTestimonials,
+  type TestimonialsPageTestimonial,
+} from "../data/testimonials-page";
+
+const title = "Client Testimonials | Straya Studio";
+const description =
+  "Client testimonials from founders and teams. See the outcomes, communication quality, and build reliability across Framer, Webflow, and WordPress.";
+
+const wordCount = (text: string) =>
+  text.trim().split(/\s+/).filter(Boolean).length;
+
+const toSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const getAvatarSrc = (t: TestimonialsPageTestimonial) =>
+  t.avatar ?? `/images/testimonials/${toSlug(t.name)}.webp`;
+
+const getFallbackAvatarSrc = (t: TestimonialsPageTestimonial) =>
+  t.gender === "female"
+    ? "/images/avatars/fallback-female.svg"
+    : "/images/avatars/fallback-male.svg";
+
+const getPrimaryMeta = (t: TestimonialsPageTestimonial) =>
+  [t.role, t.company].filter(Boolean).join(", ");
+
+type TileSize = "small" | "medium" | "large" | "xl";
+
+const getTileSize = (t: TestimonialsPageTestimonial, _index: number): TileSize => {
+  const wc = wordCount(t.quote);
+
+  // Tile sizing is driven by quote length so short quotes don't reserve tall grid space.
+  if (wc >= 120) return "xl";
+  if (wc >= 75) return "large";
+  if (wc >= 45) return "medium";
+  return "small";
+};
+
+const getTileLayout = (size: TileSize) => {
+  switch (size) {
+    case "xl":
+      return [
+        "md:col-span-12",
+        "lg:col-span-8 lg:row-span-3",
+      ];
+    case "large":
+      return [
+        "md:col-span-12",
+        "lg:col-span-8 lg:row-span-2",
+      ];
+    case "medium":
+      // Wide but single-row for medium-length quotes to avoid tall blanks.
+      return ["md:col-span-12", "lg:col-span-8 lg:row-span-1"];
+    case "small":
+    default:
+      return ["md:col-span-6", "lg:col-span-4 lg:row-span-1"];
+  }
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <section
+    class="testimonials-page-section section-y relative z-10 bg-brand-elevated text-brand-text-primary"
+    aria-label="Full client testimonials"
+  >
+    <div class="main-container">
+      <p class="sr-only">
+        Full grid of non-video client testimonials. Cards vary in size to
+        accommodate different quote lengths.
+      </p>
+
+      <header class="mb-12 text-center md:mb-16">
+        <p class="type-label mb-2">Testimonials</p>
+        <h2 class="type-h2">Client proof across real delivery.</h2>
+        <p class="type-body mt-4 text-text-secondary">
+          Browse founder feedback from Framer, Webflow, and WordPress builds.
+         
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6 auto-rows-auto grid-flow-dense">
+        {testimonialsPageTestimonials.map((t, index) => {
+          const size = getTileSize(t, index);
+          const layout = getTileLayout(size);
+          const meta = getPrimaryMeta(t);
+          const showMeta = meta.length > 0;
+          const showCountry = t.country?.trim().length > 0;
+          const stars = t.stars ?? 5;
+
+          return (
+            <article
+              class="flex flex-col rounded-md border border-border-default bg-brand-surface p-6 min-h-[270px] md:p-6 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-border-strong hover:shadow-primary motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
+              class:list={layout}
+            >
+              <div class="flex items-center gap-1 text-brand-secondary" aria-label={`${stars} out of 5 stars`}>
+                {Array.from({ length: stars }).map((_, i) => (
+                  <svg
+                    key={`${t.name}-${i}`}
+                    class="h-3.5 w-3.5"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote class="mt-4 type-body m-0 leading-relaxed text-text-secondary">
+                “{t.quote}”
+              </blockquote>
+
+              <footer class="mt-auto pt-4 border-t border-border-subtle">
+                <cite class="not-italic">
+                  <div class="flex items-center gap-3">
+                    <img
+                      src={getAvatarSrc(t)}
+                      alt={`${t.name} profile photo`}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-10 w-10 rounded-xs border border-border-subtle object-cover bg-brand-elevated"
+                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                    />
+
+                    <span>
+                      <span class="block type-body font-medium text-brand-text-primary">
+                        {t.name}
+                      </span>
+
+                      {showMeta && (
+                        <span class="block type-caption">{meta}</span>
+                      )}
+
+                      {showCountry && (
+                        <span class="block type-caption">{t.country}</span>
+                      )}
+                    </span>
+                  </div>
+                </cite>
+              </footer>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+

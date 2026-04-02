@@ -1,6 +1,7 @@
 ---
 // Testimonials.astro — Straya Studio
 // Utility-first masonry testimonial section (GEMINI §5/§6)
+import Button from "./ui/buttons/Button.astro";
 
 interface Testimonial {
   quote: string;
@@ -12,22 +13,85 @@ interface Testimonial {
   featured?: boolean;
   video?: string;
   stars?: number;
+  // Optional explicit avatar override. If omitted, we default to:
+  // `/images/testimonials/${toSlug(name)}.webp`
+  avatar?: string;
 }
 
 const testimonials: Testimonial[] = [
   {
     quote:
-      "Straya Studio completely transformed our online presence. The Framer build they delivered loads in under a second and our conversion rate jumped 40% in the first month.",
-    name: "James Mitchell",
+      "Salman helped develop my Framer website, building complex animations and ensuring flawless functionality. He's a hard worker with a strong problem-solving mindset and great flexibility. Goes above and beyond to deliver quality results. Check out his excellent work at www.likeahuman.ai. Would definitely work with him again!",
+    name: "Stefan Luttik",
     gender: "male",
-    country: "United States",
+    country: "",
+    role: "",
+    company: "Like a Human",
+    stars: 5,
+  },
+  {
+    quote:
+      "I greatly appreciated this collaboration: attentiveness, availability, and professionalism were evident at every stage. The work was carried out with seriousness and care, while remaining simple and pleasant. The final result perfectly meets my expectations, and I highly recommend it.",
+    name: "Elliot Wilson",
+    gender: "male",
+    country: "",
     role: "",
     company: "",
     stars: 5,
   },
   {
     quote:
-      "Working with Salman has been an amazing experience. He’s hardworking, communicative, and always overdelivers. His web design and animations are top-notch—creative, polished, and exactly what I envisioned. Salman’s positive energy makes collaboration effortless and enjoyable. I highly recommend him to anyone looking for high-quality work and a reliable partner. Looking forward to working with him again!",
+      "I've worked with Salman on several website projects using Framer, and the experience has been consistently excellent. The results have exceeded expectations, and communication throughout each project has been clear, timely, and professional. I highly recommend Salman for any web design or development work; especially if you're looking for high-quality results and a smooth collaboration.",
+    name: "Hector Alvarez",
+    gender: "male",
+    country: "",
+    role: "",
+    company: "All Around Express Solutions",
+    stars: 5,
+  },
+  {
+    quote:
+      "He is very professional. Responds immediately and always is done with his work before the deadline. He is a nice communicator, does things really professionally and is supportive to every project. I recommend him and have used his services more than 5 times already! If you're looking for someone who can help you with anything related to your Framer/Webflow project → Salman Ali is your man and not expensive compared to other developers.",
+    name: "Dimitar Petrov",
+    gender: "male",
+    country: "",
+    role: "",
+    company: "",
+    stars: 5,
+  },
+  {
+    quote:
+      "Salman was great to work with. He pushed the website designs to perfection. I appreciated his quick responses and willingness to meet over Zoom. I look forward to working with him again!",
+    name: "Oliver Montgomery",
+    gender: "male",
+    country: "",
+    role: "",
+    company: "",
+    stars: 5,
+  },
+  {
+    quote:
+      "Working with Ali was one of the best experiences I've ever had with a web developer. He has a true talent for the small details, cares about the project, and pays attention to best practices.",
+    name: "Sam Sarvas",
+    gender: "male",
+    country: "",
+    role: "",
+    company: "CompleteCRO",
+    stars: 5,
+  },
+  {
+    quote:
+      "Been working with Salman for a while now, never disappoints! Great work as always. Definitely a developer worth your money.",
+    name: "Renez Van Autreve",
+    gender: "male",
+    country: "",
+    role: "",
+    company: "WARPCO",
+    stars: 5,
+  },
+  {
+    quote:
+      "Working with Salman has been an amazing experience. He's hardworking, communicative, and always overdelivers. His web design and animations are top-notch—creative, polished, and exactly what I envisioned. Salman's positive energy makes collaboration effortless and enjoyable. I highly recommend him to anyone looking for high-quality work and a reliable partner. Looking forward to working with him again!",
     name: "Sergio Apollo",
     gender: "male",
     country: "",
@@ -37,123 +101,41 @@ const testimonials: Testimonial[] = [
     featured: true,
     video: "https://youtu.be/Aq2wnh6KRz0",
   },
-  {
-    quote: "Best Webflow developer we've ever worked with. Period.",
-    name: "Alex Torres",
-    gender: "male",
-    country: "United States",
-    role: "Head of Marketing",
-    company: "Basecamp Ventures",
-    stars: 5,
-  },
-  {
-    quote:
-      "We came to Straya with a messy WordPress site that was losing us customers. They migrated us to Webflow, redesigned everything, and our bounce rate dropped by half. The attention to detail is unreal.",
-    name: "Priya Sharma",
-    gender: "female",
-    country: "United Kingdom",
-    role: "Director of Operations",
-    company: "Luminary Finance",
-    stars: 5,
-  },
-  {
-    quote:
-      "The Shopify store Straya built for us handles 10x the traffic of our old platform without breaking a sweat. Revenue is up 65% since launch.",
-    name: "Marcus Webb",
-    gender: "male",
-    country: "Australia",
-    role: "Founder",
-    company: "Altitude Gear Co.",
-    stars: 5,
-  },
-  {
-    quote:
-      "Straya Studio delivered a level of craft that I've only seen from top-tier Silicon Valley agencies — at a fraction of the cost and twice the speed.",
-    name: "Oliver Brennan",
-    gender: "male",
-    country: "Ireland",
-    role: "CTO",
-    company: "NexGen Systems",
-    stars: 5,
-  },
-  {
-    quote:
-      "They don't just write code — they think in systems. Every component, every interaction, every token was considered.",
-    name: "Lena Karlsson",
-    gender: "female",
-    country: "Sweden",
-    role: "Design Lead",
-    company: "Studio Fjord",
-    stars: 5,
-  },
-  {
-    quote:
-      "Turned our Figma mockups into a pixel-perfect Framer site in under two weeks. Communication was flawless throughout.",
-    name: "Ryan O'Connor",
-    gender: "male",
-    country: "United States",
-    role: "Product Manager",
-    company: "Clearpath AI",
-    stars: 5,
-  },
-  {
-    quote:
-      "We've tried three other agencies before Straya. None of them understood both the design and engineering side the way this studio does. Our investors specifically called out the website as a standout during our Series A.",
-    name: "Amira Hassan",
-    gender: "female",
-    country: "United Arab Emirates",
-    role: "Co-founder & CEO",
-    company: "Solstice Health",
-    stars: 5,
-  },
-  {
-    quote:
-      "Fast, precise, zero hand-holding needed. Exactly what a startup founder wants.",
-    name: "David Kim",
-    gender: "male",
-    country: "United States",
-    role: "Founder",
-    company: "Parallel Studio",
-    stars: 5,
-  },
-  {
-    quote:
-      "The SEO layer they built into our Astro site has us ranking page one for six competitive keywords within three months. Technical SEO is clearly a first-class concern for them, not an afterthought.",
-    name: "Charlotte Reed",
-    gender: "female",
-    country: "United Kingdom",
-    role: "VP Marketing",
-    company: "Canopy Digital",
-    stars: 5,
-  },
-  {
-    quote:
-      "The studio rebuilt our entire Shopify theme from scratch and it now converts better than anything we've tested in three years of A/B testing.",
-    name: "Tom Eriksen",
-    gender: "male",
-    country: "Norway",
-    role: "E-commerce Director",
-    company: "Nordic Collective",
-    stars: 5,
-  },
 ];
 
-const featuredTestimonial = testimonials.find((t) => t.featured);
-const standardTestimonials = testimonials.filter((t) => !t.featured);
-const leftColumn: Testimonial[] = [];
-const centerColumn: Testimonial[] = [];
-const rightColumn: Testimonial[] = [];
+// Ensure the video testimonial is always the first item in the center column.
+// This avoids the mobile layout where the "center" column was rendered second.
+const videoTestimonial = testimonials.find((t) => Boolean(t.video));
+const remainingTestimonials = testimonials.filter((t) => t !== videoTestimonial);
 
-if (featuredTestimonial) {
-  centerColumn.push(featuredTestimonial);
-}
+let leftColumn: Testimonial[] = [];
+let centerColumn: Testimonial[] = videoTestimonial ? [videoTestimonial] : [];
+let rightColumn: Testimonial[] = [];
 
-standardTestimonials.forEach((t, index) => {
+remainingTestimonials.forEach((t, index) => {
   const mod = index % 3;
   if (mod === 0) leftColumn.push(t);
   else if (mod === 1) rightColumn.push(t);
   else centerColumn.push(t);
 });
+
+// User-requested placement: keep "Dimitar Petrov" in the third (right) column.
+const dimitar = remainingTestimonials.find((t) => t.name === "Dimitar Petrov");
+if (dimitar) {
+  leftColumn = leftColumn.filter((t) => t.name !== "Dimitar Petrov");
+  centerColumn = centerColumn.filter((t) => t.name !== "Dimitar Petrov");
+  rightColumn = rightColumn.filter((t) => t.name !== "Dimitar Petrov");
+  rightColumn.push(dimitar);
+}
+
+// User-requested placement: move "Sam Sarvas" into the first (left) column.
+const samSarvas = remainingTestimonials.find((t) => t.name === "Sam Sarvas");
+if (samSarvas) {
+  leftColumn = leftColumn.filter((t) => t.name !== "Sam Sarvas");
+  centerColumn = centerColumn.filter((t) => t.name !== "Sam Sarvas");
+  rightColumn = rightColumn.filter((t) => t.name !== "Sam Sarvas");
+  leftColumn.push(samSarvas);
+}
 
 const toSlug = (name: string) =>
   name
@@ -163,7 +145,7 @@ const toSlug = (name: string) =>
     .replace(/^-+|-+$/g, "");
 
 const getAvatarSrc = (t: Testimonial) =>
-  `/images/testimonials/${toSlug(t.name)}.webp`;
+  t.avatar ?? `/images/testimonials/${toSlug(t.name)}.webp`;
 
 const getFallbackAvatarSrc = (t: Testimonial) =>
   t.gender === "female"
@@ -213,33 +195,55 @@ const getVideoSource = (url: string) => {
     src: url,
   };
 };
+
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section class="testimonials-section section-y relative z-10 bg-[#0F1115] text-[#FFFFFF]" aria-label="Client testimonials">
   <div class="main-container">
     <p class="sr-only">
-      Client testimonials from founders and operators across Framer, Webflow,
-      Shopify, and WordPress engagements. Featured feedback appears as a larger
-      card, with all quotes preserving source attribution.
+      Client testimonials from founders and operators across Framer, Webflow, and
+      related web projects. One featured card includes a video testimonial; all
+      quotes preserve source attribution.
     </p>
 
-    <header class="mb-12 text-center md:mb-16">
-      <p class="type-label mb-3">What our clients say</p>
-      <h2 class="type-h2">Trusted by founders and teams who demand the best.</h2>
+    <header class="mb-12 flex flex-col items-center justify-between gap-6 text-center md:mb-16 md:flex-row md:items-end md:text-left">
+      <div class="flex flex-col items-center gap-3 md:items-start">
+        <p class="type-label mb-0">What our clients say</p>
+        <h2 class="type-h2">Trusted by founders and teams who demand the best.</h2>
+      </div>
+
+      <Button
+        href={`${baseUrl}testimonials`}
+        label="View testimonials"
+        variant="ghost"
+        class="!w-fit !px-6 !py-4 !text-sm"
+      >
+        <svg
+          class="h-4 w-4 transition-transform duration-300 ease-luxury motion-reduce:transition-none"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </Button>
     </header>
 
     <div class="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-4">
-      {[leftColumn, centerColumn, rightColumn].map((column, columnIndex) => (
-        <div class="flex flex-col gap-4">
-          {column.map((t) => (
+      {/* On mobile the center column must come first so the video card is always at the top. */}
+      <div class="order-2 lg:order-none lg:col-start-1 flex flex-col gap-4">
+        {leftColumn.map((t) => (
           <article
             class:list={[
               "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
               "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              t.featured ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]" : "",
-              columnIndex === 1 && t.featured ? "lg:order-first" : "",
+              t.featured
+                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                : "",
             ]}
           >
             {t.video && (
@@ -255,12 +259,7 @@ const getVideoSource = (url: string) => {
                     referrerpolicy="strict-origin-when-cross-origin"
                   />
                 ) : (
-                  <video
-                    class="aspect-video w-full"
-                    controls
-                    playsinline
-                    preload="metadata"
-                  >
+                  <video class="aspect-video w-full" controls playsinline preload="metadata">
                     <source src={getVideoSource(t.video).src} />
                     Your browser does not support the video tag.
                   </video>
@@ -268,15 +267,31 @@ const getVideoSource = (url: string) => {
               </div>
             )}
 
-            <div class="mb-4 flex gap-0.5 text-[#3CCD7F]" aria-label={`${t.stars || 5} out of 5 stars`}>
+            <div
+              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              aria-label={`${t.stars || 5} out of 5 stars`}
+            >
               {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                <svg class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" style={`animation-delay:${si * 150}ms;`} width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                <svg
+                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                  style={`animation-delay:${si * 150}ms;`}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
                 </svg>
               ))}
             </div>
 
-            <blockquote class:list={["type-body m-0 leading-relaxed text-[#9CA3AF]", t.featured ? "text-[#FFFFFF]" : ""]}>
+            <blockquote
+              class:list={[
+                "type-body m-0 leading-relaxed text-[#9CA3AF]",
+                t.featured ? "text-[#FFFFFF]" : "",
+              ]}
+            >
               “{t.quote}”
             </blockquote>
 
@@ -308,9 +323,194 @@ const getVideoSource = (url: string) => {
               </cite>
             </footer>
           </article>
-          ))}
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div class="order-first lg:order-none lg:col-start-2 flex flex-col gap-4">
+        {centerColumn.map((t) => (
+          <article
+            class:list={[
+              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+              t.featured
+                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                : "",
+            ]}
+          >
+            {t.video && (
+              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+                {getVideoSource(t.video).type === "iframe" ? (
+                  <iframe
+                    src={getVideoSource(t.video).src}
+                    title={`Video testimonial from ${t.name}`}
+                    class="aspect-video w-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <video class="aspect-video w-full" controls playsinline preload="metadata">
+                    <source src={getVideoSource(t.video).src} />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
+              </div>
+            )}
+
+            <div
+              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              aria-label={`${t.stars || 5} out of 5 stars`}
+            >
+              {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                <svg
+                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                  style={`animation-delay:${si * 150}ms;`}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                </svg>
+              ))}
+            </div>
+
+            <blockquote
+              class:list={[
+                "type-body m-0 leading-relaxed text-[#9CA3AF]",
+                t.featured ? "text-[#FFFFFF]" : "",
+              ]}
+            >
+              “{t.quote}”
+            </blockquote>
+
+            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+              <cite class="not-italic">
+                <div class="flex items-center gap-3">
+                  <img
+                    src={getAvatarSrc(t)}
+                    alt={`${t.name} profile photo`}
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                  />
+                  <span>
+                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    {getPrimaryMeta(t) ? (
+                      <>
+                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
+                        <span class="block type-caption">{t.country}</span>
+                      </>
+                    ) : (
+                      <span class="block type-caption">{t.country}</span>
+                    )}
+                  </span>
+                </div>
+              </cite>
+            </footer>
+          </article>
+        ))}
+      </div>
+
+      <div class="order-3 lg:order-none lg:col-start-3 flex flex-col gap-4">
+        {rightColumn.map((t) => (
+          <article
+            class:list={[
+              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+              t.featured
+                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                : "",
+            ]}
+          >
+            {t.video && (
+              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+                {getVideoSource(t.video).type === "iframe" ? (
+                  <iframe
+                    src={getVideoSource(t.video).src}
+                    title={`Video testimonial from ${t.name}`}
+                    class="aspect-video w-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <video class="aspect-video w-full" controls playsinline preload="metadata">
+                    <source src={getVideoSource(t.video).src} />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
+              </div>
+            )}
+
+            <div
+              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              aria-label={`${t.stars || 5} out of 5 stars`}
+            >
+              {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                <svg
+                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                  style={`animation-delay:${si * 150}ms;`}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                </svg>
+              ))}
+            </div>
+
+            <blockquote
+              class:list={[
+                "type-body m-0 leading-relaxed text-[#9CA3AF]",
+                t.featured ? "text-[#FFFFFF]" : "",
+              ]}
+            >
+              “{t.quote}”
+            </blockquote>
+
+            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+              <cite class="not-italic">
+                <div class="flex items-center gap-3">
+                  <img
+                    src={getAvatarSrc(t)}
+                    alt={`${t.name} profile photo`}
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                  />
+                  <span>
+                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    {getPrimaryMeta(t) ? (
+                      <>
+                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
+                        <span class="block type-caption">{t.country}</span>
+                      </>
+                    ) : (
+                      <span class="block type-caption">{t.country}</span>
+                    )}
+                  </span>
+                </div>
+              </cite>
+            </footer>
+          </article>
+        ))}
+      </div>
     </div>
   </div>
 </section>

@@ -136,10 +136,10 @@ const duplicatedServices = [...services, ...services];
             {
                 duplicatedServices.map((service, idx) => (
                     <div
-                        class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
+                        class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-[rgba(255,255,255,0.05)] bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
                         data-card={idx % services.length}
                     >
-                        <div class="absolute inset-0 z-0 overflow-hidden rounded-md" aria-hidden="true">
+                        <div class="absolute inset-0 z-0 overflow-hidden rounded-sm" aria-hidden="true">
                             {
                                 service.image ? (
                                     <img
