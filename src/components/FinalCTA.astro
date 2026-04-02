@@ -1,0 +1,78 @@
+---
+import Button from "./ui/buttons/Button.astro";
+import { SITE_CONFIG } from "../data/site-config";
+
+const baseUrl = import.meta.env.BASE_URL;
+
+const currentMonth = new Date().toLocaleString("en-US", {
+  month: "long",
+  year: "numeric",
+});
+---
+
+<section
+  id="final-cta"
+  class="final-cta-section section-y relative z-10 overflow-hidden rounded-md text-[#FFFFFF]"
+  aria-label="Start your project"
+>
+  <div class="cta-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="main-container relative">
+    <div class="mx-auto flex max-w-[44rem] flex-col items-center gap-6 text-center">
+      <span class="inline-flex items-center gap-2 rounded-md border border-[rgba(60,205,127,0.25)] bg-[rgba(60,205,127,0.08)] px-3 py-1.5 text-xs font-medium tracking-wide text-[#3CCD7F]">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-[#3CCD7F] animate-pulse" aria-hidden="true"></span>
+        1 spot open for {currentMonth}
+      </span>
+
+      <h2 class="type-h2">Ready to build something that performs?</h2>
+
+      <p class="type-body max-w-[32rem] text-[#9CA3AF]">
+        Share your brief and get a fixed quote — or book a 15-minute call to
+        scope the project together. No commitments, no surprises.
+      </p>
+
+      <div class="mt-2 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <Button
+          href={`${baseUrl}contact`}
+          label="Start a project"
+          variant="primary"
+        />
+        <Button
+          href={SITE_CONFIG.socials.calendly}
+          label="Book a call"
+          variant="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-bg {
+    background:
+      radial-gradient(
+        ellipse 90% 50% at 50% -10%,
+        rgba(60, 205, 127, 0.10),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 70% 60% at 50% 110%,
+        rgba(60, 205, 127, 0.06),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(60, 205, 127, 0.03),
+        transparent 70%
+      ),
+      #050505;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-bg {
+      background: #050505;
+    }
+  }
+</style>

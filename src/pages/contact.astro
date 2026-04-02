@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE_CONFIG } from "../data/site-config";
+import FAQ from "../components/FAQ.astro";
+import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
 
 const title = "Start a Project | Straya Studio";
@@ -65,8 +67,8 @@ const description =
               <textarea required name="brief" rows={6} placeholder="Share your goals, scope, platform preference, and any deadline constraints." class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
             </label>
 
-            <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm border border-[#3CCD7F] bg-[#3CCD7F] px-6 py-3 text-sm font-semibold text-[#050505] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-[#2FB96D] hover:bg-[#2FB96D] motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:col-span-2">
-              Send project brief
+            <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm font-semibold tracking-tight px-10 py-4 text-base bg-brand-secondary text-text-inverted border-t border-border-strong transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none md:col-span-2">
+              <span class="font-bold tracking-tight">Send project brief</span>
             </button>
             <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite"></p>
           </form>
@@ -75,6 +77,8 @@ const description =
       </div>
     </div>
   </section>
+  <FAQ />
+  <FinalCTA />
   <Footer />
 </BaseLayout>
 
