@@ -48,7 +48,7 @@ const steps = [
 
 <section
   id="method"
-  class="method-section section-y relative z-10 bg-[#050505] text-[#FFFFFF]"
+  class="method-section section-y relative z-10 bg-bg-base text-text-primary"
   aria-label="The Straya Method — our process"
 >
   <div class="main-container">
@@ -62,7 +62,7 @@ const steps = [
     <header class="mb-12 flex flex-col items-center gap-4 text-center md:mb-16">
       <p class="type-label">Our process</p>
       <h2 class="type-h2">The Straya Method</h2>
-      <p class="type-caption max-w-md">
+      <p class="type-caption max-w-md text-text-secondary">
         A precise four-step process engineered to take your brand from where it
         is to where it deserves to be.
       </p>
@@ -95,16 +95,16 @@ const steps = [
 
             <div class="relative z-[1] flex flex-1 flex-col gap-4 p-6">
               <div class="flex flex-col gap-2">
-                <span class="type-label text-[#3CCD7F]/70">{step.num}</span>
+              <span class="type-label text-brand-secondary/70">{step.num}</span>
                 <h3 class="type-h3">{step.title}</h3>
               </div>
-              <p class="type-body text-[#9CA3AF]">{step.desc}</p>
+              <p class="type-body text-text-secondary">{step.desc}</p>
 
               <ul class="mt-2 flex list-none flex-col gap-2 border-t border-border-default pt-4">
                 {step.deliverables.map((d) => (
-                  <li class="flex items-start gap-2 type-body text-[#9CA3AF]">
+                  <li class="flex items-start gap-2 type-body text-text-secondary">
                     <svg
-                      class="mt-1 h-3.5 w-3.5 flex-shrink-0 text-[#3CCD7F] opacity-60"
+                      class="mt-1 h-3.5 w-3.5 flex-shrink-0 text-brand-secondary opacity-60"
                       width="14"
                       height="14"
                       viewBox="0 0 16 16"
@@ -125,24 +125,7 @@ const steps = [
               </ul>
             </div>
 
-            {i < steps.length - 1 && (
-              <div
-                class="absolute top-1/2 -right-5 z-[2] hidden h-6 w-6 items-center justify-center text-[#3CCD7F] lg:flex motion-safe:animate-[connectorSlide_2.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:hidden"
-                aria-hidden="true"
-              >
-                <svg
-                  class="h-full w-full"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            )}
+            
           </article>
         ))
       }

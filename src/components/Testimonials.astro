@@ -199,7 +199,7 @@ const getVideoSource = (url: string) => {
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<section class="testimonials-section section-y relative z-10 bg-[#0F1115] text-[#FFFFFF]" aria-label="Client testimonials">
+<section class="testimonials-section section-y relative z-10 bg-bg-elevated text-text-primary" aria-label="Client testimonials">
   <div class="main-container">
     <p class="sr-only">
       Client testimonials from founders and operators across Framer, Webflow, and
@@ -269,7 +269,7 @@ const baseUrl = import.meta.env.BASE_URL;
             )}
 
             <div
-              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              class="mb-4 flex gap-0.5 text-brand-secondary"
               aria-label={`${t.stars || 5} out of 5 stars`}
             >
               {Array.from({ length: t.stars || 5 }).map((_, si) => (
@@ -287,10 +287,10 @@ const baseUrl = import.meta.env.BASE_URL;
               ))}
             </div>
 
-            <blockquote
+              <blockquote
               class:list={[
-                "type-body m-0 leading-relaxed text-[#9CA3AF]",
-                t.featured ? "text-[#FFFFFF]" : "",
+                "type-body m-0 leading-relaxed text-text-secondary",
+                t.featured ? "text-text-primary" : "",
               ]}
             >
               “{t.quote}”
@@ -306,11 +306,11 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>
-                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
                     {getPrimaryMeta(t) ? (
                       <>
                         <span class="block type-caption">{getPrimaryMeta(t)}</span>
@@ -362,7 +362,7 @@ const baseUrl = import.meta.env.BASE_URL;
             )}
 
             <div
-              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              class="mb-4 flex gap-0.5 text-brand-secondary"
               aria-label={`${t.stars || 5} out of 5 stars`}
             >
               {Array.from({ length: t.stars || 5 }).map((_, si) => (
@@ -380,10 +380,10 @@ const baseUrl = import.meta.env.BASE_URL;
               ))}
             </div>
 
-            <blockquote
+              <blockquote
               class:list={[
-                "type-body m-0 leading-relaxed text-[#9CA3AF]",
-                t.featured ? "text-[#FFFFFF]" : "",
+                "type-body m-0 leading-relaxed text-text-secondary",
+                t.featured ? "text-text-primary" : "",
               ]}
             >
               “{t.quote}”
@@ -399,11 +399,11 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>
-                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
                     {getPrimaryMeta(t) ? (
                       <>
                         <span class="block type-caption">{getPrimaryMeta(t)}</span>
@@ -455,7 +455,7 @@ const baseUrl = import.meta.env.BASE_URL;
             )}
 
             <div
-              class="mb-4 flex gap-0.5 text-[#3CCD7F]"
+              class="mb-4 flex gap-0.5 text-brand-secondary"
               aria-label={`${t.stars || 5} out of 5 stars`}
             >
               {Array.from({ length: t.stars || 5 }).map((_, si) => (
@@ -475,8 +475,8 @@ const baseUrl = import.meta.env.BASE_URL;
 
             <blockquote
               class:list={[
-                "type-body m-0 leading-relaxed text-[#9CA3AF]",
-                t.featured ? "text-[#FFFFFF]" : "",
+                "type-body m-0 leading-relaxed text-text-secondary",
+                t.featured ? "text-text-primary" : "",
               ]}
             >
               “{t.quote}”
@@ -492,11 +492,11 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>
-                    <span class="block type-body font-medium text-[#FFFFFF]">{t.name}</span>
+                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
                     {getPrimaryMeta(t) ? (
                       <>
                         <span class="block type-caption">{getPrimaryMeta(t)}</span>

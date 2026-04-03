@@ -26,7 +26,7 @@ const getInitials = (title: string) =>
 
 <section
   id="work"
-  class="section-y relative z-10 bg-[#050505] text-[#FFFFFF]"
+  class="section-y relative z-10 bg-bg-base text-text-primary"
   aria-label="Selected work and case studies"
 >
   <div class="main-container">
@@ -42,7 +42,7 @@ const getInitials = (title: string) =>
         <h2 class="type-h2">
           Platforms we ship<br class="hidden md:inline" /> in production.
         </h2>
-        <p class="type-body text-[#9CA3AF]">
+        <p class="type-body text-text-secondary">
           A snapshot of recent builds — from marketing sites to ecommerce and CMS-heavy
           platforms. Every engagement is engineered for speed, clarity, and scale.
         </p>
@@ -72,7 +72,7 @@ const getInitials = (title: string) =>
       <div class="work-preview flex flex-col gap-4 lg:relative lg:block lg:w-[55%]" aria-live="polite">
         {SELECTED_PROJECTS.map((project, i) => (
           <div
-            class="work-panel rounded-md border border-border-default bg-[#0A0A0A] overflow-hidden flex flex-col"
+            class="work-panel rounded-md border border-border-default bg-bg-surface overflow-hidden flex flex-col"
             data-panel={i}
             role="tabpanel"
             id={`work-panel-${i}`}
@@ -80,7 +80,7 @@ const getInitials = (title: string) =>
           >
             <div
               class:list={[
-                "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#0F1115]",
+                "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-bg-elevated",
                 thumbnailFallbacks[i % thumbnailFallbacks.length],
               ]}
               aria-hidden="true"
@@ -104,7 +104,7 @@ const getInitials = (title: string) =>
             <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
               <div class="flex items-center gap-3">
                 {project.featured && (
-                  <span class="inline-block rounded-xs border border-brand-secondary/20 bg-[rgba(60,205,127,0.06)] px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-[#3CCD7F]">
+                  <span class="inline-block rounded-xs border border-brand-secondary/20 bg-brand-muted px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-brand-secondary">
                     Featured
                   </span>
                 )}
@@ -112,8 +112,8 @@ const getInitials = (title: string) =>
                   {project.sector}
                 </span>
               </div>
-              <h3 class="type-h3 text-[#FFFFFF]">{project.title}</h3>
-              <p class="type-body flex-1 text-[#9CA3AF] leading-relaxed">{project.description}</p>
+              <h3 class="type-h3 text-text-primary">{project.title}</h3>
+              <p class="type-body flex-1 text-text-secondary leading-relaxed">{project.description}</p>
 
               <div class="mt-1 flex flex-wrap items-center gap-4">
                 {project.liveUrl ? (
@@ -121,7 +121,7 @@ const getInitials = (title: string) =>
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#3CCD7F] no-underline transition-colors duration-300 ease-luxury hover:text-[#2FB96D]"
+                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-brand-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-hover"
                   >
                     View live site
                     <svg
@@ -138,7 +138,7 @@ const getInitials = (title: string) =>
                 ) : (
                   <a
                     href={withBaseHref(project.href)}
-                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[#FFFFFF] no-underline transition-colors duration-300 ease-luxury hover:text-[#3CCD7F]"
+                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-text-primary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary"
                   >
                     Discuss this build
                     <svg
@@ -188,10 +188,10 @@ const getInitials = (title: string) =>
                 </span>
 
                 <div class="flex flex-1 flex-col gap-1">
-                  <span class="work-tab-title type-body font-medium text-[#FFFFFF] transition-colors duration-300 ease-luxury group-hover:text-[#3CCD7F]">
+                <span class="work-tab-title type-body font-medium text-text-primary transition-colors duration-300 ease-luxury group-hover:text-brand-secondary">
                     {project.title}
                   </span>
-                  <span class="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-[#6B7280]">
+                  <span class="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-text-muted">
                     {project.sector}
                   </span>
                 </div>

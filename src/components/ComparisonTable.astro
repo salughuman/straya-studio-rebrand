@@ -53,7 +53,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 
 <section
 	id="compare"
-	class="comparison-anchor section-y relative z-10 bg-[#0F1115] text-[#FFFFFF]"
+	class="comparison-anchor section-y relative z-10 bg-bg-elevated text-text-primary"
 	aria-label="Comparison — Straya Studio versus alternatives"
 >
 	<div class="main-container">
@@ -81,7 +81,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="type-caption max-w-[14rem] px-4 py-4 font-medium text-[#9CA3AF] md:px-6">
+						<th scope="col" class="type-caption max-w-[14rem] px-4 py-4 font-medium text-text-secondary md:px-6">
 							<span class="sr-only">Platform</span>
 						</th>
 						{
@@ -97,20 +97,20 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 					</tr>
 				</thead>
 				<tbody class="border-x border-b border-border-default">
-					<tr class="border-t border-[rgba(5,5,5,0.15)] bg-[#3CCD7F]" aria-label="Straya Studio — recommended">
+					<tr class="border-t border-border-strong bg-brand-secondary" aria-label="Straya Studio — recommended">
 						<th
 							scope="row"
 							class="max-w-[20rem] px-4 py-5 align-top md:px-6"
 						>
-							<div class="flex items-start gap-4">
+							<div class="flex items-start gap-4 text-text-inverted">
 								<div
-									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-[rgba(5,5,5,0.15)] bg-[rgba(5,5,5,0.12)] text-[#050505]"
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-border-subtle bg-bg-base text-text-inverted"
 									set:html={strayaIcon}
 									aria-hidden="true"
 								/>
 								<div class="min-w-0">
-									<h3 class="type-h3 mb-1 text-[#03170a]">{studio.name}</h3>
-									<p class="type-body text-[#05210f]/90">{studio.description}</p>
+									<h3 class="type-h3 mb-1 text-text-inverted">{studio.name}</h3>
+									<p class="type-body text-text-inverted/90">{studio.description}</p>
 								</div>
 							</div>
 						</th>
@@ -125,7 +125,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 										{columns[i]}: {check ? "yes" : "no"}
 									</span>
 									<svg
-										class="mx-auto h-5 w-5 text-[#050505]"
+										class="mx-auto h-5 w-5 text-text-inverted"
 										width="20"
 										height="20"
 										viewBox="0 0 20 20"
@@ -150,17 +150,17 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 						<tr class="border-b border-border-default last:border-b-0">
 								<th
 									scope="row"
-									class="max-w-[20rem] px-4 py-5 align-top md:px-6"
+									class="max-w-[20rem] px-4 py-5 align-top md:px-6 text-text-primary"
 								>
 									<div class="flex items-start gap-4">
 									<div
-										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-border-default bg-[rgba(255,255,255,0.04)] text-[#9CA3AF] motion-safe:animate-[iconGlow_5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-border-default bg-bg-overlay text-text-secondary motion-safe:animate-[iconGlow_5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
 										set:html={icons[comp.icon]}
 										aria-hidden="true"
 									/>
 										<div class="min-w-0">
-											<h3 class="type-h3 mb-1 text-[#FFFFFF]">{comp.name}</h3>
-											<p class="type-body text-[#6B7280]">{comp.description}</p>
+											<h3 class="type-h3 mb-1 text-text-primary">{comp.name}</h3>
+											<p class="type-body text-text-muted">{comp.description}</p>
 										</div>
 									</div>
 								</th>
@@ -171,7 +171,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 										</span>
 										{check ? (
 											<svg
-												class="mx-auto h-5 w-5 text-[#9CA3AF]"
+												class="mx-auto h-5 w-5 text-text-secondary"
 												width="20"
 												height="20"
 												viewBox="0 0 20 20"
@@ -189,7 +189,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 											</svg>
 										) : (
 											<svg
-												class="mx-auto h-5 w-5 text-[#6B7280] opacity-50"
+												class="mx-auto h-5 w-5 text-text-muted opacity-50"
 												width="20"
 												height="20"
 												viewBox="0 0 20 20"

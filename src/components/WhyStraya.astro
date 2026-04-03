@@ -80,7 +80,7 @@ const icons: Record<string, string> = {
 };
 ---
 
-<section class="why-section section-y relative z-10 bg-[#050505] text-[#FFFFFF]" aria-label="Why work with Straya Studio">
+<section class="why-section section-y relative z-10 bg-bg-base text-text-primary" aria-label="Why work with Straya Studio">
   <div class="main-container">
     <p class="sr-only">
       Why Straya is a five-card bento section covering speed, quality, performance,
@@ -129,13 +129,13 @@ const icons: Record<string, string> = {
             <div class="relative z-[1] flex h-full flex-col">
               <div class="flex flex-col gap-4 p-6 md:p-8">
                 <div
-                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-border-default bg-[rgba(255,255,255,0.04)] text-[#9CA3AF] motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-border-default bg-bg-overlay text-text-secondary motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
                   set:html={icons[f.icon]}
                   aria-hidden="true"
                   style={`animation-delay:${fIdx * 600}ms;`}
                 />
                 <h3 class="type-h3">{f.title}</h3>
-                <p class="type-body text-[#6B7280]">{f.description}</p>
+                <p class="type-body text-text-muted">{f.description}</p>
               </div>
 
               <div class:list={[
