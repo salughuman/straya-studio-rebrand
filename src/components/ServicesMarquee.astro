@@ -88,7 +88,6 @@ const services: ServiceItem[] = [
     },
 ];
 
-const duplicatedServices = [...services, ...services];
 ---
 
 <section
@@ -132,59 +131,69 @@ const duplicatedServices = [...services, ...services];
         </div>
     </div>
 
-    <div class="services-marquee">
-        <div class="services-track flex w-max gap-2 pb-16 pt-4 will-change-transform">
+    <div class="services-marquee" data-services-marquee>
+        <div
+            class="services-track flex w-max cursor-grab gap-2 pb-16 pt-4 will-change-transform active:cursor-grabbing"
+            data-services-track
+        >
             {
-                duplicatedServices.map((service, idx) => (
+                [0, 1].map((copy) => (
                     <div
-                        class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-[rgba(255,255,255,0.05)] bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
-                        data-card={idx % services.length}
+                        class="services-set flex shrink-0 gap-2"
+                        aria-hidden={copy === 1 ? "true" : undefined}
                     >
-                        <div class="absolute inset-0 z-0 overflow-hidden rounded-sm" aria-hidden="true">
-                            {
-                                service.image ? (
-                                    <img
-                                        src={service.image}
-                                        alt=""
-                                        width="300"
-                                        height="400"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="absolute inset-0 h-full w-full object-cover"
+                        {services.map((service, idx) => (
+                            <div
+                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-[rgba(255,255,255,0.05)] bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
+                                data-card={idx}
+                            >
+                                <div class="absolute inset-0 z-0 overflow-hidden rounded-sm" aria-hidden="true">
+                                    {
+                                        service.image ? (
+                                            <img
+                                                src={service.image}
+                                                alt=""
+                                                width="300"
+                                                height="400"
+                                                loading="lazy"
+                                                decoding="async"
+                                                class="absolute inset-0 h-full w-full object-cover"
+                                            />
+                                        ) : null
+                                    }
+                                    <div
+                                        class:list={[
+                                            "absolute inset-0 bg-[var(--card-bg)] transition-transform duration-300 ease-luxury group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                                            service.image ? "opacity-90 mix-blend-multiply" : "",
+                                        ]}
                                     />
-                                ) : null
-                            }
-                            <div
-                                class:list={[
-                                    "absolute inset-0 bg-[var(--card-bg)] transition-transform duration-300 ease-luxury group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
-                                    service.image ? "opacity-90 mix-blend-multiply" : "",
-                                ]}
-                            />
-                            <div
-                                class:list={[
-                                    "absolute inset-0 bg-gradient-to-t to-transparent",
-                                    service.image
-                                        ? "from-black/55 via-black/15"
-                                        : "from-black/35 via-black/5",
-                                ]}
-                            />
-                        </div>
+                                    <div
+                                        class:list={[
+                                            "absolute inset-0 bg-gradient-to-t to-transparent",
+                                            service.image
+                                                ? "from-black/55 via-black/15"
+                                                : "from-black/35 via-black/5",
+                                        ]}
+                                    />
+                                </div>
 
-                        <div class="relative z-[2] flex w-full flex-col items-center p-6 md:p-8">
-                            <h3 class="type-h3 text-[1.5rem] max-w-[140px] text-center">
-                                {service.title}
-                            </h3>
-                        </div>
+                                <div class="relative z-[2] flex w-full flex-col items-center p-6 md:p-8">
+                                    <h3 class="type-h3 text-[1.5rem] max-w-[140px] text-center">
+                                        {service.title}
+                                    </h3>
+                                </div>
 
-                        <div
-                            class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
-                        >
-                            {service.tags.map((tag) => (
-                                <span class="service-card-tag rounded-xs border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-[rgba(60,205,127,0.35)] group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
+                                <div
+                                    class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
+                                >
+                                    {service.tags.map((tag) => (
+                                        <span class="service-card-tag rounded-xs border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-[rgba(60,205,127,0.35)] group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ))
             }
@@ -198,6 +207,7 @@ const duplicatedServices = [...services, ...services];
         position: relative;
         width: 100%;
         overflow: hidden;
+        touch-action: pan-x;
         mask-image: linear-gradient(
             to right,
             transparent 0%,
@@ -214,26 +224,12 @@ const duplicatedServices = [...services, ...services];
         );
     }
 
-    .services-track {
-        animation: services-scroll 60s linear infinite;
-    }
-
-    .services-track:hover {
-        animation-play-state: paused;
-    }
-
-    @keyframes services-scroll {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
+    .services-marquee.is-dragging {
+        touch-action: none;
     }
 
     @media (prefers-reduced-motion: reduce) {
         .services-track {
-            animation: none;
             transform: translateX(0);
         }
     }
@@ -278,3 +274,190 @@ const duplicatedServices = [...services, ...services];
         --card-bg: linear-gradient(135deg, #0a0a0a 0%, #0f1115 50%, #050505 100%);
     }
 </style>
+
+<script>
+    function parseGapPx(el) {
+        const g = getComputedStyle(el).gap;
+        const n = parseFloat(g);
+        return Number.isFinite(n) ? n : 0;
+    }
+
+    function wrapMod(x, m) {
+        if (m <= 0) return x;
+        let r = x % m;
+        if (r < 0) r += m;
+        return r;
+    }
+
+    /** px/s — start inertial scroll after release */
+    const FLING_MIN_SPEED = 55;
+    /** px/s — hard cap for fling (phone-like) */
+    const FLING_MAX_SPEED = 5200;
+    /** exponential decay per second (higher = stops sooner) */
+    const FLING_FRICTION = 7.2;
+    /** px/s — stop fling below this */
+    const FLING_STOP_SPEED = 28;
+    /** velocity EMA blend toward instantaneous sample (0–1) */
+    const VELOCITY_SMOOTH = 0.28;
+
+    /**
+     * Infinite loop = one `.services-set` width + flex gap to the duplicate set (measured, not -50%).
+     */
+    function initServicesMarquee(root) {
+        const track = root.querySelector("[data-services-track]");
+        const firstSet = track?.querySelector(".services-set");
+        if (!(track instanceof HTMLElement) || !(firstSet instanceof HTMLElement)) return;
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const SECONDS_PER_LOOP = 60;
+
+        let loop = 0;
+        let position = 0;
+        let paused = false;
+        let dragging = false;
+        let flinging = false;
+        /** px/s — positive = content moves left (position increases), matches auto-scroll */
+        let momentumVelocity = 0;
+        let startX = 0;
+        let startPos = 0;
+        let lastX = 0;
+        let lastT = 0;
+        let velSmoothed = 0;
+        let lastFrameTime = 0;
+
+        function measure() {
+            loop = firstSet.offsetWidth + parseGapPx(track);
+        }
+
+        function applyTransform() {
+            track.style.transform = `translate3d(${-position}px,0,0)`;
+        }
+
+        function clampSpeed(v) {
+            const m = Math.min(Math.abs(v), FLING_MAX_SPEED);
+            return v < 0 ? -m : m;
+        }
+
+        function sampleVelocityFromEvents(events) {
+            for (let i = 0; i < events.length; i++) {
+                const ev = events[i];
+                const t = ev.timeStamp;
+                const x = ev.clientX;
+                const dt = (t - lastT) / 1000;
+                if (lastT > 0 && dt > 0) {
+                    const inst = -(x - lastX) / dt;
+                    velSmoothed += (inst - velSmoothed) * VELOCITY_SMOOTH;
+                }
+                lastX = x;
+                lastT = t;
+            }
+        }
+
+        function frame(now) {
+            requestAnimationFrame(frame);
+            const t = typeof now === "number" ? now : performance.now();
+            const dtRaw = lastFrameTime ? (t - lastFrameTime) / 1000 : 0;
+            lastFrameTime = t;
+            const dt = Math.min(Math.max(dtRaw, 0), 0.05);
+
+            if (loop <= 0) return;
+            if (dragging) return;
+
+            if (flinging) {
+                position += momentumVelocity * dt;
+                position = wrapMod(position, loop);
+                momentumVelocity *= Math.exp(-FLING_FRICTION * dt);
+                if (Math.abs(momentumVelocity) < FLING_STOP_SPEED) {
+                    flinging = false;
+                    momentumVelocity = 0;
+                }
+                applyTransform();
+                return;
+            }
+
+            if (!reduced && !paused) {
+                position += (loop / SECONDS_PER_LOOP) * dt;
+                if (position >= loop) position -= loop;
+                applyTransform();
+            }
+        }
+
+        function syncAfterMeasure() {
+            measure();
+            position = wrapMod(position, loop);
+            applyTransform();
+        }
+
+        syncAfterMeasure();
+        frame(performance.now());
+
+        const ro = new ResizeObserver(() => {
+            syncAfterMeasure();
+        });
+        ro.observe(track);
+        ro.observe(firstSet);
+
+        window.addEventListener("resize", syncAfterMeasure);
+
+        root.addEventListener("mouseenter", () => {
+            paused = true;
+        });
+        root.addEventListener("mouseleave", () => {
+            paused = false;
+        });
+
+        root.addEventListener("pointerdown", (e) => {
+            if (e.button !== 0) return;
+            dragging = true;
+            flinging = false;
+            momentumVelocity = 0;
+            velSmoothed = 0;
+            startX = e.clientX;
+            startPos = position;
+            lastX = e.clientX;
+            lastT = e.timeStamp;
+            root.classList.add("is-dragging");
+            root.setPointerCapture(e.pointerId);
+            track.style.cursor = "grabbing";
+        });
+
+        root.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+            const coalesced = typeof e.getCoalescedEvents === "function" ? e.getCoalescedEvents() : [];
+            if (coalesced.length) {
+                sampleVelocityFromEvents(coalesced);
+            } else {
+                sampleVelocityFromEvents([e]);
+            }
+            const dx = e.clientX - startX;
+            position = wrapMod(startPos - dx, loop);
+            applyTransform();
+        });
+
+        function endDrag(e) {
+            if (!dragging) return;
+            dragging = false;
+            root.classList.remove("is-dragging");
+            track.style.cursor = "";
+            try {
+                root.releasePointerCapture(e.pointerId);
+            } catch {
+                /* already released */
+            }
+            const v = clampSpeed(velSmoothed);
+            if (Math.abs(v) >= FLING_MIN_SPEED) {
+                flinging = true;
+                momentumVelocity = v;
+            }
+        }
+        root.addEventListener("pointerup", endDrag);
+        root.addEventListener("pointercancel", (e) => {
+            velSmoothed = 0;
+            endDrag(e);
+        });
+    }
+
+    document.querySelectorAll("[data-services-marquee]").forEach((el) => {
+        if (el instanceof HTMLElement) initServicesMarquee(el);
+    });
+</script>
