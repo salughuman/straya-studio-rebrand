@@ -6,6 +6,7 @@ export interface TestimonialsPageTestimonial {
   role?: string;
   company?: string;
   stars?: number;
+  avatar?: string;
 }
 
 // Testimonials pulled from the project Google Sheet (non-video).

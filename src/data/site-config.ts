@@ -21,6 +21,7 @@ export const SITE_CONFIG = {
   // 3. Social & Professional Proof
   socials: {
     linkedIn: "https://www.linkedin.com/in/salughuman",
+    agency_linkedin: "https://www.linkedin.com/company/straya-studio",
     fiverr: "https://www.fiverr.com/salughuman",
     contra: "https://contra.com/salughuman/",
     github: "https://github.com/salughuman",

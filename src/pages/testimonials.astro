@@ -141,7 +141,6 @@ const getTileLayout = (size: TileSize) => {
               <div class="flex items-center gap-1 text-brand-secondary" aria-label={`${stars} out of 5 stars`}>
                 {Array.from({ length: stars }).map((_, i) => (
                   <svg
-                    key={`${t.name}-${i}`}
                     class="h-3.5 w-3.5"
                     width="14"
                     height="14"

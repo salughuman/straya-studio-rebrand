@@ -151,7 +151,7 @@ const services: ServiceItem[] = [
                     >
                         {services.map((service, idx) => (
                             <div
-                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-border-default bg-bg-base transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
+                                class="service-card group relative h-[240px] w-[184px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-border-default bg-bg-base transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[304px]"
                                 data-card={idx}
                             >
                                 <div
@@ -162,7 +162,7 @@ const services: ServiceItem[] = [
                                         <img
                                             src={service.image}
                                             alt=""
-                                            width="300"
+                                            width="304"
                                             height="400"
                                             loading="lazy"
                                             decoding="async"
@@ -314,13 +314,13 @@ const services: ServiceItem[] = [
 </style>
 
 <script>
-    function parseGapPx(el) {
+    function parseGapPx(el: HTMLElement) {
         const g = getComputedStyle(el).gap;
         const n = parseFloat(g);
         return Number.isFinite(n) ? n : 0;
     }
 
-    function wrapMod(x, m) {
+    function wrapMod(x: number, m: number) {
         if (m <= 0) return x;
         let r = x % m;
         if (r < 0) r += m;
@@ -335,16 +335,16 @@ const services: ServiceItem[] = [
     const FLING_FRICTION = 2.8;
     /** px/s — stop fling below this */
     const FLING_STOP_SPEED = 10;
-    /** velocity EMA blend toward instantaneous sample (0–1) */
-    const VELOCITY_SMOOTH = 0.65;
 
     /**
      * Infinite loop = one `.services-set` width + flex gap to the duplicate set (measured, not -50%).
      */
-    function initServicesMarquee(root) {
-        const track = root.querySelector("[data-services-track]");
-        const firstSet = track?.querySelector(".services-set");
+    function initServicesMarquee(root: HTMLElement) {
+        const track = root.querySelector("[data-services-track]") as HTMLElement;
+        const firstSet = track?.querySelector(".services-set") as HTMLElement;
         if (
+            !track ||
+            !firstSet ||
             !(track instanceof HTMLElement) ||
             !(firstSet instanceof HTMLElement)
         )
@@ -364,10 +364,9 @@ const services: ServiceItem[] = [
         let momentumVelocity = 0;
         let startX = 0;
         let startPos = 0;
-        let lastX = 0;
-        let lastT = 0;
-        let velSmoothed = 0;
         let lastFrameTime = 0;
+        /** Queue of {x, t} tracking the last 100ms */
+        let touchHistory: {x: number, t: number}[] = [];
 
         function measure() {
             loop = firstSet.offsetWidth + parseGapPx(track);
@@ -377,27 +376,36 @@ const services: ServiceItem[] = [
             track.style.transform = `translate3d(${-position}px,0,0)`;
         }
 
-        function clampSpeed(v) {
+        function clampSpeed(v: number) {
             const m = Math.min(Math.abs(v), FLING_MAX_SPEED);
             return v < 0 ? -m : m;
         }
 
-        function sampleVelocityFromEvents(events) {
+        function sampleVelocityFromEvents(events: PointerEvent[] | readonly PointerEvent[]) {
             for (let i = 0; i < events.length; i++) {
                 const ev = events[i];
-                const t = ev.timeStamp;
-                const x = ev.clientX;
-                const dt = (t - lastT) / 1000;
-                if (lastT > 0 && dt > 0) {
-                    const inst = -(x - lastX) / dt;
-                    velSmoothed += (inst - velSmoothed) * VELOCITY_SMOOTH;
-                }
-                lastX = x;
-                lastT = t;
+                touchHistory.push({ x: ev.clientX, t: ev.timeStamp });
+            }
+            // Keep only last 100ms of history
+            const lastEvent = events[events.length - 1];
+            if (lastEvent) {
+                const nowTime = lastEvent.timeStamp;
+                const filtered = touchHistory.filter((h) => nowTime - h.t <= 100);
+                touchHistory.length = 0;
+                touchHistory.push(...filtered);
             }
         }
 
-        function frame(now) {
+        function getFinalVelocity() {
+            if (touchHistory.length < 2) return 0;
+            const oldest = touchHistory[0];
+            const newest = touchHistory[touchHistory.length - 1];
+            const dt = (newest.t - oldest.t) / 1000;
+            if (dt <= 0) return 0;
+            return -(newest.x - oldest.x) / dt;
+        }
+
+        function frame(now: number) {
             requestAnimationFrame(frame);
             const t = typeof now === "number" ? now : performance.now();
             const dtRaw = lastFrameTime ? (t - lastFrameTime) / 1000 : 0;
@@ -455,11 +463,9 @@ const services: ServiceItem[] = [
             dragging = true;
             flinging = false;
             momentumVelocity = 0;
-            velSmoothed = 0;
+            touchHistory.length = 0;
             startX = e.clientX;
             startPos = position;
-            lastX = e.clientX;
-            lastT = e.timeStamp;
             root.classList.add("is-dragging");
             root.setPointerCapture(e.pointerId);
             track.style.cursor = "grabbing";
@@ -481,7 +487,7 @@ const services: ServiceItem[] = [
             applyTransform();
         });
 
-        function endDrag(e) {
+        function endDrag(e: PointerEvent) {
             if (!dragging) return;
             dragging = false;
             root.classList.remove("is-dragging");
@@ -491,16 +497,17 @@ const services: ServiceItem[] = [
             } catch {
                 /* already released */
             }
-            const v = clampSpeed(velSmoothed);
+            const finalVel = getFinalVelocity();
+            const v = clampSpeed(finalVel);
             if (Math.abs(v) >= FLING_MIN_SPEED) {
                 flinging = true;
                 momentumVelocity = v;
             }
         }
-        root.addEventListener("pointerup", endDrag);
+        root.addEventListener("pointerup", (e) => endDrag(e as PointerEvent));
         root.addEventListener("pointercancel", (e) => {
-            velSmoothed = 0;
-            endDrag(e);
+            touchHistory.length = 0;
+            endDrag(e as PointerEvent);
         });
     }
 

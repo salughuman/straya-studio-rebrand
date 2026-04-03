@@ -245,7 +245,7 @@ const radii = [
 </BaseLayout>
 
 <script>
-  const copyText = async (text) => {
+  const copyText = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
     } catch {
@@ -261,7 +261,8 @@ const radii = [
   };
 
   document.addEventListener("click", async (e) => {
-    const btn = e.target?.closest?.("[data-copy-value]");
+    const target = e.target as HTMLElement;
+    const btn = target?.closest?.("[data-copy-value]");
     if (!btn) return;
     const val = btn.getAttribute("data-copy-value");
     if (!val) return;
@@ -272,8 +273,8 @@ const radii = [
 
   const elevButtons = Array.from(document.querySelectorAll("[data-elev]"));
   const target = document.querySelector("[data-elev-target]");
-  const applyElev = (mode) => {
-    if (!target) return;
+  const applyElev = (mode: string | null) => {
+    if (!target || !mode) return;
     target.setAttribute("data-mode", mode);
     elevButtons.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-elev") === mode));
   };
