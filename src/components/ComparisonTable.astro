@@ -88,7 +88,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 							columns.map((col) => (
 								<th
 									scope="col"
-									class="type-caption border-b border-[rgba(255,255,255,0.05)] px-3 py-4 text-center font-medium text-[#9CA3AF] md:px-4"
+									class="type-caption border-b border-border-default px-3 py-4 text-center font-medium text-[#9CA3AF] md:px-4"
 								>
 									{col}
 								</th>
@@ -96,7 +96,7 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 						}
 					</tr>
 				</thead>
-				<tbody class="border-x border-b border-[rgba(255,255,255,0.05)]">
+				<tbody class="border-x border-b border-border-default">
 					<tr class="border-t border-[rgba(5,5,5,0.15)] bg-[#3CCD7F]" aria-label="Straya Studio — recommended">
 						<th
 							scope="row"
@@ -147,14 +147,14 @@ const strayaIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
 					</tr>
 					{
 						competitors.map((comp) => (
-							<tr class="border-b border-[rgba(255,255,255,0.05)] last:border-b-0">
+						<tr class="border-b border-border-default last:border-b-0">
 								<th
 									scope="row"
 									class="max-w-[20rem] px-4 py-5 align-top md:px-6"
 								>
 									<div class="flex items-start gap-4">
 									<div
-										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.04)] text-[#9CA3AF] motion-safe:animate-[iconGlow_5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border border-border-default bg-[rgba(255,255,255,0.04)] text-[#9CA3AF] motion-safe:animate-[iconGlow_5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
 										set:html={icons[comp.icon]}
 										aria-hidden="true"
 									/>

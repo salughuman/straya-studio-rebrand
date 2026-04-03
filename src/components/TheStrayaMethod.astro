@@ -75,10 +75,10 @@ const steps = [
         steps.map((step, i) => (
           <article
             class:list={[
-              "method-card group relative flex flex-col overflow-hidden rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A]",
+              "method-card group relative flex flex-col overflow-hidden rounded-md border border-border-default bg-[#0A0A0A]",
               "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none",
+              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
+              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none",
             ]}
           >
             <div
@@ -100,7 +100,7 @@ const steps = [
               </div>
               <p class="type-body text-[#9CA3AF]">{step.desc}</p>
 
-              <ul class="mt-2 flex list-none flex-col gap-2 border-t border-[rgba(255,255,255,0.05)] pt-4">
+              <ul class="mt-2 flex list-none flex-col gap-2 border-t border-border-default pt-4">
                 {step.deliverables.map((d) => (
                   <li class="flex items-start gap-2 type-body text-[#9CA3AF]">
                     <svg

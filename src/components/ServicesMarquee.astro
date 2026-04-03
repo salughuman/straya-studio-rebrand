@@ -144,7 +144,7 @@ const services: ServiceItem[] = [
                     >
                         {services.map((service, idx) => (
                             <div
-                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-[rgba(255,255,255,0.05)] bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-[rgba(255,255,255,0.05)] motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
+                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-border-default bg-[#050505] transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
                                 data-card={idx}
                             >
                                 <div class="absolute inset-0 z-0 overflow-hidden rounded-sm" aria-hidden="true">
@@ -178,7 +178,7 @@ const services: ServiceItem[] = [
                                 </div>
 
                                 <div class="relative z-[2] flex w-full flex-col items-center p-6 md:p-8">
-                                    <h3 class="type-h3 text-[1.5rem] max-w-[140px] text-center">
+                                    <h3 class="type-h3 md:text-[1.5rem] md:max-w-[130px] text-center">
                                         {service.title}
                                     </h3>
                                 </div>
@@ -187,7 +187,7 @@ const services: ServiceItem[] = [
                                     class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
                                 >
                                     {service.tags.map((tag) => (
-                                        <span class="service-card-tag rounded-xs border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-[rgba(60,205,127,0.35)] group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
+                                        <span class="service-card-tag rounded-xs border border-border-strong bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-brand-secondary/35 group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
                                             {tag}
                                         </span>
                                     ))}

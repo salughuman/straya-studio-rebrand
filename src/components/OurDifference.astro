@@ -1,9 +1,9 @@
 ---
 const baseCardClass =
-  "group flex flex-col gap-6 rounded-md border border-white/5 bg-[#0A0A0A] p-6 transition-base hover:-translate-y-1 hover:border-white/10";
+  "group flex flex-col gap-6 rounded-md border border-border-default bg-[#0A0A0A] p-6 transition-base hover:-translate-y-1 hover:border-border-strong";
 
 const panelClass =
-  "mx-auto w-full overflow-hidden rounded-t-sm border border-white/10 border-b-0 bg-black/40";
+  "mx-auto w-full overflow-hidden rounded-t-sm border border-border-strong border-b-0 bg-black/40";
 
 const cards = [
   {
@@ -30,12 +30,12 @@ const cards = [
 ] as const;
 
 const tileItems = [
-  "h-6 w-full rounded-[2px] bg-[#3CCD7F]/20 motion-safe:animate-[tileIn_4s_infinite] motion-reduce:animate-none border border-[#3CCD7F]/30",
-  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.2s_infinite] motion-reduce:animate-none border border-white/10",
-  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.4s_infinite] motion-reduce:animate-none border border-white/10",
-  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.1s_infinite] motion-reduce:animate-none border border-white/10",
-  "h-6 w-full rounded-[2px] bg-[#3CCD7F]/10 motion-safe:animate-[tileIn_4s_0.3s_infinite] motion-reduce:animate-none border border-[#3CCD7F]/20",
-  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.5s_infinite] motion-reduce:animate-none border border-white/10",
+  "h-6 w-full rounded-[2px] bg-[#3CCD7F]/20 motion-safe:animate-[tileIn_4s_infinite] motion-reduce:animate-none border border-brand-secondary/30",
+  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.2s_infinite] motion-reduce:animate-none border border-border-strong",
+  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.4s_infinite] motion-reduce:animate-none border border-border-strong",
+  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.1s_infinite] motion-reduce:animate-none border border-border-strong",
+  "h-6 w-full rounded-[2px] bg-[#3CCD7F]/10 motion-safe:animate-[tileIn_4s_0.3s_infinite] motion-reduce:animate-none border border-brand-secondary/20",
+  "h-6 w-full rounded-[2px] bg-white/5 motion-safe:animate-[tileIn_4s_0.5s_infinite] motion-reduce:animate-none border border-border-strong",
 ];
 
 const flowItems = [
@@ -66,9 +66,9 @@ const flowItems = [
               <p class="type-body text-[#9CA3AF]">{card.body}</p>
             </div>
 
-            <div class="mt-auto border-t border-white/5 pt-6">
+            <div class="mt-auto border-t border-border-default pt-6">
               <div class={panelClass}>
-                <div class="flex items-center gap-2 border-b border-white/5 px-3 py-2">
+                <div class="flex items-center gap-2 border-b border-border-default px-3 py-2">
                   <div class="flex gap-1">
                     <span class="h-1 w-1 rounded-full bg-white/20"></span>
                     <span class="h-1 w-1 rounded-full bg-white/20"></span>
@@ -102,7 +102,7 @@ const flowItems = [
                     <div class="absolute inset-y-5 right-4 w-[1px] bg-white/10"></div>
                     <div class="flex h-full items-end gap-2">
                       {[0, 1, 2, 3, 4].map((index) => (
-                        <div class="relative h-full flex-1 overflow-hidden rounded-[2px] border border-white/10 bg-white/5">
+                        <div class="relative h-full flex-1 overflow-hidden rounded-[2px] border border-border-strong bg-white/5">
                           <div
                             class="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-[#3CCD7F]/65 via-[#3CCD7F]/35 to-transparent motion-safe:animate-[signalRise_2.8s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
                             style={`animation-delay:${index * 160}ms;`}
@@ -110,7 +110,7 @@ const flowItems = [
                         </div>
                       ))}
                     </div>
-                    <div class="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[#3CCD7F] to-transparent shadow-[0_0_14px_rgba(60,205,127,0.85)] motion-safe:animate-[signalSweep_2.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"></div>
+                    <div class="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[#3CCD7F] to-transparent shadow-primary motion-safe:animate-[signalSweep_2.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"></div>
                   </div>
                 )}
               </div>

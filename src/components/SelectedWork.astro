@@ -72,7 +72,7 @@ const getInitials = (title: string) =>
       <div class="work-preview flex flex-col gap-4 lg:relative lg:block lg:w-[55%]" aria-live="polite">
         {SELECTED_PROJECTS.map((project, i) => (
           <div
-            class="work-panel rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] overflow-hidden flex flex-col"
+            class="work-panel rounded-md border border-border-default bg-[#0A0A0A] overflow-hidden flex flex-col"
             data-panel={i}
             role="tabpanel"
             id={`work-panel-${i}`}
@@ -104,7 +104,7 @@ const getInitials = (title: string) =>
             <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
               <div class="flex items-center gap-3">
                 {project.featured && (
-                  <span class="inline-block rounded-xs border border-[rgba(60,205,127,0.2)] bg-[rgba(60,205,127,0.06)] px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-[#3CCD7F]">
+                  <span class="inline-block rounded-xs border border-brand-secondary/20 bg-[rgba(60,205,127,0.06)] px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-[#3CCD7F]">
                     Featured
                   </span>
                 )}
@@ -170,8 +170,8 @@ const getInitials = (title: string) =>
         <ol class="flex flex-1 list-none flex-col justify-between p-0 m-0">
           {SELECTED_PROJECTS.map((project, i) => (
             <li class:list={[
-              "border-b border-[rgba(255,255,255,0.05)]",
-              i === 0 && "border-t border-[rgba(255,255,255,0.05)]",
+              "border-b border-border-default",
+              i === 0 && "border-t border-border-default",
             ]}>
               <button
                 type="button"

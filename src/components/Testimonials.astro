@@ -238,17 +238,17 @@ const baseUrl = import.meta.env.BASE_URL;
         {leftColumn.map((t) => (
           <article
             class:list={[
-              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
               t.featured
-                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
                 : "",
             ]}
           >
             {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
                 {getVideoSource(t.video).type === "iframe" ? (
                   <iframe
                     src={getVideoSource(t.video).src}
@@ -296,7 +296,7 @@ const baseUrl = import.meta.env.BASE_URL;
               “{t.quote}”
             </blockquote>
 
-            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+            <footer class="mt-5 border-t border-border-default pt-4">
               <cite class="not-italic">
                 <div class="flex items-center gap-3">
                   <img
@@ -306,7 +306,7 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>
@@ -331,17 +331,17 @@ const baseUrl = import.meta.env.BASE_URL;
         {centerColumn.map((t) => (
           <article
             class:list={[
-              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
               t.featured
-                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
                 : "",
             ]}
           >
             {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
                 {getVideoSource(t.video).type === "iframe" ? (
                   <iframe
                     src={getVideoSource(t.video).src}
@@ -389,7 +389,7 @@ const baseUrl = import.meta.env.BASE_URL;
               “{t.quote}”
             </blockquote>
 
-            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+            <footer class="mt-5 border-t border-border-default pt-4">
               <cite class="not-italic">
                 <div class="flex items-center gap-3">
                   <img
@@ -399,7 +399,7 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>
@@ -424,17 +424,17 @@ const baseUrl = import.meta.env.BASE_URL;
         {rightColumn.map((t) => (
           <article
             class:list={[
-              "rounded-md border border-[rgba(255,255,255,0.05)] bg-[#0A0A0A] p-6 md:p-7",
+              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
               "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-[rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)]",
+              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
               "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
               t.featured
-                ? "border-[rgba(60,205,127,0.22)] bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
                 : "",
             ]}
           >
             {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-[rgba(255,255,255,0.08)] bg-[#050505]">
+              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
                 {getVideoSource(t.video).type === "iframe" ? (
                   <iframe
                     src={getVideoSource(t.video).src}
@@ -482,7 +482,7 @@ const baseUrl = import.meta.env.BASE_URL;
               “{t.quote}”
             </blockquote>
 
-            <footer class="mt-5 border-t border-[rgba(255,255,255,0.05)] pt-4">
+            <footer class="mt-5 border-t border-border-default pt-4">
               <cite class="not-italic">
                 <div class="flex items-center gap-3">
                   <img
@@ -492,7 +492,7 @@ const baseUrl = import.meta.env.BASE_URL;
                     height="40"
                     loading="lazy"
                     decoding="async"
-                    class="h-10 w-10 rounded-xs border border-[rgba(255,255,255,0.08)] object-cover bg-[#0F1115]"
+                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-[#0F1115]"
                     onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
                   />
                   <span>

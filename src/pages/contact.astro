@@ -65,7 +65,7 @@ const breadcrumbSchema = {
       </header>
 
       <div class="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4">
-        <article class="w-full rounded-xs border border-[rgba(255,255,255,0.05)] bg-[#050505] p-6 md:p-8">
+        <article class="w-full rounded-xs border border-border-default bg-[#050505] p-6 md:p-8">
           <form
             action={`https://formsubmit.co/${SITE_CONFIG.contactEmail}`}
             method="POST"
@@ -87,17 +87,17 @@ const breadcrumbSchema = {
 
             <label class="flex w-full flex-col gap-2">
               <span class="type-caption text-[#D1D5DB]">Full name</span>
-              <input required name="name" type="text" autocomplete="name" placeholder="e.g. Alex Morgan" class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+              <input required name="name" type="text" autocomplete="name" placeholder="e.g. Alex Morgan" class="w-full rounded-xs border border-border-strong bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
             </label>
 
             <label class="flex w-full flex-col gap-2">
               <span class="type-caption text-[#D1D5DB]">Email</span>
-              <input required name="email" type="email" autocomplete="email" placeholder="you@example.com" class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+              <input required name="email" type="email" autocomplete="email" placeholder="you@example.com" class="w-full rounded-xs border border-border-strong bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
             </label>
 
             <label class="flex w-full flex-col gap-2 md:col-span-2">
               <span class="type-caption text-[#D1D5DB]">Project brief</span>
-              <textarea required name="brief" rows={6} autocomplete="off" placeholder="Share your goals, scope, platform preference, and any deadline constraints." class="w-full rounded-xs border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-[#3CCD7F] focus-visible:ring-2 focus-visible:ring-[#3CCD7F]/30" />
+              <textarea required name="brief" rows={6} autocomplete="off" placeholder="Share your goals, scope, platform preference, and any deadline constraints." class="w-full rounded-xs border border-border-strong bg-[#0A0A0A] px-4 py-3 type-body text-[#FFFFFF] outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-[#6B7280] focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
             </label>
 
             <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm font-semibold tracking-tight px-10 py-4 text-base bg-brand-secondary text-text-inverted border-t border-border-strong transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none md:col-span-2">
