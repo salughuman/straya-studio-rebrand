@@ -25,7 +25,6 @@ const { href, label, variant = 'primary', class: className, ...rest } = Astro.pr
     variant === 'frosted' && "bg-transparent border border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-bg-base hover:shadow-[0_0_20px_rgba(60,205,127,0.2)] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
     className
   ]}
-  aria-label={label}
 >
   <span class="font-bold tracking-tight">{label}</span>
   <slot />

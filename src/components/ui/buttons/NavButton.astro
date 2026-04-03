@@ -21,7 +21,6 @@ const { href, label, variant = 'frosted', class: className, ...rest } = Astro.pr
     variant === 'ghost' && "text-text-secondary hover:text-text-primary hover:bg-white/[0.05] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",
     className
   ]}
-  aria-label={label}
 >
   <slot />
   {label}
