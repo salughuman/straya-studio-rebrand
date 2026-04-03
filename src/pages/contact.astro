@@ -103,7 +103,7 @@ const breadcrumbSchema = {
             <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-sm font-semibold tracking-tight px-10 py-4 text-base bg-brand-secondary text-text-inverted border-t border-border-strong transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none md:col-span-2">
               <span class="font-bold tracking-tight">Send project brief</span>
             </button>
-            <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite" aria-hidden="true"></p>
+            <p id="form-status" class="type-caption hidden md:col-span-2 text-[#9CA3AF]" role="status" aria-live="polite"></p>
           </form>
         </article>
 
@@ -165,8 +165,23 @@ const breadcrumbSchema = {
               submitButton.textContent = "Thank you";
             }
 
+            const status = document.getElementById("form-status");
+            if (status) {
+              status.textContent =
+                "Thank you — your brief was sent. We will reply shortly.";
+              status.style.color = "";
+              status.classList.remove("hidden");
+            }
+
             form.reset();
           } catch {
+            const status = document.getElementById("form-status");
+            if (status) {
+              status.textContent =
+                "Something went wrong. Please try again or email us directly.";
+              status.style.color = "rgb(239 68 68)";
+              status.classList.remove("hidden");
+            }
             if (buttonLabel) {
               buttonLabel.textContent = "Send project brief";
             }
