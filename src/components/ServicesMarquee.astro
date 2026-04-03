@@ -5,12 +5,13 @@
 // Card art: put webp (or avif) files in `public/images/services/` — URLs are `/images/services/<file>.webp` (§5.N).
 import Button from "./ui/buttons/Button.astro";
 
-const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+const withBase = (path: string) =>
+    `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 type ServiceItem = {
-	title: string;
-	tags: string[];
-	image?: string;
+    title: string;
+    tags: string[];
+    image?: string;
 };
 
 const services: ServiceItem[] = [
@@ -87,7 +88,6 @@ const services: ServiceItem[] = [
         ],
     },
 ];
-
 ---
 
 <section
@@ -102,7 +102,9 @@ const services: ServiceItem[] = [
     </p>
 
     <div class="main-container mb-12 md:mb-16">
-        <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        <div
+            class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between"
+        >
             <div class="flex flex-col gap-4">
                 <p class="type-label">What we do</p>
                 <h2 class="type-h2 max-w-full text-left md:max-w-[40rem]">
@@ -110,7 +112,12 @@ const services: ServiceItem[] = [
                     {" "}design — across every no-code platform.
                 </h2>
             </div>
-            <Button href={`${import.meta.env.BASE_URL}#work`} label="See our work" variant="secondary" class="group mt-2 shrink-0 md:mt-0">
+            <Button
+                href={`${import.meta.env.BASE_URL}#work`}
+                label="See our work"
+                variant="secondary"
+                class="group mt-2 shrink-0 md:mt-0"
+            >
                 <svg
                     width="16"
                     height="16"
@@ -144,27 +151,30 @@ const services: ServiceItem[] = [
                     >
                         {services.map((service, idx) => (
                             <div
-                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-sm border border-border-default bg-bg-base transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
+                                class="service-card group relative h-[240px] w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-border-default bg-bg-base transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[300px]"
                                 data-card={idx}
                             >
-                                <div class="absolute inset-0 z-0 overflow-hidden rounded-sm" aria-hidden="true">
-                                    {
-                                        service.image ? (
-                                            <img
-                                                src={service.image}
-                                                alt=""
-                                                width="300"
-                                                height="400"
-                                                loading="lazy"
-                                                decoding="async"
-                                                class="absolute inset-0 h-full w-full object-cover"
-                                            />
-                                        ) : null
-                                    }
+                                <div
+                                    class="absolute inset-0 z-0 overflow-hidden rounded-md"
+                                    aria-hidden="true"
+                                >
+                                    {service.image ? (
+                                        <img
+                                            src={service.image}
+                                            alt=""
+                                            width="300"
+                                            height="400"
+                                            loading="lazy"
+                                            decoding="async"
+                                            class="absolute inset-0 h-full w-full object-cover"
+                                        />
+                                    ) : null}
                                     <div
                                         class:list={[
                                             "absolute inset-0 bg-[var(--card-bg)] transition-transform duration-300 ease-luxury group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
-                                            service.image ? "opacity-90 mix-blend-multiply" : "",
+                                            service.image
+                                                ? "opacity-90 mix-blend-multiply"
+                                                : "",
                                         ]}
                                     />
                                     <div
@@ -183,11 +193,9 @@ const services: ServiceItem[] = [
                                     </h3>
                                 </div>
 
-                                <div
-                                    class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
-                                >
+                                <div class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none">
                                     {service.tags.map((tag) => (
-                                        <span class="service-card-tag rounded-xs border border-border-strong bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-brand-secondary/35 group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
+                                        <span class="service-card-tag rounded-md border border-border-strong bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-brand-secondary/35 group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
                                             {tag}
                                         </span>
                                     ))}
@@ -256,22 +264,52 @@ const services: ServiceItem[] = [
 
     /* Deep Space Elevation only — §6 / §5.K (no neon template gradients) */
     .service-card[data-card="0"] {
-        --card-bg: linear-gradient(135deg, #0f1115 0%, #0a0a0a 45%, #050505 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #0f1115 0%,
+            #0a0a0a 45%,
+            #050505 100%
+        );
     }
     .service-card[data-card="1"] {
-        --card-bg: linear-gradient(135deg, #050505 0%, #0f1115 40%, #0a0a0a 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #050505 0%,
+            #0f1115 40%,
+            #0a0a0a 100%
+        );
     }
     .service-card[data-card="2"] {
-        --card-bg: linear-gradient(135deg, #0a0a0a 0%, #050505 50%, #0f1115 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #0a0a0a 0%,
+            #050505 50%,
+            #0f1115 100%
+        );
     }
     .service-card[data-card="3"] {
-        --card-bg: linear-gradient(135deg, #0f1115 0%, rgba(60, 205, 127, 0.07) 38%, #050505 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #0f1115 0%,
+            rgba(60, 205, 127, 0.07) 38%,
+            #050505 100%
+        );
     }
     .service-card[data-card="4"] {
-        --card-bg: linear-gradient(135deg, #050505 0%, #0a0a0a 55%, #0f1115 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #050505 0%,
+            #0a0a0a 55%,
+            #0f1115 100%
+        );
     }
     .service-card[data-card="5"] {
-        --card-bg: linear-gradient(135deg, #0a0a0a 0%, #0f1115 50%, #050505 100%);
+        --card-bg: linear-gradient(
+            135deg,
+            #0a0a0a 0%,
+            #0f1115 50%,
+            #050505 100%
+        );
     }
 </style>
 
@@ -290,15 +328,15 @@ const services: ServiceItem[] = [
     }
 
     /** px/s — start inertial scroll after release */
-    const FLING_MIN_SPEED = 55;
+    const FLING_MIN_SPEED = 35;
     /** px/s — hard cap for fling (phone-like) */
-    const FLING_MAX_SPEED = 5200;
+    const FLING_MAX_SPEED = 6000;
     /** exponential decay per second (higher = stops sooner) */
-    const FLING_FRICTION = 7.2;
+    const FLING_FRICTION = 2.8;
     /** px/s — stop fling below this */
-    const FLING_STOP_SPEED = 28;
+    const FLING_STOP_SPEED = 10;
     /** velocity EMA blend toward instantaneous sample (0–1) */
-    const VELOCITY_SMOOTH = 0.28;
+    const VELOCITY_SMOOTH = 0.65;
 
     /**
      * Infinite loop = one `.services-set` width + flex gap to the duplicate set (measured, not -50%).
@@ -306,9 +344,15 @@ const services: ServiceItem[] = [
     function initServicesMarquee(root) {
         const track = root.querySelector("[data-services-track]");
         const firstSet = track?.querySelector(".services-set");
-        if (!(track instanceof HTMLElement) || !(firstSet instanceof HTMLElement)) return;
+        if (
+            !(track instanceof HTMLElement) ||
+            !(firstSet instanceof HTMLElement)
+        )
+            return;
 
-        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
         const SECONDS_PER_LOOP = 60;
 
         let loop = 0;
@@ -423,7 +467,10 @@ const services: ServiceItem[] = [
 
         root.addEventListener("pointermove", (e) => {
             if (!dragging) return;
-            const coalesced = typeof e.getCoalescedEvents === "function" ? e.getCoalescedEvents() : [];
+            const coalesced =
+                typeof e.getCoalescedEvents === "function"
+                    ? e.getCoalescedEvents()
+                    : [];
             if (coalesced.length) {
                 sampleVelocityFromEvents(coalesced);
             } else {

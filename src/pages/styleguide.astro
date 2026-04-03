@@ -11,7 +11,7 @@ const inspectorTokens = [
   { label: "Surface", value: tokens.color.background.surface, token: "--color-background-surface", tailwind: "bg-bg-surface" },
   { label: "Elevated", value: tokens.color.background.elevated, token: "--color-background-elevated", tailwind: "bg-bg-elevated" },
   { label: "Accent", value: tokens.color.background.accent, token: "--color-accent", tailwind: "bg-brand-secondary" },
-  { label: "Card radius", value: tokens.radius.xs, token: "--radius-xs", tailwind: "rounded-xs" },
+  { label: "Card radius", value: tokens.radius.xs, token: "--radius-xs", tailwind: "rounded-md" },
   { label: "Shadow md", value: tokens.shadow.md, token: "--shadow-md", tailwind: "shadow-md" },
 ];
 
@@ -99,7 +99,7 @@ const radii = [
             {colorSwatches.map((c) => (
               <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
                 <div class="border-b border-white/10 p-4">
-                  <div class:list={["h-16 rounded-sm border border-white/10", c.cls]} />
+                  <div class:list={["h-16 rounded-md border border-white/10", c.cls]} />
                 </div>
                 <div class="grid gap-1 px-4 py-3">
                   <p class="type-small text-text-primary">{c.label}</p>
@@ -204,35 +204,35 @@ const radii = [
               <form class="grid gap-3">
                 <label class="type-small grid gap-1 text-text-secondary">
                   Name
-                  <input type="text" value="Alex Carter" class="rounded-sm border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20" />
+                  <input type="text" value="Alex Carter" class="rounded-md border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20" />
                 </label>
                 <label class="type-small grid gap-1 text-text-secondary">
                   Message
-                  <textarea rows="3" class="rounded-sm border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20">Need a high-performance marketing site.</textarea>
+                  <textarea rows="3" class="rounded-md border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20">Need a high-performance marketing site.</textarea>
                 </label>
               </form>
             </div>
             <div class="px-4 py-3">
-              <p class="font-mono text-xs text-text-secondary">Input baseline: rounded-sm, white/10 border, brand focus ring.</p>
+              <p class="font-mono text-xs text-text-secondary">Input baseline: rounded-md, white/10 border, brand focus ring.</p>
             </div>
           </article>
         </section>
 
         <section id="cards" class="rounded-md border border-white/10 bg-bg-surface p-5">
           <h2 class="type-h3">Card Rules</h2>
-          <p class="type-small mt-2 text-text-muted">GEMINI baseline: cards use `rounded-xs` with lift, border brighten, and luxury easing.</p>
+          <p class="type-small mt-2 text-text-muted">GEMINI baseline: cards use `rounded-md` with lift, border brighten, and luxury easing.</p>
           <div class="mt-4 grid gap-4 md:grid-cols-3">
-            <article class="rounded-xs border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+            <article class="rounded-md border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
               <p class="type-label text-brand-secondary">Pricing Card</p>
               <h3 class="type-h5 mt-1">Growth</h3>
               <p class="type-small mt-1 text-text-secondary">$5,000 - $12,000</p>
             </article>
-            <article class="rounded-xs border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+            <article class="rounded-md border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
               <p class="type-label text-brand-secondary">Service Card</p>
               <h3 class="type-h5 mt-1">Web Development</h3>
               <p class="type-small mt-1 text-text-secondary">Fast, scalable builds</p>
             </article>
-            <article class="rounded-xs border border-white/10 bg-bg-elevated p-4">
+            <article class="rounded-md border border-white/10 bg-bg-elevated p-4">
               <p class="font-mono text-xs text-text-secondary">hover: translateY(-4px)</p>
               <p class="font-mono text-xs text-text-secondary">timing: cubic-bezier(0.16,1,0.3,1)</p>
               <p class="font-mono text-xs text-text-secondary">motion-reduce: disable transforms</p>

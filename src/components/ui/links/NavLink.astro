@@ -16,7 +16,7 @@ const isNavbarTone = tone === "navbar";
   href={href}
   class:list={[
     "relative block h-6 no-underline group",
-    isSocial ? "overflow-hidden" : "overflow-y-hidden overflow-x-visible px-1 -mx-1 rounded-xs",
+    isSocial ? "overflow-hidden" : "overflow-y-hidden overflow-x-visible px-1 -mx-1 rounded-md",
     !isSocial && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]",
     className,
   ]}

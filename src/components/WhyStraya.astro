@@ -129,7 +129,7 @@ const icons: Record<string, string> = {
             <div class="relative z-[1] flex h-full flex-col">
               <div class="flex flex-col gap-4 p-6 md:p-8">
                 <div
-                  class="flex h-9 w-9 items-center justify-center rounded-xs border border-border-default bg-bg-overlay text-text-secondary motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                  class="flex h-9 w-9 items-center justify-center rounded-md border border-border-default bg-bg-overlay text-text-secondary motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
                   set:html={icons[f.icon]}
                   aria-hidden="true"
                   style={`animation-delay:${fIdx * 600}ms;`}
@@ -204,11 +204,11 @@ const icons: Record<string, string> = {
                     </div>
                   ) : f.mockupKind === "chat" ? (
                     <div class="flex flex-col gap-2 p-3">
-                      <div class="ml-auto w-[72%] rounded-sm rounded-tr-none border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 p-2 motion-safe:animate-[chatSlide_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
+                      <div class="ml-auto w-[72%] rounded-md rounded-tr-none border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 p-2 motion-safe:animate-[chatSlide_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
                         <div class="h-[4px] w-[80%] rounded-[2px] bg-white/10" />
                         <div class="mt-1.5 h-[4px] w-[55%] rounded-[2px] bg-white/7" />
                       </div>
-                      <div class="mr-auto w-[60%] rounded-sm rounded-tl-none border border-border-strong bg-white/5 p-2 motion-safe:animate-[chatSlide_4s_0.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
+                      <div class="mr-auto w-[60%] rounded-md rounded-tl-none border border-border-strong bg-white/5 p-2 motion-safe:animate-[chatSlide_4s_0.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
                         <div class="h-[4px] w-[70%] rounded-[2px] bg-white/10" />
                       </div>
                       <div class="flex gap-1.5 pl-1 motion-safe:animate-[chatSlide_4s_1.2s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
@@ -220,9 +220,9 @@ const icons: Record<string, string> = {
                   ) : (
                     <div class="grid grid-cols-3 gap-1.5 p-3">
                       {[0, 1, 2, 3, 4, 5].map((i) => (
-                        <div class="relative h-8 overflow-hidden rounded-xs border border-border-default bg-[rgba(255,255,255,0.03)]">
+                        <div class="relative h-8 overflow-hidden rounded-md border border-border-default bg-[rgba(255,255,255,0.03)]">
                           <div
-                            class="absolute inset-0 rounded-xs border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 motion-safe:animate-[dashComplete_4.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                            class="absolute inset-0 rounded-md border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 motion-safe:animate-[dashComplete_4.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
                             style={`animation-delay:${i * 350}ms;`}
                           />
                         </div>

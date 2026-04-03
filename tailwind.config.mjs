@@ -57,6 +57,7 @@ export default {
                 xl: tokens.radius.lg,
                 full: tokens.radius.full,
             },
+            borderWidth: tokens.borderWidth,
             maxWidth: {
                 container: tokens.spacing.containerMax,
             },
@@ -127,6 +128,10 @@ export default {
                     '--radius-sm': tokens.radius.sm,
                     '--radius-md': tokens.radius.md,
                     '--radius-lg': tokens.radius.lg,
+                    '--border-width-sm': tokens.borderWidth.sm,
+                    '--border-width-md': tokens.borderWidth.md,
+                    '--border-width-lg': tokens.borderWidth.lg,
+                    '--border-width-xl': tokens.borderWidth.xl,
                     '--section-y': tokens.spacing.sectionY,
                     '--container-max': tokens.spacing.containerMax,
                     '--gutter-mobile': tokens.spacing.gutterMobile,

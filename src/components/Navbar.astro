@@ -24,7 +24,7 @@ const navLinks = [
     <!-- 1. Brand Mark (Left) -->
     <a
       href={homeHref}
-      class="flex items-center gap-2 group no-underline rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+      class="flex items-center gap-2 group no-underline rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
       aria-label="Straya Studio Home"
     >
       <span class="type-h5 text-[#05210f] font-bold tracking-tighter uppercase tabular-nums leading-none">Straya</span>
@@ -63,7 +63,7 @@ const navLinks = [
       <!-- Mobile/Tablet Trigger (<1200px) -->
       <button
         id="menu-trigger"
-        class="lg:hidden text-[#05210f] label-mono font-medium tracking-tight h-[72px] flex items-center cursor-pointer bg-transparent border-none appearance-none outline-none relative z-50 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+        class="lg:hidden text-[#05210f] label-mono font-medium tracking-tight h-[72px] flex items-center cursor-pointer bg-transparent border-none appearance-none outline-none relative z-50 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
         aria-label="Toggle navigation"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -81,7 +81,7 @@ const navLinks = [
         navLinks.map((link) => (
           <a
             href={link.href}
-            class="mobile-nav-link text-[32px] md:text-[24px] font-medium text-[#05210f]/90 hover:text-white transition-colors duration-300 ease-luxury no-underline tracking-tighter rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+            class="mobile-nav-link text-[32px] md:text-[24px] font-medium text-[#05210f]/90 hover:text-white transition-colors duration-300 ease-luxury no-underline tracking-tighter rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
           >
             {link.label}
           </a>
@@ -96,7 +96,7 @@ const navLinks = [
         href={SITE_CONFIG.socials.calendly}
         target="_blank"
         rel="noopener noreferrer"
-        class="w-full h-14 flex items-center justify-center bg-[#050505] text-white font-bold text-sm rounded-sm no-underline hover:bg-[#0f1115] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+        class="w-full h-14 flex items-center justify-center bg-[#050505] text-white font-bold text-sm rounded-md no-underline hover:bg-[#0f1115] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
       >
         Book a call
       </a>

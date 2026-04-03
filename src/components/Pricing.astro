@@ -54,7 +54,7 @@ const baseUrl = import.meta.env.BASE_URL;
           <p class="type-body text-text-secondary">{pricingSubtitleShort}</p>
         </div>
         <div
-          class="flex w-fit items-center gap-2 self-start rounded-sm border border-brand-secondary/30 bg-[rgba(60,205,127,0.06)] px-3 py-1.5 md:self-auto"
+          class="flex w-fit items-center gap-2 self-start rounded-md border border-brand-secondary/30 bg-[rgba(60,205,127,0.06)] px-3 py-1.5 md:self-auto"
           role="status"
         >
           <span class="availability-dot h-1.5 w-1.5 rounded-full bg-[#3CCD7F]" aria-hidden="true"></span>
@@ -115,7 +115,7 @@ const baseUrl = import.meta.env.BASE_URL;
               <p class="mb-6 text-[0.8125rem] leading-relaxed text-text-muted">{tier.tagline}</p>
 
               {/* ── Price block (elevated surface) ── */}
-              <div class="mb-6 rounded-sm bg-bg-surface border border-border-default px-5 py-4">
+              <div class="mb-6 rounded-md bg-bg-surface border border-border-default px-5 py-4">
                 <div class="flex items-baseline gap-2">
                   <span class="text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-text-muted">
                     From
@@ -196,7 +196,7 @@ const baseUrl = import.meta.env.BASE_URL;
                 label={tier.ctaLabel}
                 variant={tier.ctaPrimary ? "primary" : "light"}
                 class:list={[
-                  "group mt-8 !rounded-sm !px-5 !py-3.5 !text-sm",
+                  "group mt-8 !rounded-md !px-5 !py-3.5 !text-sm",
                   tier.ctaPrimary
                     ? "shadow-[0_0_20px_rgba(60,205,127,0.15)] hover:!bg-[#2FB96D] hover:!border-[#2FB96D]"
                     : "!border-border-strong !text-text-primary hover:!border-border-strong hover:!bg-bg-overlay",
@@ -219,7 +219,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
     
     <!-- ── Footer CTA ── -->
-    <div class="glass-surface mt-10 flex flex-col gap-5 rounded-sm p-6 md:mt-12 md:flex-row md:items-center md:justify-between md:p-8">
+    <div class="glass-surface mt-10 flex flex-col gap-5 rounded-md p-6 md:mt-12 md:flex-row md:items-center md:justify-between md:p-8">
       <div class="max-w-[32rem]">
         <h3 class="type-h3 mb-1.5">{PRICING_FOOTER.title}</h3>
         <p class="type-body text-text-secondary">{PRICING_FOOTER.description}</p>
@@ -230,7 +230,7 @@ const baseUrl = import.meta.env.BASE_URL;
         rel="noopener noreferrer"
         label={PRICING_FOOTER.ctaLabel}
         variant="primary"
-        class="group !w-fit !rounded-sm !px-5 !py-3 !text-sm hover:!bg-[#2FB96D] hover:!border-[#2FB96D]"
+        class="group !w-fit !rounded-md !px-5 !py-3 !text-sm hover:!bg-[#2FB96D] hover:!border-[#2FB96D]"
       >
         <svg
           class="h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-0.5 motion-reduce:transition-none"

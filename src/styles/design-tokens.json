@@ -145,6 +145,13 @@
         "sticky": "200",
         "modal": "300",
         "toast": "400"
+    },
+    "borderWidth": {
+        "0": "0px",
+        "DEFAULT": "3px",
+        "sm": "1px",
+        "md": "2px",
+        "lg": "4px",
+        "xl": "8px"
     }
 }
-

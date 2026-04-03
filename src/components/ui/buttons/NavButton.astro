@@ -14,7 +14,7 @@ const { href, label, variant = 'frosted', class: className, ...rest } = Astro.pr
   href={href}
   {...rest}
   class:list={[
-    "inline-flex items-center justify-center px-4 py-2 rounded-sm",
+    "inline-flex items-center justify-center px-4 py-2 rounded-md",
     "text-sm font-bold tracking-tight transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury",
     "no-underline min-h-[44px]", // Ensuring touch target accessibility
     variant === 'frosted' && "bg-transparent border border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-bg-base hover:shadow-[0_0_20px_rgba(60,205,127,0.2)] hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none",

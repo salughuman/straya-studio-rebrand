@@ -106,7 +106,9 @@ const testimonials: Testimonial[] = [
 // Ensure the video testimonial is always the first item in the center column.
 // This avoids the mobile layout where the "center" column was rendered second.
 const videoTestimonial = testimonials.find((t) => Boolean(t.video));
-const remainingTestimonials = testimonials.filter((t) => t !== videoTestimonial);
+const remainingTestimonials = testimonials.filter(
+  (t) => t !== videoTestimonial,
+);
 
 let leftColumn: Testimonial[] = [];
 let centerColumn: Testimonial[] = videoTestimonial ? [videoTestimonial] : [];
@@ -199,25 +201,32 @@ const getVideoSource = (url: string) => {
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<section class="testimonials-section section-y relative z-10 bg-bg-elevated text-text-primary" aria-label="Client testimonials">
+<section
+  class="testimonials-section section-y relative z-10 bg-bg-elevated text-text-primary"
+  aria-label="Client testimonials"
+>
   <div class="main-container">
     <p class="sr-only">
-      Client testimonials from founders and operators across Framer, Webflow, and
-      related web projects. One featured card includes a video testimonial; all
-      quotes preserve source attribution.
+      Client testimonials from founders and operators across Framer, Webflow,
+      and related web projects. One featured card includes a video testimonial;
+      all quotes preserve source attribution.
     </p>
 
-    <header class="mb-12 flex flex-col items-center justify-between gap-6 text-center md:mb-16 md:flex-row md:items-end md:text-left">
+    <header
+      class="mb-12 flex flex-col items-center justify-between gap-6 text-center md:mb-16 md:flex-row md:items-end md:text-left"
+    >
       <div class="flex flex-col items-center gap-3 md:items-start">
         <p class="type-label mb-0">What our clients say</p>
-        <h2 class="type-h2">Trusted by founders and teams who demand the best.</h2>
+        <h2 class="type-h2">
+          Trusted by founders and teams who demand the best.
+        </h2>
       </div>
 
       <Button
         href={`${baseUrl}testimonials`}
         label="View testimonials"
-        variant="ghost"
-        class="group !w-fit !px-5 !py-3 !text-sm"
+        variant="primary"
+        class="group !w-44 !px-3 !py-3 !text-sm"
       >
         <svg
           class="ml-2 h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
@@ -227,290 +236,330 @@ const baseUrl = import.meta.env.BASE_URL;
           fill="none"
           aria-hidden="true"
         >
-          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M6 3L11 8L6 13"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
       </Button>
     </header>
 
     <div class="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-4">
-      {/* On mobile the center column must come first so the video card is always at the top. */}
+      {
+        /* On mobile the center column must come first so the video card is always at the top. */
+      }
       <div class="order-2 lg:order-none lg:col-start-1 flex flex-col gap-4">
-        {leftColumn.map((t) => (
-          <article
-            class:list={[
-              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              t.featured
-                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                : "",
-            ]}
-          >
-            {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
-                {getVideoSource(t.video).type === "iframe" ? (
-                  <iframe
-                    src={getVideoSource(t.video).src}
-                    title={`Video testimonial from ${t.name}`}
-                    class="aspect-video w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                  />
-                ) : (
-                  <video class="aspect-video w-full" controls playsinline preload="metadata">
-                    <source src={getVideoSource(t.video).src} />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-              </div>
-            )}
-
-            <div
-              class="mb-4 flex gap-0.5 text-brand-secondary"
-              aria-label={`${t.stars || 5} out of 5 stars`}
-            >
-              {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                <svg
-                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                  style={`animation-delay:${si * 150}ms;`}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                </svg>
-              ))}
-            </div>
-
-              <blockquote
+        {
+          leftColumn.map((t) => (
+            <article
               class:list={[
-                "type-body m-0 leading-relaxed text-text-secondary",
-                t.featured ? "text-text-primary" : "",
+                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
+                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
+                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+                t.featured
+                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                  : "",
               ]}
             >
-              “{t.quote}”
-            </blockquote>
-
-            <footer class="mt-5 border-t border-border-default pt-4">
-              <cite class="not-italic">
-                <div class="flex items-center gap-3">
-                  <img
-                    src={getAvatarSrc(t)}
-                    alt={`${t.name} profile photo`}
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
-                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                  />
-                  <span>
-                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
-                    {getPrimaryMeta(t) ? (
-                      <>
-                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
-                        <span class="block type-caption">{t.country}</span>
-                      </>
-                    ) : (
-                      <span class="block type-caption">{t.country}</span>
-                    )}
-                  </span>
+              {t.video && (
+                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
+                  {getVideoSource(t.video).type === "iframe" ? (
+                    <iframe
+                      src={getVideoSource(t.video).src}
+                      title={`Video testimonial from ${t.name}`}
+                      class="aspect-video w-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                    />
+                  ) : (
+                    <video
+                      class="aspect-video w-full"
+                      controls
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src={getVideoSource(t.video).src} />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
-              </cite>
-            </footer>
-          </article>
-        ))}
+              )}
+
+              <div
+                class="mb-4 flex gap-0.5 text-brand-secondary"
+                aria-label={`${t.stars || 5} out of 5 stars`}
+              >
+                {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                  <svg
+                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                    style={`animation-delay:${si * 150}ms;`}
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote
+                class:list={[
+                  "type-body m-0 leading-relaxed text-text-secondary",
+                  t.featured ? "text-text-primary" : "",
+                ]}
+              >
+                “{t.quote}”
+              </blockquote>
+
+              <footer class="mt-5 border-t border-border-default pt-4">
+                <cite class="not-italic">
+                  <div class="flex items-center gap-3">
+                    <img
+                      src={getAvatarSrc(t)}
+                      alt={`${t.name} profile photo`}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
+                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                    />
+                    <span>
+                      <span class="block type-body font-medium text-text-primary">
+                        {t.name}
+                      </span>
+                      {getPrimaryMeta(t) ? (
+                        <>
+                          <span class="block type-caption">
+                            {getPrimaryMeta(t)}
+                          </span>
+                          <span class="block type-caption">{t.country}</span>
+                        </>
+                      ) : (
+                        <span class="block type-caption">{t.country}</span>
+                      )}
+                    </span>
+                  </div>
+                </cite>
+              </footer>
+            </article>
+          ))
+        }
       </div>
 
       <div class="order-first lg:order-none lg:col-start-2 flex flex-col gap-4">
-        {centerColumn.map((t) => (
-          <article
-            class:list={[
-              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              t.featured
-                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                : "",
-            ]}
-          >
-            {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
-                {getVideoSource(t.video).type === "iframe" ? (
-                  <iframe
-                    src={getVideoSource(t.video).src}
-                    title={`Video testimonial from ${t.name}`}
-                    class="aspect-video w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                  />
-                ) : (
-                  <video class="aspect-video w-full" controls playsinline preload="metadata">
-                    <source src={getVideoSource(t.video).src} />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-              </div>
-            )}
-
-            <div
-              class="mb-4 flex gap-0.5 text-brand-secondary"
-              aria-label={`${t.stars || 5} out of 5 stars`}
-            >
-              {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                <svg
-                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                  style={`animation-delay:${si * 150}ms;`}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                </svg>
-              ))}
-            </div>
-
-              <blockquote
+        {
+          centerColumn.map((t) => (
+            <article
               class:list={[
-                "type-body m-0 leading-relaxed text-text-secondary",
-                t.featured ? "text-text-primary" : "",
+                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
+                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
+                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+                t.featured
+                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                  : "",
               ]}
             >
-              “{t.quote}”
-            </blockquote>
-
-            <footer class="mt-5 border-t border-border-default pt-4">
-              <cite class="not-italic">
-                <div class="flex items-center gap-3">
-                  <img
-                    src={getAvatarSrc(t)}
-                    alt={`${t.name} profile photo`}
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
-                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                  />
-                  <span>
-                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
-                    {getPrimaryMeta(t) ? (
-                      <>
-                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
-                        <span class="block type-caption">{t.country}</span>
-                      </>
-                    ) : (
-                      <span class="block type-caption">{t.country}</span>
-                    )}
-                  </span>
+              {t.video && (
+                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
+                  {getVideoSource(t.video).type === "iframe" ? (
+                    <iframe
+                      src={getVideoSource(t.video).src}
+                      title={`Video testimonial from ${t.name}`}
+                      class="aspect-video w-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                    />
+                  ) : (
+                    <video
+                      class="aspect-video w-full"
+                      controls
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src={getVideoSource(t.video).src} />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
-              </cite>
-            </footer>
-          </article>
-        ))}
+              )}
+
+              <div
+                class="mb-4 flex gap-0.5 text-brand-secondary"
+                aria-label={`${t.stars || 5} out of 5 stars`}
+              >
+                {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                  <svg
+                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                    style={`animation-delay:${si * 150}ms;`}
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote
+                class:list={[
+                  "type-body m-0 leading-relaxed text-text-secondary",
+                  t.featured ? "text-text-primary" : "",
+                ]}
+              >
+                “{t.quote}”
+              </blockquote>
+
+              <footer class="mt-5 border-t border-border-default pt-4">
+                <cite class="not-italic">
+                  <div class="flex items-center gap-3">
+                    <img
+                      src={getAvatarSrc(t)}
+                      alt={`${t.name} profile photo`}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
+                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                    />
+                    <span>
+                      <span class="block type-body font-medium text-text-primary">
+                        {t.name}
+                      </span>
+                      {getPrimaryMeta(t) ? (
+                        <>
+                          <span class="block type-caption">
+                            {getPrimaryMeta(t)}
+                          </span>
+                          <span class="block type-caption">{t.country}</span>
+                        </>
+                      ) : (
+                        <span class="block type-caption">{t.country}</span>
+                      )}
+                    </span>
+                  </div>
+                </cite>
+              </footer>
+            </article>
+          ))
+        }
       </div>
 
       <div class="order-3 lg:order-none lg:col-start-3 flex flex-col gap-4">
-        {rightColumn.map((t) => (
-          <article
-            class:list={[
-              "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              t.featured
-                ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                : "",
-            ]}
-          >
-            {t.video && (
-              <div class="mb-5 overflow-hidden rounded-xs border border-border-strong bg-[#050505]">
-                {getVideoSource(t.video).type === "iframe" ? (
-                  <iframe
-                    src={getVideoSource(t.video).src}
-                    title={`Video testimonial from ${t.name}`}
-                    class="aspect-video w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                  />
-                ) : (
-                  <video class="aspect-video w-full" controls playsinline preload="metadata">
-                    <source src={getVideoSource(t.video).src} />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-              </div>
-            )}
-
-            <div
-              class="mb-4 flex gap-0.5 text-brand-secondary"
-              aria-label={`${t.stars || 5} out of 5 stars`}
-            >
-              {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                <svg
-                  class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                  style={`animation-delay:${si * 150}ms;`}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                </svg>
-              ))}
-            </div>
-
-            <blockquote
+        {
+          rightColumn.map((t) => (
+            <article
               class:list={[
-                "type-body m-0 leading-relaxed text-text-secondary",
-                t.featured ? "text-text-primary" : "",
+                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
+                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
+                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
+                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
+                t.featured
+                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
+                  : "",
               ]}
             >
-              “{t.quote}”
-            </blockquote>
-
-            <footer class="mt-5 border-t border-border-default pt-4">
-              <cite class="not-italic">
-                <div class="flex items-center gap-3">
-                  <img
-                    src={getAvatarSrc(t)}
-                    alt={`${t.name} profile photo`}
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                    decoding="async"
-                    class="h-10 w-10 rounded-xs border border-border-strong object-cover bg-bg-elevated"
-                    onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                  />
-                  <span>
-                    <span class="block type-body font-medium text-text-primary">{t.name}</span>
-                    {getPrimaryMeta(t) ? (
-                      <>
-                        <span class="block type-caption">{getPrimaryMeta(t)}</span>
-                        <span class="block type-caption">{t.country}</span>
-                      </>
-                    ) : (
-                      <span class="block type-caption">{t.country}</span>
-                    )}
-                  </span>
+              {t.video && (
+                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
+                  {getVideoSource(t.video).type === "iframe" ? (
+                    <iframe
+                      src={getVideoSource(t.video).src}
+                      title={`Video testimonial from ${t.name}`}
+                      class="aspect-video w-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                    />
+                  ) : (
+                    <video
+                      class="aspect-video w-full"
+                      controls
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src={getVideoSource(t.video).src} />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
-              </cite>
-            </footer>
-          </article>
-        ))}
+              )}
+
+              <div
+                class="mb-4 flex gap-0.5 text-brand-secondary"
+                aria-label={`${t.stars || 5} out of 5 stars`}
+              >
+                {Array.from({ length: t.stars || 5 }).map((_, si) => (
+                  <svg
+                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
+                    style={`animation-delay:${si * 150}ms;`}
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+                  </svg>
+                ))}
+              </div>
+
+              <blockquote
+                class:list={[
+                  "type-body m-0 leading-relaxed text-text-secondary",
+                  t.featured ? "text-text-primary" : "",
+                ]}
+              >
+                “{t.quote}”
+              </blockquote>
+
+              <footer class="mt-5 border-t border-border-default pt-4">
+                <cite class="not-italic">
+                  <div class="flex items-center gap-3">
+                    <img
+                      src={getAvatarSrc(t)}
+                      alt={`${t.name} profile photo`}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
+                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
+                    />
+                    <span>
+                      <span class="block type-body font-medium text-text-primary">
+                        {t.name}
+                      </span>
+                      {getPrimaryMeta(t) ? (
+                        <>
+                          <span class="block type-caption">
+                            {getPrimaryMeta(t)}
+                          </span>
+                          <span class="block type-caption">{t.country}</span>
+                        </>
+                      ) : (
+                        <span class="block type-caption">{t.country}</span>
+                      )}
+                    </span>
+                  </div>
+                </cite>
+              </footer>
+            </article>
+          ))
+        }
       </div>
     </div>
   </div>
