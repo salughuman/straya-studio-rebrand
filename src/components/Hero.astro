@@ -20,22 +20,22 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
     <!-- Authority Badge — 8pt Grid Lock (h-8 / 32px) -->
     <div
-      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-border-strong mb-4"
+      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-border-strong mb-4 reveal-stagger"
+      style="animation-delay: 120ms;"
     >
       <div
         class="hero-dot w-2 h-2 rounded-full bg-brand-secondary flex-shrink-0 shadow-primary"
       >
       </div>
-      <span
-        class="type-label text-text-secondary leading-none"
-      >
+      <span class="type-label text-text-secondary leading-none">
         {SITE_CONFIG.authority.certifications[0]}
       </span>
     </div>
 
     <!-- Main Headline — 20% Increase on Mobile (sm: 390px-809px) -->
     <h1
-      class="type-h1 text-white tracking-tighter mb-8 max-w-4xl mx-auto leading-[1.05] sm:text-[2.9rem] md:text-[clamp(2.5rem,5vw,4.5rem)]"
+      class="type-h1 text-white tracking-tighter mb-8 max-w-4xl mx-auto leading-[1.05] sm:text-[2.9rem] md:text-[clamp(2.5rem,5vw,4.5rem)] reveal-stagger"
+      style="animation-delay: 240ms;"
     >
       Designing & developing<br />
       <span class="text-brand-secondary italic">Ideas</span> Into Icons
@@ -43,7 +43,8 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
     <!-- Subheadline -->
     <p
-      class="subtitle type-body-lg text-text-secondary mx-auto max-w-[640px] mb-12"
+      class="subtitle type-body-lg text-text-secondary mx-auto max-w-[640px] mb-12 reveal-stagger"
+      style="animation-delay: 360ms;"
     >
       From Framer to Shopify — we engineer platforms that load faster, convert
       higher, and look like nothing else in your market.
@@ -51,7 +52,8 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
     <!-- Unified CTA System — Vertical on Mobile (<810px), Horizontal on Tablet+ (>=810px) -->
     <div
-      class="flex flex-col md:flex-row items-center justify-center gap-6 mb-24"
+      class="flex flex-col md:flex-row items-center justify-center gap-6 mb-24 reveal-stagger"
+      style="animation-delay: 480ms;"
     >
       <Button href="#pricing" label="Elevate my brand" variant="primary">
         <Icon
@@ -64,16 +66,15 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
   </div>
 
   <!-- Bento Foundation — Negative margin removed on <1200px -->
-  <div
-    class="relative z-10 w-full main-container lg:-mt-40 pb-12"
-  >
+  <div class="relative z-10 w-full main-container lg:-mt-40 pb-12">
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch lg:items-end"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch lg:items-end reveal-stagger"
       id="hero-bento"
+      style="animation-delay: 600ms;"
     >
       <!-- Authority Card -->
       <div
-      class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
       >
         <div class="bento-glow" aria-hidden="true"></div>
         <div class="relative z-10">
@@ -89,7 +90,7 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
       <!-- Tech Stack Elevation -->
       <div
-      class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
       >
         <div class="bento-glow" aria-hidden="true"></div>
         <div class="relative z-10">
@@ -105,7 +106,7 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
       <!-- Performance Lab -->
       <div
-      class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
       >
         <div class="bento-glow" aria-hidden="true"></div>
         <div class="relative z-10">
@@ -123,7 +124,7 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
 
       <!-- Founder Authority -->
       <div
-      class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
+        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
       >
         <div class="bento-glow" aria-hidden="true"></div>
         <div class="relative z-10">
@@ -171,8 +172,15 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
   }
 
   @keyframes heroDotBreathe {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
-    50% { opacity: 0.85; box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35); }
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba(60, 205, 127, 0);
+    }
+    50% {
+      opacity: 0.85;
+      box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35);
+    }
   }
 
   .hero-dot {
@@ -180,7 +188,9 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-dot { animation: none; }
+    .hero-dot {
+      animation: none;
+    }
   }
 
   .bento-glow {
@@ -196,5 +206,32 @@ import HeroEffects from "./design-effects/HeroEffects.astro";
     );
     pointer-events: none;
     z-index: 0;
+  }
+
+  @keyframes heroReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .reveal-stagger {
+    opacity: 0;
+    animation: heroReveal 640ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-stagger {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
   }
 </style>

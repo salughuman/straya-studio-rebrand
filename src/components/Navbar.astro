@@ -19,7 +19,7 @@ const navLinks = [
 >
   <nav
     id="navbar"
-    class="w-full mx-auto min-h-[72px] lg:h-[72px] flex flex-wrap lg:flex-nowrap items-center justify-between px-[var(--gutter-mobile)] md:px-[var(--gutter-tablet)] lg:pr-[16px] rounded-b-[var(--radius-md)] pointer-events-auto transition-all duration-300 ease-luxury border border-black/15 border-t-0 bg-brand-secondary/95 backdrop-blur-3xl shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
+    class="w-full mx-auto min-h-[72px] lg:h-[72px] flex flex-wrap lg:flex-nowrap items-center justify-between px-[var(--gutter-mobile)] md:px-[var(--gutter-tablet)] lg:pr-[16px] rounded-b-[var(--radius-md)] pointer-events-auto transition-all duration-300 ease-luxury border border-black/15 border-t-0 bg-brand-secondary shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
   >
     <!-- 1. Brand Mark (Left) -->
     <a
@@ -171,6 +171,27 @@ const navLinks = [
   /* Custom cubic-bezier timing utility if needed */
   .cubic-bezier {
     transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes navRevealDrop {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  #navbar-header {
+    animation: navRevealDrop 640ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #navbar-header {
+      animation: none !important;
+    }
   }
 </style>
 
