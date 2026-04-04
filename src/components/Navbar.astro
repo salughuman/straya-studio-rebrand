@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Pricing", href: `${baseUrl}#pricing` },
 ];
 ---
+
 <header
   id="navbar-header"
   class="fixed top-0 inset-x-0 mx-auto z-50 pointer-events-none transition-all duration-300 ease-luxury"
@@ -26,8 +27,14 @@ const navLinks = [
       class="flex items-center gap-2 group no-underline rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
       aria-label="Straya Studio Home"
     >
-      <span class="type-h5 text-[#05210f] font-bold tracking-tighter uppercase tabular-nums leading-none">Straya</span>
-      <span class="type-h5 text-white font-bold tracking-tighter uppercase tabular-nums italic leading-none">Studio</span>
+      <span
+        class="type-h4 text-[#05210f] font-bold tracking-tighter uppercase tabular-nums leading-none"
+        >Straya</span
+      >
+      <span
+        class="type-h4 text-white font-bold tracking-tighter uppercase tabular-nums italic leading-none"
+        >Studio</span
+      >
     </a>
 
     <!-- 2. Navigation Links (Center — Desktop Only) -->
@@ -67,45 +74,47 @@ const navLinks = [
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <span class="transition-opacity duration-300 ease-luxury leading-none">Menu</span>
+        <span class="transition-opacity duration-300 ease-luxury leading-none"
+          >Menu</span
+        >
       </button>
     </div>
     <!-- Mobile Menu (expands inside parent navbar container) -->
-    <div
-      id="mobile-menu"
-      class="lg:hidden basis-full w-full overflow-hidden"
-    >
-    <div class="px-0 py-10 flex flex-col items-start gap-6">
-      {
-        navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="mobile-nav-link text-[32px] md:text-[24px] font-medium text-[#05210f]/90 hover:text-white transition-colors duration-300 ease-luxury no-underline tracking-tighter rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
-          >
-            {link.label}
-          </a>
-        ))
-      }
+    <div id="mobile-menu" class="lg:hidden basis-full w-full overflow-hidden">
+      <div class="px-0 py-10 flex flex-col items-start gap-6">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="mobile-nav-link text-[32px] md:text-[24px] font-medium text-[#05210f]/90 hover:text-white transition-colors duration-300 ease-luxury no-underline tracking-tighter rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+            >
+              {link.label}
+            </a>
+          ))
+        }
 
-      <!-- Subtle Divider -->
-      <div class="w-full h-px bg-black/15 my-2"></div>
+        <!-- Subtle Divider -->
+        <div class="w-full h-px bg-black/15 my-2"></div>
 
-      <!-- Mobile Primary CTA -->
-      <a
-        href={SITE_CONFIG.socials.calendly}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-full h-14 flex items-center justify-center bg-[#050505] text-white font-bold text-sm rounded-md no-underline hover:bg-[#0f1115] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
-      >
-        Book a call
-      </a>
+        <!-- Mobile Primary CTA -->
+        <a
+          href={SITE_CONFIG.socials.calendly}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full h-14 flex items-center justify-center bg-[#050505] text-white font-bold text-sm rounded-md no-underline hover:bg-[#0f1115] transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]"
+        >
+          Book a call
+        </a>
 
-      <div class="w-full flex flex-col gap-1">
-        <p class="type-caption text-[#05210f]/70">50% upfront, 50% on delivery</p>
-        <p class="type-caption text-[#05210f]/70">2–3 active projects at a time</p>
+        <div class="w-full flex flex-col gap-1">
+          <p class="type-caption text-[#05210f]/70">
+            50% upfront, 50% on delivery
+          </p>
+          <p class="type-caption text-[#05210f]/70">
+            2–3 active projects at a time
+          </p>
+        </div>
       </div>
-
-    </div>
     </div>
   </nav>
 </header>
@@ -166,62 +175,67 @@ const navLinks = [
 </style>
 
 <script>
-  const header = document.getElementById('navbar-header');
-  const nav = document.getElementById('navbar');
-  const menuBtn = document.getElementById('menu-trigger');
-  const menuPanel = document.getElementById('mobile-menu');
-  const menuText = menuBtn?.querySelector('span');
-  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  const header = document.getElementById("navbar-header");
+  const nav = document.getElementById("navbar");
+  const menuBtn = document.getElementById("menu-trigger");
+  const menuPanel = document.getElementById("mobile-menu");
+  const menuText = menuBtn?.querySelector("span");
+  const mobileLinks = document.querySelectorAll(".mobile-nav-link");
 
   // 1. Scroll State Interaction (Threshold: 40px)
   const handleScroll = () => {
     if (window.scrollY > 40) {
-      nav?.classList.add('scrolled');
+      nav?.classList.add("scrolled");
     } else {
-      nav?.classList.remove('scrolled');
+      nav?.classList.remove("scrolled");
     }
   };
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener("scroll", handleScroll, { passive: true });
 
   // 2. Mobile Menu Logic
   const toggleMenu = (forceClose = false) => {
-    const isNowOpen = forceClose ? true : menuBtn?.getAttribute('aria-expanded') === 'true';
+    const isNowOpen = forceClose
+      ? true
+      : menuBtn?.getAttribute("aria-expanded") === "true";
     const nextState = !isNowOpen;
 
-    menuBtn?.setAttribute('aria-expanded', String(nextState));
-    
+    menuBtn?.setAttribute("aria-expanded", String(nextState));
+
     // Smooth Opacity Text Transition
     if (menuText) {
-      menuText.style.opacity = '0';
+      menuText.style.opacity = "0";
       setTimeout(() => {
-        menuText.innerText = nextState ? 'Close' : 'Menu';
-        menuText.style.opacity = '1';
+        menuText.innerText = nextState ? "Close" : "Menu";
+        menuText.style.opacity = "1";
       }, 280);
     }
 
     if (nextState) {
-      menuPanel?.classList.add('active');
-      nav?.classList.add('menu-open');
+      menuPanel?.classList.add("active");
+      nav?.classList.add("menu-open");
     } else {
-      menuPanel?.classList.remove('active');
-      nav?.classList.remove('menu-open');
+      menuPanel?.classList.remove("active");
+      nav?.classList.remove("menu-open");
     }
   };
 
-  menuBtn?.addEventListener('click', () => toggleMenu());
+  menuBtn?.addEventListener("click", () => toggleMenu());
 
   // 3. Auto-close Behaviors
   // ESC key closure
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menuBtn?.getAttribute('aria-expanded') === 'true') {
+  window.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Escape" &&
+      menuBtn?.getAttribute("aria-expanded") === "true"
+    ) {
       toggleMenu();
     }
   });
 
   // Link click closure
-  mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", () => {
       toggleMenu(true); // Close immediately
     });
   });
