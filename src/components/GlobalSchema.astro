@@ -1,323 +1,651 @@
 ---
 import { SITE_CONFIG } from "../data/site-config";
+import { faqItems } from "../data/faq";
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: SITE_CONFIG.fullName,
-  alternateName: SITE_CONFIG.name,
-  description:
-    "Straya Studio is a boutique web design and development studio that takes on 2–3 projects at a time. We deliver custom web design, web development, and graphic design across Framer, Webflow, Shopify, Wix, and WordPress for tech founders, startups, and growth-stage businesses.",
-  url: SITE_CONFIG.url,
-  image: `${SITE_CONFIG.url}/favicon.svg`,
-  logo: `${SITE_CONFIG.url}/favicon.svg`,
-  priceRange: "$$$",
-  telephone: "+923006444806",
-  email: SITE_CONFIG.contactEmail,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Sambrial, Sialkot",
-    addressRegion: "Punjab",
-    addressCountry: "PK",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: "32.48",
-    longitude: "74.35",
-  },
-  founder: {
-    "@type": "Person",
-    name: SITE_CONFIG.founder,
-    jobTitle: "Founder & Principal Engineer",
-    hasCertification: [
-      {
-        "@type": "Certification",
-        name: "Official Framer Expert",
-        issuingOrganization: {
-          "@type": "Organization",
-          name: "Framer",
-        },
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      name: SITE_CONFIG.fullName,
+      alternateName: SITE_CONFIG.name,
+      description:
+        "Straya Studio is a boutique web design and development studio that takes on 2–3 projects at a time. We deliver custom web design, web development, and graphic design across Framer, Webflow, Shopify, Wix, and WordPress for tech founders, startups, and growth-stage businesses.",
+      url: SITE_CONFIG.url,
+      image: `${SITE_CONFIG.url}/favicon.svg`,
+      logo: `${SITE_CONFIG.url}/favicon.svg`,
+      priceRange: "$$$",
+      telephone: "+923006444806",
+      email: SITE_CONFIG.contactEmail,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Sambrial, Sialkot",
+        addressRegion: "Punjab",
+        addressCountry: "PK",
       },
-    ],
-    knowsAbout: [
-      "Web Design",
-      "Web Development",
-      "Graphic Design",
-      "Brand Identity",
-      "UI/UX Design",
-      "Framer Development",
-      "Webflow Development",
-      "Shopify Development",
-      "Wix Development",
-      "WordPress Development",
-      "CMS Architecture",
-      "E-commerce",
-      "SEO",
-      "Core Web Vitals",
-      "Performance Optimization",
-      "React.js",
-      "Astro Framework",
-      "Tailwind CSS",
-    ],
-    sameAs: [
-      SITE_CONFIG.socials.framer,
-      SITE_CONFIG.socials.fiverr,
-      SITE_CONFIG.socials.contra,
-      SITE_CONFIG.socials.linkedIn,
-      SITE_CONFIG.socials.github,
-    ],
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Straya Studio Services",
-    itemListElement: [
-      // ── Core Discipline 1: Web Design ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Web Design",
-          description:
-            "Custom responsive web design including wireframes, creative direction, brand-led visual design, and mobile-first layouts. No templates.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Responsive Web Design" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wireframing" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Creative Direction" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Brand-Led Visual Design" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Landing Page Design" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "UI/UX Design" } },
-            ],
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: "32.48",
+        longitude: "74.35",
+      },
+      founder: {
+        "@type": "Person",
+        name: SITE_CONFIG.founder,
+        jobTitle: "Founder & Principal Engineer",
+        hasCertification: [
+          {
+            "@type": "Certification",
+            name: "Official Framer Expert",
+            issuingOrganization: {
+              "@type": "Organization",
+              name: "Framer",
+            },
           },
-        },
+        ],
+        knowsAbout: [
+          "Web Design",
+          "Web Development",
+          "Graphic Design",
+          "Brand Identity",
+          "UI/UX Design",
+          "Framer Development",
+          "Webflow Development",
+          "Shopify Development",
+          "Wix Development",
+          "WordPress Development",
+          "CMS Architecture",
+          "E-commerce",
+          "SEO",
+          "Core Web Vitals",
+          "Performance Optimization",
+          "React.js",
+          "Astro Framework",
+          "Tailwind CSS",
+        ],
+        sameAs: [
+          SITE_CONFIG.socials.framer,
+          SITE_CONFIG.socials.fiverr,
+          SITE_CONFIG.socials.contra,
+          SITE_CONFIG.socials.linkedIn,
+          SITE_CONFIG.socials.github,
+        ],
       },
-      // ── Core Discipline 2: Web Development ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Web Development",
-          description:
-            "Production-ready web development across Framer, Webflow, Shopify, Wix, and WordPress. CMS architecture, custom interactions, 90+ Lighthouse performance, and full launch support.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "CMS Architecture" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Custom Interactions & Animations" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Performance Optimization" } },
-            ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Straya Studio Services",
+        itemListElement: [
+          // ── Core Discipline 1: Web Design ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Web Design",
+              description:
+                "Custom responsive web design including wireframes, creative direction, brand-led visual design, and mobile-first layouts. No templates.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Responsive Web Design",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wireframing" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Creative Direction" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Brand-Led Visual Design",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Landing Page Design",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "UI/UX Design" },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Core Discipline 3: Graphic Design ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Graphic Design",
-          description:
-            "Social media kits, pitch decks, brand assets, marketing collateral, ad creatives, and presentation design.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Social Media Kits" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Pitch Deck Design" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Brand Asset Creation" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Marketing Collateral" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ad Creatives" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Presentation Design" } },
-            ],
+          // ── Core Discipline 2: Web Development ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Web Development",
+              description:
+                "Production-ready web development across Framer, Webflow, Shopify, Wix, and WordPress. CMS architecture, custom interactions, 90+ Lighthouse performance, and full launch support.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Framer Development" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wix Development" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "CMS Architecture" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Custom Interactions & Animations",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Performance Optimization",
+                    },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Platform: Framer (Premium) ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Framer Development",
-          serviceType: "Premium",
-          description:
-            "Custom Framer site builds, CMS setup, React code components, plugin development, Marketplace publishing, animations, responsivity audits, migration, and performance optimization.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Site Builds" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer CMS & Dynamic Pages" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Custom Code Components" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Plugin Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Marketplace Publishing" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Animation & Interactions" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Responsivity Fixes" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Site Migration" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Framer Performance Optimization" } },
-            ],
+          // ── Core Discipline 3: Graphic Design ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Graphic Design",
+              description:
+                "Social media kits, pitch decks, brand assets, marketing collateral, ad creatives, and presentation design.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Social Media Kits" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Pitch Deck Design" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Brand Asset Creation",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Marketing Collateral",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Ad Creatives" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Presentation Design",
+                    },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Platform: Webflow (Premium) ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Webflow Development",
-          serviceType: "Premium",
-          description:
-            "Full Webflow site builds, enterprise CMS architecture, Ecommerce, custom interactions, Make.com/Zapier automation, memberships, Figma-to-Webflow, SEO, migration, and hosting.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Site Builds" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow CMS Architecture" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Ecommerce" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Interactions" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Automation (Make.com/Zapier)" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Memberships" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Figma to Webflow" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow SEO" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Webflow Migration" } },
-            ],
+          // ── Platform: Framer (Premium) ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Framer Development",
+              serviceType: "Premium",
+              description:
+                "Custom Framer site builds, CMS setup, React code components, plugin development, Marketplace publishing, animations, responsivity audits, migration, and performance optimization.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Framer Site Builds" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer CMS & Dynamic Pages",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Custom Code Components",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Plugin Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Marketplace Publishing",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Animation & Interactions",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Responsivity Fixes",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Site Migration",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Framer Performance Optimization",
+                    },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Platform: Shopify (Premium) ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Shopify Development",
-          serviceType: "Premium",
-          description:
-            "Custom Shopify store builds, theme customization, Liquid engineering, app integration, Shopify Plus, checkout optimization, SEO, migration, headless Hydrogen, and performance optimization.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Store Builds" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Theme Customization" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Liquid Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Apps Integration" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Plus Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Checkout Optimization" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify SEO" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Shopify Migration" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Headless Shopify (Hydrogen)" } },
-            ],
+          // ── Platform: Webflow (Premium) ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Webflow Development",
+              serviceType: "Premium",
+              description:
+                "Full Webflow site builds, enterprise CMS architecture, Ecommerce, custom interactions, Make.com/Zapier automation, memberships, Figma-to-Webflow, SEO, migration, and hosting.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow Site Builds",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow CMS Architecture",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Webflow Ecommerce" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow Interactions",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow Automation (Make.com/Zapier)",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Webflow Memberships",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Figma to Webflow" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Webflow SEO" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Webflow Migration" },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Platform: Wix (Accessible) ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Wix Development",
-          serviceType: "Accessible",
-          description:
-            "Custom Wix site builds, Wix Studio, Velo development, CMS setup, e-commerce, booking integrations, and migration from other platforms.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix Site Builds" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix Studio Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix Velo Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix CMS Setup" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix E-commerce" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Wix Migration" } },
-            ],
+          // ── Platform: Shopify (Premium) ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Shopify Development",
+              serviceType: "Premium",
+              description:
+                "Custom Shopify store builds, theme customization, Liquid engineering, app integration, Shopify Plus, checkout optimization, SEO, migration, headless Hydrogen, and performance optimization.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Store Builds",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Theme Customization",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Liquid Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Apps Integration",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Plus Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Shopify Checkout Optimization",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Shopify SEO" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Shopify Migration" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Headless Shopify (Hydrogen)",
+                    },
+                  },
+                ],
+              },
+            },
           },
-        },
-      },
-      // ── Platform: WordPress (Accessible) ──
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "WordPress Development",
-          serviceType: "Accessible",
-          description:
-            "Custom WordPress theme development, Elementor and ACF builds, WooCommerce, page speed optimization, security hardening, migration, Gutenberg blocks, and multisite.",
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Custom Theme Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Elementor Builds" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress ACF Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WooCommerce Setup & Customization" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Page Speed Optimization" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Security Hardening" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Migration" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "Gutenberg Block Development" } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "WordPress Multisite" } },
-            ],
+          // ── Platform: Wix (Accessible) ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Wix Development",
+              serviceType: "Accessible",
+              description:
+                "Custom Wix site builds, Wix Studio, Velo development, CMS setup, e-commerce, booking integrations, and migration from other platforms.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wix Site Builds" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Wix Studio Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Wix Velo Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wix CMS Setup" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wix E-commerce" },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: "Wix Migration" },
+                  },
+                ],
+              },
+            },
           },
-        },
+          // ── Platform: WordPress (Accessible) ──
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "WordPress Development",
+              serviceType: "Accessible",
+              description:
+                "Custom WordPress theme development, Elementor and ACF builds, WooCommerce, page speed optimization, security hardening, migration, Gutenberg blocks, and multisite.",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Custom Theme Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Elementor Builds",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress ACF Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WooCommerce Setup & Customization",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Page Speed Optimization",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Security Hardening",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Migration",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Gutenberg Block Development",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "WordPress Multisite",
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          // ── Pricing Tiers ──
+          {
+            "@type": "Offer",
+            name: "Starter Project",
+            description:
+              "Landing pages, single-page sites, Shopify theme customisations, or standalone graphic design projects. Custom design, development on any platform, mobile-first build, SEO, 2 revision rounds, and launch support.",
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "USD",
+              minPrice: "2500",
+              maxPrice: "5000",
+            },
+          },
+          {
+            "@type": "Offer",
+            name: "Growth Project",
+            description:
+              "Multi-page websites, brand-led redesigns, e-commerce stores, or marketing sites. Up to 10 custom pages, CMS architecture, interactions, brand identity, 90+ Lighthouse, unlimited revisions.",
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "USD",
+              minPrice: "5000",
+              maxPrice: "12000",
+            },
+          },
+          {
+            "@type": "Offer",
+            name: "Premium Project",
+            description:
+              "Complex platforms, full brand overhauls, custom web applications, or high-traffic e-commerce. Discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, 60-day post-launch support.",
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "USD",
+              minPrice: "12000",
+              maxPrice: "25000",
+            },
+          },
+        ],
       },
-      // ── Pricing Tiers ──
-      {
-        "@type": "Offer",
-        name: "Starter Project",
-        description:
-          "Landing pages, single-page sites, Shopify theme customisations, or standalone graphic design projects. Custom design, development on any platform, mobile-first build, SEO, 2 revision rounds, and launch support.",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          priceCurrency: "USD",
-          minPrice: "2500",
-          maxPrice: "5000",
-        },
+      areaServed: [
+        { "@type": "Country", name: "United States" },
+        { "@type": "Country", name: "Canada" },
+        { "@type": "Country", name: "Australia" },
+        { "@type": "Country", name: "United Kingdom" },
+        { "@type": "Country", name: "Germany" },
+        { "@type": "Country", name: "Netherlands" },
+        { "@type": "Country", name: "France" },
+        { "@type": "Country", name: "Ireland" },
+      ],
+      award: "100+ Five-Star Projects Delivered",
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "5.0",
+        bestRating: "5",
+        worstRating: "1",
+        ratingCount: "100",
       },
-      {
-        "@type": "Offer",
-        name: "Growth Project",
-        description:
-          "Multi-page websites, brand-led redesigns, e-commerce stores, or marketing sites. Up to 10 custom pages, CMS architecture, interactions, brand identity, 90+ Lighthouse, unlimited revisions.",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          priceCurrency: "USD",
-          minPrice: "5000",
-          maxPrice: "12000",
+      sameAs: [
+        SITE_CONFIG.url,
+        `https://www.linkedin.com/company/${SITE_CONFIG.name.toLowerCase().replace(" ", "-")}`,
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
         },
-      },
-      {
-        "@type": "Offer",
-        name: "Premium Project",
-        description:
-          "Complex platforms, full brand overhauls, custom web applications, or high-traffic e-commerce. Discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, 60-day post-launch support.",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          priceCurrency: "USD",
-          minPrice: "12000",
-          maxPrice: "25000",
-        },
-      },
-    ],
-  },
-  areaServed: [
-    { "@type": "Country", name: "United States" },
-    { "@type": "Country", name: "Canada" },
-    { "@type": "Country", name: "Australia" },
-    { "@type": "Country", name: "United Kingdom" },
-    { "@type": "Country", name: "Germany" },
-    { "@type": "Country", name: "Netherlands" },
-    { "@type": "Country", name: "France" },
-    { "@type": "Country", name: "Ireland" },
-  ],
-  award: "100+ Five-Star Projects Delivered",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5.0",
-    bestRating: "5",
-    worstRating: "1",
-    ratingCount: "100",
-  },
-  sameAs: [
-    SITE_CONFIG.url,
-    `https://www.linkedin.com/company/${SITE_CONFIG.name.toLowerCase().replace(' ', '-')}`,
+      })),
+    },
   ],
 };
 ---

@@ -17,7 +17,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "What does pricing look like?",
     answer:
-      "Projects range from $2,500 for focused single-page builds to $25,000+ for complex platforms. Every quote is fixed and scoped — 50% upfront, 50% on delivery. No hourly billing, no surprise invoices.",
+      "Projects range from $2,000 for focused single-page builds to $10,000+ for complex platforms. Every quote is fixed and scoped — 50% upfront, 50% on delivery. No hourly billing, no surprise invoices.",
   },
   {
     question: "How long does a typical build take?",
