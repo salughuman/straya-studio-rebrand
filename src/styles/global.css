@@ -138,6 +138,16 @@
 		}
 	}
 	
+	/* Card padding — consistent across all card components */
+	.card-pad {
+		padding: 1.25rem; /* 20px mobile */
+	}
+	@media (min-width: 810px) {
+		.card-pad {
+			padding: 2rem; /* 32px desktop */
+		}
+	}
+
 	/* Card Styles */
 	.card-surface {
 		background-color: var(--color-surface, theme('colors.surface'));

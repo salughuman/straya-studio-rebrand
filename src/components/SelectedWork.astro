@@ -75,7 +75,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none"></div>
           </div>
           <!-- Content -->
-          <div class="p-4 md:p-8 flex items-start justify-between gap-6 border-t border-black/5">
+          <div class="card-pad flex items-start justify-between gap-6 border-t border-black/5">
             <div class="flex flex-col gap-2 min-w-0">
               <h3 class="type-h3 text-on-background">{featured.title}</h3>
               <p class="type-label text-on-background/40">{featured.sector}</p>
@@ -95,7 +95,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
       )}
 
       <!-- Studio status card — narrow -->
-      <div class="md:col-span-4 bg-primary flex flex-col justify-between p-4 md:p-8 group">
+      <div class="md:col-span-4 bg-primary flex flex-col justify-between card-pad group">
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-accent status-dot" aria-hidden="true"></span>
@@ -147,7 +147,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             )}
           </div>
           <!-- Content -->
-          <div class="p-4 md:p-6 flex items-start justify-between gap-4 border-t border-black/5 flex-1">
+          <div class="card-pad flex items-start justify-between gap-4 border-t border-black/5 flex-1">
             <div class="flex flex-col gap-1.5 min-w-0">
               <h3 class="type-h4 text-on-background">{project.title}</h3>
               <p class="type-label text-on-background/40">{project.sector}</p>
