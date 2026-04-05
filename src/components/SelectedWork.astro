@@ -24,16 +24,18 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
     <!-- Header -->
     <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
-        <span class="type-label text-on-background/40 block mb-3">Selected work</span>
+        <span class="sw-el type-label text-on-background/40 block mb-3" data-delay="0">Selected work</span>
         <h2 class="type-h2 text-on-background max-w-lg">
-          Recent deployments across Framer, Webflow, and Shopify.
+          <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="80">Recent deployments across</span></span>
+          <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="140">Framer, Webflow, and Shopify.</span></span>
         </h2>
       </div>
       <a
         href={SITE_CONFIG.socials.calendly}
         target="_blank"
         rel="noopener noreferrer"
-        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
+        class="sw-el magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
+        data-delay="240"
       >
         Start a project
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -43,7 +45,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
     </header>
 
     <!-- Bento grid -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
+    <div class="sw-el grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5" data-delay="360">
 
       <!-- Featured project — wide -->
       {featured && (
@@ -73,7 +75,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none"></div>
           </div>
           <!-- Content -->
-          <div class="p-8 flex items-start justify-between gap-6 border-t border-black/5">
+          <div class="p-4 md:p-8 flex items-start justify-between gap-6 border-t border-black/5">
             <div class="flex flex-col gap-2 min-w-0">
               <h3 class="type-h3 text-on-background">{featured.title}</h3>
               <p class="type-label text-on-background/40">{featured.sector}</p>
@@ -93,7 +95,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
       )}
 
       <!-- Studio status card — narrow -->
-      <div class="md:col-span-4 bg-primary flex flex-col justify-between p-8 group">
+      <div class="md:col-span-4 bg-primary flex flex-col justify-between p-4 md:p-8 group">
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-accent status-dot" aria-hidden="true"></span>
@@ -145,12 +147,12 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             )}
           </div>
           <!-- Content -->
-          <div class="p-6 flex items-start justify-between gap-4 border-t border-black/5 flex-1">
+          <div class="p-4 md:p-6 flex items-start justify-between gap-4 border-t border-black/5 flex-1">
             <div class="flex flex-col gap-1.5 min-w-0">
               <h3 class="type-h4 text-on-background">{project.title}</h3>
               <p class="type-label text-on-background/40">{project.sector}</p>
               <!-- Description — visible on hover -->
-              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500 ease-luxury">
+              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-h-0 overflow-hidden group-hover:max-h-40 transition-all duration-500 ease-luxury">
                 {project.description}
               </p>
             </div>
@@ -172,17 +174,14 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
 </section>
 
 <style>
-  /* ── Card entrance ─────────────────────────────────────────── */
-  .work-card {
+  /* Header elements start hidden */
+  .sw-el {
     opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(28px);
   }
-  .work-card.is-visible {
+  .sw-line .sw-el {
+    transform: translateY(100%);
     opacity: 1;
-    transform: translateY(0);
   }
 
   /* ── Status dot ────────────────────────────────────────────── */
@@ -195,23 +194,53 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .work-card { opacity: 1; transform: none; transition: none; }
+    .sw-el { opacity: 1 !important; transform: none !important; }
     .status-dot { animation: none; }
   }
 </style>
 
 <script>
-  const cards = document.querySelectorAll('.work-card');
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
 
-  const observer = new IntersectionObserver(entries => {
+  // ── Header entrance (IntersectionObserver) ──────────────────
+  const headerEls = document.querySelectorAll<HTMLElement>('.sw-el');
+
+  const headerObserver = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    headerEls.forEach(el => {
+      const delay   = parseInt(el.dataset.delay ?? '0');
+      const isLine  = el.closest('.sw-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+      );
+    });
+    headerObserver.disconnect();
+  }, { threshold: 0.15 });
+
+  const section = document.getElementById('work');
+  if (section) headerObserver.observe(section);
+
+  // ── Card entrance ────────────────────────────────────────────
+  // Cards use the existing work-card class — keep IntersectionObserver
+  // but replace CSS transition with Web Animations API for consistency
+  const cards = document.querySelectorAll<HTMLElement>('.work-card');
+
+  const cardObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el  = entry.target as HTMLElement;
       const idx = parseInt(el.dataset.index ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), idx * 80);
-      observer.unobserve(el);
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay: 360 + idx * 60, easing: EASE, fill: 'forwards' }
+      );
+      cardObserver.unobserve(el);
     });
   }, { threshold: 0.08 });
 
-  cards.forEach(c => observer.observe(c));
+  cards.forEach(c => cardObserver.observe(c));
 </script>

@@ -25,22 +25,24 @@ import TrustGrid from "./TrustGrid.astro";
 
       <!-- Left: Headline -->
       <div class="z-depth-1">
-        <span class="type-label text-on-background/40 mb-4 block">
+        <span class="hero-el type-label text-on-background/40 mb-4 block" data-delay="0">
           EST. 2024 / MELBOURNE
         </span>
         <h1 class="type-h1 text-on-background uppercase">
-          Cinematic<br />Digital<br />Deployments
+          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="80">Cinematic</span></span>
+          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="140">Digital</span></span>
+          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="200">Deployments</span></span>
         </h1>
       </div>
 
       <!-- Right: Description + Founder -->
       <div class="max-w-md text-left md:text-right z-depth-1">
-        <p class="type-body text-on-surface-variant mb-6">
+        <p class="hero-el type-body text-on-surface-variant mb-6" data-delay="320">
           Designing &amp; developing ideas into icons. From Framer to Shopify — we
           engineer platforms that load faster, convert higher, and look like
           nothing else in your market.
         </p>
-        <div class="flex items-center justify-start md:justify-end gap-2">
+        <div class="hero-el flex items-center justify-start md:justify-end gap-2" data-delay="400">
           <span class="type-label text-on-background">SALMAN ALI</span>
           <span class="w-8 h-px bg-black/10" aria-hidden="true"></span>
           <span class="type-label text-on-background/40">Founder / Framer Expert</span>
@@ -53,46 +55,107 @@ import TrustGrid from "./TrustGrid.astro";
       class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
       aria-label="Studio metrics"
     >
-      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+      <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="480">
         <div class="type-h2 mb-1" aria-label="100 plus deployments">100+</div>
         <div class="type-label text-on-background/40">Deployments</div>
       </div>
-      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+      <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="520">
         <div class="type-h2 mb-1" aria-label="5 point 0 star rating">5.0</div>
         <div class="type-label text-on-background/40">Rating</div>
       </div>
-      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+      <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="560">
         <div class="type-h2 mb-1">100%</div>
         <div class="type-label text-on-background/40">Quality</div>
       </div>
-      <div class="p-8 border border-black/5 bg-primary group hover:bg-secondary transition-colors duration-300">
+      <div class="hero-el p-8 border border-black/5 bg-primary group hover:bg-secondary transition-colors duration-300" data-delay="600">
         <div class="type-h2 text-on-primary mb-1">Elite</div>
         <div class="type-label text-on-primary/60">Status</div>
       </div>
     </div>
 
     <!-- CTA Row -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-16">
+    <div class="hero-el flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-16" data-delay="680">
       <a
         href="/contact"
-        class="magnetic-cta z-depth-2 inline-flex items-center gap-3 bg-primary text-on-primary px-8 py-4 type-button hover:bg-accent transition-colors duration-300"
+        class="magnetic-cta z-depth-2 inline-flex items-center gap-3 bg-primary text-on-primary px-8 py-4 type-button hover:bg-accent transition-colors duration-300 whitespace-nowrap"
         aria-label="Start a project with Straya Studio"
       >
         Initiate Project
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="flex-shrink-0">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
       <a
         href="#work"
-        class="inline-flex items-center gap-2 type-label text-on-background/40 hover:text-on-background transition-colors duration-300 border-b border-transparent hover:border-on-background/20 pb-px"
+        class="inline-flex items-center gap-2 type-label text-on-background/40 hover:text-on-background transition-colors duration-300 border-b border-transparent hover:border-on-background/20 pb-px whitespace-nowrap"
       >
         View Selected Work
       </a>
     </div>
 
     <!-- Platform Marquee -->
-    <TrustGrid />
+    <div class="hero-el" data-delay="760">
+      <TrustGrid />
+    </div>
 
   </div>
 </section>
+
+<style>
+  /* All hero elements start hidden */
+  .hero-el {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  /* Headline lines — clip reveal from bottom */
+  .hero-line {
+    display: block;
+    overflow: hidden;
+  }
+  .hero-line .hero-el {
+    transform: translateY(100%);
+    opacity: 1; /* opacity handled by clip, not fade */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-el { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+
+<script>
+  // GSAP-style entrance — power3.out easing via cubic-bezier
+  // Each element animates independently with its own delay
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)'; // power3.out equivalent
+  const DURATION = 900; // ms — slightly longer for premium feel
+
+  const els   = document.querySelectorAll<HTMLElement>('.hero-el');
+  const lines = document.querySelectorAll<HTMLElement>('.hero-line .hero-el');
+
+  // Small RAF delay so browser has painted before animating
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+
+      els.forEach(el => {
+        const delay = parseInt(el.dataset.delay ?? '0');
+        const isLine = el.closest('.hero-line') !== null;
+
+        el.animate(
+          isLine
+            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+            : [
+                { opacity: 0, transform: 'translateY(28px)' },
+                { opacity: 1, transform: 'translateY(0px)' },
+              ],
+          {
+            duration: DURATION,
+            delay,
+            easing: EASE,
+            fill: 'forwards',
+          }
+        );
+      });
+
+    });
+  });
+</script>

@@ -1,6 +1,23 @@
 /**
  * Selected work — curated case-style entries for the homepage grid.
  * Platform tags must follow tier order: Framer → Webflow → Shopify → WordPress.
+ *
+ * IMAGE GUIDELINES
+ * ─────────────────────────────────────────────────────────────────
+ * Featured project (first item, featured: true):
+ *   Aspect ratio : 16:9  (e.g. 1600 × 900px)
+ *   Path         : /images/work/<slug>.webp
+ *   Max size     : 300KB
+ *
+ * Grid cards (remaining items):
+ *   Aspect ratio : 4:3  (e.g. 800 × 600px)
+ *   Path         : /images/work/<slug>.webp
+ *   Max size     : 150KB
+ *
+ * Format: WebP preferred, AVIF acceptable.
+ * All images should be grayscale-friendly (they render grayscale by default,
+ * color on hover) — avoid images that rely on color to communicate meaning.
+ * ─────────────────────────────────────────────────────────────────
  */
 
 export interface SelectedProject {

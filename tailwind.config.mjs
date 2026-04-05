@@ -145,7 +145,9 @@ export default {
                     '--tracking-blueprint':     tokens.typography.style.blueprintTracking,
                     // Effects
                     '--transition-base':        tokens.effects.transition.base,
+                    '--transition-entrance':    tokens.effects.transition.entrance,
                     '--transition-luxury':      tokens.effects.transition.elastic,
+                    '--duration-entrance':      tokens.effects.duration.entrance,
                     '--depth-1':                tokens.effects.depth['1'],
                     '--depth-2':                tokens.effects.depth['2'],
                     '--depth-3':                tokens.effects.depth['3'],
@@ -286,6 +288,7 @@ export default {
                     letterSpacing: tokens.typography.button.letterSpacing,
                     fontFamily:    tokens.typography.button.fontFamily,
                     textTransform: tokens.typography.button.textTransform,
+                    whiteSpace:    'nowrap',
                 },
 
                 // ─── Layout ───────────────────────────────────────────────────

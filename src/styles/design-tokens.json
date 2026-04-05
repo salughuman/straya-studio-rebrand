@@ -305,7 +305,8 @@
         "_comment": "All motion values. Use transition.base for standard interactions, transition.elastic for luxury feel. depth values require perspective-1k on parent.",
 
         "transition": {
-            "_comment": "base = standard UI interactions. elastic = luxury/premium feel (used on CTAs). smooth = standard Tailwind ease. bouncy = playful (avoid in production).",
+            "_comment": "entrance = power3.out for all section entrances (LOCKED). base = standard UI interactions. elastic = luxury/premium feel (used on CTAs). smooth = standard Tailwind ease. bouncy = playful (avoid in production).",
+            "entrance": "cubic-bezier(0.16, 1, 0.3, 1)",
             "base": "cubic-bezier(0.19, 1, 0.22, 1)",
             "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
             "elastic": "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -313,11 +314,30 @@
         },
 
         "duration": {
-            "_comment": "fast = micro-interactions (icon hover). normal = buttons/links. slow = cards/panels. verySlow = page transitions.",
+            "_comment": "entrance = section/hero entrances (LOCKED 900ms). fast = micro-interactions. normal = buttons/links/hover. slow = cards/panels. verySlow = page transitions.",
+            "entrance": "900ms",
             "fast": "150ms",
             "normal": "300ms",
             "slow": "500ms",
             "verySlow": "1000ms"
+        },
+
+        "stagger": {
+            "_comment": "Stagger delays for sequential elements (LOCKED). label=0, heading=80-120ms, body=240ms, cards=360ms+60ms each, cta=last+80ms.",
+            "label": 0,
+            "heading": 80,
+            "headingLine": 60,
+            "body": 240,
+            "card": 360,
+            "cardStep": 60,
+            "cta": 80
+        },
+
+        "enterFrom": {
+            "_comment": "All elements start from this state (LOCKED). Headlines use translateY(100%) inside overflow:hidden for clip reveal.",
+            "opacity": 0,
+            "translateY": "28px",
+            "headlineTranslateY": "100%"
         },
 
         "depth": {
