@@ -1,4 +1,4 @@
-name: Deploy Staging to Cloudflare Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -6,17 +6,18 @@ on:
       - staging-pages
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
-  group: cf-pages-staging
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,11 +32,25 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: npm run build
+        run: npm run build -- --site "https://salughuman.github.io" --base "/straya-studio-rebrand/"
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=straya-studio --branch=staging
+          enablement: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
