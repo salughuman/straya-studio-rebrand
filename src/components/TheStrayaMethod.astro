@@ -1,9 +1,7 @@
 ---
 // TheStrayaMethod.astro — Straya Studio [IMMERSIVE]
-// Scroll-driven process timeline. Each step enters sequentially.
-// Active step highlighted with accent line + number scale.
-// GEMINI §3: scroll-linked, unique interactive moment, spatial narrative.
-// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+// Numbered process timeline with scroll-driven active states.
+// Standard entrance animations (GEMINI §7).
 
 const steps = [
   {
@@ -58,63 +56,61 @@ const steps = [
   <div class="main-container mb-16">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
-        <span class="type-label text-on-background/40 block mb-3">How we work</span>
+        <span class="m-el type-label text-on-background/40 block mb-3" data-delay="0">How we work</span>
         <h2 class="type-h2 text-on-background max-w-lg">
-          The Straya Method — four stages, zero shortcuts.
+          <span class="m-line block overflow-hidden"><span class="m-el inline-block" data-delay="80">The Straya Method —</span></span>
+          <span class="m-line block overflow-hidden"><span class="m-el inline-block" data-delay="140">four stages, zero shortcuts.</span></span>
         </h2>
       </div>
-      <span class="type-label text-on-background/20 flex-shrink-0">V1.0.2 / SYSTEM_STATUS: STABLE</span>
+      <span class="m-el type-label text-on-background/20 flex-shrink-0" data-delay="240">V1.0.2 / SYSTEM_STATUS: STABLE</span>
+    </div>
+  </div>
+
+  <!-- Progress track — desktop only -->
+  <div class="main-container mb-0 hidden md:block" aria-hidden="true">
+    <div class="relative h-px bg-black/5">
+      <div id="method-progress" class="h-full bg-accent absolute left-0 top-0 transition-all duration-700 ease-luxury" style="width: 0%;"></div>
     </div>
   </div>
 
   <!-- Steps -->
   <div class="main-container" id="method-steps">
-
-    <!-- Progress bar — fills as steps become active -->
-    <div class="relative mb-12 hidden md:block" aria-hidden="true">
-      <div class="h-px bg-black/5 w-full"></div>
-      <div id="method-progress" class="h-px bg-accent absolute top-0 left-0 transition-all duration-700 ease-luxury" style="width: 0%;"></div>
-    </div>
-
-    <!-- Step grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/5">
       {steps.map((step, i) => (
         <div
-          class="method-step bg-background group relative overflow-hidden flex flex-col gap-8 card-pad"
+          class="method-step bg-background group relative overflow-hidden flex flex-col card-pad"
           data-step={i}
         >
-          <!-- Large background number -->
+          <!-- Ghost number -->
           <span
-            class="method-step-num absolute top-6 right-6 font-display font-medium text-on-background/[0.04] select-none pointer-events-none transition-all duration-700"
-            style={`font-size: clamp(4rem, 8vw, 6rem); line-height: 1;`}
+            class="method-num absolute top-4 right-4 font-display font-medium select-none pointer-events-none transition-all duration-700 text-on-background/[0.04]"
+            style="font-size: clamp(3.5rem, 7vw, 5rem); line-height: 1;"
             aria-hidden="true"
           >
             {step.num}
           </span>
 
-          <!-- Step number + accent line -->
-          <div class="flex items-center gap-3">
-            <span
-              class="method-step-index type-label text-on-background/30 transition-colors duration-500"
-            >
+          <!-- Index + fill line -->
+          <div class="flex items-center gap-3 mb-8">
+            <span class="method-index type-label text-on-background/25 transition-colors duration-500 flex-shrink-0">
               {step.num}
             </span>
-            <div class="method-step-line h-px flex-1 bg-black/5 relative overflow-hidden">
-              <div class="method-step-line-fill h-full bg-accent absolute left-0 top-0 w-0 transition-all duration-700 ease-luxury"></div>
+            <div class="h-px flex-1 bg-black/5 relative overflow-hidden">
+              <div class="method-fill h-full bg-accent absolute left-0 top-0 w-0 transition-all duration-700 ease-luxury"></div>
             </div>
           </div>
 
           <!-- Title -->
-          <h3 class="type-h3 text-on-background uppercase tracking-tight">{step.title}</h3>
+          <h3 class="type-h3 text-on-background uppercase mb-4">{step.title}</h3>
 
           <!-- Description -->
-          <p class="type-body-small text-on-surface-variant leading-relaxed">{step.description}</p>
+          <p class="type-body-small text-on-surface-variant leading-relaxed mb-8">{step.description}</p>
 
-          <!-- Deliverables list -->
-          <ul class="flex flex-col gap-3 mt-auto" aria-label={`${step.title} deliverables`}>
-            {step.items.map((item) => (
+          <!-- Items -->
+          <ul class="flex flex-col gap-3 mt-auto border-t border-black/5 pt-6" aria-label={`${step.title} deliverables`}>
+            {step.items.map(item => (
               <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
-                <span class="method-dot w-1 h-1 rounded-full bg-black/20 mt-1.5 shrink-0 transition-colors duration-500"></span>
+                <span class="method-dot w-1 h-1 rounded-full bg-black/15 mt-[9px] shrink-0 transition-colors duration-500"></span>
                 {item}
               </li>
             ))}
@@ -122,101 +118,110 @@ const steps = [
         </div>
       ))}
     </div>
-
   </div>
 </section>
 
 <style>
+  /* ── Header elements ───────────────────────────────────────── */
+  .m-el {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .m-line .m-el {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+
   /* ── Step entrance ─────────────────────────────────────────── */
   .method-step {
     opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      background-color 0.4s ease;
-  }
-
-  .method-step.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateY(28px);
   }
 
   /* ── Active step ───────────────────────────────────────────── */
   .method-step.is-active {
     background-color: theme('colors.surface-container-lowest');
   }
-
-  .method-step.is-active .method-step-index {
+  .method-step.is-active .method-index {
     color: theme('colors.on-background');
   }
-
-  .method-step.is-active .method-step-line-fill {
+  .method-step.is-active .method-fill {
     width: 100%;
   }
-
-  .method-step.is-active .method-step-num {
+  .method-step.is-active .method-num {
     color: rgba(0, 0, 0, 0.07);
-    transform: scale(1.05);
+    transform: scale(1.04);
     transform-origin: top right;
   }
-
   .method-step.is-active .method-dot {
     background-color: theme('colors.accent');
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .method-step {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-    .method-step-line-fill,
-    #method-progress {
-      transition: none;
-    }
+    .m-el { opacity: 1 !important; transform: none !important; }
+    .method-step { opacity: 1; transform: none; }
+    .method-fill, #method-progress { transition: none; }
   }
 </style>
 
 <script>
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
+
+  // ── Header entrance ─────────────────────────────────────────
+  const headerEls = document.querySelectorAll<HTMLElement>('#method .m-el');
+
+  const headerObs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    headerEls.forEach(el => {
+      const delay  = parseInt(el.dataset.delay ?? '0');
+      const isLine = el.closest('.m-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+      );
+    });
+    headerObs.disconnect();
+  }, { rootMargin: MARGIN, threshold: 0 });
+
+  const section = document.getElementById('method');
+  if (section) headerObs.observe(section);
+
+  // ── Step entrance ────────────────────────────────────────────
   const steps    = document.querySelectorAll<HTMLElement>('.method-step');
   const progress = document.getElementById('method-progress');
 
-  // ── Entrance observer ───────────────────────────────────────
-  const entranceObserver = new IntersectionObserver(entries => {
+  const entranceObs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      const el    = entry.target as HTMLElement;
-      const index = parseInt(el.dataset.step ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), index * 100);
-      entranceObserver.unobserve(el);
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.step ?? '0');
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay: 360 + idx * 80, easing: EASE, fill: 'forwards' }
+      );
+      entranceObs.unobserve(el);
     });
-  }, { threshold: 0.15 });
+  }, { rootMargin: MARGIN, threshold: 0 });
 
-  steps.forEach(s => entranceObserver.observe(s));
+  steps.forEach(s => entranceObs.observe(s));
 
-  // ── Active step on scroll ───────────────────────────────────
-  // Each step becomes "active" when it enters the viewport centre
-  const activeObserver = new IntersectionObserver(entries => {
+  // ── Active step on scroll ────────────────────────────────────
+  const activeObs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      const el    = entry.target as HTMLElement;
-      const index = parseInt(el.dataset.step ?? '0');
-
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.step ?? '0');
       if (entry.isIntersecting) {
         el.classList.add('is-active');
-        // Update progress bar — fills proportionally to active step
-        if (progress) {
-          const pct = ((index + 1) / steps.length) * 100;
-          progress.style.width = `${pct}%`;
-        }
+        if (progress) progress.style.width = `${((idx + 1) / steps.length) * 100}%`;
       } else {
         el.classList.remove('is-active');
       }
     });
-  }, {
-    threshold: 0.4,
-    rootMargin: '0px 0px -10% 0px',
-  });
+  }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
 
-  steps.forEach(s => activeObserver.observe(s));
+  steps.forEach(s => activeObs.observe(s));
 </script>

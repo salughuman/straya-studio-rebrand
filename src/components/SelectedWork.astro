@@ -79,7 +79,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             <div class="flex flex-col gap-2 min-w-0">
               <h3 class="type-h3 text-on-background">{featured.title}</h3>
               <p class="type-label text-on-background/40">{featured.sector}</p>
-              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-w-lg">{featured.description}</p>
+              <p class="type-body-small text-on-surface-variant mt-1 max-w-lg">{featured.description}</p>
             </div>
             <a
               href={`${baseUrl}${featured.href.replace(/^\//, '')}`}

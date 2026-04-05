@@ -103,7 +103,7 @@ const getYouTubeId = (url: string) => {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-black/5">
       {featured.map((t, i) => (
         <article
-          class="t-card bg-background card-pad flex flex-col justify-between gap-8 md:gap-10 group cursor-default"
+          class="t-card bg-[#fefefe] card-pad flex flex-col justify-between gap-8 md:gap-10 group cursor-default"
           data-index={i}
           aria-label={`Testimonial from ${t.name}`}
         >
@@ -185,32 +185,6 @@ const getYouTubeId = (url: string) => {
     </div>
   </div>
 
-  <!-- Ticker row 1 (left to right) -->
-  <div class="relative overflow-hidden mb-px border-y border-black/5 py-5" aria-hidden="true">
-    <div class="ticker-ltr flex whitespace-nowrap gap-0">
-      {[...ticker, ...ticker].map((t) => (
-        <div class="inline-flex items-center gap-6 px-8 flex-shrink-0">
-          <span class="type-body-small text-on-background/60 max-w-xs truncate">"{t.quote}"</span>
-          <span class="type-label text-on-background/30 flex-shrink-0">— {t.name}{t.company ? `, ${t.company}` : ''}</span>
-          <span class="w-px h-4 bg-black/10 flex-shrink-0" aria-hidden="true"></span>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  <!-- Ticker row 2 (right to left) -->
-  <div class="relative overflow-hidden border-b border-black/5 py-5" aria-hidden="true">
-    <div class="ticker-rtl flex whitespace-nowrap gap-0">
-      {[...ticker, ...ticker].reverse().map((t) => (
-        <div class="inline-flex items-center gap-6 px-8 flex-shrink-0">
-          <span class="type-label text-on-background/30 flex-shrink-0">{t.name}{t.company ? `, ${t.company}` : ''} —</span>
-          <span class="type-body-small text-on-background/60 max-w-xs truncate">"{t.quote}"</span>
-          <span class="w-px h-4 bg-black/10 flex-shrink-0" aria-hidden="true"></span>
-        </div>
-      ))}
-    </div>
-  </div>
-
   <!-- Bottom CTA strip -->
   <div class="main-container mt-16">
     <div class="t-el flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-black/5 pt-8" data-delay="0">
@@ -251,21 +225,9 @@ const getYouTubeId = (url: string) => {
   }
 
   /* ── Tickers ───────────────────────────────────────────────── */
-  @keyframes ticker-ltr {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  @keyframes ticker-rtl {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0); }
-  }
-  .ticker-ltr { animation: ticker-ltr 40s linear infinite; }
-  .ticker-rtl { animation: ticker-rtl 50s linear infinite; }
-  .ticker-ltr:hover, .ticker-rtl:hover { animation-play-state: paused; }
 
   @media (prefers-reduced-motion: reduce) {
     .t-el, .t-card { opacity: 1 !important; transform: none !important; }
-    .ticker-ltr, .ticker-rtl { animation: none; }
   }
 </style>
 
