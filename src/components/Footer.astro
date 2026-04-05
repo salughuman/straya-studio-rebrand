@@ -1,101 +1,150 @@
 ---
-import { SITE_CONFIG } from "../data/site-config";
-import Button from "./ui/buttons/Button.astro";
-import NavLink from "./ui/links/NavLink.astro";
+// Footer.astro — Straya Studio
+// GEMINI §14: Contact / Social / Links / Copyright. 5–10 links max.
+// GEMINI §2: Pakistan in footer address — proud, unqualified.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
-const baseUrl = import.meta.env.BASE_URL;
+import { SITE_CONFIG } from "../data/site-config";
+
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: "Work",      href: "/#work" },
+  { label: "Framework", href: "/#framework" },
+  { label: "Studio",    href: "/#studio" },
+  { label: "Pricing",   href: "/#pricing" },
+  { label: "FAQ",       href: "/#faq" },
+];
+
+const socialLinks = [
+  { label: "LinkedIn",  href: SITE_CONFIG.socials.linkedIn },
+  { label: "Framer",    href: SITE_CONFIG.socials.framer },
+  { label: "Contra",    href: SITE_CONFIG.socials.contra },
+  { label: "Fiverr",    href: SITE_CONFIG.socials.fiverr },
+];
 ---
 
 <footer
-  id="footer"
-  class="border-t border-border-subtle bg-bg-base"
-  aria-label="Footer"
+  aria-label="Site footer"
+  class="bg-surface-container-low border-t border-black/5"
 >
-  <div class="main-container py-14 md:py-16">
-    <div
-      class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between"
-    >
-      <div class="max-w-xl">
-        <div class="flex items-center gap-2">
-          <span
-            class="type-h5 text-white font-bold tracking-tighter uppercase tabular-nums leading-none"
-            >Straya</span
-          >
-          <span
-            class="type-h5 text-brand-secondary font-bold tracking-tighter uppercase tabular-nums italic leading-none"
-            >Studio</span
-          >
-        </div>
+  <!-- Main footer grid -->
+  <div class="main-container py-16">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
 
-        <p class="type-small mt-4 text-text-secondary leading-relaxed">
-          {SITE_CONFIG.tagline}
-          <br />
-          <span class="text-text-muted">{SITE_CONFIG.email}</span>
-          <br />
-          <span class="text-text-muted">Lahore, Pakistan</span>
+      <!-- Brand column — col-span-5 -->
+      <div class="md:col-span-5 flex flex-col gap-6">
+        <!-- Logo -->
+        <a href="/" aria-label="Straya Studio — Home" class="no-underline w-fit">
+          <span class="font-display font-medium text-xl tracking-tight text-on-background uppercase">
+            STRAYA STUDIO
+          </span>
+        </a>
+        <!-- Tagline -->
+        <p class="type-body-small text-on-surface-variant leading-relaxed max-w-xs">
+          Boutique technical studio. Founder-led, senior-executed. We take 2–3 projects at a time — that's not a limitation, it's the product.
         </p>
-
-        <div class="mt-5 flex flex-wrap gap-4">
-          <NavLink
-            href={SITE_CONFIG.socials.agency_linkedin}
-            label="LinkedIn"
-            variant="social"
-            target="_blank"
-            rel="noopener noreferrer"
-          />
-
-          <NavLink
-            href={SITE_CONFIG.socials.contra}
-            label="Contra"
-            variant="social"
-            target="_blank"
-            rel="noopener noreferrer"
-          />
+        <!-- Studio address — GEMINI §2: Pakistan in footer -->
+        <div class="flex flex-col gap-1">
+          <span class="type-label text-on-background/40">Straya Studio</span>
+          <span class="type-label text-on-background/30">Lahore, Pakistan</span>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            class="type-label text-on-background/40 hover:text-on-background transition-colors duration-300 w-fit"
+          >
+            {SITE_CONFIG.email}
+          </a>
+        </div>
+        <!-- Availability -->
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent footer-dot" aria-hidden="true"></span>
+          <span class="type-label text-accent">Accepting new briefs</span>
         </div>
       </div>
 
-      <div class="flex flex-col gap-6 md:items-end">
-        <nav
-          class="flex flex-col sm:flex-row gap-4 sm:items-center"
-          aria-label="Footer navigation"
-        >
-          <NavLink
-            href={baseUrl}
-            label="Home"
-            variant="main"
-            class="nav-link"
-          />
-          <NavLink
-            href={`${baseUrl}#services`}
-            label="Services"
-            variant="main"
-            class="nav-link"
-          />
-          <NavLink
-            href={`${baseUrl}#pricing`}
-            label="Pricing"
-            variant="main"
-            class="nav-link"
-          />
-        </nav>
-
-        <Button
-          href={SITE_CONFIG.socials.calendly}
-          label="Book a call"
-          variant="primary"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="!rounded-md !px-8 !py-3 !text-sm hover:brightness-110"
-        />
+      <!-- Nav column — col-span-3 -->
+      <div class="md:col-span-3 md:col-start-7">
+        <span class="type-label text-on-background/25 block mb-5">Navigation</span>
+        <ul class="flex flex-col gap-3 list-none p-0">
+          {navLinks.map(link => (
+            <li>
+              <a
+                href={link.href}
+                class="type-label text-on-background/50 hover:text-on-background transition-colors duration-300"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
 
-    <div
-      class="mt-10 border-t border-border-subtle pt-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
-    >
-      <p class="type-small text-text-muted">
-        © {new Date().getFullYear()} Straya Studio. All rights reserved.
+      <!-- Social + System column — col-span-4 -->
+      <div class="md:col-span-4 flex flex-col gap-8">
+        <!-- Social links -->
+        <div>
+          <span class="type-label text-on-background/25 block mb-5">Connect</span>
+          <ul class="flex flex-col gap-3 list-none p-0">
+            {socialLinks.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="type-label text-on-background/50 hover:text-on-background transition-colors duration-300 inline-flex items-center gap-2 group"
+                >
+                  {link.label}
+                  <svg
+                    class="w-2.5 h-2.5 text-on-background/20 group-hover:text-on-background/60 transition-colors duration-300"
+                    viewBox="0 0 10 10" fill="none" aria-hidden="true"
+                  >
+                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- System metadata -->
+        <div>
+          <span class="type-label text-on-background/25 block mb-5">System</span>
+          <ul class="flex flex-col gap-2 list-none p-0">
+            <li class="type-label text-on-background/30">STATUS: DEPLOYED</li>
+            <li class="type-label text-on-background/30">V1.0.2 / BUILD: STABLE</li>
+            <li class="type-label text-on-background/30">ASTRO 5.x / CLOUDFLARE PAGES</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t border-black/5">
+    <div class="main-container py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <p class="type-label text-on-background/30">
+        ©{year} Straya Studio. All rights reserved.
       </p>
+      <div class="flex items-center gap-6">
+        <a href="/privacy" class="type-label text-on-background/30 hover:text-on-background transition-colors duration-300">Privacy</a>
+        <a href="/sitemap.xml" class="type-label text-on-background/30 hover:text-on-background transition-colors duration-300">Sitemap</a>
+        <span class="type-label text-on-background/20">Built by Salman Ali</span>
+      </div>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-dot {
+    animation: footer-dot-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes footer-dot-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60,205,127,0); }
+    50%       { opacity: 0.8; box-shadow: 0 0 6px 2px rgba(60,205,127,0.25); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-dot { animation: none; }
+  }
+</style>

@@ -1,7 +1,12 @@
 <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="80" height="80" rx="8" fill="#0F1115"/>
-  <circle cx="40" cy="30" r="11" fill="#9CA3AF"/>
-  <path d="M24 64V60C24 50.6112 31.6112 43 41 43H39C48.3888 43 56 50.6112 56 60V64H24Z" fill="#6B7280"/>
-  <path d="M29 27C29 20.9249 33.9249 16 40 16C46.0751 16 51 20.9249 51 27V33H29V27Z" fill="#6B7280"/>
-  <circle cx="40" cy="40" r="39.5" stroke="rgba(255,255,255,0.08)"/>
+  <!-- Background -->
+  <rect width="80" height="80" fill="#EEEEEE"/>
+  <!-- Head -->
+  <circle cx="40" cy="30" r="11" fill="#C6C6C6"/>
+  <!-- Hair detail -->
+  <path d="M29 28C29 21.925 33.925 17 40 17C46.075 17 51 21.925 51 28V30H29V28Z" fill="#DADADA"/>
+  <!-- Shoulders -->
+  <path d="M20 66C20 55.506 28.506 47 39 47H41C51.494 47 60 55.506 60 66V68H20V66Z" fill="#C6C6C6"/>
+  <!-- Subtle border -->
+  <rect width="80" height="80" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
 </svg>

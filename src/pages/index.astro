@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import AEOHeader from "../components/AEOHeader.astro";
 import Hero from "../components/Hero.astro";
 import ServicesMarquee from "../components/ServicesMarquee.astro";
-import TrustGrid from "../components/TrustGrid.astro";
 import TheStrayaMethod from "../components/TheStrayaMethod.astro";
 import OurDifference from "../components/OurDifference.astro";
 import AboutSection from "../components/AboutSection.astro";
@@ -41,12 +40,11 @@ const pageSchema = {
 	<!-- 01: Hero (qualify) -->
 	<Hero />
 
-	<!-- 02: Trust bar (anchor) -->
-	<TrustGrid />
+	<!-- 02: Selected Work (showcase) -->
+	<SelectedWork />
 
 	<!-- 03: Social Proof & Trust Signals (validate) -->
 	<Testimonials />
-	<!-- <SelectedWork /> -->
 
 	<!-- 04: What we do (scope) -->
 	<ServicesMarquee />

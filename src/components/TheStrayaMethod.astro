@@ -1,14 +1,17 @@
 ---
-// TheStrayaMethod.astro — Straya Studio
-// GEMINI §5 / §6: base background (#050505), master type utilities, luxury motion, sr-only summary.
+// TheStrayaMethod.astro — Straya Studio [IMMERSIVE]
+// Scroll-driven process timeline. Each step enters sequentially.
+// Active step highlighted with accent line + number scale.
+// GEMINI §3: scroll-linked, unique interactive moment, spatial narrative.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
 const steps = [
   {
     num: "01",
     title: "Discovery",
-    desc: "We map your goals, audience, and competitive landscape before a single line of code is written.",
-    deliverables: [
-      "Project objectives and success metrics",
+    description: "We map your objectives, market position, and technical requirements before a single pixel is placed.",
+    items: [
+      "Project objectives & success metrics",
       "Brand, market, and competitor deep-dive",
       "Technical requirements and platform fit",
     ],
@@ -16,28 +19,28 @@ const steps = [
   {
     num: "02",
     title: "Architecture",
-    desc: "Findings become a precise technical blueprint. Structure, stack, and system are mapped before anything is built.",
-    deliverables: [
+    description: "Platform selection, CMS structure, and performance strategy — all decided before development begins.",
+    items: [
       "Platform and technology stack selection",
-      "CMS structure and content modelling",
-      "Performance, AEO, and conversion strategy",
+      "CMS structure and content modeling",
+      "Performance, SEO, and conversion strategy",
     ],
   },
   {
     num: "03",
     title: "Engineering",
-    desc: "This is where the elevation happens. We build fast, precise, and production-ready — with you in the loop at every sprint.",
-    deliverables: [
+    description: "Sprint-based builds with milestone reviews. Every component is production-grade from day one.",
+    items: [
       "Sprint-based development with milestones",
       "Design system and component architecture",
-      "Iterative review at every stage",
+      "Iteration review at every stage",
     ],
   },
   {
     num: "04",
     title: "Optimisation",
-    desc: "We don't just launch and leave. Every metric is tuned until the platform performs at its absolute peak.",
-    deliverables: [
+    description: "100/100 Lighthouse scores, Core Web Vitals, and post-launch support included as standard.",
+    items: [
       "100/100 Lighthouse score tuning",
       "Core Web Vitals and technical SEO",
       "Post-launch monitoring and support",
@@ -48,87 +51,172 @@ const steps = [
 
 <section
   id="method"
-  class="method-section section-y relative z-10 text-text-primary"
   aria-label="The Straya Method — our process"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
 >
-  <div class="main-container">
-    <p class="sr-only">
-      Straya Studio follows a four-step technical process called The Straya
-      Method — Discovery, Architecture, Engineering, and Optimisation — to
-      deliver high-performance digital platforms across Framer, Webflow,
-      Shopify, Wix, and WordPress.
-    </p>
+  <!-- Header -->
+  <div class="main-container mb-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">How we work</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          The Straya Method — four stages, zero shortcuts.
+        </h2>
+      </div>
+      <span class="type-label text-on-background/20 flex-shrink-0">V1.0.2 / SYSTEM_STATUS: STABLE</span>
+    </div>
+  </div>
 
-    <header class="mb-12 flex flex-col items-center gap-4 text-center md:mb-16">
-      <p class="type-label">Our process</p>
-      <h2 class="type-h2">The Straya Method</h2>
-      <p class="type-caption max-w-md text-text-secondary">
-        A precise four-step process engineered to take your brand from where it
-        is to where it deserves to be.
-      </p>
-    </header>
+  <!-- Steps -->
+  <div class="main-container" id="method-steps">
 
-    <div
-      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
-    >
-      {
-        steps.map((step, i) => (
-          <article
-            class:list={[
-              "method-card group relative flex flex-col overflow-hidden rounded-md border border-border-default bg-[#0A0A0A]",
-              "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none",
-            ]}
+    <!-- Progress bar — fills as steps become active -->
+    <div class="relative mb-12 hidden md:block" aria-hidden="true">
+      <div class="h-px bg-black/5 w-full"></div>
+      <div id="method-progress" class="h-px bg-accent absolute top-0 left-0 transition-all duration-700 ease-luxury" style="width: 0%;"></div>
+    </div>
+
+    <!-- Step grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/5">
+      {steps.map((step, i) => (
+        <div
+          class="method-step bg-background group relative overflow-hidden flex flex-col gap-8 p-8 lg:p-10"
+          data-step={i}
+        >
+          <!-- Large background number -->
+          <span
+            class="method-step-num absolute top-6 right-6 font-display font-medium text-on-background/[0.04] select-none pointer-events-none transition-all duration-700"
+            style={`font-size: clamp(4rem, 8vw, 6rem); line-height: 1;`}
+            aria-hidden="true"
           >
-            <div
-              class="h-0.5 bg-gradient-to-r from-[#3CCD7F] to-transparent opacity-50 transition-opacity duration-300 ease-luxury group-hover:opacity-100 motion-reduce:transition-none motion-reduce:group-hover:opacity-50"
-              aria-hidden="true"
-            />
+            {step.num}
+          </span>
 
+          <!-- Step number + accent line -->
+          <div class="flex items-center gap-3">
             <span
-              class="pointer-events-none absolute top-2 right-4 select-none font-display text-[5rem] font-bold leading-none tracking-tighter text-[#3CCD7F] opacity-[0.04] transition-opacity duration-300 ease-luxury group-hover:opacity-[0.08] md:text-[6rem] motion-reduce:transition-none motion-reduce:group-hover:opacity-[0.04]"
-              aria-hidden="true"
+              class="method-step-index type-label text-on-background/30 transition-colors duration-500"
             >
               {step.num}
             </span>
-
-            <div class="relative z-[1] flex flex-1 flex-col gap-4 p-6">
-              <div class="flex flex-col gap-2">
-              <span class="type-label text-brand-secondary/70">{step.num}</span>
-                <h3 class="type-h3">{step.title}</h3>
-              </div>
-              <p class="type-body text-text-secondary">{step.desc}</p>
-
-              <ul class="mt-2 flex list-none flex-col gap-2 border-t border-border-default pt-4">
-                {step.deliverables.map((d) => (
-                  <li class="flex items-start gap-2 type-body text-text-secondary">
-                    <svg
-                      class="mt-1 h-3.5 w-3.5 flex-shrink-0 text-brand-secondary opacity-60"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M3.5 8.5L6.5 11.5L12.5 5.5"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    <span>{d}</span>
-                  </li>
-                ))}
-              </ul>
+            <div class="method-step-line h-px flex-1 bg-black/5 relative overflow-hidden">
+              <div class="method-step-line-fill h-full bg-accent absolute left-0 top-0 w-0 transition-all duration-700 ease-luxury"></div>
             </div>
+          </div>
 
-            
-          </article>
-        ))
-      }
+          <!-- Title -->
+          <h3 class="type-h3 text-on-background uppercase tracking-tight">{step.title}</h3>
+
+          <!-- Description -->
+          <p class="type-body-small text-on-surface-variant leading-relaxed">{step.description}</p>
+
+          <!-- Deliverables list -->
+          <ul class="flex flex-col gap-3 mt-auto" aria-label={`${step.title} deliverables`}>
+            {step.items.map((item) => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="method-dot w-1 h-1 rounded-full bg-black/20 mt-1.5 shrink-0 transition-colors duration-500"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
+
   </div>
 </section>
+
+<style>
+  /* ── Step entrance ─────────────────────────────────────────── */
+  .method-step {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.4s ease;
+  }
+
+  .method-step.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Active step ───────────────────────────────────────────── */
+  .method-step.is-active {
+    background-color: theme('colors.surface-container-lowest');
+  }
+
+  .method-step.is-active .method-step-index {
+    color: theme('colors.on-background');
+  }
+
+  .method-step.is-active .method-step-line-fill {
+    width: 100%;
+  }
+
+  .method-step.is-active .method-step-num {
+    color: rgba(0, 0, 0, 0.07);
+    transform: scale(1.05);
+    transform-origin: top right;
+  }
+
+  .method-step.is-active .method-dot {
+    background-color: theme('colors.accent');
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .method-step {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .method-step-line-fill,
+    #method-progress {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const steps    = document.querySelectorAll<HTMLElement>('.method-step');
+  const progress = document.getElementById('method-progress');
+
+  // ── Entrance observer ───────────────────────────────────────
+  const entranceObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el    = entry.target as HTMLElement;
+      const index = parseInt(el.dataset.step ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), index * 100);
+      entranceObserver.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+
+  steps.forEach(s => entranceObserver.observe(s));
+
+  // ── Active step on scroll ───────────────────────────────────
+  // Each step becomes "active" when it enters the viewport centre
+  const activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const el    = entry.target as HTMLElement;
+      const index = parseInt(el.dataset.step ?? '0');
+
+      if (entry.isIntersecting) {
+        el.classList.add('is-active');
+        // Update progress bar — fills proportionally to active step
+        if (progress) {
+          const pct = ((index + 1) / steps.length) * 100;
+          progress.style.width = `${pct}%`;
+        }
+      } else {
+        el.classList.remove('is-active');
+      }
+    });
+  }, {
+    threshold: 0.4,
+    rootMargin: '0px 0px -10% 0px',
+  });
+
+  steps.forEach(s => activeObserver.observe(s));
+</script>

@@ -1,237 +1,98 @@
 ---
-import Button from "./ui/buttons/Button.astro";
-import { SITE_CONFIG } from "../data/site-config";
-import Icon from "./ui/Icon.astro";
-import HeroEffects from "./design-effects/HeroEffects.astro";
+// Hero.astro — Straya Studio
+// Compliant with GEMINI.md: light mode, no bold fonts, magnetic CTA,
+// 4-col grid background, z-depth, blueprint tracking, semantic HTML + SEO.
+import TrustGrid from "./TrustGrid.astro";
 ---
 
 <section
   id="hero"
-  class="relative z-10 min-h-[95vh] flex flex-col items-center justify-center overflow-visible blueprint-grid"
-  aria-label="Hero — Straya Studio"
+  aria-label="Straya Studio — Cinematic Digital Deployments"
+  class="relative border-b border-black/5 overflow-hidden perspective-1k"
 >
-  <HeroEffects />
-  <!-- Content Stack — Gap Alignment (80px Mobile / 160px Desktop) -->
-  <div
-    class="relative z-10 w-full max-w-5xl mx-auto px-[var(--gutter-mobile)] md:px-[var(--gutter-tablet)] lg:px-[var(--gutter-desktop)] text-center pt-32 lg:pt-36 lg:pb-40"
-  >
-    <!-- AEO Primary Summary -->
-    <p class="sr-only">{SITE_CONFIG.aeo.summary}</p>
-
-    <!-- Authority Badge — 8pt Grid Lock (h-8 / 32px) -->
-    <div
-      class="inline-flex items-center h-8 gap-2 px-4 rounded-full bg-white/5 border border-border-strong mb-4 reveal-stagger"
-      style="animation-delay: 120ms;"
-    >
-      <div
-        class="hero-dot w-2 h-2 rounded-full bg-brand-secondary flex-shrink-0 shadow-primary"
-      >
-      </div>
-      <span class="type-label text-text-secondary leading-none">
-        {SITE_CONFIG.authority.certifications[0]}
-      </span>
-    </div>
-
-    <!-- Main Headline — 20% Increase on Mobile (sm: 390px-809px) -->
-    <h1
-      class="type-h1 text-white tracking-tighter mb-8 max-w-4xl mx-auto leading-[1.05] sm:text-[2.9rem] md:text-[clamp(2.5rem,5vw,4.5rem)] reveal-stagger"
-      style="animation-delay: 240ms;"
-    >
-      Designing & developing<br />
-      <span class="text-brand-secondary italic">Ideas</span> Into Icons
-    </h1>
-
-    <!-- Subheadline -->
-    <p
-      class="subtitle type-body-lg text-text-secondary mx-auto max-w-[640px] mb-12 reveal-stagger"
-      style="animation-delay: 360ms;"
-    >
-      From Framer to Shopify — we engineer platforms that load faster, convert
-      higher, and look like nothing else in your market.
-    </p>
-
-    <!-- Unified CTA System — Vertical on Mobile (<810px), Horizontal on Tablet+ (>=810px) -->
-    <div
-      class="flex flex-col md:flex-row items-center justify-center gap-6 mb-24 reveal-stagger"
-      style="animation-delay: 480ms;"
-    >
-      <Button href="#pricing" label="Elevate my brand" variant="primary">
-        <Icon
-          name="arrow-right"
-          class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
-        />
-      </Button>
-      <Button href="#work" label="Explore Labs" variant="secondary" />
-    </div>
+  <!-- 4-column baseline grid (0.06 opacity) -->
+  <div class="absolute inset-0 grid grid-cols-4 pointer-events-none" aria-hidden="true">
+    <div class="border-r border-black/[0.06]"></div>
+    <div class="border-r border-black/[0.06]"></div>
+    <div class="border-r border-black/[0.06]"></div>
+    <div></div>
   </div>
 
-  <!-- Bento Foundation — Negative margin removed on <1200px -->
-  <div class="relative z-10 w-full main-container lg:-mt-40 pb-12">
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch lg:items-end reveal-stagger"
-      id="hero-bento"
-      style="animation-delay: 600ms;"
-    >
-      <!-- Authority Card -->
-      <div
-        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
-      >
-        <div class="bento-glow" aria-hidden="true"></div>
-        <div class="relative z-10">
-          <span
-            class="type-h2 text-brand-secondary mb-2 block italic text-glow-emerald"
-            >100+</span
-          >
-          <span class="type-mono text-text-secondary block"
-            >SUCCESSFUL DEPLOYMENTS<br />Across AU, US & EU</span
-          >
-        </div>
+  <div class="relative z-10 main-container pt-32 pb-20 lg:pt-40 lg:pb-24">
+
+    <!-- Headline + Description row -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16">
+
+      <!-- Left: Headline -->
+      <div class="z-depth-1">
+        <span class="type-label text-on-background/40 mb-4 block">
+          EST. 2024 / MELBOURNE
+        </span>
+        <h1 class="type-h1 text-on-background uppercase">
+          Cinematic<br />Digital<br />Deployments
+        </h1>
       </div>
 
-      <!-- Tech Stack Elevation -->
-      <div
-        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
-      >
-        <div class="bento-glow" aria-hidden="true"></div>
-        <div class="relative z-10">
-          <span
-            class="type-h2 text-brand-secondary mb-2 block italic text-glow-emerald"
-            >Enterprise</span
-          >
-          <span class="type-mono text-text-secondary block"
-            >MULTI-PLATFORM EXPERTISE<br />Framer, Webflow, Shopify & WordPress</span
-          >
-        </div>
-      </div>
-
-      <!-- Performance Lab -->
-      <div
-        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[250px] flex flex-col justify-end p-7 border-t border-border-default"
-      >
-        <div class="bento-glow" aria-hidden="true"></div>
-        <div class="relative z-10">
-          <span
-            class="type-h2 text-brand-secondary mb-2 block italic text-glow-emerald"
-            >5.0 <span class="text-[0.5em] not-italic ml-1 align-middle"
-              >★ ★ ★ ★ ★</span
-            ></span
-          >
-          <span class="type-mono text-text-secondary block"
-            >AVERAGE CLIENT RATING<br />100+ reviews across Fiverr & Contra</span
-          >
-        </div>
-      </div>
-
-      <!-- Founder Authority -->
-      <div
-        class="glass-elevated relative overflow-hidden h-full min-h-[180px] lg:h-[150%] flex flex-col justify-end p-7 border-t border-border-strong"
-      >
-        <div class="bento-glow" aria-hidden="true"></div>
-        <div class="relative z-10">
-          <span
-            class="type-h2 text-brand-secondary mb-2 block italic text-glow-emerald"
-            >100%</span
-          >
-          <span class="type-mono text-text-secondary block"
-            >GLOBALLY COLLABORATIVE <br />team</span
-          >
+      <!-- Right: Description + Founder -->
+      <div class="max-w-md text-left md:text-right z-depth-1">
+        <p class="type-body text-on-surface-variant mb-6">
+          Designing &amp; developing ideas into icons. From Framer to Shopify — we
+          engineer platforms that load faster, convert higher, and look like
+          nothing else in your market.
+        </p>
+        <div class="flex items-center justify-start md:justify-end gap-2">
+          <span class="type-label text-on-background">SALMAN ALI</span>
+          <span class="w-8 h-px bg-black/10" aria-hidden="true"></span>
+          <span class="type-label text-on-background/40">Founder / Framer Expert</span>
         </div>
       </div>
     </div>
+
+    <!-- Metrics Grid -->
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+      aria-label="Studio metrics"
+    >
+      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+        <div class="type-h2 mb-1" aria-label="100 plus deployments">100+</div>
+        <div class="type-label text-on-background/40">Deployments</div>
+      </div>
+      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+        <div class="type-h2 mb-1" aria-label="5 point 0 star rating">5.0</div>
+        <div class="type-label text-on-background/40">Rating</div>
+      </div>
+      <div class="p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500">
+        <div class="type-h2 mb-1">100%</div>
+        <div class="type-label text-on-background/40">Quality</div>
+      </div>
+      <div class="p-8 border border-black/5 bg-primary group hover:bg-secondary transition-colors duration-300">
+        <div class="type-h2 text-on-primary mb-1">Elite</div>
+        <div class="type-label text-on-primary/60">Status</div>
+      </div>
+    </div>
+
+    <!-- CTA Row -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-16">
+      <a
+        href="/contact"
+        class="magnetic-cta z-depth-2 inline-flex items-center gap-3 bg-primary text-on-primary px-8 py-4 type-button hover:bg-accent transition-colors duration-300"
+        aria-label="Start a project with Straya Studio"
+      >
+        Initiate Project
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a
+        href="#work"
+        class="inline-flex items-center gap-2 type-label text-on-background/40 hover:text-on-background transition-colors duration-300 border-b border-transparent hover:border-on-background/20 pb-px"
+      >
+        View Selected Work
+      </a>
+    </div>
+
+    <!-- Platform Marquee -->
+    <TrustGrid />
+
   </div>
 </section>
-
-<style>
-  #hero {
-    overflow: visible;
-    background-image:
-      linear-gradient(
-        to bottom,
-        var(--color-background-base) 0%,
-        rgb(var(--rgb-bg-base) / 0.4) 20%,
-        rgb(var(--rgb-bg-base) / 0.4) 80%,
-        var(--color-background-base) 100%
-      ),
-      linear-gradient(var(--color-border-subtle) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-border-subtle) 1px, transparent 1px);
-    background-size:
-      100% 100%,
-      2rem 2rem,
-      2rem 2rem;
-  }
-
-  .text-glow-emerald {
-    text-shadow: var(--shadow-primary);
-  }
-
-  @media (min-width: 1200px) {
-    #hero-bento {
-      grid-template-columns: 1fr 1.3fr 1.3fr 1fr;
-      gap: 2rem;
-    }
-  }
-
-  @keyframes heroDotBreathe {
-    0%,
-    100% {
-      opacity: 1;
-      box-shadow: 0 0 0 0 rgba(60, 205, 127, 0);
-    }
-    50% {
-      opacity: 0.85;
-      box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35);
-    }
-  }
-
-  .hero-dot {
-    animation: heroDotBreathe 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-dot {
-      animation: none;
-    }
-  }
-
-  .bento-glow {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20rem;
-    height: 20rem;
-    background: radial-gradient(
-      ellipse at top right,
-      color-mix(in srgb, var(--color-accent) 15%, transparent) 0%,
-      transparent 70%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  @keyframes heroReveal {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-      filter: blur(8px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-  }
-
-  .reveal-stagger {
-    opacity: 0;
-    animation: heroReveal 640ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reveal-stagger {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
-    }
-  }
-</style>

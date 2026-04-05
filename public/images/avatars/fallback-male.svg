@@ -1,6 +1,10 @@
 <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="80" height="80" rx="8" fill="#0F1115"/>
-  <circle cx="40" cy="30" r="12" fill="#9CA3AF"/>
-  <path d="M20 62C20 51.5066 28.5066 43 39 43H41C51.4934 43 60 51.5066 60 62V64H20V62Z" fill="#6B7280"/>
-  <circle cx="40" cy="40" r="39.5" stroke="rgba(255,255,255,0.08)"/>
+  <!-- Background -->
+  <rect width="80" height="80" fill="#EEEEEE"/>
+  <!-- Head -->
+  <circle cx="40" cy="30" r="11" fill="#C6C6C6"/>
+  <!-- Shoulders -->
+  <path d="M18 66C18 54.954 26.954 46 38 46H42C53.046 46 62 54.954 62 66V68H18V66Z" fill="#C6C6C6"/>
+  <!-- Subtle border -->
+  <rect width="80" height="80" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
 </svg>

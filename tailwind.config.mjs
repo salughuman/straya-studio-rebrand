@@ -7,283 +7,348 @@ export default {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     theme: {
         screens: {
-            sm: '390px',
-            md: '810px',
-            lg: '1200px',
+            sm: tokens.media.breakpoints.sm,
+            md: tokens.media.breakpoints.md,
+            lg: tokens.media.breakpoints.lg,
         },
         extend: {
             colors: {
-                // GEMINI §5.C — additional aliases (do not remap `brand-secondary`; codebase uses it for accent green)
-                'brand-base': tokens.color.background.base,
-                'brand-surface': tokens.color.background.surface,
-                'brand-elevated': tokens.color.background.elevated,
-                'brand-accent': tokens.color.brand.secondary,
-                'brand-text-primary': tokens.color.text.primary,
-                'brand-text-secondary': tokens.color.text.secondary,
-                'brand-text-muted': tokens.color.text.muted,
-                // Backgrounds (legacy — keep for existing components)
-                'bg-base': tokens.color.background.base,
-                'bg-surface': tokens.color.background.surface,
-                'bg-elevated': tokens.color.background.elevated,
-                'bg-overlay': tokens.color.background.overlay,
-                'bg-accent': tokens.color.background.accent,
-                // Text
-                'text-primary': tokens.color.text.primary,
-                'text-secondary': tokens.color.text.secondary,
-                'text-muted': tokens.color.text.muted,
-                'text-inverted': tokens.color.text.inverted,
-                // Brand
-                'brand': tokens.color.brand.primary,
-                'brand-secondary': tokens.color.brand.secondary,
-                'brand-hover': tokens.color.brand.secondaryHover,
-                'brand-muted': tokens.color.brand.secondaryMuted,
-                // Borders
-                'border-default': tokens.color.border.default,
-                'border-subtle': tokens.color.border.subtle,
-                'border-strong': tokens.color.border.strong,
-                // Status
-                'status-success': tokens.color.status.success,
-                'status-warning': tokens.color.status.warning,
-                'status-error': tokens.color.status.error,
+                // Primary
+                'primary':                      tokens.color.primary.DEFAULT,
+                'on-primary':                   tokens.color.primary.on,
+                'primary-container':            tokens.color.primary.container,
+                'on-primary-container':         tokens.color.primary.onContainer,
+                'primary-fixed':                tokens.color.primary.fixed,
+                'primary-fixed-dim':            tokens.color.primary.fixedDim,
+                // Secondary
+                'secondary':                    tokens.color.secondary.DEFAULT,
+                'on-secondary':                 tokens.color.secondary.on,
+                'secondary-container':          tokens.color.secondary.container,
+                'on-secondary-container':       tokens.color.secondary.onContainer,
+                'secondary-fixed':              tokens.color.secondary.fixed,
+                'secondary-fixed-dim':          tokens.color.secondary.fixedDim,
+                // Tertiary
+                'tertiary':                     tokens.color.tertiary.DEFAULT,
+                'on-tertiary':                  tokens.color.tertiary.on,
+                'tertiary-container':           tokens.color.tertiary.container,
+                'on-tertiary-container':        tokens.color.tertiary.onContainer,
+                'tertiary-fixed':               tokens.color.tertiary.fixed,
+                'tertiary-fixed-dim':           tokens.color.tertiary.fixedDim,
+                // Error
+                'error':                        tokens.color.error.DEFAULT,
+                'on-error':                     tokens.color.error.on,
+                'error-container':              tokens.color.error.container,
+                'on-error-container':           tokens.color.error.onContainer,
+                // Backgrounds
+                'background':                   tokens.color.background.DEFAULT,
+                'surface':                      tokens.color.background.surface,
+                'surface-dim':                  tokens.color.background.surfaceDim,
+                'surface-bright':               tokens.color.background.surfaceBright,
+                'surface-container-lowest':     tokens.color.background.containerLowest,
+                'surface-container-low':        tokens.color.background.containerLow,
+                'surface-container':            tokens.color.background.container,
+                'surface-container-high':       tokens.color.background.containerHigh,
+                'surface-container-highest':    tokens.color.background.containerHighest,
+                // On-surface
+                'on-background':                tokens.color.onBackground.DEFAULT,
+                'on-surface':                   tokens.color.onSurface.DEFAULT,
+                'on-surface-variant':           tokens.color.onSurface.variant,
+                // Outline
+                'outline':                      tokens.color.outline.DEFAULT,
+                'outline-variant':              tokens.color.outline.variant,
+                // Inverse
+                'inverse-surface':              tokens.color.inverse.surface,
+                'inverse-on-surface':           tokens.color.inverse.onSurface,
+                'inverse-primary':              tokens.color.inverse.primary,
+                // Accent & Status
+                'accent':                       tokens.color.accent,
+                'success':                      tokens.color.status.success,
+                'warning':                      tokens.color.status.warning,
+                'info':                         tokens.color.status.info,
+                // Semantic aliases
+                'brand-accent':                 tokens.color.accent,
+                'brand-text-primary':           tokens.color.text.primary,
+                'brand-text-secondary':         tokens.color.text.secondary,
+                'text-inverted':                tokens.color.text.inverse,
+                'border-default':               tokens.color.border.default,
+                'border-subtle':                tokens.color.border.subtle,
+                'border-strong':                tokens.color.border.strong,
             },
             transitionTimingFunction: {
-                luxury: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                luxury:  tokens.effects.transition.elastic,
+                custom:  tokens.effects.transition.base,
+                smooth:  tokens.effects.transition.smooth,
+                elastic: tokens.effects.transition.elastic,
+                bouncy:  tokens.effects.transition.bouncy,
+            },
+            keyframes: {
+                marquee: {
+                    '0%':   { transform: 'translateX(0)' },
+                    '100%': { transform: 'translateX(-50%)' },
+                },
+            },
+            animation: {
+                marquee: `marquee ${tokens.animation.marquee.duration} ${tokens.animation.marquee.timing} ${tokens.animation.marquee.iteration}`,
             },
             borderRadius: {
-                xs: tokens.radius.xs,
-                sm: tokens.radius.sm,
-                md: tokens.radius.md,
-                lg: tokens.radius.lg,
-                xl: tokens.radius.lg,
-                full: tokens.radius.full,
+                DEFAULT: tokens.border.radius.DEFAULT,
+                lg:      tokens.border.radius.lg,
+                xl:      tokens.border.radius.xl,
+                full:    tokens.border.radius.full,
             },
-            borderWidth: tokens.borderWidth,
+            letterSpacing: {
+                tight:     tokens.typography.style.tightTracking,
+                blueprint: tokens.typography.style.blueprintTracking,
+                normal:    tokens.typography.style.normalTracking,
+            },
+            fontFamily: {
+                sans:    [tokens.typography.fontFamily.body,    tokens.typography.fontFamily.fallback.body],
+                display: [tokens.typography.fontFamily.display, tokens.typography.fontFamily.fallback.display],
+                mono:    [tokens.typography.mono.fontFamily],
+            },
             maxWidth: {
                 container: tokens.spacing.containerMax,
             },
-            boxShadow: {
-                sm: tokens.shadow.sm,
-                md: tokens.shadow.md,
-                lg: tokens.shadow.lg,
-                diffusion: tokens.shadow.diffusion,
-                frosted: tokens.shadow.frosted,
-                primary: tokens.shadow.primary,
-            },
-            transitionDuration: {
-                fast: '150ms',
-                base: '300ms',
-                slow: '500ms',
-                reveal: '600ms',
-            },
-            zIndex: {
-                raised: tokens.zIndex.raised,
-                dropdown: tokens.zIndex.dropdown,
-                sticky: tokens.zIndex.sticky,
-                modal: tokens.zIndex.modal,
-                toast: tokens.zIndex.toast,
-            },
-            fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ["'Bricolage Grotesque'", 'Outfit', 'sans-serif'],
-                mono: ['ui-monospace', 'monospace'],
-            },
-            // GEMINI §5.G — semantic spacing from tokens (8pt grid)
             spacing: {
-                'gutter-mobile': tokens.spacing.gutterMobile,
-                'gutter-tablet': tokens.spacing.gutterTablet,
-                'gutter-desktop': tokens.spacing.gutterDesktop,
-                'section-y-mobile': tokens.spacing.sectionYMobile,
-                'section-y': tokens.spacing.sectionY,
+                'section-mobile':    tokens.spacing.sectionMobile,
+                'section-desktop':   tokens.spacing.sectionDesktop,
+                'container-mobile':  tokens.spacing.containerPaddingMobile,
+                'container-desktop': tokens.spacing.containerPaddingDesktop,
+                'card-padding':      tokens.spacing.cardPadding,
             },
         },
     },
     plugins: [
-        plugin(function ({ addComponents, addBase }) {
+        plugin(function ({ addComponents, addBase, addUtilities }) {
 
-            // CSS Variables — for use outside Tailwind classes
+            // ─── CSS Variables ────────────────────────────────────────────────
             addBase({
                 ':root': {
-                    '--color-bg-base': tokens.color.background.base,
-                    '--color-bg-surface': tokens.color.background.surface,
-                    '--color-bg-elevated': tokens.color.background.elevated,
-                    '--color-text-primary': tokens.color.text.primary,
-                    '--color-text-secondary': tokens.color.text.secondary,
-                    '--color-text-muted': tokens.color.text.muted,
-                    '--color-text-inverted': tokens.color.text.inverted,
-                    '--color-brand': tokens.color.brand.primary,
-                    '--color-brand-secondary': tokens.color.brand.secondary,
-                    '--color-border': tokens.color.border.default,
-                    '--color-border-subtle': tokens.color.border.subtle,
-                    /* Semantic aliases (GEMINI / component contracts) */
-                    '--color-background-base': tokens.color.background.base,
-                    '--color-background-surface': tokens.color.background.surface,
-                    '--color-background-elevated': tokens.color.background.elevated,
-                    '--color-accent': tokens.color.brand.secondary,
-                    '--color-accent-hover': tokens.color.brand.secondaryHover,
-                    '--color-border-default': tokens.color.border.default,
-                    '--color-border-strong': tokens.color.border.strong,
-                    '--font-display': tokens.typography.h1.fontFamily,
-                    '--font-body': tokens.typography.body.fontFamily,
-                    '--radius-xs': tokens.radius.xs,
-                    '--radius-sm': tokens.radius.sm,
-                    '--radius-md': tokens.radius.md,
-                    '--radius-lg': tokens.radius.lg,
-                    '--border-width-sm': tokens.borderWidth.sm,
-                    '--border-width-md': tokens.borderWidth.md,
-                    '--border-width-lg': tokens.borderWidth.lg,
-                    '--border-width-xl': tokens.borderWidth.xl,
-                    '--section-y': tokens.spacing.sectionY,
-                    '--container-max': tokens.spacing.containerMax,
-                    '--gutter-mobile': tokens.spacing.gutterMobile,
-                    '--gutter-tablet': tokens.spacing.gutterTablet,
-                    '--gutter-desktop': tokens.spacing.gutterDesktop,
-                    '--transition-base': tokens.transition.base,
-                    '--transition-spring': tokens.transition.spring,
-                    '--transition-fast': tokens.transition.fast,
-                    '--transition-slow': tokens.transition.slow,
-                    '--shadow-md': tokens.shadow.md,
-                    '--shadow-diffusion': tokens.shadow.diffusion,
-                    '--shadow-frosted': tokens.shadow.frosted,
-                    '--shadow-primary': tokens.shadow.primary,
-                    /* RGB form of base background for gradients (alpha in linear-gradient) */
-                    '--rgb-bg-base': '5, 5, 5',
+                    // Colors
+                    '--color-primary':          tokens.color.primary.DEFAULT,
+                    '--color-secondary':        tokens.color.secondary.DEFAULT,
+                    '--color-tertiary':         tokens.color.tertiary.DEFAULT,
+                    '--color-accent':           tokens.color.accent,
+                    '--color-background':       tokens.color.background.DEFAULT,
+                    '--color-surface':          tokens.color.background.surface,
+                    '--color-on-surface':       tokens.color.onSurface.DEFAULT,
+                    '--color-on-background':    tokens.color.onBackground.DEFAULT,
+                    '--color-outline':          tokens.color.outline.DEFAULT,
+                    '--color-outline-variant':  tokens.color.outline.variant,
+                    '--color-error':            tokens.color.error.DEFAULT,
+                    '--color-success':          tokens.color.status.success,
+                    '--color-border-default':   tokens.color.border.default,
+                    // Typography
+                    '--font-display':           tokens.typography.fontFamily.display,
+                    '--font-body':              tokens.typography.fontFamily.body,
+                    '--tracking-tight':         tokens.typography.style.tightTracking,
+                    '--tracking-blueprint':     tokens.typography.style.blueprintTracking,
+                    // Effects
+                    '--transition-base':        tokens.effects.transition.base,
+                    '--transition-luxury':      tokens.effects.transition.elastic,
+                    '--depth-1':                tokens.effects.depth['1'],
+                    '--depth-2':                tokens.effects.depth['2'],
+                    '--depth-3':                tokens.effects.depth['3'],
+                    '--magnetic-cta':           tokens.effects.magnetic.cta,
+                    '--grain-opacity':          String(tokens.effects.grain.opacity),
+                    // Spacing
+                    '--spacing-base':               tokens.spacing.base,
+                    '--spacing-container-max':      tokens.spacing.containerMax,
+                    '--spacing-container-mobile':   tokens.spacing.containerPaddingMobile,
+                    '--spacing-container-desktop':  tokens.spacing.containerPaddingDesktop,
+                    '--spacing-section-mobile':     tokens.spacing.sectionMobile,
+                    '--spacing-section-desktop':    tokens.spacing.sectionDesktop,
+                    '--spacing-card-padding':       tokens.spacing.cardPadding,
+                    // Animation
+                    '--animation-marquee-duration':  tokens.animation.marquee.duration,
+                    '--animation-marquee-timing':    tokens.animation.marquee.timing,
+                    '--animation-marquee-iteration': tokens.animation.marquee.iteration,
+                    '--animation-stagger':           tokens.animation.stagger,
+                    // Border
+                    '--border-radius': tokens.border.radius.DEFAULT,
+                    '--border-width':  tokens.border.width.DEFAULT,
+                    // Grid
+                    '--grid-columns': String(tokens.grid.columns),
+                    '--grid-gutter':  tokens.grid.gutter,
+                    // Cursor
+                    '--cursor': tokens.cursor.DEFAULT,
                 },
             });
 
-            // Semantic typography classes
+            // ─── Typography Utilities ─────────────────────────────────────────
             addComponents({
                 '.type-h1': {
-                    fontSize: tokens.typography.h1.fontSize,
-                    fontWeight: tokens.typography.h1.fontWeight,
-                    lineHeight: tokens.typography.h1.lineHeight,
+                    fontSize:      tokens.typography.h1.fontSize,
+                    fontWeight:    tokens.typography.h1.fontWeight,
+                    lineHeight:    tokens.typography.h1.lineHeight,
                     letterSpacing: tokens.typography.h1.letterSpacing,
-                    fontFamily: tokens.typography.h1.fontFamily,
+                    fontFamily:    tokens.typography.h1.fontFamily,
+                    color:         tokens.typography.h1.color,
                 },
                 '.type-h2': {
-                    fontSize: tokens.typography.h2.fontSize,
-                    fontWeight: tokens.typography.h2.fontWeight,
-                    lineHeight: tokens.typography.h2.lineHeight,
+                    fontSize:      tokens.typography.h2.fontSize,
+                    fontWeight:    tokens.typography.h2.fontWeight,
+                    lineHeight:    tokens.typography.h2.lineHeight,
                     letterSpacing: tokens.typography.h2.letterSpacing,
-                    fontFamily: tokens.typography.h2.fontFamily,
+                    fontFamily:    tokens.typography.h2.fontFamily,
+                    color:         tokens.typography.h2.color,
                 },
                 '.type-h3': {
-                    fontSize: tokens.typography.h3.fontSize,
-                    fontWeight: tokens.typography.h3.fontWeight,
-                    lineHeight: tokens.typography.h3.lineHeight,
+                    fontSize:      tokens.typography.h3.fontSize,
+                    fontWeight:    tokens.typography.h3.fontWeight,
+                    lineHeight:    tokens.typography.h3.lineHeight,
                     letterSpacing: tokens.typography.h3.letterSpacing,
-                    fontFamily: tokens.typography.h3.fontFamily,
+                    fontFamily:    tokens.typography.h3.fontFamily,
+                    color:         tokens.typography.h3.color,
                 },
                 '.type-h4': {
-                    fontSize: tokens.typography.h4.fontSize,
-                    fontWeight: tokens.typography.h4.fontWeight,
-                    lineHeight: tokens.typography.h4.lineHeight,
+                    fontSize:      tokens.typography.h4.fontSize,
+                    fontWeight:    tokens.typography.h4.fontWeight,
+                    lineHeight:    tokens.typography.h4.lineHeight,
                     letterSpacing: tokens.typography.h4.letterSpacing,
-                    fontFamily: tokens.typography.h4.fontFamily,
+                    fontFamily:    tokens.typography.h4.fontFamily,
+                    color:         tokens.typography.h4.color,
                 },
                 '.type-h5': {
-                    fontSize: tokens.typography.h5.fontSize,
-                    fontWeight: tokens.typography.h5.fontWeight,
-                    lineHeight: tokens.typography.h5.lineHeight,
+                    fontSize:      tokens.typography.h5.fontSize,
+                    fontWeight:    tokens.typography.h5.fontWeight,
+                    lineHeight:    tokens.typography.h5.lineHeight,
                     letterSpacing: tokens.typography.h5.letterSpacing,
-                    fontFamily: tokens.typography.h5.fontFamily,
+                    fontFamily:    tokens.typography.h5.fontFamily,
+                    color:         tokens.typography.h5.color,
                 },
                 '.type-body': {
-                    fontSize: tokens.typography.body.fontSize,
+                    fontSize:   tokens.typography.body.fontSize,
                     fontWeight: tokens.typography.body.fontWeight,
                     lineHeight: tokens.typography.body.lineHeight,
                     fontFamily: tokens.typography.body.fontFamily,
+                    color:      tokens.typography.body.color,
                 },
-                '.type-body-lg': {
-                    fontSize: tokens.typography.bodyLarge.fontSize,
+                '.type-body-large': {
+                    fontSize:   tokens.typography.bodyLarge.fontSize,
                     fontWeight: tokens.typography.bodyLarge.fontWeight,
                     lineHeight: tokens.typography.bodyLarge.lineHeight,
                     fontFamily: tokens.typography.bodyLarge.fontFamily,
+                    color:      tokens.typography.bodyLarge.color,
                 },
-                '.type-small': {
-                    fontSize: tokens.typography.small.fontSize,
-                    fontWeight: tokens.typography.small.fontWeight,
-                    lineHeight: tokens.typography.small.lineHeight,
-                    fontFamily: tokens.typography.small.fontFamily,
+                '.type-body-small': {
+                    fontSize:   tokens.typography.bodySmall.fontSize,
+                    fontWeight: tokens.typography.bodySmall.fontWeight,
+                    lineHeight: tokens.typography.bodySmall.lineHeight,
+                    fontFamily: tokens.typography.bodySmall.fontFamily,
+                    color:      tokens.typography.bodySmall.color,
+                },
+                '.type-caption': {
+                    fontSize:   tokens.typography.caption.fontSize,
+                    fontWeight: tokens.typography.caption.fontWeight,
+                    lineHeight: tokens.typography.caption.lineHeight,
+                    fontFamily: tokens.typography.caption.fontFamily,
+                    color:      tokens.typography.caption.color,
                 },
                 '.type-label': {
-                    fontSize: tokens.typography.label.fontSize,
-                    fontWeight: tokens.typography.label.fontWeight,
-                    lineHeight: tokens.typography.label.lineHeight,
+                    fontSize:      tokens.typography.label.fontSize,
+                    fontWeight:    tokens.typography.label.fontWeight,
+                    lineHeight:    tokens.typography.label.lineHeight,
                     letterSpacing: tokens.typography.label.letterSpacing,
-                    fontFamily: tokens.typography.label.fontFamily,
+                    fontFamily:    tokens.typography.label.fontFamily,
+                    color:         tokens.typography.label.color,
                     textTransform: 'uppercase',
-                    /* GEMINI §5.E — accent label colour (§5.C hex-first) */
-                    color: '#3CCD7F',
+                },
+                '.type-label-uppercase': {
+                    fontSize:      tokens.typography.labelUppercase.fontSize,
+                    fontWeight:    tokens.typography.labelUppercase.fontWeight,
+                    lineHeight:    tokens.typography.labelUppercase.lineHeight,
+                    letterSpacing: tokens.typography.labelUppercase.letterSpacing,
+                    fontFamily:    tokens.typography.labelUppercase.fontFamily,
+                    color:         tokens.typography.labelUppercase.color,
+                    textTransform: 'uppercase',
+                },
+                '.type-label-small': {
+                    fontSize:      tokens.typography.labelSmall.fontSize,
+                    fontWeight:    tokens.typography.labelSmall.fontWeight,
+                    lineHeight:    tokens.typography.labelSmall.lineHeight,
+                    letterSpacing: tokens.typography.labelSmall.letterSpacing,
+                    fontFamily:    tokens.typography.labelSmall.fontFamily,
+                    color:         tokens.typography.labelSmall.color,
+                    textTransform: 'uppercase',
                 },
                 '.type-mono': {
-                    fontSize: tokens.typography.mono.fontSize,
+                    fontSize:   tokens.typography.mono.fontSize,
                     fontWeight: tokens.typography.mono.fontWeight,
                     lineHeight: tokens.typography.mono.lineHeight,
                     fontFamily: tokens.typography.mono.fontFamily,
+                    color:      tokens.typography.mono.color,
                 },
-                // GEMINI §5.E — caption (muted small body)
-                '.type-caption': {
-                    fontSize: '0.75rem',
-                    fontWeight: '400',
-                    lineHeight: '1.5',
-                    letterSpacing: '0em',
-                    fontFamily: tokens.typography.body.fontFamily,
-                    color: '#6B7280',
+                '.type-button': {
+                    fontSize:      tokens.typography.button.fontSize,
+                    fontWeight:    tokens.typography.button.fontWeight,
+                    lineHeight:    tokens.typography.button.lineHeight,
+                    letterSpacing: tokens.typography.button.letterSpacing,
+                    fontFamily:    tokens.typography.button.fontFamily,
+                    textTransform: tokens.typography.button.textTransform,
                 },
 
-                // Layout utilities (GEMINI §5.E — .main-container + legacy alias)
-                ...(() => {
-                    const mainContainer = {
-                        maxWidth: tokens.spacing.containerMax,
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        paddingLeft: 'var(--gutter-mobile)',
-                        paddingRight: 'var(--gutter-mobile)',
-                        '@screen md': {
-                            paddingLeft: 'var(--gutter-tablet)',
-                            paddingRight: 'var(--gutter-tablet)',
-                        },
-                        '@screen lg': {
-                            paddingLeft: 'var(--gutter-desktop)',
-                            paddingRight: 'var(--gutter-desktop)',
-                        },
-                    };
-                    return {
-                        '.main-container': mainContainer,
-                        '.container-studio': mainContainer,
-                    };
-                })(),
-                '.section-y': {
-                    paddingTop: tokens.spacing.sectionYMobile,
-                    paddingBottom: tokens.spacing.sectionYMobile,
-                    '@screen lg': {
-                        paddingTop: tokens.spacing.sectionY,
-                        paddingBottom: tokens.spacing.sectionY,
+                // ─── Layout ───────────────────────────────────────────────────
+                '.main-container': {
+                    maxWidth:     tokens.spacing.containerMax,
+                    marginLeft:   'auto',
+                    marginRight:  'auto',
+                    paddingLeft:  tokens.spacing.containerPaddingMobile,
+                    paddingRight: tokens.spacing.containerPaddingMobile,
+                },
+                '@media (min-width: 810px)': {
+                    '.main-container': {
+                        paddingLeft:  tokens.spacing.containerPaddingDesktop,
+                        paddingRight: tokens.spacing.containerPaddingDesktop,
                     },
                 },
-                '.glass-elevated': {
-                    backgroundColor: 'rgba(10, 10, 10, 0.8)',
-                    backdropFilter: 'blur(24px)',
-                    WebkitBackdropFilter: 'blur(24px)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                    borderRadius: tokens.radius.md,
-                    boxShadow: tokens.shadow.frosted,
-                    transition: tokens.transition.base,
+                '.section-y': {
+                    paddingTop:    tokens.spacing.sectionMobile,
+                    paddingBottom: tokens.spacing.sectionMobile,
                 },
-                '.glass-surface': {
+
+                // ─── Depth & Motion ───────────────────────────────────────────
+                '.z-depth-1': { transform: tokens.effects.depth['1'] },
+                '.z-depth-2': { transform: tokens.effects.depth['2'] },
+                '.z-depth-3': { transform: tokens.effects.depth['3'] },
+                '.magnetic-cta': {
+                    transition: `transform ${tokens.effects.duration.normal} ${tokens.effects.transition.base}`,
+                },
+                '.magnetic-cta:hover': {
+                    transform: tokens.effects.magnetic.cta,
+                },
+                '.custom-bezier': {
+                    transitionTimingFunction: tokens.effects.transition.base,
+                },
+                '.luxury-bezier': {
+                    transitionTimingFunction: tokens.effects.transition.elastic,
+                },
+
+                // ─── Cards ────────────────────────────────────────────────────
+                '.card-surface': {
                     backgroundColor: tokens.color.background.surface,
-                    border: `1px solid ${tokens.color.border.default}`,
-                    borderRadius: tokens.radius.md,
-                    transition: tokens.transition.base,
+                    border:          `${tokens.border.width.DEFAULT} ${tokens.border.style} ${tokens.color.border.default}`,
+                    padding:         tokens.spacing.cardPadding,
+                    borderRadius:    tokens.border.radius.DEFAULT,
                 },
-                '.blueprint-grid': {
-                    backgroundImage: `
-                        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '32px 32px',
-                    backgroundPosition: 'center center',
+                '.card-elevated': {
+                    backgroundColor: tokens.color.background.container,
+                    border:          `${tokens.border.width.DEFAULT} ${tokens.border.style} ${tokens.color.border.default}`,
+                    padding:         tokens.spacing.cardPadding,
+                    borderRadius:    tokens.border.radius.DEFAULT,
+                    transition:      `all ${tokens.effects.duration.slow} ${tokens.effects.transition.base}`,
                 },
+                '.card-elevated:hover': {
+                    transform: 'translateY(-4px)',
+                },
+            });
+
+            // ─── Utilities ────────────────────────────────────────────────────
+            addUtilities({
+                '.perspective-1k':  { perspective: '1000px' },
+                '.perspective-2k':  { perspective: '2000px' },
+                '.preserve-3d':     { transformStyle: 'preserve-3d' },
+                '.backface-hidden': { backfaceVisibility: 'hidden' },
             });
         }),
     ],

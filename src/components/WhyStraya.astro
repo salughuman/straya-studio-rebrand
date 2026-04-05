@@ -1,299 +1,446 @@
 ---
-// WhyStraya.astro — utility-first bento section (GEMINI §5/§6)
+// WhyStraya.astro — Straya Studio [IMMERSIVE]
+// Bento grid with platform-faithful UI mockups (Framer, Webflow, Shopify).
+// GEMINI §3: scroll-linked entrance, unique interactive moment per card.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 import Button from "./ui/buttons/Button.astro";
-
-interface Feature {
-  icon: string;
-  title: string;
-  description: string;
-  mockupLabel: string;
-  mockupKind: "timeline" | "checklist" | "metrics" | "chat" | "dashboard";
-  layout: string;
-  minH: string;
-  mockupTint: string;
-}
-
-const features: Feature[] = [
-  {
-    icon: "bolt",
-    title: "Launch-ready in days, not months",
-    description:
-      "We move fast without cutting corners. Most projects go from kickoff to live deployment within 2–4 weeks.",
-    mockupLabel: "Project timeline",
-    mockupKind: "timeline",
-    layout: "md:col-span-6 lg:col-span-5",
-    minH: "min-h-[320px]",
-    mockupTint: "from-[rgba(60,205,127,0.1)] via-[rgba(15,17,21,0.75)] to-[#050505]",
-  },
-  {
-    icon: "diamond",
-    title: "Pixel-perfect, every time",
-    description:
-      "Every build is hand-checked across breakpoints. No template shortcuts — just clean, intentional craft.",
-    mockupLabel: "Quality checklist",
-    mockupKind: "checklist",
-    layout: "md:col-span-6 lg:col-span-3",
-    minH: "min-h-[320px]",
-    mockupTint: "from-[rgba(255,255,255,0.06)] via-[rgba(15,17,21,0.72)] to-[#050505]",
-  },
-  {
-    icon: "shield",
-    title: "Built for performance and scale",
-    description:
-      "Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking.",
-    mockupLabel: "Performance metrics",
-    mockupKind: "metrics",
-    layout: "md:col-span-12 lg:col-span-4 lg:row-span-2",
-    minH: "min-h-[360px] lg:min-h-[688px]",
-    mockupTint: "from-[rgba(60,205,127,0.08)] via-[rgba(10,10,10,0.85)] to-[#050505]",
-  },
-  {
-    icon: "chat",
-    title: "Direct line to the engineers building your platform",
-    description:
-      "No account managers or ticket queues. You work with the same senior engineers from discovery through launch — every time.",
-    mockupLabel: "Slack thread",
-    mockupKind: "chat",
-    layout: "md:col-span-7 lg:col-span-4",
-    minH: "min-h-[360px]",
-    mockupTint: "from-[rgba(255,255,255,0.05)] via-[rgba(10,10,10,0.85)] to-[#050505]",
-  },
-  {
-    icon: "package",
-    title: "Full ownership of every deliverable",
-    description:
-      "Clean, documented, optimised code on your infrastructure. No lock-in. Every asset, token and component is yours.",
-    mockupLabel: "Deliverables dashboard",
-    mockupKind: "dashboard",
-    layout: "md:col-span-5 lg:col-span-4",
-    minH: "min-h-[360px]",
-    mockupTint: "from-[rgba(60,205,127,0.07)] via-[rgba(15,17,21,0.76)] to-[#050505]",
-  },
-];
-
-const icons: Record<string, string> = {
-  bolt: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-  diamond: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/></svg>`,
-  chat: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`,
-  package: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
-  shield: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
-};
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<section class="why-section section-y relative z-10 text-text-primary" aria-label="Why work with Straya Studio">
+<section
+  id="why"
+  aria-label="The Straya offer"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
+>
   <div class="main-container">
-    <p class="sr-only">
-      Why Straya is a five-card bento section covering speed, quality, performance,
-      direct communication, and full ownership. Cards use an asymmetric layout to
-      show different strategic strengths.
-    </p>
 
-    <header class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-      <div class="flex flex-col gap-4">
-        <p class="type-label">The Straya offer</p>
-        <h2 class="type-h2">Engineered for founders who ship fast.</h2>
+    <!-- Header -->
+    <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">The Straya offer</span>
+        <h2 class="type-h2 text-on-background max-w-lg">Engineered for founders who ship fast.</h2>
       </div>
-
-      <Button
+      <a
         href="#pricing"
-        label="Start a project"
-        variant="ghost"
-        class="group !w-fit !px-5 !py-3 !text-sm"
+        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
       >
-        <svg
-          class="ml-2 h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        Start a project
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </Button>
+      </a>
     </header>
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
-      {
-        features.map((f, fIdx) => (
-          <article
-            class:list={[
-              "group relative overflow-hidden rounded-md border border-border-default bg-[#0A0A0A]",
-              "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              f.layout,
-              f.minH,
-            ]}
-          >
-            <div class="relative z-[1] flex h-full flex-col">
-              <div class="flex flex-col gap-4 p-6 md:p-8">
-                <div
-                  class="flex h-9 w-9 items-center justify-center rounded-md border border-border-default bg-bg-overlay text-text-secondary motion-safe:animate-[iconGlow_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                  set:html={icons[f.icon]}
-                  aria-hidden="true"
-                  style={`animation-delay:${fIdx * 600}ms;`}
-                />
-                <h3 class="type-h3">{f.title}</h3>
-                <p class="type-body text-text-muted">{f.description}</p>
-              </div>
+    <!-- Bento grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
 
-              <div class:list={[
-                "mt-auto border-t border-border-default bg-gradient-to-br p-4 md:p-6",
-                f.mockupTint,
-              ]}>
-                <div
-                  class="mx-auto w-full max-w-sm rounded-t-sm border border-border-strong border-b-0 bg-[rgba(0,0,0,0.4)]"
-                  aria-hidden="true"
-                >
-                  <div class="flex items-center gap-2 border-b border-border-default px-3 py-2">
-                    <div class="flex gap-1">
-                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
-                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
-                      <span class="h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.15)]" />
-                    </div>
-                    <span class="type-small text-[rgba(255,255,255,0.42)]">{f.mockupLabel}</span>
-                  </div>
-                  {f.mockupKind === "timeline" ? (
-                    <div class="flex flex-col gap-2.5 p-3">
-                      {[
-                        { label: "Discovery", w: "60%" },
-                        { label: "Design", w: "80%" },
-                        { label: "Build", w: "100%" },
-                        { label: "Launch", w: "45%" },
-                      ].map((step, i) => (
-                        <div class="flex items-center gap-2">
-                          <span class="w-12 shrink-0 text-[8px] uppercase tracking-wider text-white/30">{step.label}</span>
-                          <div class="relative h-[6px] flex-1 overflow-hidden rounded-[2px] bg-[rgba(255,255,255,0.05)]">
-                            <div
-                              class="absolute inset-y-0 left-0 origin-left rounded-[2px] bg-gradient-to-r from-[#3CCD7F]/70 to-[#3CCD7F]/30 motion-safe:animate-[timelineFill_3.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                              style={`animation-delay:${i * 280}ms; width:${step.w};`}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : f.mockupKind === "checklist" ? (
-                    <div class="relative flex flex-col gap-2 overflow-hidden p-3">
-                      {["Responsive audit", "Lighthouse 98+", "Cross-browser", "A11y pass"].map((item, i) => (
-                        <div class="flex items-center gap-2">
-                          <div
-                            class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[3px] border border-[#3CCD7F]/30 bg-[#3CCD7F]/10 motion-safe:animate-[checkPop_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                            style={`animation-delay:${i * 400}ms;`}
-                          >
-                            <svg class="h-2 w-2 text-[#3CCD7F]" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                              <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                          </div>
-                          <span class="text-[9px] text-white/35">{item}</span>
-                        </div>
-                      ))}
-                      <div class="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-[#3CCD7F] to-transparent shadow-primary motion-safe:animate-[checkSweep_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
-                    </div>
-                  ) : f.mockupKind === "metrics" ? (
-                    <div class="relative flex h-28 items-end gap-1.5 p-3 pt-8">
-                      <span class="absolute right-3 top-3 font-display text-xl text-[#3CCD7F] drop-shadow-[0_0_8px_rgba(60,205,127,0.35)] motion-safe:animate-[scoreGlow_2.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">98</span>
-                      {[55, 72, 48, 88, 65, 92].map((h, i) => (
-                        <div class="relative flex-1 overflow-hidden rounded-t-[2px] border border-border-strong border-b-0 bg-white/5" style={`height:${h}%;`}>
-                          <div
-                            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#3CCD7F]/55 via-[#3CCD7F]/25 to-transparent motion-safe:animate-[metricRise_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                            style={`animation-delay:${i * 140}ms;`}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : f.mockupKind === "chat" ? (
-                    <div class="flex flex-col gap-2 p-3">
-                      <div class="ml-auto w-[72%] rounded-md rounded-tr-none border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 p-2 motion-safe:animate-[chatSlide_4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
-                        <div class="h-[4px] w-[80%] rounded-[2px] bg-white/10" />
-                        <div class="mt-1.5 h-[4px] w-[55%] rounded-[2px] bg-white/7" />
-                      </div>
-                      <div class="mr-auto w-[60%] rounded-md rounded-tl-none border border-border-strong bg-white/5 p-2 motion-safe:animate-[chatSlide_4s_0.6s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
-                        <div class="h-[4px] w-[70%] rounded-[2px] bg-white/10" />
-                      </div>
-                      <div class="flex gap-1.5 pl-1 motion-safe:animate-[chatSlide_4s_1.2s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none">
-                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
-                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_0.2s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
-                        <span class="h-[5px] w-[5px] rounded-full bg-white/20 motion-safe:animate-[typingDot_1.4s_0.4s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div class="grid grid-cols-3 gap-1.5 p-3">
-                      {[0, 1, 2, 3, 4, 5].map((i) => (
-                        <div class="relative h-8 overflow-hidden rounded-md border border-border-default bg-[rgba(255,255,255,0.03)]">
-                          <div
-                            class="absolute inset-0 rounded-md border border-[#3CCD7F]/20 bg-[#3CCD7F]/8 motion-safe:animate-[dashComplete_4.5s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                            style={`animation-delay:${i * 350}ms;`}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+      <!-- Card 1: Speed — Framer canvas mockup (wide) -->
+      <article
+        class="why-card md:col-span-7 bg-background flex flex-col overflow-hidden group"
+        aria-label="Launch-ready in days, not months"
+      >
+        <!-- Mockup: Framer canvas -->
+        <div class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]">
+          <!-- Framer-style toolbar -->
+          <div class="absolute top-0 inset-x-0 flex items-center justify-between px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-black/10"></div>
+              <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Framer</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="px-2 py-0.5 bg-accent/10 border border-accent/20 text-[8px] text-accent font-medium tracking-wide">Preview</div>
+              <div class="px-2 py-0.5 bg-primary text-on-primary text-[8px] font-medium tracking-wide">Publish</div>
+            </div>
+          </div>
+          <!-- Canvas area -->
+          <div class="absolute inset-0 pt-8 flex items-center justify-center">
+            <!-- Grid dots -->
+            <div class="absolute inset-0 framer-grid opacity-30" aria-hidden="true"></div>
+            <!-- Animated frame being built -->
+            <div class="relative w-48 h-28">
+              <div class="framer-frame absolute inset-0 border border-accent/40 bg-surface-container-lowest shadow-sm">
+                <!-- Simulated component blocks -->
+                <div class="framer-block absolute top-3 left-3 right-3 h-3 bg-black/8 framer-anim" style="animation-delay:0ms"></div>
+                <div class="framer-block absolute top-9 left-3 w-16 h-2 bg-black/5 framer-anim" style="animation-delay:120ms"></div>
+                <div class="framer-block absolute top-9 right-3 w-10 h-2 bg-accent/20 framer-anim" style="animation-delay:240ms"></div>
+                <div class="framer-block absolute bottom-3 left-3 w-20 h-5 bg-primary framer-anim" style="animation-delay:360ms"></div>
+              </div>
+              <!-- Selection handles -->
+              <div class="framer-handle absolute -top-1 -left-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim" style="animation-delay:480ms"></div>
+              <div class="framer-handle absolute -top-1 -right-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim" style="animation-delay:480ms"></div>
+              <div class="framer-handle absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim" style="animation-delay:480ms"></div>
+              <div class="framer-handle absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim" style="animation-delay:480ms"></div>
+              <!-- Tooltip -->
+              <div class="framer-tooltip absolute -top-7 left-0 px-2 py-1 bg-primary text-on-primary text-[8px] whitespace-nowrap framer-anim" style="animation-delay:600ms">
+                Hero Section · 768 × 480
               </div>
             </div>
-          </article>
-        ))
-      }
+          </div>
+          <!-- Left panel: layers -->
+          <div class="absolute left-0 top-8 bottom-0 w-24 bg-surface-container-lowest border-r border-black/5 p-2 flex flex-col gap-1">
+            {["Page", "Hero", "Navbar", "CTA", "Footer"].map((layer, i) => (
+              <div
+                class="flex items-center gap-1.5 px-1.5 py-1 text-[8px] text-on-background/40 framer-layer"
+                style={`animation-delay: ${i * 80}ms`}
+              >
+                <div class="w-1.5 h-1.5 border border-black/20 flex-shrink-0"></div>
+                {layer}
+              </div>
+            ))}
+          </div>
+        </div>
+        <!-- Text -->
+        <div class="p-8 flex flex-col gap-3">
+          <h3 class="type-h3 text-on-background">Launch-ready in days, not months</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">We move fast without cutting corners. Most projects go from kickoff to live deployment within 2–4 weeks.</p>
+        </div>
+      </article>
+
+      <!-- Card 2: Quality — Webflow designer mockup (narrow) -->
+      <article
+        class="why-card md:col-span-5 bg-background flex flex-col overflow-hidden group"
+        aria-label="Pixel-perfect, every time"
+      >
+        <!-- Mockup: Webflow designer -->
+        <div class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]">
+          <!-- Webflow toolbar -->
+          <div class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="w-2 h-2 rounded-full bg-[#146EF5]/60"></div>
+            <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Webflow</span>
+            <div class="ml-auto flex gap-1">
+              {["D", "T", "M"].map((bp, i) => (
+                <div class={`px-1.5 py-0.5 text-[8px] font-medium border ${i === 0 ? 'bg-primary text-on-primary border-primary' : 'border-black/10 text-on-background/30'}`}>{bp}</div>
+              ))}
+            </div>
+          </div>
+          <!-- Style panel right -->
+          <div class="absolute right-0 top-8 bottom-0 w-28 bg-surface-container-lowest border-l border-black/5 p-2 flex flex-col gap-2">
+            <div class="text-[8px] text-on-background/30 font-medium uppercase tracking-wide mb-1">Style</div>
+            {[
+              { label: "Width", val: "100%" },
+              { label: "Height", val: "auto" },
+              { label: "Padding", val: "48px" },
+              { label: "Font", val: "PP Mori" },
+            ].map((prop, i) => (
+              <div class="flex justify-between items-center webflow-prop" style={`animation-delay: ${i * 100}ms`}>
+                <span class="text-[8px] text-on-background/30">{prop.label}</span>
+                <span class="text-[8px] text-on-background/60 bg-surface-container px-1 py-0.5">{prop.val}</span>
+              </div>
+            ))}
+            <!-- Colour swatch -->
+            <div class="mt-1 flex items-center gap-1.5">
+              <div class="w-4 h-4 border border-black/10 bg-primary flex-shrink-0"></div>
+              <span class="text-[8px] text-on-background/40">#000000</span>
+            </div>
+          </div>
+          <!-- Canvas -->
+          <div class="absolute inset-0 top-8 right-28 flex items-center justify-center p-4">
+            <div class="w-full max-w-[140px] flex flex-col gap-2">
+              <div class="webflow-el h-4 bg-black/8 w-3/4"></div>
+              <div class="webflow-el h-2 bg-black/5 w-full" style="animation-delay:80ms"></div>
+              <div class="webflow-el h-2 bg-black/5 w-5/6" style="animation-delay:160ms"></div>
+              <div class="webflow-el h-7 bg-primary w-1/2 mt-1" style="animation-delay:240ms"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-8 flex flex-col gap-3">
+          <h3 class="type-h3 text-on-background">Pixel-perfect, every time</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">Every build is hand-checked across breakpoints.</p>
+        </div>
+      </article>
+
+      <!-- Card 3: Performance — Lighthouse scores (full width) -->
+      <article
+        class="why-card md:col-span-12 bg-background flex flex-col md:flex-row overflow-hidden group"
+        aria-label="Built for performance and scale"
+      >
+        <!-- Mockup: Lighthouse report -->
+        <div class="why-mockup relative overflow-hidden bg-surface-container-low border-b md:border-b-0 md:border-r border-black/5 min-h-[200px] md:w-1/2">
+          <div class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="w-2 h-2 rounded-full bg-[#F4B400]/60"></div>
+            <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Lighthouse Report</span>
+          </div>
+          <div class="absolute inset-0 top-8 flex items-center justify-center gap-6 px-6">
+            {[
+              { label: "Performance", score: 99, color: "#3CCD7F" },
+              { label: "Accessibility", score: 100, color: "#3CCD7F" },
+              { label: "Best Practices", score: 100, color: "#3CCD7F" },
+              { label: "SEO", score: 100, color: "#3CCD7F" },
+            ].map((metric, i) => (
+              <div class="flex flex-col items-center gap-2 lighthouse-score" style={`animation-delay: ${i * 150}ms`}>
+                <div class="relative w-12 h-12">
+                  <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36" aria-hidden="true">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="2.5"/>
+                    <circle
+                      cx="18" cy="18" r="15.9" fill="none"
+                      stroke={metric.color} stroke-width="2.5"
+                      stroke-linecap="round"
+                      class="lighthouse-ring"
+                      data-score={metric.score}
+                      style={`animation-delay: ${i * 150 + 200}ms`}
+                    />
+                  </svg>
+                  <span class="absolute inset-0 flex items-center justify-center text-[11px] font-medium text-on-background">{metric.score}</span>
+                </div>
+                <span class="text-[7.5px] text-on-background/40 text-center leading-tight whitespace-nowrap">{metric.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <!-- Text -->
+        <div class="p-8 md:w-1/2 flex flex-col justify-center gap-3">
+          <h3 class="type-h3 text-on-background">Built for performance and scale</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking.</p>
+          <div class="flex gap-4 mt-2">
+            {[["< 1s", "FCP"], ["≤ 0.05", "CLS"], ["< 150ms", "TBT"]].map(([val, label]) => (
+              <div>
+                <div class="type-h4 text-on-background">{val}</div>
+                <div class="type-label text-on-background/30">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4: Communication — Slack-style thread (narrow) -->
+      <article
+        class="why-card md:col-span-5 bg-background flex flex-col overflow-hidden group"
+        aria-label="Direct line to the engineers"
+      >
+        <div class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[200px]">
+          <div class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="w-2 h-2 rounded-full bg-[#4A154B]/40"></div>
+            <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"># straya-project</span>
+          </div>
+          <div class="absolute inset-0 top-8 flex flex-col gap-2 p-3 overflow-hidden">
+            {[
+              { from: "Salman", msg: "Hero section is live — check preview link", time: "9:41 AM", self: false },
+              { from: "You", msg: "Looks great! Can we adjust the CTA colour?", time: "9:43 AM", self: true },
+              { from: "Salman", msg: "Done — pushed to staging ✓", time: "9:44 AM", self: false },
+            ].map((msg, i) => (
+              <div
+                class={`flex flex-col gap-0.5 chat-msg ${msg.self ? 'items-end' : 'items-start'}`}
+                style={`animation-delay: ${i * 300}ms`}
+              >
+                <span class="text-[8px] text-on-background/30 px-1">{msg.from} · {msg.time}</span>
+                <div class={`px-2.5 py-1.5 max-w-[80%] text-[9px] leading-relaxed ${msg.self ? 'bg-surface-container text-on-background/60' : 'bg-surface-container-lowest border border-black/5 text-on-background/70'}`}>
+                  {msg.msg}
+                </div>
+              </div>
+            ))}
+            <!-- Typing indicator -->
+            <div class="flex items-center gap-1 px-1 mt-1 chat-typing">
+              <span class="text-[8px] text-on-background/30">Salman is typing</span>
+              <div class="flex gap-0.5">
+                {[0,1,2].map(i => (
+                  <span class="w-1 h-1 rounded-full bg-on-background/20 typing-dot" style={`animation-delay: ${i * 150}ms`}></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-8 flex flex-col gap-3">
+          <h3 class="type-h3 text-on-background">Direct line to the engineers building your platform</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">No account managers or ticket queues. You work with the same senior engineers from discovery through launch.</p>
+        </div>
+      </article>
+
+      <!-- Card 5: Ownership — Shopify admin mockup (wide) -->
+      <article
+        class="why-card md:col-span-7 bg-background flex flex-col overflow-hidden group"
+        aria-label="Full ownership of every deliverable"
+      >
+        <div class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[200px]">
+          <div class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="w-2 h-2 rounded-full bg-[#96BF48]/60"></div>
+            <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Shopify Admin</span>
+            <div class="ml-auto text-[8px] text-accent font-medium">● Live</div>
+          </div>
+          <!-- Sidebar -->
+          <div class="absolute left-0 top-8 bottom-0 w-20 bg-surface-container-lowest border-r border-black/5 flex flex-col gap-0.5 p-1.5">
+            {["Dashboard", "Orders", "Products", "Customers", "Analytics"].map((item, i) => (
+              <div
+                class={`px-2 py-1 text-[8px] shopify-nav ${i === 0 ? 'bg-surface-container text-on-background/70' : 'text-on-background/30'}`}
+                style={`animation-delay: ${i * 60}ms`}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <!-- Main content -->
+          <div class="absolute inset-0 top-8 left-20 p-3 flex flex-col gap-2">
+            <div class="grid grid-cols-3 gap-1.5">
+              {[
+                { label: "Revenue", val: "$12,480" },
+                { label: "Orders", val: "84" },
+                { label: "Conversion", val: "3.2%" },
+              ].map((stat, i) => (
+                <div class="bg-surface-container-lowest border border-black/5 p-2 shopify-stat" style={`animation-delay: ${i * 100}ms`}>
+                  <div class="text-[8px] text-on-background/30 mb-0.5">{stat.label}</div>
+                  <div class="text-[11px] font-medium text-on-background">{stat.val}</div>
+                </div>
+              ))}
+            </div>
+            <!-- Mini chart -->
+            <div class="flex-1 bg-surface-container-lowest border border-black/5 p-2 flex items-end gap-0.5">
+              {[30,55,40,70,60,85,75,90,65,95].map((h, i) => (
+                <div
+                  class="flex-1 bg-accent/20 shopify-bar"
+                  style={`height: ${h}%; animation-delay: ${i * 60}ms`}
+                ></div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="p-8 flex flex-col gap-3">
+          <h3 class="type-h3 text-on-background">Full ownership of every deliverable</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">Clean, documented, optimised code on your infrastructure. No lock-in. Every asset, token and component is yours.</p>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
 
 <style>
-  /* Timeline: Gantt bars fill left-to-right */
-  @keyframes timelineFill {
-    0%, 5% { transform: scaleX(0); opacity: 0; }
-    20% { transform: scaleX(1); opacity: 1; }
-    70% { transform: scaleX(1); opacity: 1; }
-    90%, 100% { transform: scaleX(0); opacity: 0; }
+  /* ── Card entrance ─────────────────────────────────────────── */
+  .why-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .why-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Checklist: check marks pop in */
-  @keyframes checkPop {
-    0%, 5% { transform: scale(0); opacity: 0; }
-    18% { transform: scale(1.2); opacity: 1; }
-    28%, 68% { transform: scale(1); opacity: 1; }
-    88%, 100% { transform: scale(0); opacity: 0; }
+  /* ── Framer canvas ─────────────────────────────────────────── */
+  .framer-grid {
+    background-image: radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
 
-  /* Checklist: vertical scan line */
-  @keyframes checkSweep {
-    0% { transform: translateY(-100%); opacity: 0; }
-    10% { opacity: 0.9; }
-    85% { opacity: 0.9; }
-    100% { transform: translateY(100%); opacity: 0; }
+  @keyframes framer-build {
+    0%, 10% { opacity: 0; transform: scaleX(0.8); }
+    30%, 80% { opacity: 1; transform: scaleX(1); }
+    95%, 100% { opacity: 0; transform: scaleX(0.8); }
   }
 
-  /* Metrics: bar chart fill */
-  @keyframes metricRise {
-    0%, 100% { height: 15%; opacity: 0.35; }
-    30% { height: 100%; opacity: 1; }
-    60% { height: 55%; opacity: 0.8; }
+  .framer-anim {
+    animation: framer-build 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
-  /* Metrics: score number glow */
-  @keyframes scoreGlow {
-    0%, 100% { opacity: 0.45; }
-    50% { opacity: 1; text-shadow: 0 0 12px rgba(60, 205, 127, 0.5); }
+  .framer-layer {
+    animation: framer-build 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
-  /* Chat: message bubbles slide in */
-  @keyframes chatSlide {
-    0%, 5% { transform: translateY(8px); opacity: 0; }
-    18%, 72% { transform: translateY(0); opacity: 1; }
-    88%, 100% { transform: translateY(-4px); opacity: 0; }
+  /* ── Webflow designer ──────────────────────────────────────── */
+  @keyframes webflow-appear {
+    0%, 10% { opacity: 0; transform: translateY(4px); }
+    30%, 80% { opacity: 1; transform: translateY(0); }
+    95%, 100% { opacity: 0; transform: translateY(4px); }
   }
 
-  /* Chat: typing indicator dots */
-  @keyframes typingDot {
-    0%, 60%, 100% { opacity: 0.15; transform: translateY(0); }
-    30% { opacity: 0.7; transform: translateY(-2px); }
+  .webflow-el, .webflow-prop {
+    animation: webflow-appear 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
-  /* Dashboard: grid items complete */
-  @keyframes dashComplete {
-    0%, 6% { transform: scale(0.8); opacity: 0; }
-    22%, 68% { transform: scale(1); opacity: 1; }
-    86%, 100% { transform: scale(0.8); opacity: 0; }
+  /* ── Lighthouse rings ──────────────────────────────────────── */
+  @keyframes ring-99 {
+    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
+    50%, 85% { stroke-dasharray: 99 100; opacity: 1; }
+    100%     { stroke-dasharray: 99 100; opacity: 0; }
+  }
+  @keyframes ring-100 {
+    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
+    50%, 85% { stroke-dasharray: 100 100; opacity: 1; }
+    100%     { stroke-dasharray: 100 100; opacity: 0; }
+  }
+
+  .lighthouse-ring[data-score="99"] {
+    stroke-dasharray: 0 100;
+    animation: ring-99 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  .lighthouse-ring[data-score="100"] {
+    stroke-dasharray: 0 100;
+    animation: ring-100 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  .lighthouse-score {
+    animation: webflow-appear 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  /* ── Chat messages ─────────────────────────────────────────── */
+  @keyframes chat-in {
+    0%, 5% { opacity: 0; transform: translateY(6px); }
+    20%, 75% { opacity: 1; transform: translateY(0); }
+    90%, 100% { opacity: 0; transform: translateY(-4px); }
+  }
+
+  .chat-msg {
+    animation: chat-in 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+    30% { transform: translateY(-2px); opacity: 0.8; }
+  }
+
+  .typing-dot {
+    animation: typing-bounce 1.2s ease infinite;
+  }
+
+  .chat-typing {
+    animation: chat-in 5s 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  /* ── Shopify bars ──────────────────────────────────────────── */
+  @keyframes bar-rise {
+    0%, 10% { transform: scaleY(0); opacity: 0; }
+    35%, 80% { transform: scaleY(1); opacity: 1; }
+    95%, 100% { transform: scaleY(0); opacity: 0; }
+  }
+
+  .shopify-bar {
+    transform-origin: bottom;
+    animation: bar-rise 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  .shopify-stat, .shopify-nav {
+    animation: webflow-appear 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .why-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .framer-anim, .framer-layer,
+    .webflow-el, .webflow-prop,
+    .lighthouse-ring, .lighthouse-score,
+    .chat-msg, .chat-typing, .typing-dot,
+    .shopify-bar, .shopify-stat, .shopify-nav {
+      animation: none !important;
+      opacity: 1;
+    }
   }
 </style>
+
+<script>
+  const cards = document.querySelectorAll('.why-card');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target as HTMLElement;
+      const idx = Array.from(cards).indexOf(el);
+      setTimeout(() => el.classList.add('is-visible'), idx * 80);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(c => observer.observe(c));
+</script>

@@ -1,198 +1,315 @@
 ---
-// OurDifference.astro — v6.0 "Dashboard Simulation"
-// Inspired by Framer/Figma/Webflow UI
-
-const baseCardClass =
-  "group flex flex-col gap-6 rounded-md border-2 border-border-default bg-[#0A0A0A] p-8 transition-all duration-500 hover:border-brand-secondary/40 hover:shadow-accentBold hover:-translate-y-1";
-
-const panelClass =
-  "mx-auto w-full overflow-hidden rounded-t-md border-2 border-border-strong border-b-0 bg-[#050505] shadow-innerAccent";
-
-const cards = [
-  {
-    label: "Systemic",
-    title: "Bento-Grid Architecture",
-    body: "Modular components that lock into place with mathematical precision.",
-    header: "canvas_constructor.exe",
-    kind: "tiles",
-  },
-  {
-    label: "Performance",
-    title: "Zero-Latency Deployment",
-    body: "Instant data propagation across global edge networks.",
-    header: "global_edge_sync",
-    kind: "flow",
-  },
-  {
-    label: "Reliability",
-    title: "Signal Monitoring Layer",
-    body: "Live health telemetry catches bottlenecks before they impact conversion.",
-    header: "runtime_telemetry_v4",
-    kind: "signal",
-  },
-] as const;
-
-const tileItems = [
-  "h-8 w-full rounded-sm bg-[#3CCD7F]/20 border-2 border-brand-secondary/30 animate-[tileSnap_4s_infinite]",
-  "h-8 w-full rounded-sm bg-white/5 border-2 border-border-strong animate-[tileSnap_4s_0.2s_infinite]",
-  "h-8 w-full rounded-sm bg-white/5 border-2 border-border-strong animate-[tileSnap_4s_0.4s_infinite]",
-  "h-8 w-full rounded-sm bg-white/5 border-2 border-border-strong animate-[tileSnap_4s_0.1s_infinite]",
-  "h-8 w-full rounded-sm bg-[#3CCD7F]/10 border-2 border-brand-secondary/20 animate-[tileSnap_4s_0.3s_infinite]",
-  "h-8 w-full rounded-sm bg-white/5 border-2 border-border-strong animate-[tileSnap_4s_0.5s_infinite]",
-];
+// OurDifference.astro — Straya Studio [IMMERSIVE]
+// 3-card bento with platform-faithful UI mockup animations.
+// Same animation language as WhyStraya — CSS keyframes inside mockup panels.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 ---
 
-<section id="difference" class="section-y relative z-10 text-[#FFFFFF]">
-  <div class="main-container flex flex-col gap-12">
-    <header class="mx-auto flex max-w-[60rem] flex-col gap-4 text-center">
-      <p class="type-label text-[#3CCD7F] font-extrabold tracking-[0.2em]">
-        Our difference
-      </p>
-      <h2 class="type-h2">Built systems. Faster outcomes.</h2>
+<section
+  id="difference"
+  aria-label="Our difference"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
+>
+  <div class="main-container">
+
+    <!-- Header -->
+    <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">Our difference</span>
+        <h2 class="type-h2 text-on-background max-w-lg">Built systems. Faster outcomes.</h2>
+      </div>
     </header>
 
-    <ul
-      class="grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3"
-    >
-      {
-        cards.map((card) => (
-          <li class={baseCardClass}>
-            <div class="flex flex-col gap-3">
-              <span class="w-fit rounded-full bg-[#3CCD7F]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#3CCD7F] border border-[#3CCD7F]/20">
-                {card.label}
-              </span>
-              <h3 class="type-h3 tracking-tight group-hover:text-[#3CCD7F] transition-colors">
-                {card.title}
-              </h3>
-              <p class="type-body text-[#9CA3AF] leading-relaxed">
-                {card.body}
-              </p>
+    <!-- 3-card grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/5">
+
+      <!-- Card 1: Bento Architecture — Framer canvas grid -->
+      <article
+        class="diff-card bg-background flex flex-col overflow-hidden group"
+        data-index="0"
+        aria-label="Bento-grid architecture"
+      >
+        <!-- Mockup: Framer-style component grid snapping into place -->
+        <div class="diff-mockup relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]">
+          <!-- Toolbar -->
+          <div class="absolute top-0 inset-x-0 flex items-center justify-between px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-black/10"></div>
+              <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Component Grid</span>
             </div>
+            <span class="text-[8px] text-accent font-medium">canvas_constructor.exe</span>
+          </div>
+          <!-- Grid canvas — bento layout (asymmetric blocks) -->
+          <div class="absolute inset-0 top-8 flex items-center justify-center p-5">
+            <div class="grid w-full h-full gap-1.5" style="grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr 1fr;">
+              <!-- Large block top-left spanning 2 rows -->
+              <div class="tile-snap bg-accent/10 border border-accent/20 row-span-2" style="animation-delay: 0ms;"></div>
+              <!-- Small blocks right column -->
+              <div class="tile-snap bg-surface-container border border-black/5" style="animation-delay: 120ms;"></div>
+              <div class="tile-snap bg-surface-container border border-black/5" style="animation-delay: 240ms;"></div>
+              <!-- Bottom row: 2 equal blocks -->
+              <div class="tile-snap bg-surface-container border border-black/5" style="animation-delay: 180ms;"></div>
+              <div class="tile-snap bg-accent/15 border border-accent/25" style="animation-delay: 300ms;"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Text -->
+        <div class="p-8 flex flex-col gap-3">
+          <span class="type-label text-accent">Systemic</span>
+          <h3 class="type-h3 text-on-background">Bento-Grid Architecture</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">
+            Modular components that lock into place with mathematical precision — reusable, scalable, and consistent across every breakpoint.
+          </p>
+        </div>
+      </article>
 
-            <div class="mt-auto pt-4">
-              <div class={panelClass}>
-                <div class="flex items-center justify-between border-b-2 border-border-strong px-4 py-3 bg-[#0F1115]">
-                  <div class="flex gap-2">
-                    <span class="h-2 w-2 rounded-full bg-[#3CCD7F]/40" />
-                    <span class="h-2 w-2 rounded-full bg-white/10" />
-                  </div>
-                  <span class="font-mono text-[10px] font-bold tracking-widest text-white/40 uppercase">
-                    {card.header}
-                  </span>
+      <!-- Card 2: Zero-Latency — Webflow edge flow -->
+      <article
+        class="diff-card bg-background flex flex-col overflow-hidden group"
+        data-index="1"
+        aria-label="Zero-latency deployment"
+      >
+        <!-- Mockup: data flowing across edge nodes -->
+        <div class="diff-mockup relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]">
+          <div class="absolute top-0 inset-x-0 flex items-center justify-between px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-[#146EF5]/50"></div>
+              <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Edge Network</span>
+            </div>
+            <span class="text-[8px] text-on-background/30 font-medium">global_edge_sync</span>
+          </div>
+          <!-- Edge nodes + flow lines -->
+          <div class="absolute inset-0 top-8 flex flex-col justify-center gap-5 px-8">
+            <!-- Origin node label -->
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[8px] text-on-background/30 uppercase tracking-wide">Origin</span>
+              <span class="text-[8px] text-accent font-medium">● Live</span>
+            </div>
+            {[
+              { label: "US East",    delay: "0ms"   },
+              { label: "EU West",    delay: "400ms" },
+              { label: "AP South",   delay: "800ms" },
+            ].map(node => (
+              <div class="flex items-center gap-3">
+                <span class="text-[8px] text-on-background/30 w-14 flex-shrink-0">{node.label}</span>
+                <div class="relative flex-1 h-px bg-black/5 overflow-hidden">
+                  <div
+                    class="flow-pulse absolute top-0 h-full w-16 bg-gradient-to-r from-transparent via-accent to-transparent"
+                    style={`animation-delay: ${node.delay}`}
+                  ></div>
                 </div>
-
-                <div class="relative flex h-40 items-center justify-center bg-[#050505] overflow-hidden">
-                  {card.kind === "tiles" ? (
-                    <div class="grid w-40 grid-cols-3 gap-3 perspective-1000 rotate-x-12 rotate-z-[-12deg]">
-                      {tileItems.map((tileClass) => (
-                        <div class={tileClass} />
-                      ))}
-                    </div>
-                  ) : card.kind === "flow" ? (
-                    <div class="flex w-full flex-col gap-6 px-10">
-                      {[0, 1, 2].map((i) => (
-                        <div class="relative h-1 w-full rounded-full bg-white/5 border border-white/5">
-                          <div
-                            class="absolute h-full w-24 bg-gradient-to-r from-transparent via-[#3CCD7F] to-transparent animate-[flowRun_3s_infinite_linear]"
-                            style={`animation-delay: ${i * 0.8}s`}
-                          />
-                          <div class="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-[#050505] border border-white/10" />
-                          <div class="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-[#3CCD7F] shadow-[0_0_10px_#3CCD7F]" />
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div class="flex h-full w-full items-end justify-between gap-1 px-6 pb-4 pt-10">
-                      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(60,205,127,0.1),transparent_70%)]" />
-                      {[...Array(12)].map((_, i) => (
-                        <div
-                          class="w-full rounded-t-sm bg-[#3CCD7F]/20 border-x border-t border-[#3CCD7F]/30 animate-[pulse_3s_infinite_ease-in-out]"
-                          style={`height: ${20 + Math.random() * 60}%; animation-delay: ${i * 0.1}s`}
-                        />
-                      ))}
-                      <div class="absolute inset-x-0 top-0 h-[2px] bg-[#3CCD7F] shadow-[0_0_15px_#3CCD7F] animate-[scan_4s_infinite_linear]" />
-                    </div>
-                  )}
-                </div>
+                <div class="w-2 h-2 rounded-full bg-accent/40 flex-shrink-0 edge-dot" style={`animation-delay: ${node.delay}`}></div>
               </div>
+            ))}
+            <!-- Latency readout -->
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-[8px] text-on-background/20 uppercase tracking-wide">TTFB</span>
+              <span class="text-[10px] font-medium text-accent latency-counter">< 80ms</span>
             </div>
-          </li>
-        ))
-      }
-    </ul>
+          </div>
+        </div>
+        <div class="p-8 flex flex-col gap-3">
+          <span class="type-label text-accent">Performance</span>
+          <h3 class="type-h3 text-on-background">Zero-Latency Deployment</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">
+            Instant data propagation across global edge networks. Sub-80ms TTFB on Cloudflare Pages, every time.
+          </p>
+        </div>
+      </article>
+
+      <!-- Card 3: Signal Monitoring — Lighthouse/analytics dashboard -->
+      <article
+        class="diff-card bg-background flex flex-col overflow-hidden group"
+        data-index="2"
+        aria-label="Signal monitoring layer"
+      >
+        <!-- Mockup: live bar chart with scan line -->
+        <div class="diff-mockup relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]">
+          <div class="absolute top-0 inset-x-0 flex items-center justify-between px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-[#F4B400]/60"></div>
+              <span class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase">Runtime Telemetry</span>
+            </div>
+            <span class="text-[8px] text-on-background/30 font-medium">v4.1.0</span>
+          </div>
+          <!-- Animated score counters — count up to target values -->
+          <div class="absolute inset-0 top-8 flex items-center justify-center">
+            <div class="grid grid-cols-2 gap-px bg-black/5 w-full h-full">
+              {[
+                { label: "Performance",    score: 99,  delay: 0   },
+                { label: "Accessibility",  score: 100, delay: 150 },
+                { label: "Best Practices", score: 100, delay: 300 },
+                { label: "SEO",            score: 100, delay: 450 },
+              ].map((m, i) => (
+                <div class="bg-surface-container-lowest flex flex-col items-center justify-center gap-2 p-4 score-cell" data-score={m.score} data-delay={m.delay}>
+                  <!-- Ring -->
+                  <div class="relative w-12 h-12">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36" aria-hidden="true">
+                      <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="2.5"/>
+                      <circle
+                        cx="18" cy="18" r="15.9" fill="none"
+                        stroke="#3CCD7F" stroke-width="2.5"
+                        stroke-linecap="round"
+                        class="score-ring"
+                        data-score={m.score}
+                        style={`animation-delay: ${m.delay}ms`}
+                      />
+                    </svg>
+                    <span class="score-number absolute inset-0 flex items-center justify-center text-[11px] font-medium text-on-background" data-target={m.score}>0</span>
+                  </div>
+                  <span class="text-[7.5px] text-on-background/40 whitespace-nowrap">{m.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="p-8 flex flex-col gap-3">
+          <span class="type-label text-accent">Reliability</span>
+          <h3 class="type-h3 text-on-background">Signal Monitoring Layer</h3>
+          <p class="type-body-small text-on-surface-variant leading-relaxed">
+            Live health telemetry catches bottlenecks before they impact conversion. 90+ Lighthouse scores maintained post-launch.
+          </p>
+        </div>
+      </article>
+
+    </div>
   </div>
 </section>
 
 <style>
-  /* Framer-style "Snapping" Physics */
-  @keyframes tileSnap {
-    0%,
-    15% {
-      transform: translateZ(40px) scale(1.1);
-      opacity: 0;
-      filter: blur(4px);
-    }
-    30%,
-    70% {
-      transform: translateZ(0) scale(1);
-      opacity: 1;
-      filter: blur(0px);
-    }
-    85%,
-    100% {
-      transform: translateZ(-20px) scale(0.9);
-      opacity: 0;
-    }
+  /* ── Card entrance ─────────────────────────────────────────── */
+  .diff-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .diff-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Webflow-style Flow Physics */
-  @keyframes flowRun {
-    0% {
-      left: -20%;
-      opacity: 0;
-    }
-    20%,
-    80% {
-      opacity: 1;
-    }
-    100% {
-      left: 100%;
-      opacity: 0;
-    }
+  /* ── Card 1: Tile snap ─────────────────────────────────────── */
+  @keyframes tile-snap {
+    0%, 10%  { opacity: 0; transform: translateZ(20px) scale(1.08); }
+    30%, 70% { opacity: 1; transform: translateZ(0) scale(1); }
+    90%, 100%{ opacity: 0; transform: translateZ(-10px) scale(0.94); }
+  }
+  .tile-snap {
+    animation: tile-snap 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
-  /* Dashboard Scanning Physics */
-  @keyframes scan {
-    0% {
-      top: 0%;
-      opacity: 0;
-    }
-    10%,
-    90% {
-      opacity: 1;
-    }
-    100% {
-      top: 100%;
-      opacity: 0;
-    }
+  /* ── Card 2: Flow pulse ────────────────────────────────────── */
+  @keyframes flow-run {
+    0%   { left: -20%; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: 110%; opacity: 0; }
+  }
+  .flow-pulse {
+    animation: flow-run 2.4s linear infinite;
   }
 
-  @keyframes pulse {
-    0%,
-    100% {
-      transform: scaleY(1);
-      opacity: 0.3;
-    }
-    50% {
-      transform: scaleY(1.2);
-      opacity: 1;
-    }
+  @keyframes edge-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.4); }
+  }
+  .edge-dot {
+    animation: edge-pulse 2.4s ease infinite;
   }
 
-  .perspective-1000 {
-    perspective: 1000px;
+  /* ── Card 3: Score rings ──────────────────────────────────── */
+  @keyframes ring-99 {
+    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
+    50%, 85% { stroke-dasharray: 99 100; opacity: 1; }
+    100%     { stroke-dasharray: 99 100; opacity: 0; }
   }
-  .rotate-x-12 {
-    transform: rotateX(25deg);
+  @keyframes ring-100 {
+    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
+    50%, 85% { stroke-dasharray: 100 100; opacity: 1; }
+    100%     { stroke-dasharray: 100 100; opacity: 0; }
+  }
+  .score-ring[data-score="99"]  { stroke-dasharray: 0 100; animation: ring-99  3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  .score-ring[data-score="100"] { stroke-dasharray: 0 100; animation: ring-100 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+
+  @keyframes score-cell-in {
+    0%, 10%  { opacity: 0; transform: translateY(6px); }
+    30%, 80% { opacity: 1; transform: translateY(0); }
+    95%, 100%{ opacity: 0; transform: translateY(-4px); }
+  }
+  .score-cell { animation: score-cell-in 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .diff-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .tile-snap, .flow-pulse, .edge-dot,
+    .score-ring, .score-cell {
+      animation: none !important;
+      opacity: 1;
+    }
+    .score-ring { stroke-dasharray: 100 100; }
   }
 </style>
+
+<script>
+  const cards = document.querySelectorAll('.diff-card');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.index ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), idx * 100);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(c => observer.observe(c));
+
+  // Score counter — counts 0 → target in sync with ring animation (3.5s cycle)
+  function animateCounters() {
+    const numbers = document.querySelectorAll<HTMLElement>('.score-number');
+    numbers.forEach(el => {
+      const target = parseInt(el.dataset.target ?? '0');
+      const delay  = parseInt(el.closest('.score-cell')?.getAttribute('data-delay') ?? '0');
+      const duration = 1200; // ms to count up
+
+      function cycle() {
+        let start: number | null = null;
+        setTimeout(() => {
+          const tick = (ts: number) => {
+            if (!start) start = ts;
+            const p = Math.min((ts - start) / duration, 1);
+            el.textContent = String(Math.round(p * target));
+            if (p < 1) requestAnimationFrame(tick);
+            else {
+              // Hold at target, then reset after ring fades
+              setTimeout(() => {
+                el.textContent = '0';
+                setTimeout(cycle, 200);
+              }, 1800);
+            }
+          };
+          requestAnimationFrame(tick);
+        }, delay);
+      }
+      cycle();
+    });
+  }
+
+  // Start counters when card 3 enters viewport
+  const card3 = document.querySelector('.diff-card[data-index="2"]');
+  if (card3) {
+    const counterObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        animateCounters();
+        counterObserver.disconnect();
+      }
+    }, { threshold: 0.2 });
+    counterObserver.observe(card3);
+  }
+</script>

@@ -1,0 +1,123 @@
+---
+// GlobalSpatialEffect.astro — Straya Studio
+// Permanent Global Interaction Layer (Pillar 4: Background/Secondary/Tertiary)
+// Includes:
+//   1. Cursor Spotlight — Soft radial highlight following the mouse.
+//   2. Spatial Dust — Parallax particles reacting to vertical scroll and cursor distance.
+---
+
+<div
+  id="global-spatial-effect"
+  class="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+  aria-hidden="true"
+>
+  <!-- Layer 1: Cursor Spotlight (Secondary) -->
+  <div
+    id="spatial-cursor-glow"
+    class="absolute w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle_at_center,_rgba(60,205,127,0.25)_0%,_transparent_70%)] blur-[120px] opacity-0 translate-[-50%,-50%] will-change-transform"
+  >
+  </div>
+
+  <!-- Layer 2: Spatial Dust (Tertiary) — 25 particles with brand tints -->
+  <div id="spatial-dust-container" class="absolute inset-0">
+    {
+      [...Array(25)].map((_, i) => (
+        <div
+          class:list={[
+            "spatial-particle absolute rounded-full blur-[1px]",
+            i % 3 === 0 ? "bg-brand-secondary/20" : "bg-white/10",
+          ]}
+          style={`
+          width: ${Math.random() * 8 + 4}px; 
+          height: ${Math.random() * 8 + 4}px; 
+          top: ${Math.random() * 100}%; 
+          left: ${Math.random() * 100}%; 
+          opacity: ${Math.random() * 0.5 + 0.3};
+        `}
+          data-mass={Math.random() * 0.6 + 0.2}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  #global-spatial-effect {
+    /* Ensures it sits behind all content layers but above the grain/base bg */
+    z-index: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #global-spatial-effect {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Spatial Projection Engine
+   * Smooth cursor tracking and differential parallax.
+   */
+  const setupSpatialProjector = () => {
+    const container = document.getElementById("global-spatial-effect");
+    const glow = document.getElementById("spatial-cursor-glow");
+    const particles = document.querySelectorAll(".spatial-particle");
+
+    if (!container || !glow) return;
+
+    // Movement state
+    let mouseX = 0,
+      mouseY = 0;
+    let currentX = 0,
+      currentY = 0;
+    let scrollY = window.scrollY;
+    let targetScrollY = window.scrollY;
+
+    const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b;
+
+    // Update target mouse positions
+    window.addEventListener(
+      "mousemove",
+      (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        glow.style.opacity = "1";
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        targetScrollY = window.scrollY;
+      },
+      { passive: true },
+    );
+
+    // Performance loop: requestAnimationFrame (Pillar 4.5)
+    const render = () => {
+      // 1. Eased Cursor Movement (Luxury Easing interpolation)
+      currentX = lerp(currentX, mouseX, 0.08);
+      currentY = lerp(currentY, mouseY, 0.08);
+      glow.style.transform = `translate3d(${currentX - 400}px, ${currentY - 400}px, 0)`;
+
+      // 2. Parallax Spatial Dust
+      scrollY = lerp(scrollY, targetScrollY, 0.1);
+      particles.forEach((p) => {
+        const mass = parseFloat(p.getAttribute("data-mass") || "0.5");
+        // Offset is relative to the scroll depth * mass for "depth"
+        (p as HTMLElement).style.transform =
+          `translate3d(0, ${-(scrollY * mass * 0.1)}px, 0)`;
+      });
+
+      requestAnimationFrame(render);
+    };
+
+    requestAnimationFrame(render);
+  };
+
+  // Supports Astro View Transitions
+  setupSpatialProjector();
+  document.addEventListener("astro:after-swap", setupSpatialProjector);
+</script>

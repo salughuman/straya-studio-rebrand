@@ -1,157 +1,513 @@
 {
+    "version": "1.0.0",
+    "name": "Straya Studio Design Tokens",
+    "description": "Centralized design system for Straya Studio - Premium Light Mode",
+    "theme": {
+        "mode": "light",
+        "brand": "Straya Studio",
+        "style": "Cinematic Digital Deployments",
+        "foundation": "Material Design 3"
+    },
+
     "color": {
+        "_comment": "All colors follow Material Design 3 role naming. Light mode only. Never use dark-mode overrides.",
+
+        "primary": {
+            "_comment": "Brand black — used for primary buttons, logo, high-emphasis UI",
+            "DEFAULT": "#000000",
+            "container": "#3c3b3b",
+            "on": "#E5E2E1",
+            "onContainer": "#FFFFFF",
+            "fixed": "#5f5e5e",
+            "fixedDim": "#474746"
+        },
+
+        "secondary": {
+            "_comment": "Straya Green — used for hover states, selection highlights, status indicators",
+            "DEFAULT": "#006D3D",
+            "container": "#62ee9c",
+            "on": "#FFFFFF",
+            "onContainer": "#00210f",
+            "fixed": "#52df8f",
+            "fixedDim": "#2dc376"
+        },
+
+        "tertiary": {
+            "_comment": "Neutral dark — used for tertiary UI elements, muted containers",
+            "DEFAULT": "#3c3b3b",
+            "container": "#767474",
+            "on": "#E5E2E1",
+            "onContainer": "#FFFFFF",
+            "fixed": "#5f5e5e",
+            "fixedDim": "#474646"
+        },
+
+        "error": {
+            "_comment": "Error states — form validation, destructive actions",
+            "DEFAULT": "#BA1A1A",
+            "container": "#FFDAD6",
+            "on": "#FFFFFF",
+            "onContainer": "#410002"
+        },
+
         "background": {
-            "base": "#050505",
-            "surface": "#0A0A0A",
-            "accent": "#3CCD7F",
-            "elevated": "#0F1115",
-            "overlay": "rgba(255, 255, 255, 0.05)"
+            "_comment": "Surface elevation scale — containerLowest is brightest (white), containerHighest is darkest. Use in order for layered depth.",
+            "DEFAULT": "#F9F9F9",
+            "surface": "#F9F9F9",
+            "surfaceDim": "#DADADA",
+            "surfaceBright": "#F9F9F9",
+            "containerLowest": "#FFFFFF",
+            "containerLow": "#F3F3F3",
+            "container": "#EEEEEE",
+            "containerHigh": "#E8E8E8",
+            "containerHighest": "#E2E2E2"
         },
-        "text": {
-            "primary": "#FFFFFF",
-            "secondary": "#9CA3AF",
-            "muted": "#6B7280",
-            "inverted": "#050505"
+
+        "onBackground": {
+            "_comment": "Text/icon colors placed on top of background — DEFAULT for primary text, variant for secondary/supporting text",
+            "DEFAULT": "#1A1C1C",
+            "variant": "#474747"
         },
-        "brand": {
-            "primary": "#FFFFFF",
-            "secondary": "#3CCD7F",
-            "secondaryHover": "#2FB96D",
-            "secondaryMuted": "rgba(60, 205, 127, 0.1)"
+
+        "onSurface": {
+            "_comment": "Text/icon colors placed on top of surface containers — disabled for placeholder/inactive states",
+            "DEFAULT": "#1A1C1C",
+            "variant": "#474747",
+            "inverse": "#F1F1F1",
+            "disabled": "#777777"
         },
-        "border": {
-            "default": "rgba(255, 255, 255, 0.05)",
-            "subtle": "rgba(255, 255, 255, 0.03)",
-            "strong": "rgba(255, 255, 255, 0.1)"
+
+        "outline": {
+            "_comment": "Border and divider colors — DEFAULT for visible borders, variant for subtle dividers",
+            "DEFAULT": "#777777",
+            "variant": "#C6C6C6"
         },
+
+        "inverse": {
+            "_comment": "Inverse surface for dark-on-light contexts (e.g. tooltips, snackbars). Not used for full dark mode.",
+            "surface": "#2F3131",
+            "onSurface": "#F1F1F1",
+            "primary": "#C8C6C5"
+        },
+
+        "surfaceTint": "#5F5E5E",
+
+        "accent": "#3CCD7F",
+
         "status": {
-            "success": "#10B981",
-            "warning": "#F59E0B",
-            "error": "#EF4444"
+            "_comment": "Semantic status colors — success matches accent (Straya Green)",
+            "success": "#3CCD7F",
+            "warning": "#FFC107",
+            "error": "#BA1A1A",
+            "info": "#2196F3"
+        },
+
+        "border": {
+            "_comment": "Border tokens — default is near-invisible (5% black), use strong for visible dividers",
+            "default": "rgba(0, 0, 0, 0.05)",
+            "subtle": "#E2E2E2",
+            "strong": "#C6C6C6",
+            "outline": "#777777"
+        },
+
+        "text": {
+            "_comment": "Semantic text aliases — use these in components instead of raw hex values",
+            "primary": "#1A1C1C",
+            "secondary": "#474747",
+            "inverse": "#F1F1F1",
+            "muted": "#777777"
         }
     },
+
     "typography": {
+        "_comment": "All font weights are 400 (normal) or 500 (medium). Never use 700 (bold). PP_Mori for display/headings, Instrument Sans for body/UI.",
+
+        "fontFamily": {
+            "_comment": "display = PP_Mori for headings and labels. body = Instrument Sans for paragraphs and UI text.",
+            "display": "'PP_Mori', sans-serif",
+            "body": "'Instrument Sans', sans-serif",
+            "fallback": {
+                "display": "Helvetica Neue, Arial, sans-serif",
+                "body": "system-ui, -apple-system, sans-serif"
+            }
+        },
+
+        "style": {
+            "_comment": "tightTracking = -0.04em for headings (tight, cinematic). blueprintTracking = 0.05em for labels/metadata (wide, technical).",
+            "tightTracking": "-0.04em",
+            "blueprintTracking": "0.05em",
+            "normalTracking": "0em"
+        },
+
         "h1": {
-            "fontSize": "clamp(2.5rem, 5vw, 4rem)",
-            "fontWeight": "600",
-            "lineHeight": "1.1",
-            "letterSpacing": "-0.02em",
-            "fontFamily": "'Bricolage Grotesque', sans-serif"
+            "_comment": "Hero headline — fluid clamp, tight tracking, PP_Mori . Used once per page.",
+            "fontSize": "clamp(3.125rem, 1.4356rem + 6.9307vw, 7.5rem)",
+            "fontWeight": "400",
+            "lineHeight": "0.9",
+            "letterSpacing": "-0.04em",
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
         },
         "h2": {
+            "_comment": "Section headings — fluid clamp, tight tracking. Used for major section titles.",
             "fontSize": "clamp(1.75rem, 4vw, 2.75rem)",
             "fontWeight": "500",
-            "lineHeight": "1.15",
-            "letterSpacing": "-0.02em",
-            "fontFamily": "'Bricolage Grotesque', sans-serif"
+            "lineHeight": "1",
+            "letterSpacing": "-0.04em",
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
         },
         "h3": {
+            "_comment": "Card/subsection headings — fixed size, tight tracking. Used inside cards and bento blocks.",
             "fontSize": "1.25rem",
-            "fontWeight": "600",
-            "lineHeight": "1.3",
-            "letterSpacing": "-0.015em",
-            "fontFamily": "'Bricolage Grotesque', sans-serif"
+            "fontWeight": "500",
+            "lineHeight": "1.1",
+            "letterSpacing": "-0.04em",
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
         },
         "h4": {
-            "fontSize": "1.25rem",
-            "fontWeight": "600",
-            "lineHeight": "1.3",
-            "letterSpacing": "-0.015em",
-            "fontFamily": "'Bricolage Grotesque', sans-serif"
-        },
-        "h5": {
+            "_comment": "Minor headings — used for feature titles, pricing tier names.",
             "fontSize": "1.125rem",
             "fontWeight": "500",
-            "lineHeight": "1.4",
+            "lineHeight": "1.2",
             "letterSpacing": "-0.01em",
-            "fontFamily": "'Bricolage Grotesque', sans-serif"
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
+        },
+        "h5": {
+            "_comment": "Small headings — used for sidebar titles, accordion headers.",
+            "fontSize": "1rem",
+            "fontWeight": "500",
+            "lineHeight": "1.3",
+            "letterSpacing": "-0.01em",
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
+        },
+        "h6": {
+            "_comment": "Micro headings — used for metadata labels, table headers.",
+            "fontSize": "0.875rem",
+            "fontWeight": "500",
+            "lineHeight": "1.4",
+            "letterSpacing": "0.01em",
+            "fontFamily": "'PP_Mori', sans-serif",
+            "color": "#1A1C1C"
         },
         "body": {
-            "fontSize": "0.875rem",
+            "_comment": "Default body text — paragraphs, descriptions. 1.625 line-height for readability.",
+            "fontSize": "1rem",
             "fontWeight": "400",
-            "lineHeight": "1.6",
+            "lineHeight": "1.625",
             "letterSpacing": "0em",
-            "fontFamily": "Inter, sans-serif"
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#1A1C1C"
         },
         "bodyLarge": {
+            "_comment": "Large body — used for hero descriptions, intro paragraphs.",
             "fontSize": "1.125rem",
             "fontWeight": "400",
             "lineHeight": "1.65",
             "letterSpacing": "0em",
-            "fontFamily": "Inter, sans-serif"
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#1A1C1C"
         },
-        "small": {
+        "bodySmall": {
+            "_comment": "Small body — used for supporting copy, footnotes, card descriptions.",
             "fontSize": "0.875rem",
             "fontWeight": "400",
             "lineHeight": "1.5",
             "letterSpacing": "0em",
-            "fontFamily": "Inter, sans-serif"
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#474747"
         },
-        "label": {
+        "caption": {
+            "_comment": "Caption text — used for image captions, timestamps, helper text.",
             "fontSize": "0.75rem",
-            "fontWeight": "500",
-            "lineHeight": "1.5",
-            "letterSpacing": "0.1em",
-            "fontFamily": "Inter, sans-serif",
-            "textTransform": "uppercase"
-        },
-        "mono": {
-            "fontSize": "0.8125rem",
             "fontWeight": "400",
             "lineHeight": "1.5",
             "letterSpacing": "0em",
-            "fontFamily": "ui-monospace, monospace"
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#474747"
+        },
+        "label": {
+            "_comment": "UI labels — used for form labels, nav links, metadata. blueprintTracking (0.05em) + uppercase.",
+            "fontSize": "0.6875rem",
+            "fontWeight": "500",
+            "lineHeight": "1.4",
+            "letterSpacing": "0.05em",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#1A1C1C"
+        },
+        "labelUppercase": {
+            "_comment": "Uppercase labels — used for section tags, status badges, metric labels. Always uppercase.",
+            "fontSize": "0.6875rem",
+            "fontWeight": "500",
+            "lineHeight": "1.4",
+            "letterSpacing": "0.05em",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#1A1C1C",
+            "textTransform": "uppercase"
+        },
+        "labelSmall": {
+            "_comment": "Small uppercase labels — used for micro-metadata, version numbers, system status text.",
+            "fontSize": "0.625rem",
+            "fontWeight": "500",
+            "lineHeight": "1.4",
+            "letterSpacing": "0.05em",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#474747",
+            "textTransform": "uppercase"
+        },
+        "mono": {
+            "_comment": "Monospace — used for code snippets, version strings, technical metadata.",
+            "fontSize": "0.875rem",
+            "fontWeight": "400",
+            "lineHeight": "1.5",
+            "letterSpacing": "0em",
+            "fontFamily": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            "color": "#474747"
+        },
+        "button": {
+            "_comment": "Button text — uppercase, blueprintTracking, medium weight. Used for all CTA and nav buttons.",
+            "fontSize": "0.75rem",
+            "fontWeight": "500",
+            "lineHeight": "1.4",
+            "letterSpacing": "0.05em",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "textTransform": "uppercase"
         }
     },
+
     "spacing": {
-        "8pt": 8,
-        "sectionY": "128px",
-        "sectionYMobile": "80px",
+        "_comment": "All spacing is based on an 8px grid. Section padding uses section-mobile/desktop. Container padding uses containerPaddingMobile/Desktop.",
+        "base": "8px",
         "containerMax": "1400px",
-        "gutterMobile": "20px",
-        "gutterTablet": "40px",
-        "gutterDesktop": "64px",
-        "cardPadding": "32px",
-        "cardPaddingMobile": "24px",
-        "gap": "16px",
-        "gapLg": "24px",
-        "gapXl": "64px"
+        "containerPaddingMobile": "2rem",
+        "containerPaddingDesktop": "0rem",
+        "sectionMobile": "5rem",
+        "sectionDesktop": "8rem",
+        "cardPadding": "2rem",
+        "gridColumns": 4,
+        "gridOpacity": 0.06,
+        "borderOpacity": {
+            "_comment": "Tailwind opacity modifier scale for border-black/{value}. e.g. border-black/5 = subtle, border-black/40 = muted text borders.",
+            "subtle": 0.05,
+            "default": 0.1,
+            "strong": 0.2,
+            "muted": 0.4,
+            "visible": 0.5,
+            "high": 0.6,
+            "dark": 0.8
+        }
     },
-    "radius": {
-        "xs": "4px",
-        "sm": "8px",
-        "md": "12px",
-        "lg": "12px",
-        "full": "9999px"
+
+    "effects": {
+        "_comment": "All motion values. Use transition.base for standard interactions, transition.elastic for luxury feel. depth values require perspective-1k on parent.",
+
+        "transition": {
+            "_comment": "base = standard UI interactions. elastic = luxury/premium feel (used on CTAs). smooth = standard Tailwind ease. bouncy = playful (avoid in production).",
+            "base": "cubic-bezier(0.19, 1, 0.22, 1)",
+            "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "elastic": "cubic-bezier(0.16, 1, 0.3, 1)",
+            "bouncy": "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+        },
+
+        "duration": {
+            "_comment": "fast = micro-interactions (icon hover). normal = buttons/links. slow = cards/panels. verySlow = page transitions.",
+            "fast": "150ms",
+            "normal": "300ms",
+            "slow": "500ms",
+            "verySlow": "1000ms"
+        },
+
+        "depth": {
+            "_comment": "Z-axis depth for 3D layering. Requires perspective-1k on parent element. 1 = cards, 2 = CTAs, 3 = modals/overlays.",
+            "1": "translateZ(10px)",
+            "2": "translateZ(20px)",
+            "3": "translateZ(30px)"
+        },
+
+        "magnetic": {
+            "_comment": "Magnetic CTA hover effect — translateZ + scale. Apply .magnetic-cta class to primary buttons.",
+            "radius": "140px",
+            "cta": "translateZ(20px) scale(1.02)",
+            "hoverScale": "1.02",
+            "decay": "0.12-0.24"
+        },
+
+        "parallax": {
+            "_comment": "Parallax scroll ratios for IMMERSIVE mode sections. background moves slowest, foreground moves at full speed.",
+            "background": 0.3,
+            "midground": 0.6,
+            "foreground": 1.0
+        },
+
+        "grain": {
+            "_comment": "SVG fractal noise overlay — always fixed, pointer-events none, z-index 9999. Adds premium texture to light backgrounds.",
+            "opacity": 0.02,
+            "frequency": "0.65",
+            "octaves": 3
+        },
+
+        "blur": {
+            "_comment": "Backdrop blur values — backdrop used for navbar/modals, surface for cards.",
+            "backdrop": "backdrop-blur-xl",
+            "surface": "backdrop-blur-md"
+        }
     },
-    "shadow": {
-        "sm": "0 2px 4px rgba(0,0,0,0.1)",
-        "md": "0 8px 16px rgba(0,0,0,0.2)",
-        "lg": "0 24px 48px rgba(0,0,0,0.3)",
-        "diffusion": "0 40px 100px rgba(0,0,0,0.4)",
-        "primary": "0 0 40px rgba(60, 205, 127, 0.1)",
-        "frosted": "inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0,0,0,0.2)"
+
+    "border": {
+        "_comment": "Border radius is 0px everywhere (sharp, architectural aesthetic). Only exception is full (9999px) for pills/badges.",
+        "radius": {
+            "DEFAULT": "0px",
+            "lg": "0px",
+            "xl": "0px",
+            "full": "9999px"
+        },
+        "width": {
+            "_comment": "DEFAULT = standard borders. thin = subtle dividers. thick = emphasis borders.",
+            "DEFAULT": "1px",
+            "thin": "0.5px",
+            "thick": "2px"
+        },
+        "style": "solid"
     },
-    "transition": {
-        "fast": "150ms cubic-bezier(0.16, 1, 0.3, 1)",
-        "base": "300ms cubic-bezier(0.16, 1, 0.3, 1)",
-        "slow": "500ms cubic-bezier(0.16, 1, 0.3, 1)",
-        "spring": "400ms cubic-bezier(0.16, 1, 0.3, 1)"
+
+    "cursor": {
+        "_comment": "Global cursor is crosshair — reinforces the cinematic/technical aesthetic. interactive = pointer for clickable elements.",
+        "DEFAULT": "crosshair",
+        "interactive": "pointer",
+        "grab": "grab",
+        "grabbing": "grabbing"
     },
+
+    "grid": {
+        "_comment": "4-column baseline grid at 0.06 opacity — used as background overlay in hero and section backgrounds.",
+        "columns": 4,
+        "gutter": "8px",
+        "baseline": "8px"
+    },
+
+    "animation": {
+        "_comment": "All animation values. marquee = platform logos scroll. stagger = delay between sequential element entrances.",
+        "marquee": {
+            "_comment": "20s duration per design spec. linear timing for smooth infinite scroll.",
+            "duration": "20s",
+            "timing": "linear",
+            "iteration": "infinite"
+        },
+        "fade": {
+            "duration": "300ms",
+            "timing": "cubic-bezier(0.19, 1, 0.22, 1)"
+        },
+        "slide": {
+            "duration": "300ms",
+            "timing": "cubic-bezier(0.19, 1, 0.22, 1)"
+        },
+        "scale": {
+            "duration": "300ms",
+            "timing": "cubic-bezier(0.19, 1, 0.22, 1)"
+        },
+        "stagger": "8ms"
+    },
+
     "zIndex": {
-        "base": "0",
-        "raised": "10",
-        "dropdown": "100",
-        "sticky": "200",
-        "modal": "300",
-        "toast": "400"
+        "_comment": "Z-index scale. grain overlay is 9999 (always on top). navbar is fixed at 50 via Tailwind z-50.",
+        "dropdown": 1000,
+        "sticky": 1020,
+        "fixed": 1030,
+        "modalBackdrop": 1040,
+        "modal": 1050,
+        "popover": 1060,
+        "tooltip": 1070
     },
-    "borderWidth": {
-        "0": "0px",
-        "DEFAULT": "2px",
-        "sm": "1px",
-        "md": "2px",
-        "lg": "4px",
-        "xl": "8px"
+
+    "media": {
+        "_comment": "Three breakpoints only per GEMINI.md §5.B — sm=390px (mobile), md=810px (tablet), lg=1200px (desktop).",
+        "breakpoints": {
+            "sm": "390px",
+            "md": "810px",
+            "lg": "1200px"
+        },
+        "container": {
+            "sm": "390px",
+            "md": "750px",
+            "lg": "1140px"
+        }
+    },
+
+    "accessibility": {
+        "_comment": "WCAG 2.1 AA minimum. All interactive elements must have visible focus states. Respect prefers-reduced-motion.",
+        "contrast": {
+            "normalText": "4.5:1",
+            "largeText": "3:1",
+            "uiComponents": "3:1"
+        },
+        "focus": {
+            "outline": "2px solid #000000",
+            "offset": "2px"
+        },
+        "reducedMotion": "prefers-reduced-motion: reduce"
+    },
+
+    "components": {
+        "_comment": "Component-level defaults. These are the base values — override via Tailwind utilities in components.",
+
+        "button": {
+            "_comment": "All buttons are 0px radius, uppercase, medium weight. Primary uses bg-primary, hover transitions to bg-accent.",
+            "padding": {
+                "sm": "0.5rem 1rem",
+                "md": "0.75rem 1.5rem",
+                "lg": "1rem 2rem"
+            },
+            "fontSize": "0.75rem",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "textTransform": "uppercase",
+            "borderRadius": "0px"
+        },
+
+        "card": {
+            "_comment": "Cards use surface-container-lowest background, border-black/5 border, 0px radius. Hover lifts translateY(-4px).",
+            "padding": "2rem",
+            "border": "1px solid rgba(0, 0, 0, 0.05)",
+            "borderRadius": "0px",
+            "hover": {
+                "transform": "translateY(-4px)",
+                "scale": "1.02",
+                "transition": "all 500ms cubic-bezier(0.19, 1, 0.22, 1)"
+            }
+        },
+
+        "input": {
+            "_comment": "Form inputs — 0px radius, outline border, 1rem font size. Focus state uses secondary color.",
+            "padding": "0.75rem 1rem",
+            "border": "1px solid #777777",
+            "borderRadius": "0px",
+            "fontSize": "1rem"
+        },
+
+        "nav": {
+            "_comment": "Navbar — fixed, backdrop-blur-xl, bg-background/80, border-b border-black/5.",
+            "height": "auto",
+            "padding": "1rem 2rem",
+            "linkSpacing": "2rem"
+        },
+
+        "footer": {
+            "_comment": "Footer — bg-surface-container-low, border-t border-black/5, 3rem vertical padding.",
+            "padding": "3rem 2rem",
+            "borderTop": "1px solid rgba(0, 0, 0, 0.05)"
+        }
+    },
+
+    "layout": {
+        "_comment": "Global layout constraints. maxWidth = 1400px centered. Padding scales from mobile to desktop.",
+        "maxWidth": "1400px",
+        "center": true,
+        "padding": {
+            "mobile": "2rem",
+            "desktop": "4rem"
+        }
     }
 }

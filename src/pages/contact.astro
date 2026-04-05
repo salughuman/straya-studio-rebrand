@@ -5,192 +5,341 @@ import FAQ from "../components/FAQ.astro";
 import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
 
-const title = "Start a Project | Straya Studio";
-const description =
-  "Share your project brief with Straya Studio. We review every submission, confirm scope and fit, and reply with a clear fixed quote — no surprises.";
-const image = "/og-contact.png";
+const title       = "Start a Project | Straya Studio";
+const description = "Share your project brief with Straya Studio. We review every submission and reply with a clear fixed quote — no surprises.";
+const image       = "/og-contact.png";
+const pageUrl     = `${SITE_CONFIG.url}/contact/`;
 
-const pageUrl = `${SITE_CONFIG.url}/contact/`;
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: title,
-  description,
-  url: pageUrl,
-  isPartOf: {
-    "@type": "WebSite",
-    name: SITE_CONFIG.name,
-    url: `${SITE_CONFIG.url}/`,
-  },
+  name: title, description, url: pageUrl,
+  isPartOf: { "@type": "WebSite", name: SITE_CONFIG.name, url: `${SITE_CONFIG.url}/` },
 };
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: `${SITE_CONFIG.url}/`,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Contact",
-      item: pageUrl,
-    },
+    { "@type": "ListItem", position: 1, name: "Home",    item: `${SITE_CONFIG.url}/` },
+    { "@type": "ListItem", position: 2, name: "Contact", item: pageUrl },
   ],
 };
 ---
 
 <BaseLayout title={title} description={description} image={image}>
+
   <section
     id="contact"
-    class="section-y pt-28 md:pt-32 relative z-10 bg-bg-surface text-text-primary"
-    aria-label="Start a project form"
+    aria-label="Start a project"
+    class="relative bg-background border-b border-black/5 overflow-hidden"
   >
-    <div class="main-container">
-      <p class="sr-only">
-        This page captures qualified project briefs.
-      </p>
+    <!-- 4-col grid overlay -->
+    <div class="absolute inset-0 grid grid-cols-4 pointer-events-none" aria-hidden="true">
+      <div class="border-r border-black/[0.04]"></div>
+      <div class="border-r border-black/[0.04]"></div>
+      <div class="border-r border-black/[0.04]"></div>
+      <div></div>
+    </div>
 
-      <header class="mx-auto mb-12 flex max-w-[30rem] flex-col gap-3 text-center md:mb-14">
-        <p class="type-label">Start a project</p>
-        <h1 class="type-h2">Send your brief and get a fixed quote.</h1>
-        <p class="type-body text-text-secondary">
-          Tell us what you are building, what success looks like, and any constraints
-          we should account for. We review every brief directly and reply with the next
-          best step.
-        </p>
+    <div class="main-container pt-36 pb-24 relative z-10">
+
+      <!-- Page header -->
+      <header class="mb-16 border-b border-black/5 pb-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span class="type-label text-on-background/40 block mb-3">Start a project</span>
+            <h1 class="type-h2 text-on-background max-w-lg">
+              Send your brief and get a fixed quote.
+            </h1>
+            <p class="type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed">
+              Tell us what you're building, what success looks like, and any constraints. We review every brief directly and reply with the next best step.
+            </p>
+          </div>
+          <!-- Calendly alternative -->
+          <div class="flex-shrink-0 flex flex-col gap-3 md:text-right">
+            <span class="type-label text-on-background/40">Prefer a call?</span>
+            <a
+              href={SITE_CONFIG.socials.calendly}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="magnetic-cta inline-flex items-center gap-2 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
+            >
+              Book 15-min scoping call
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </header>
 
-      <div class="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4">
-        <article class="w-full rounded-md border border-border-default bg-bg-base p-6 md:p-8">
+      <!-- Two-column layout: form left, info right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-px bg-black/5">
+
+        <!-- Form -->
+        <div class="lg:col-span-8 bg-background p-8 md:p-10">
           <form
             action={`https://formsubmit.co/${SITE_CONFIG.contactEmail}`}
             method="POST"
             id="project-brief-form"
             data-calendly={SITE_CONFIG.socials.calendly}
-            data-contact-email={SITE_CONFIG.contactEmail}
-            class="grid w-full grid-cols-1 gap-4 md:grid-cols-2"
+            class="flex flex-col gap-6"
           >
-            <input type="hidden" name="_subject" value="New Project Brief — Straya Studio" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value={`${SITE_CONFIG.url}/contact`} />
-            <input type="hidden" name="leadSource" value="pricing-start-project" />
-            <input type="hidden" name="cta_source" id="cta-source" value="direct-contact-page" />
-            <input type="hidden" name="cta_tier" id="cta-tier" value="unknown" />
-            <input type="hidden" name="tier" id="tier-hidden" value="unknown" />
-            <input type="hidden" name="landing_page" value="/contact" />
-            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+            <!-- Hidden fields -->
+            <input type="hidden" name="_subject"  value="New Project Brief — Straya Studio"/>
+            <input type="hidden" name="_captcha"  value="false"/>
+            <input type="hidden" name="_template" value="table"/>
+            <input type="hidden" name="_next"     value={`${SITE_CONFIG.url}/contact`}/>
+            <input type="hidden" name="leadSource" value="contact-page"/>
+            <input type="hidden" name="cta_source" id="cta-source" value="direct"/>
+            <input type="hidden" name="cta_tier"   id="cta-tier"   value="unknown"/>
+            <input type="hidden" name="tier"        id="tier-hidden" value="unknown"/>
+            <input type="text"   name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true"/>
 
-            <label class="flex w-full flex-col gap-2">
-              <span class="type-caption text-text-secondary">Full name</span>
-              <input required name="name" type="text" autocomplete="name" placeholder="e.g. Alex Morgan" class="w-full rounded-md border border-border-strong bg-bg-surface px-4 py-3 type-body text-text-primary outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-text-muted focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
+            <!-- Name + Email row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <label class="flex flex-col gap-2">
+                <span class="type-label text-on-background/60">Full name <span class="text-accent" aria-hidden="true">*</span></span>
+                <input
+                  required name="name" type="text" autocomplete="name"
+                  placeholder="Alex Morgan"
+                  class="contact-input"
+                />
+              </label>
+              <label class="flex flex-col gap-2">
+                <span class="type-label text-on-background/60">Email <span class="text-accent" aria-hidden="true">*</span></span>
+                <input
+                  required name="email" type="email" autocomplete="email"
+                  placeholder="you@example.com"
+                  class="contact-input"
+                />
+              </label>
+            </div>
+
+            <!-- Platform -->
+            <label class="flex flex-col gap-2">
+              <span class="type-label text-on-background/60">Platform preference</span>
+              <select name="platform" class="contact-input">
+                <option value="">Not sure yet</option>
+                <option value="Framer">Framer</option>
+                <option value="Webflow">Webflow</option>
+                <option value="Shopify">Shopify</option>
+                <option value="Wix">Wix</option>
+                <option value="WordPress">WordPress</option>
+              </select>
             </label>
 
-            <label class="flex w-full flex-col gap-2">
-              <span class="type-caption text-text-secondary">Email</span>
-              <input required name="email" type="email" autocomplete="email" placeholder="you@example.com" class="w-full rounded-md border border-border-strong bg-bg-surface px-4 py-3 type-body text-text-primary outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-text-muted focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
+            <!-- Budget -->
+            <label class="flex flex-col gap-2">
+              <span class="type-label text-on-background/60">Budget range</span>
+              <select name="budget" class="contact-input">
+                <option value="">Select a range</option>
+                <option value="$1,500–$2,000">$1,500 – $2,000 (Starter)</option>
+                <option value="$3,500–$4,500">$3,500 – $4,500 (Growth)</option>
+                <option value="$9,000+">$9,000+ (Premium)</option>
+                <option value="Not sure">Not sure yet</option>
+              </select>
             </label>
 
-            <label class="flex w-full flex-col gap-2 md:col-span-2">
-              <span class="type-caption text-text-secondary">Project brief</span>
-              <textarea required name="brief" rows={6} autocomplete="off" placeholder="Share your goals, scope, platform preference, and any deadline constraints." class="w-full rounded-md border border-border-strong bg-bg-surface px-4 py-3 type-body text-text-primary outline-none transition-[border-color,box-shadow] duration-300 ease-luxury placeholder:text-text-muted focus-visible:border-brand-secondary focus-visible:ring-2 focus-visible:ring-brand-secondary/30" />
+            <!-- Brief -->
+            <label class="flex flex-col gap-2">
+              <span class="type-label text-on-background/60">Project brief <span class="text-accent" aria-hidden="true">*</span></span>
+              <textarea
+                required name="brief" rows={6} autocomplete="off"
+                placeholder="Share your goals, scope, platform preference, and any deadline constraints."
+                class="contact-input resize-none"
+              ></textarea>
             </label>
 
-            <button type="submit" class="mt-2 inline-flex w-full items-center justify-center rounded-md font-semibold tracking-tight px-10 py-4 text-base bg-brand-secondary text-text-inverted border-t border-border-strong transition-[transform,border-color,background-color,color,box-shadow] duration-300 ease-luxury hover:shadow-primary hover:-translate-y-1 motion-reduce:hover:translate-y-0 motion-reduce:transition-none md:col-span-2">
-              <span class="font-bold tracking-tight">Send project brief</span>
-            </button>
-            <p id="form-status" class="type-caption hidden md:col-span-2 text-text-secondary" role="status" aria-live="polite"></p>
+            <!-- Submit -->
+            <div class="flex flex-col gap-3">
+              <button
+                type="submit"
+                id="submit-btn"
+                class="magnetic-cta w-full flex items-center justify-center gap-3 type-button bg-primary text-on-primary py-4 hover:bg-accent transition-colors duration-300"
+              >
+                <span id="submit-label">Send project brief</span>
+                <svg id="submit-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <p id="form-status" class="type-label text-center hidden" role="status" aria-live="polite"></p>
+            </div>
           </form>
-        </article>
+        </div>
 
+        <!-- Info sidebar -->
+        <div class="lg:col-span-4 bg-surface-container-low flex flex-col gap-0">
+
+          <!-- What happens next -->
+          <div class="p-8 border-b border-black/5">
+            <span class="type-label text-on-background/40 block mb-5">What happens next</span>
+            <ol class="flex flex-col gap-5 list-none p-0">
+              {[
+                { n: "01", text: "We review your brief within 24 hours." },
+                { n: "02", text: "We confirm scope fit and platform recommendation." },
+                { n: "03", text: "You receive a fixed quote — no surprises." },
+                { n: "04", text: "Kickoff call scheduled within 48 hours of acceptance." },
+              ].map(step => (
+                <li class="flex items-start gap-4">
+                  <span class="type-label text-on-background/20 flex-shrink-0 w-6 tabular-nums">{step.n}</span>
+                  <span class="type-body-small text-on-surface-variant leading-relaxed">{step.text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <!-- Trust signals -->
+          <div class="p-8 border-b border-black/5">
+            <span class="type-label text-on-background/40 block mb-5">Why Straya Studio</span>
+            <ul class="flex flex-col gap-3 list-none p-0">
+              {[
+                "Fixed quotes — no hourly billing",
+                "Direct line to the founder",
+                "2–3 projects at a time",
+                "100+ five-star deployments",
+                "Certified Framer Expert",
+              ].map(item => (
+                <li class="flex items-center gap-3">
+                  <svg class="w-3 h-3 text-accent flex-shrink-0" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2 6.5L4.5 9L10 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="type-body-small text-on-surface-variant">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Contact direct -->
+          <div class="p-8">
+            <span class="type-label text-on-background/40 block mb-4">Or reach out directly</span>
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              class="type-label text-on-background hover:text-accent transition-colors duration-300 block mb-2"
+            >
+              {SITE_CONFIG.email}
+            </a>
+            <a
+              href={SITE_CONFIG.socials.calendly}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="type-label text-on-background/40 hover:text-on-background transition-colors duration-300 block"
+            >
+              Book a 15-min call →
+            </a>
+          </div>
+
+        </div>
       </div>
     </div>
   </section>
+
   <FAQ />
   <FinalCTA />
   <Footer />
+
   <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <script is:inline>
     (() => {
-      const params = new URLSearchParams(window.location.search);
-      const source = params.get("source");
-      const tier = params.get("tier");
+      // Pre-fill from URL params
+      const params   = new URLSearchParams(window.location.search);
+      const source   = params.get('source');
+      const tier     = params.get('tier');
+      const srcField = document.getElementById('cta-source');
+      const tierField= document.getElementById('cta-tier');
+      const tierHid  = document.getElementById('tier-hidden');
 
-      const sourceField = document.getElementById("cta-source");
-      const tierField = document.getElementById("cta-tier");
-      const tierHidden = document.getElementById("tier-hidden");
-      const form = document.getElementById("project-brief-form");
-
-      if (source && sourceField instanceof HTMLInputElement) {
-        sourceField.value = source;
-      }
-
-      if (tier && tierField instanceof HTMLInputElement) {
-        const normalized = tier.toLowerCase();
-        tierField.value = normalized;
-        if (tierHidden instanceof HTMLInputElement) {
-          if (normalized === "starter") tierHidden.value = "Starter";
-          if (normalized === "growth") tierHidden.value = "Growth";
+      if (source && srcField)  srcField.value  = source;
+      if (tier   && tierField) {
+        const n = tier.toLowerCase();
+        tierField.value = n;
+        if (tierHid) {
+          if (n === 'starter') tierHid.value = 'Starter';
+          if (n === 'growth')  tierHid.value = 'Growth';
+          if (n === 'premium') tierHid.value = 'Premium';
+        }
+        // Pre-select budget
+        const budgetSelect = document.querySelector('select[name="budget"]');
+        if (budgetSelect) {
+          if (n === 'starter') budgetSelect.value = '$1,500–$2,000';
+          if (n === 'growth')  budgetSelect.value = '$3,500–$4,500';
+          if (n === 'premium') budgetSelect.value = '$9,000+';
         }
       }
 
-      if (form instanceof HTMLFormElement) {
-        form.addEventListener("submit", async (event) => {
-          event.preventDefault();
+      // Form submission
+      const form   = document.getElementById('project-brief-form');
+      const btn    = document.getElementById('submit-btn');
+      const label  = document.getElementById('submit-label');
+      const arrow  = document.getElementById('submit-arrow');
+      const status = document.getElementById('form-status');
 
-          const submitButton = form.querySelector('button[type="submit"]');
-          const buttonLabel = submitButton ? submitButton.querySelector("span") : null;
+      if (!(form instanceof HTMLFormElement)) return;
 
-          if (submitButton instanceof HTMLButtonElement) {
-            submitButton.disabled = true;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (btn instanceof HTMLButtonElement) btn.disabled = true;
+        if (label) label.textContent = 'Sending…';
+        if (arrow) arrow.style.display = 'none';
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+          if (!res.ok) throw new Error();
+
+          if (label) label.textContent = 'Brief sent ✓';
+          if (status) {
+            status.textContent = 'Thank you — we\'ll review your brief and reply within 24 hours.';
+            status.style.color = '#3CCD7F';
+            status.classList.remove('hidden');
           }
-
-          try {
-            const response = await fetch(form.action, {
-              method: "POST",
-              body: new FormData(form),
-              headers: { Accept: "application/json" },
-            });
-
-            if (!response.ok) throw new Error("Submission failed");
-
-            if (buttonLabel) {
-              buttonLabel.textContent = "Thank you";
-            } else if (submitButton) {
-              submitButton.textContent = "Thank you";
-            }
-
-            const status = document.getElementById("form-status");
-            if (status) {
-              status.textContent =
-                "Thank you — your brief was sent. We will reply shortly.";
-              status.style.color = "";
-              status.classList.remove("hidden");
-            }
-
-            form.reset();
-          } catch {
-            const status = document.getElementById("form-status");
-            if (status) {
-              status.textContent =
-                "Something went wrong. Please try again or email us directly.";
-              status.style.color = "rgb(239 68 68)";
-              status.classList.remove("hidden");
-            }
-            if (buttonLabel) {
-              buttonLabel.textContent = "Send project brief";
-            }
-            if (submitButton instanceof HTMLButtonElement) {
-              submitButton.disabled = false;
-            }
+          form.reset();
+        } catch {
+          if (label) label.textContent = 'Send project brief';
+          if (arrow) arrow.style.display = '';
+          if (btn instanceof HTMLButtonElement) btn.disabled = false;
+          if (status) {
+            status.textContent = 'Something went wrong. Please email us directly.';
+            status.style.color = '#BA1A1A';
+            status.classList.remove('hidden');
           }
-        });
-      }
+        }
+      });
     })();
   </script>
 </BaseLayout>
+
+<style>
+  .contact-input {
+    width: 100%;
+    background: theme('colors.surface-container-lowest');
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-family: 'Instrument Sans', sans-serif;
+    color: theme('colors.on-background');
+    outline: none;
+    transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 0;
+    appearance: none;
+  }
+  .contact-input::placeholder {
+    color: rgba(0, 0, 0, 0.25);
+  }
+  .contact-input:focus {
+    border-color: #3CCD7F;
+    box-shadow: 0 0 0 3px rgba(60, 205, 127, 0.08);
+  }
+  select.contact-input {
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23777777' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+</style>

@@ -1,341 +1,106 @@
 ---
+// Styleguide — redirects to homepage in production.
+// Dev reference only — token paths updated to new design-tokens.json structure.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/ui/buttons/Button.astro";
 import tokens from "../styles/design-tokens.json";
 
-const title = "Straya Studio Style Guide";
-const description = "Visual documentation of Straya Studio styling system and component standards.";
-
-const inspectorTokens = [
-  { label: "Base", value: tokens.color.background.base, token: "--color-background-base", tailwind: "bg-bg-base" },
-  { label: "Surface", value: tokens.color.background.surface, token: "--color-background-surface", tailwind: "bg-bg-surface" },
-  { label: "Elevated", value: tokens.color.background.elevated, token: "--color-background-elevated", tailwind: "bg-bg-elevated" },
-  { label: "Accent", value: tokens.color.background.accent, token: "--color-accent", tailwind: "bg-brand-secondary" },
-  { label: "Card radius", value: tokens.radius.xs, token: "--radius-xs", tailwind: "rounded-md" },
-  { label: "Shadow md", value: tokens.shadow.md, token: "--shadow-md", tailwind: "shadow-md" },
-];
+const title = "Style Guide | Straya Studio";
+const description = "Design system reference for Straya Studio.";
 
 const colorSwatches = [
-  { label: "Base", value: tokens.color.background.base, token: "--color-background-base", cls: "bg-bg-base" },
-  { label: "Surface", value: tokens.color.background.surface, token: "--color-background-surface", cls: "bg-bg-surface" },
-  { label: "Elevated", value: tokens.color.background.elevated, token: "--color-background-elevated", cls: "bg-bg-elevated" },
-  { label: "Accent", value: tokens.color.background.accent, token: "--color-accent", cls: "bg-brand-secondary" },
-  { label: "Success", value: tokens.color.status.success, token: "--color-status-success", cls: "bg-status-success" },
-  { label: "Warning", value: tokens.color.status.warning, token: "--color-status-warning", cls: "bg-status-warning" },
-  { label: "Error", value: tokens.color.status.error, token: "--color-status-error", cls: "bg-status-error" },
+  { label: "Background",          value: tokens.color.background.DEFAULT,         cls: "bg-background" },
+  { label: "Surface",             value: tokens.color.background.surface,          cls: "bg-surface" },
+  { label: "Container Low",       value: tokens.color.background.containerLow,     cls: "bg-surface-container-low" },
+  { label: "Container",           value: tokens.color.background.container,        cls: "bg-surface-container" },
+  { label: "Container High",      value: tokens.color.background.containerHigh,    cls: "bg-surface-container-high" },
+  { label: "Container Lowest",    value: tokens.color.background.containerLowest,  cls: "bg-surface-container-lowest" },
+  { label: "Primary",             value: tokens.color.primary.DEFAULT,             cls: "bg-primary" },
+  { label: "Secondary",           value: tokens.color.secondary.DEFAULT,           cls: "bg-secondary" },
+  { label: "Accent",              value: tokens.color.accent,                      cls: "bg-accent" },
+  { label: "On Background",       value: tokens.color.onBackground.DEFAULT,        cls: "bg-on-background" },
+  { label: "Outline",             value: tokens.color.outline.DEFAULT,             cls: "bg-outline" },
+  { label: "Success",             value: tokens.color.status.success,              cls: "bg-success" },
+  { label: "Error",               value: tokens.color.status.error,                cls: "bg-error" },
 ];
 
 const typeSpecs = [
-  { name: "H1", sample: "Designing Ideas Into Icons", cls: "type-h1", size: tokens.typography.h1.fontSize, lh: tokens.typography.h1.lineHeight },
-  { name: "H2", sample: "Section Heading System", cls: "type-h2", size: tokens.typography.h2.fontSize, lh: tokens.typography.h2.lineHeight },
-  { name: "H3", sample: "Card Heading", cls: "type-h3", size: tokens.typography.h3.fontSize, lh: tokens.typography.h3.lineHeight },
-  { name: "Body", sample: "Body copy is optimized for readability across all breakpoints.", cls: "type-body text-text-secondary", size: tokens.typography.body.fontSize, lh: tokens.typography.body.lineHeight },
-  { name: "Label", sample: "UPPERCASE LABEL", cls: "type-label text-brand-secondary", size: tokens.typography.label.fontSize, lh: tokens.typography.label.lineHeight },
-];
-
-const radii = [
-  { name: "xs", value: tokens.radius.xs, varName: "--radius-xs" },
-  { name: "sm", value: tokens.radius.sm, varName: "--radius-sm" },
-  { name: "md", value: tokens.radius.md, varName: "--radius-md" },
-  { name: "lg", value: tokens.radius.lg, varName: "--radius-lg" },
+  { name: "H1",           sample: "Designing Ideas Into Icons",                          cls: "type-h1",           size: tokens.typography.h1.fontSize,        weight: tokens.typography.h1.fontWeight },
+  { name: "H2",           sample: "Section Heading System",                              cls: "type-h2",           size: tokens.typography.h2.fontSize,        weight: tokens.typography.h2.fontWeight },
+  { name: "H3",           sample: "Card Heading",                                        cls: "type-h3",           size: tokens.typography.h3.fontSize,        weight: tokens.typography.h3.fontWeight },
+  { name: "H4",           sample: "Minor Heading",                                       cls: "type-h4",           size: tokens.typography.h4.fontSize,        weight: tokens.typography.h4.fontWeight },
+  { name: "Body",         sample: "Body copy optimized for readability.",                 cls: "type-body",         size: tokens.typography.body.fontSize,      weight: tokens.typography.body.fontWeight },
+  { name: "Body Small",   sample: "Supporting copy and descriptions.",                   cls: "type-body-small",   size: tokens.typography.bodySmall.fontSize, weight: tokens.typography.bodySmall.fontWeight },
+  { name: "Label",        sample: "UPPERCASE LABEL",                                     cls: "type-label",        size: tokens.typography.label.fontSize,     weight: tokens.typography.label.fontWeight },
+  { name: "Caption",      sample: "Caption text for metadata.",                          cls: "type-caption",      size: tokens.typography.caption.fontSize,   weight: tokens.typography.caption.fontWeight },
+  { name: "Button",       sample: "INITIATE PROJECT",                                    cls: "type-button",       size: tokens.typography.button.fontSize,    weight: tokens.typography.button.fontWeight },
 ];
 ---
 
 <BaseLayout title={title} description={description} noindex>
-  <section class="section-y relative z-10" aria-label="Design system style guide">
-    <p class="sr-only">
-      Visual documentation for color, type, spacing, elevation, cards, and interactive components used on this site.
-    </p>
+  <section class="section-y" aria-label="Design system style guide">
+    <div class="main-container flex flex-col gap-16">
 
-    <div class="main-container grid gap-6 xl:[grid-template-columns:16rem_minmax(0,1fr)]">
-      <aside class="sticky top-24 hidden self-start rounded-md border border-white/10 bg-bg-surface p-4 xl:block">
-        <p class="type-label text-brand-secondary">Contents</p>
-        <nav class="mt-3 flex flex-col gap-2 text-[13px]">
-          <a href="#tokens" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Token Inspector</a>
-          <a href="#colors" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Colors</a>
-          <a href="#type" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Typography</a>
-          <a href="#radius" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Radius</a>
-          <a href="#elevation" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Elevation</a>
-          <a href="#buttons" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Buttons</a>
-          <a href="#forms" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Forms</a>
-          <a href="#cards" class="text-text-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary">Cards</a>
-        </nav>
-      </aside>
+      <header class="border-b border-black/5 pb-8">
+        <span class="type-label text-on-background/40 block mb-3">Internal</span>
+        <h1 class="type-h2 text-on-background">Style Guide</h1>
+        <p class="type-body-small text-on-surface-variant mt-2">Living reference for tokens, typography, and color.</p>
+      </header>
 
-      <div class="grid gap-6">
-        <header class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <p class="type-label text-brand-secondary">Straya Studio Design System</p>
-          <h1 class="type-h2 mt-2">Style Guide / Visual Documentation</h1>
-          <p class="type-body mt-2 text-text-secondary">
-            Living reference for tokens, component styles, interaction behavior, and accessibility defaults.
-          </p>
-        </header>
-
-        <section id="tokens" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Token Inspector</h2>
-          <p class="type-small mt-2 text-text-muted">Click any value to copy.</p>
-          <div class="mt-4 grid gap-4 md:grid-cols-2">
-            {inspectorTokens.map((t) => (
-              <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-                <div class="border-b border-white/10 p-4">
-                  <p class="type-small text-text-primary">{t.label}</p>
-                  <div class="mt-3 grid gap-2">
-                    <button type="button" data-copy-value={t.value} class="copy-chip">{t.value}</button>
-                    <button type="button" data-copy-value={t.token} class="copy-chip">{t.token}</button>
-                    <button type="button" data-copy-value={t.tailwind} class="copy-chip">{t.tailwind}</button>
-                  </div>
-                </div>
-                <div class="px-4 py-3">
-                  <p class="font-mono text-xs text-text-secondary">value · token · utility</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="colors" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Color Architecture</h2>
-          <div class="mt-4 grid gap-4 md:grid-cols-2">
-            {colorSwatches.map((c) => (
-              <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-                <div class="border-b border-white/10 p-4">
-                  <div class:list={["h-16 rounded-md border border-white/10", c.cls]} />
-                </div>
-                <div class="grid gap-1 px-4 py-3">
-                  <p class="type-small text-text-primary">{c.label}</p>
-                  <p class="font-mono text-xs text-text-secondary">{c.value}</p>
-                  <p class="font-mono text-xs text-text-secondary">{c.token}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="type" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Typography</h2>
-          <div class="mt-4 grid gap-4">
-            {typeSpecs.map((t) => (
-              <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-                <div class="border-b border-white/10 p-4">
-                  <p class:list={[t.cls]}>{t.sample}</p>
-                </div>
-                <div class="grid gap-1 px-4 py-3">
-                  <p class="type-small text-text-primary">{t.name}</p>
-                  <p class="font-mono text-xs text-text-secondary">size: {t.size}</p>
-                  <p class="font-mono text-xs text-text-secondary">line-height: {t.lh}</p>
-                  <p class="font-mono text-xs text-text-secondary">class: {t.cls}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="radius" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Radius Scale</h2>
-          <div class="mt-4 grid gap-4 md:grid-cols-2">
-            {radii.map((r) => (
-              <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-                <div class="border-b border-white/10 p-4">
-                  <div class="h-20 border border-white/10 bg-white/5" style={`border-radius:${r.value};`} />
-                </div>
-                <div class="grid gap-1 px-4 py-3">
-                  <p class="type-small text-text-primary">{r.name}</p>
-                  <p class="font-mono text-xs text-text-secondary">{r.value}</p>
-                  <p class="font-mono text-xs text-text-secondary">{r.varName}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="elevation" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Elevation</h2>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button type="button" data-elev="md" class="elev-pill is-active">md</button>
-            <button type="button" data-elev="lg" class="elev-pill">lg</button>
-            <button type="button" data-elev="diffusion" class="elev-pill">diffusion</button>
-            <button type="button" data-elev="frosted" class="elev-pill">frosted</button>
-            <button type="button" data-elev="glow" class="elev-pill">glow</button>
-          </div>
-          <div class="mt-4 grid gap-4 md:grid-cols-3">
-            <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated md:col-span-2">
-              <div class="border-b border-white/10 p-4">
-                <div class="rounded-md border border-white/10 bg-[radial-gradient(circle_at_20%_0%,rgba(60,205,127,0.10),rgba(5,5,5,1)_60%)] p-4">
-                  <div class="elevation-target" data-elev-target></div>
-                </div>
+      <!-- Colors -->
+      <section aria-labelledby="colors-heading">
+        <h2 id="colors-heading" class="type-h3 text-on-background mb-6 pb-4 border-b border-black/5">Color Architecture</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-black/5">
+          {colorSwatches.map(c => (
+            <div class="bg-background p-4 flex flex-col gap-3">
+              <div class:list={["h-12 border border-black/5", c.cls]}></div>
+              <div>
+                <p class="type-label text-on-background">{c.label}</p>
+                <p class="type-caption text-on-background/40 mt-0.5">{c.value}</p>
               </div>
-              <div class="grid gap-1 px-4 py-3">
-                <p class="font-mono text-xs text-text-secondary">md: {tokens.shadow.md}</p>
-                <p class="font-mono text-xs text-text-secondary">lg: {tokens.shadow.lg}</p>
-              </div>
-            </article>
-            <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-              <div class="border-b border-white/10 p-4">
-                <div class="h-20 rounded-md border border-white/10 bg-bg-surface shadow-[var(--shadow-primary)]"></div>
-              </div>
-              <div class="px-4 py-3">
-                <p class="font-mono text-xs text-text-secondary">glow: {tokens.shadow.primary}</p>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section id="buttons" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Buttons</h2>
-          <div class="mt-4 grid gap-4">
-            <article class="overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-              <div class="flex flex-wrap items-center gap-3 border-b border-white/10 p-4">
-                <Button href="#buttons" label="Primary" variant="primary" class="!w-fit" />
-                <Button href="#buttons" label="Secondary" variant="secondary" class="!w-fit" />
-                <Button href="#buttons" label="Ghost" variant="ghost" class="!w-fit" />
-                <Button href="#buttons" label="Frosted" variant="frosted" class="!w-fit" />
-              </div>
-              <div class="px-4 py-3">
-                <p class="font-mono text-xs text-text-secondary">Use Button variants only (except NavButton in navbar).</p>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section id="forms" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Form Elements</h2>
-          <article class="mt-4 overflow-hidden rounded-md border border-white/10 bg-bg-elevated">
-            <div class="border-b border-white/10 p-4">
-              <form class="grid gap-3">
-                <label class="type-small grid gap-1 text-text-secondary">
-                  Name
-                  <input type="text" value="Alex Carter" class="rounded-md border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20" />
-                </label>
-                <label class="type-small grid gap-1 text-text-secondary">
-                  Message
-                  <textarea rows="3" class="rounded-md border border-white/10 bg-bg-surface px-3 py-2 text-text-primary outline-none focus:border-brand-secondary/60 focus:ring-2 focus:ring-brand-secondary/20">Need a high-performance marketing site.</textarea>
-                </label>
-              </form>
             </div>
-            <div class="px-4 py-3">
-              <p class="font-mono text-xs text-text-secondary">Input baseline: rounded-md, white/10 border, brand focus ring.</p>
-            </div>
-          </article>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        <section id="cards" class="rounded-md border border-white/10 bg-bg-surface p-5">
-          <h2 class="type-h3">Card Rules</h2>
-          <p class="type-small mt-2 text-text-muted">GEMINI baseline: cards use `rounded-md` with lift, border brighten, and luxury easing.</p>
-          <div class="mt-4 grid gap-4 md:grid-cols-3">
-            <article class="rounded-md border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-              <p class="type-label text-brand-secondary">Pricing Card</p>
-              <h3 class="type-h5 mt-1">Growth</h3>
-              <p class="type-small mt-1 text-text-secondary">$5,000 - $12,000</p>
-            </article>
-            <article class="rounded-md border border-white/10 bg-bg-elevated p-4 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35),0_16px_48px_rgba(0,0,0,0.2)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-              <p class="type-label text-brand-secondary">Service Card</p>
-              <h3 class="type-h5 mt-1">Web Development</h3>
-              <p class="type-small mt-1 text-text-secondary">Fast, scalable builds</p>
-            </article>
-            <article class="rounded-md border border-white/10 bg-bg-elevated p-4">
-              <p class="font-mono text-xs text-text-secondary">hover: translateY(-4px)</p>
-              <p class="font-mono text-xs text-text-secondary">timing: cubic-bezier(0.16,1,0.3,1)</p>
-              <p class="font-mono text-xs text-text-secondary">motion-reduce: disable transforms</p>
-            </article>
-          </div>
-        </section>
-      </div>
+      <!-- Typography -->
+      <section aria-labelledby="type-heading">
+        <h2 id="type-heading" class="type-h3 text-on-background mb-6 pb-4 border-b border-black/5">Typography</h2>
+        <div class="flex flex-col gap-px bg-black/5">
+          {typeSpecs.map(t => (
+            <div class="bg-background p-6 flex items-baseline justify-between gap-8">
+              <p class:list={[t.cls, "flex-1"]}>{t.sample}</p>
+              <div class="flex-shrink-0 text-right">
+                <span class="type-label text-on-background/40 block">{t.name}</span>
+                <span class="type-caption text-on-background/30 block">{t.size} / {t.weight}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Spacing & Effects -->
+      <section aria-labelledby="effects-heading">
+        <h2 id="effects-heading" class="type-h3 text-on-background mb-6 pb-4 border-b border-black/5">Effects & Tokens</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/5">
+          {[
+            { label: "Transition base",    value: tokens.effects.transition.base },
+            { label: "Transition elastic", value: tokens.effects.transition.elastic },
+            { label: "Duration normal",    value: tokens.effects.duration.normal },
+            { label: "Duration slow",      value: tokens.effects.duration.slow },
+            { label: "Depth 1",            value: tokens.effects.depth["1"] },
+            { label: "Depth 2",            value: tokens.effects.depth["2"] },
+            { label: "Border radius",      value: tokens.border.radius.DEFAULT },
+            { label: "Grain opacity",      value: String(tokens.effects.grain.opacity) },
+            { label: "Cursor",             value: tokens.cursor.DEFAULT },
+          ].map(e => (
+            <div class="bg-background p-5">
+              <p class="type-label text-on-background mb-1">{e.label}</p>
+              <p class="type-caption text-on-background/40 font-mono">{e.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
     </div>
   </section>
 </BaseLayout>
-
-<script>
-  const copyText = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-    }
-  };
-
-  document.addEventListener("click", async (e) => {
-    const target = e.target as HTMLElement;
-    const btn = target?.closest?.("[data-copy-value]");
-    if (!btn) return;
-    const val = btn.getAttribute("data-copy-value");
-    if (!val) return;
-    await copyText(val);
-    btn.classList.add("copied");
-    setTimeout(() => btn.classList.remove("copied"), 700);
-  });
-
-  const elevButtons = Array.from(document.querySelectorAll("[data-elev]"));
-  const target = document.querySelector("[data-elev-target]");
-  const applyElev = (mode: string | null) => {
-    if (!target || !mode) return;
-    target.setAttribute("data-mode", mode);
-    elevButtons.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-elev") === mode));
-  };
-  elevButtons.forEach((b) => b.addEventListener("click", () => applyElev(b.getAttribute("data-elev"))));
-  applyElev("md");
-</script>
-
-<style>
-  .copy-chip {
-    width: 100%;
-    text-align: left;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
-    color: #9ca3af;
-    padding: 0.5rem 0.75rem;
-    font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
-    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .copy-chip:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-  }
-  .copy-chip.copied {
-    border-color: rgba(60, 205, 127, 0.45);
-    background: rgba(60, 205, 127, 0.1);
-    color: #ffffff;
-  }
-  .elev-pill {
-    border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
-    color: #9ca3af;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .elev-pill.is-active {
-    border-color: rgba(60, 205, 127, 0.45);
-    background: rgba(60, 205, 127, 0.1);
-    color: #ffffff;
-  }
-  .elevation-target {
-    height: 6rem;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: #0a0a0a;
-    transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .elevation-target[data-mode="md"] { box-shadow: var(--shadow-md); }
-  .elevation-target[data-mode="lg"] { box-shadow: var(--shadow-lg); }
-  .elevation-target[data-mode="diffusion"] { box-shadow: var(--shadow-diffusion); }
-  .elevation-target[data-mode="frosted"] {
-    background-color: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: var(--shadow-frosted);
-  }
-  .elevation-target[data-mode="glow"] {
-    background: radial-gradient(circle at 70% 20%, rgba(60, 205, 127, 0.18), rgba(10, 10, 10, 1) 62%);
-    box-shadow: var(--shadow-primary), var(--shadow-diffusion);
-  }
-</style>

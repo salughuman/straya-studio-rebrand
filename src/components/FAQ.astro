@@ -1,93 +1,136 @@
 ---
+// FAQ.astro — Straya Studio [SIMPLE]
+// Sticky header + animated accordion. Light mode, numbered questions.
+// GEMINI §15: semantic <dl>, slide+fade animation, max 7 visible.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+
 import { faqItems } from "../data/faq";
 import { SITE_CONFIG } from "../data/site-config";
-import Button from "./ui/buttons/Button.astro";
 
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section
   id="faq"
-  class="faq-section section-y relative z-10 text-text-primary"
   aria-label="Frequently asked questions"
+  class="section-y relative bg-background border-b border-black/5"
 >
-  <div class="main-container">
-    <p class="sr-only">
-      Common questions about working with Straya Studio — process, pricing,
-      timelines, and what to expect.
-    </p>
+  <p class="sr-only">
+    Common questions about working with Straya Studio — process, pricing,
+    timelines, and what to expect.
+  </p>
 
-    <div class="flex flex-col gap-12 lg:flex-row lg:gap-16">
-      <header class="shrink-0 lg:sticky lg:top-28 lg:self-start lg:w-[22rem]">
-        <p class="type-label">FAQ</p>
-        <h2 class="type-h2 mt-3">Questions we hear most.</h2>
-        <p class="type-body mt-4 text-text-secondary">
+  <div class="main-container">
+    <div class="flex flex-col gap-16 lg:flex-row lg:gap-24">
+
+      <!-- Sticky header -->
+      <header class="flex-shrink-0 lg:sticky lg:top-28 lg:self-start lg:w-80">
+        <span class="type-label text-on-background/40 block mb-3">FAQ</span>
+        <h2 class="type-h2 text-on-background mb-4">Questions we hear most.</h2>
+        <p class="type-body-small text-on-surface-variant leading-relaxed mb-8">
           Everything you need to know before starting a project with the studio.
         </p>
+        <!-- CTA -->
+        <a
+          href={SITE_CONFIG.socials.calendly}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="magnetic-cta inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
+        >
+          Book a scoping call
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <!-- Trust signal -->
+        <div class="mt-10 pt-8 border-t border-black/5">
+          <div class="type-h3 text-on-background mb-1">{faqItems.length}</div>
+          <div class="type-label text-on-background/40">Questions answered</div>
+        </div>
       </header>
 
-      <div class="flex-1">
-        <dl class="grid gap-0">
-          {
-            faqItems.map((item, index) => (
-              <details
-                class="faq-item group border-b border-border-default"
-                data-faq-index={index}
-              >
-                <summary class="faq-summary flex cursor-pointer select-none items-center justify-between gap-4 py-5 text-left transition-colors duration-300 ease-luxury hover:text-brand-secondary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-secondary md:py-6">
-                  <dt class="type-body font-medium text-text-primary transition-colors duration-300 ease-luxury group-hover:text-brand-secondary group-open:text-brand-secondary">
+      <!-- Accordion -->
+      <div class="flex-1 min-w-0">
+        <dl>
+          {faqItems.map((item, i) => (
+            <details
+              class="faq-item group border-b border-black/5"
+              data-index={i}
+            >
+              <summary class="faq-summary flex items-center justify-between gap-6 py-6 cursor-pointer select-none list-none text-left transition-colors duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
+                <!-- Index + question -->
+                <div class="flex items-baseline gap-4 min-w-0">
+                  <span class="type-label text-on-background/20 flex-shrink-0 tabular-nums w-6">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <dt class="type-body text-on-background transition-colors duration-300 group-open:text-accent">
                     {item.question}
                   </dt>
-                  <span class="faq-icon shrink-0 flex h-6 w-6 items-center justify-center rounded-md border border-border-default bg-[rgba(255,255,255,0.03)] transition-[transform,border-color,background-color] duration-300 ease-luxury group-open:rotate-45 group-open:border-brand-secondary/30 group-open:bg-[rgba(60,205,127,0.08)]">
-                    <svg
-                      class="h-3 w-3 text-text-secondary transition-colors duration-300 ease-luxury group-open:text-brand-secondary"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M6 1v10M1 6h10" />
-                    </svg>
-                  </span>
-                </summary>
-
-                <div class="faq-content">
-                  <dd class="m-0">
-                    <p class="type-body pb-5 pr-10 text-text-secondary leading-relaxed md:pb-6">
-                      {item.answer}
-                    </p>
-                  </dd>
                 </div>
-              </details>
-            ))
-          }
+                <!-- Toggle icon -->
+                <span
+                  class="faq-icon flex-shrink-0 w-6 h-6 flex items-center justify-center border border-black/10 transition-all duration-300 group-open:border-accent/30 group-open:bg-accent/5"
+                  aria-hidden="true"
+                >
+                  <svg
+                    class="w-3 h-3 text-on-background/40 transition-all duration-300 group-open:rotate-45 group-open:text-accent"
+                    viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                    stroke-width="1.5" stroke-linecap="round"
+                  >
+                    <path d="M6 1v10M1 6h10"/>
+                  </svg>
+                </span>
+              </summary>
+
+              <!-- Answer panel -->
+              <div class="faq-content overflow-hidden">
+                <dd class="m-0">
+                  <p class="type-body-small text-on-surface-variant leading-relaxed pb-6 pl-10 pr-8">
+                    {item.answer}
+                  </p>
+                </dd>
+              </div>
+            </details>
+          ))}
         </dl>
       </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  details > summary {
-    list-style: none;
-  }
-  details > summary::-webkit-details-marker {
-    display: none;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
+  /* Remove native marker */
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
 
+  /* Collapsed state */
   .faq-content {
-    overflow: hidden;
+    height: 0;
+    opacity: 0;
     will-change: height, opacity;
   }
 
+  /* Row entrance */
+  .faq-item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .faq-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .faq-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
     .faq-content {
       will-change: auto;
     }
@@ -95,81 +138,57 @@ const baseUrl = import.meta.env.BASE_URL;
 </style>
 
 <script>
-  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
-  const DURATION = 450;
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 420;
+  const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  document.querySelectorAll<HTMLDetailsElement>(".faq-item").forEach((el) => {
-    const summary = el.querySelector<HTMLElement>(".faq-summary");
-    const content = el.querySelector<HTMLElement>(".faq-content");
+  // ── Accordion ───────────────────────────────────────────────
+  document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach(el => {
+    const summary = el.querySelector<HTMLElement>('.faq-summary');
+    const content = el.querySelector<HTMLElement>('.faq-content');
     if (!summary || !content) return;
 
-    let animation: Animation | null = null;
+    let anim: Animation | null = null;
 
     const open = () => {
       el.open = true;
-
-      const height = content.scrollHeight;
-      if (animation) animation.cancel();
-
-      if (prefersReduced) {
-        content.style.height = "auto";
-        content.style.opacity = "1";
-        return;
-      }
-
-      animation = content.animate(
-        [
-          { height: "0px", opacity: 0 },
-          { height: `${height}px`, opacity: 1 },
-        ],
-        { duration: DURATION, easing: EASE, fill: "forwards" },
+      const h = content.scrollHeight;
+      if (anim) anim.cancel();
+      if (reduced) { content.style.height = 'auto'; content.style.opacity = '1'; return; }
+      anim = content.animate(
+        [{ height: '0px', opacity: 0 }, { height: `${h}px`, opacity: 1 }],
+        { duration: DURATION, easing: EASE, fill: 'forwards' }
       );
-
-      animation.onfinish = () => {
-        content.style.height = "auto";
-        content.style.opacity = "1";
-        animation = null;
-      };
+      anim.onfinish = () => { content.style.height = 'auto'; content.style.opacity = '1'; anim = null; };
     };
 
     const close = () => {
-      const height = content.scrollHeight;
-      if (animation) animation.cancel();
-
-      if (prefersReduced) {
-        content.style.height = "0px";
-        content.style.opacity = "0";
-        el.open = false;
-        return;
-      }
-
-      animation = content.animate(
-        [
-          { height: `${height}px`, opacity: 1 },
-          { height: "0px", opacity: 0 },
-        ],
-        { duration: DURATION, easing: EASE, fill: "forwards" },
+      const h = content.scrollHeight;
+      if (anim) anim.cancel();
+      if (reduced) { content.style.height = '0px'; content.style.opacity = '0'; el.open = false; return; }
+      anim = content.animate(
+        [{ height: `${h}px`, opacity: 1 }, { height: '0px', opacity: 0 }],
+        { duration: DURATION, easing: EASE, fill: 'forwards' }
       );
-
-      animation.onfinish = () => {
-        el.open = false;
-        content.style.height = "";
-        content.style.opacity = "";
-        animation = null;
-      };
+      anim.onfinish = () => { el.open = false; content.style.height = ''; content.style.opacity = ''; anim = null; };
     };
 
-    summary.addEventListener("click", (e) => {
-      e.preventDefault();
-      el.open ? close() : open();
-    });
-
-    if (!el.open) {
-      content.style.height = "0px";
-      content.style.opacity = "0";
-    }
+    summary.addEventListener('click', e => { e.preventDefault(); el.open ? close() : open(); });
+    content.style.height  = '0px';
+    content.style.opacity = '0';
   });
+
+  // ── Row entrance ─────────────────────────────────────────────
+  const items = document.querySelectorAll('.faq-item');
+  const rowObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.index ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), idx * 40);
+      rowObserver.unobserve(el);
+    });
+  }, { threshold: 0.05 });
+
+  items.forEach(item => rowObserver.observe(item));
 </script>

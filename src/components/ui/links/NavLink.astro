@@ -1,4 +1,6 @@
 ---
+// NavLink.astro — Straya Studio
+// Slide-up hover animation. Uses token classes only — no hardcoded hex values.
 interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
   href: string;
   label: string;
@@ -15,41 +17,38 @@ const {
   ...rest
 } = Astro.props;
 
-const isSocial = variant === "social";
-const isNavbarTone = tone === "navbar";
+const isSocial   = variant === "social";
+const isNavbar   = tone === "navbar";
 ---
 
 <a
   href={href}
   class:list={[
-    "relative block h-6 no-underline group",
-    isSocial
-      ? "overflow-hidden"
-      : "overflow-y-hidden overflow-x-visible px-1 -mx-1 rounded-md",
-    !isSocial &&
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3CCD7F]",
+    "relative block h-6 no-underline group overflow-hidden",
+    !isSocial && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/80 focus-visible:ring-offset-2",
     className,
   ]}
   data-navlink
-  data-variant={variant}
-  data-tone={tone}
   aria-label={rest["aria-label"] ?? label}
   {...rest}
 >
+  <!-- Default state -->
   <span
     class:list={[
       "navlink-normal h-full w-full flex items-center justify-center transition-transform duration-300 ease-luxury",
-      isSocial ? "type-sm text-[#D1D5DB]" : "type-h5 font-medium",
-      isSocial ? "" : isNavbarTone ? "text-[#03170a]" : "text-[#E5E7EB]",
+      isSocial ? "type-body-small text-on-surface-variant" : "type-label",
+      isNavbar ? "text-on-background" : "text-on-surface-variant",
     ]}
   >
     {label}
   </span>
+
+  <!-- Hover state (slides up from below) -->
   <span
     class:list={[
-      "navlink-italic absolute top-0 left-0 h-full w-full flex items-center justify-center translate-y-full transition-transform duration-300 ease-luxury italic",
-      isSocial ? "type-sm text-brand-secondary" : "type-body-lg font-medium",
-      isSocial ? "" : isNavbarTone ? "text-white" : "text-brand-secondary",
+      "navlink-hover absolute top-0 left-0 h-full w-full flex items-center justify-center translate-y-full transition-transform duration-300 ease-luxury italic",
+      isSocial ? "type-body-small text-accent" : "type-label",
+      isNavbar ? "text-accent" : "text-accent",
     ]}
   >
     {label}
@@ -60,22 +59,19 @@ const isNavbarTone = tone === "navbar";
   [data-navlink] .navlink-normal {
     transform: translateY(0);
   }
-
-  [data-navlink] .navlink-italic {
+  [data-navlink] .navlink-hover {
     transform: translateY(100%);
   }
-
   [data-navlink]:is(:hover, :focus-visible) .navlink-normal {
     transform: translateY(-100%);
   }
-
-  [data-navlink]:is(:hover, :focus-visible) .navlink-italic {
+  [data-navlink]:is(:hover, :focus-visible) .navlink-hover {
     transform: translateY(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
     [data-navlink] .navlink-normal,
-    [data-navlink] .navlink-italic {
+    [data-navlink] .navlink-hover {
       transition: none !important;
       transform: none !important;
     }

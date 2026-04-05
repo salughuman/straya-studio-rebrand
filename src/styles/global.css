@@ -2,94 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-	font-family: "Bricolage Grotesque";
-	src: url("/fonts/bricolage-grotesque-v9-latin-regular.woff2") format("woff2");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Bricolage Grotesque";
-	src: url("/fonts/bricolage-grotesque-v9-latin-500.woff2") format("woff2");
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Bricolage Grotesque";
-	src: url("/fonts/bricolage-grotesque-v9-latin-600.woff2") format("woff2");
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Bricolage Grotesque";
-	src: url("/fonts/bricolage-grotesque-v9-latin-700.woff2") format("woff2");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Bricolage Grotesque";
-	src: url("/fonts/bricolage-grotesque-v9-latin-800.woff2") format("woff2");
-	font-weight: 800;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Inter";
-	src: url("/fonts/inter-v20-latin-regular.woff2") format("woff2");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Inter";
-	src: url("/fonts/inter-v20-latin-500.woff2") format("woff2");
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Inter";
-	src: url("/fonts/inter-v20-latin-600.woff2") format("woff2");
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Inter";
-	src: url("/fonts/inter-v20-latin-700.woff2") format("woff2");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
+/* 
+ * Straya Studio — Global Styles (Cinematic Digital Deployments)
+ * Design Tokens: src/styles/design-tokens.json
+ * Theme: Light Mode - "Light Elevation"
+ */
 
 @layer base {
 	html {
 		width: 100%;
 		max-width: 100%;
-		font-family: theme('fontFamily.display'), theme('fontFamily.sans'), system-ui, sans-serif;
-		background-color: theme('colors.bg-base');
-		color: theme('colors.text-primary');
+		font-family: var(--font-body, theme('fontFamily.sans'));
+		background-color: var(--color-background, theme('colors.background'));
+		color: var(--color-on-background, theme('colors.on-background'));
 		scroll-behavior: smooth;
-		overflow-x: hidden;
+		overflow-x: clip;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
-	/* GEMINI §5.H — respect reduced motion globally */
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
-			
 		}
 	}
 
@@ -98,104 +32,145 @@
 		width: 100%;
 		max-width: 100%;
 		min-height: 100vh;
-		background-color: theme('colors.bg-base');
-		color: theme('colors.text-primary');
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		overflow-x: hidden;
+		background-color: var(--color-background, theme('colors.background'));
+		color: var(--color-on-background, theme('colors.on-background'));
+		overflow-x: clip;
+		cursor: var(--cursor, crosshair);
 	}
 
-	main,
-	#main-content {
-		width: 100%;
-		max-width: 100%;
-	}
-
-	/* GEMINI §5.O — visible focus for keyboard users */
 	:focus:not(:focus-visible) {
 		outline: none;
 	}
 	:focus-visible {
-		outline: 2px solid theme('colors.brand-secondary');
+		outline: 2px solid var(--color-secondary, theme('colors.secondary'));
 		outline-offset: 2px;
 	}
 
-	/* Custom selection color using brand tokens */
 	::selection {
-		background-color: theme('colors.brand-muted');
-		color: theme('colors.text-primary');
+		background-color: var(--color-secondary, theme('colors.secondary'));
+		color: var(--color-on-secondary, theme('colors.on-secondary'));
 	}
 
-	/* Mobile anchor offset so hash links do not tuck under the fixed navbar */
+	/* Mobile anchor offset */
 	@media (max-width: 809px) {
 		html {
 			scroll-padding-top: 20px;
 		}
-
-		section[id],
-		footer[id],
-		main [id] {
+		section[id], footer[id], main [id] {
 			scroll-margin-top: 20px;
 		}
 	}
 }
 
 @layer components {
-	/* .main-container — defined in tailwind.config.mjs (GEMINI §5.E) */
+	/* Grain Overlay - 0.02 opacity SVG noise */
+	.grain-overlay {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 9999;
+		opacity: var(--grain-opacity, 0.02);
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	}
 
-	/* Allow global background layers (like grain) to show behind sections */
-	.pricing-section,
-	.testimonials-section,
-	.why-section,
-	.work-section,
-	.difference-section {
-		background-color: transparent !important;
+	/* Cinematic Depth Classes */
+	.z-depth-1 { transform: var(--depth-1, translateZ(10px)); }
+	.z-depth-2 { transform: var(--depth-2, translateZ(20px)); }
+	.z-depth-3 { transform: var(--depth-3, translateZ(30px)); }
+	
+	.custom-bezier {
+		transition-timing-function: var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
+	}
+	
+	.luxury-bezier {
+		transition-timing-function: var(--transition-luxury, cubic-bezier(0.16, 1, 0.3, 1));
+	}
+	
+	.magnetic-cta {
+		transition: transform var(--transition-duration, 300ms) var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
+	}
+	
+	.magnetic-cta:hover {
+		transform: var(--magnetic-cta, translateZ(20px) scale(1.02));
+	}
+
+	/* Grid System Utilities */
+	.grid-4 {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--grid-gutter, 8px);
+	}
+	
+	.grid-12 {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: var(--grid-gutter, 8px);
+	}
+	
+	/* Container Utilities */
+	.main-container {
+		max-width: var(--spacing-container-max, 1400px);
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: var(--spacing-container-mobile, 2rem);
+		padding-right: var(--spacing-container-mobile, 2rem);
+	}
+
+	@media (min-width: 810px) {
+		.main-container {
+			padding-left: var(--spacing-container-desktop, 4rem);
+			padding-right: var(--spacing-container-desktop, 4rem);
+		}
+	}
+	
+	/* Section Spacing */
+	.section-y {
+		padding-top: var(--spacing-section-mobile, 5rem);
+		padding-bottom: var(--spacing-section-mobile, 5rem);
+	}
+	
+	@media (min-width: 810px) {
+		.section-y {
+			padding-top: var(--spacing-section-desktop, 8rem);
+			padding-bottom: var(--spacing-section-desktop, 8rem);
+		}
+	}
+	
+	/* Card Styles */
+	.card-surface {
+		background-color: var(--color-surface, theme('colors.surface'));
+		border: 1px solid var(--color-border-default, rgba(0, 0, 0, 0.05));
+		padding: var(--spacing-card-padding, 2rem);
+	}
+	
+	.card-elevated {
+		background-color: var(--color-surface-container, theme('colors.surface-container'));
+		border: 1px solid var(--color-border-default, rgba(0, 0, 0, 0.05));
+		padding: var(--spacing-card-padding, 2rem);
+	}
+	
+	.card-elevated:hover {
+		transform: translateY(-4px);
+		transition: all var(--transition-duration, 500ms) var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
 	}
 }
 
-/*
- * Browser autofill override for dark theme inputs.
- * Chrome/Edge inject a light-blue background on autofill that
- * clashes with the dark surface. This forces the autofill style
- * to match the form's visual language.
- */
+/* Browser autofill override */
 input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-textarea:-webkit-autofill:active {
-	-webkit-box-shadow: 0 0 0 1000px #0A0A0A inset !important;
-	-webkit-text-fill-color: #FFFFFF !important;
-	caret-color: #FFFFFF;
+textarea:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px var(--color-surface-container-lowest, theme('colors.surface-container-lowest')) inset !important;
+	-webkit-text-fill-color: var(--color-on-surface, theme('colors.on-surface')) !important;
 	transition: background-color 5000s ease-in-out 0s;
-	border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Shared icon micro-interaction keyframes (GEMINI §5.F — @keyframes allowed) */
-@keyframes iconGlow {
-	0%, 100% { box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
-	50% { box-shadow: 0 0 16px -2px rgba(60, 205, 127, 0.12); }
+/* Animations */
+@keyframes marquee {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(-50%); }
 }
 
-@keyframes iconGlowBrand {
-	0%, 100% { box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
-	50% { box-shadow: 0 0 20px -2px rgba(60, 205, 127, 0.25); }
-}
-
-@keyframes starShimmer {
-	0%, 100% { filter: brightness(0.88) drop-shadow(0 0 0 transparent); }
-	50% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(60, 205, 127, 0.3)); }
-}
-
-@keyframes connectorSlide {
-	0%, 100% { opacity: 0.25; transform: translate(-50%, -50%) translateX(0); }
-	50% { opacity: 0.55; transform: translate(-50%, -50%) translateX(3px); }
-}
-
-@keyframes clockTick {
-	0%, 100% { opacity: 0.6; }
-	50% { opacity: 1; filter: drop-shadow(0 0 4px rgba(60, 205, 127, 0.25)); }
+.animate-marquee {
+	animation: marquee var(--animation-marquee-duration, 20s) var(--animation-marquee-timing, linear) var(--animation-marquee-iteration, infinite);
 }

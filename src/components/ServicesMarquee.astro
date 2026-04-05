@@ -1,517 +1,459 @@
 ---
-// ServicesMarquee.astro — Straya Studio
-// GEMINI §5–§6: surface background (#0A0A0A), master type utilities, luxury transitions, marquee keyframes + data-card gradients in scoped CSS only.
-//
-// Card art: put webp (or avif) files in `public/images/services/` — URLs are `/images/services/<file>.webp` (§5.N).
-import Button from "./ui/buttons/Button.astro";
+// ServicesMarquee.astro — Straya Studio [IMMERSIVE]
+// Accordion rows with a cursor-following popup that tracks horizontally.
+// GEMINI §3: scroll-linked entrance, cursor-reactive, layered depth.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
-const withBase = (path: string) =>
-    `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, "")}`;
 
-type ServiceItem = {
-    title: string;
-    tags: string[];
-    image?: string;
-};
-
-const services: ServiceItem[] = [
-    {
-        title: "Web design",
-        image: withBase("/images/services/web-design.webp"),
-        tags: [
-            "Responsive layouts",
-            "Visual hierarchy",
-            "Landing pages",
-            "Brand-led design",
-            "Wireframing",
-            "Creative direction",
-        ],
-    },
-    {
-        title: "Web development",
-        image: withBase("/images/services/web-development.webp"),
-        tags: [
-            "Framer",
-            "Webflow",
-            "Shopify",
-            "Wix",
-            "WordPress",
-            "CMS architecture",
-        ],
-    },
-    {
-        title: "Graphic design",
-        image: withBase("/images/services/graphic-design.webp"),
-        tags: [
-            "Social media kits",
-            "Pitch decks",
-            "Brand assets",
-            "Presentation design",
-            "Marketing collateral",
-            "Ad creatives",
-        ],
-    },
-    {
-        title: "E-commerce",
-        image: withBase("/images/services/e-commerce.webp"),
-        tags: [
-            "Shopify stores",
-            "Product pages",
-            "Checkout optimisation",
-            "Theme customisation",
-            "Store migration",
-            "Conversion tuning",
-        ],
-    },
-    {
-        title: "Brand identity",
-        image: withBase("/images/services/brand-identity.webp"),
-        tags: [
-            "Logo design",
-            "Visual identity",
-            "Brand guidelines",
-            "Colour systems",
-            "Typography selection",
-            "Brand strategy",
-        ],
-    },
-    {
-        title: "SEO and performance",
-        image: withBase("/images/services/seo-performance.webp"),
-        tags: [
-            "On-page SEO",
-            "Core Web Vitals",
-            "Lighthouse tuning",
-            "Technical audits",
-            "Schema markup",
-            "Page speed optimisation",
-        ],
-    },
+const services = [
+  {
+    index: "01",
+    title: "Web Design",
+    description: "Responsive layouts, wireframes, creative direction, and brand-led visual design that converts.",
+    tags: ["Responsive layouts", "Visual hierarchy", "Landing pages", "Brand-led design", "Wireframing", "Creative direction"],
+    image: withBase("images/services/web-design.webp"),
+  },
+  {
+    index: "02",
+    title: "Web Development",
+    description: "Production-grade builds on Framer, Webflow, Shopify, Wix, and WordPress with CMS architecture.",
+    tags: ["Framer", "Webflow", "Shopify", "Wix", "WordPress", "CMS architecture"],
+    image: withBase("images/services/web-development.webp"),
+  },
+  {
+    index: "03",
+    title: "Graphic Design",
+    description: "Social media kits, pitch decks, brand assets, and marketing collateral built to perform.",
+    tags: ["Social media kits", "Pitch decks", "Brand assets", "Presentation design", "Marketing collateral", "Ad creatives"],
+    image: withBase("images/services/graphic-design.webp"),
+  },
+  {
+    index: "04",
+    title: "E-Commerce",
+    description: "Shopify stores, product pages, and checkout flows optimised for conversion and scale.",
+    tags: ["Shopify stores", "Product pages", "Checkout optimisation", "Theme customisation", "Store migration", "Conversion tuning"],
+    image: withBase("images/services/e-commerce.webp"),
+  },
+  {
+    index: "05",
+    title: "Brand Identity",
+    description: "Logo, visual identity, brand guidelines, and colour systems that elevate your market position.",
+    tags: ["Logo design", "Visual identity", "Brand guidelines", "Colour systems", "Typography selection", "Brand strategy"],
+    image: withBase("images/services/brand-identity.webp"),
+  },
+  {
+    index: "06",
+    title: "SEO & Performance",
+    description: "On-page SEO, Core Web Vitals, Lighthouse tuning, and technical audits for 90+ scores.",
+    tags: ["On-page SEO", "Core Web Vitals", "Lighthouse tuning", "Technical audits", "Schema markup", "Page speed"],
+    image: withBase("images/services/seo-performance.webp"),
+  },
 ];
 ---
 
 <section
-    id="services"
-    class="services-section section-y relative z-10 overflow-hidden text-text-primary"
-    aria-label="Our services"
+  id="services"
+  aria-label="Our services"
+  class="section-y relative overflow-hidden bg-background border-b border-black/5"
 >
-    <p class="sr-only">
-        Straya Studio offers web design, web development, graphic design,
-        e-commerce, brand identity, and SEO across Framer, Webflow, Shopify,
-        Wix, and WordPress. Each service card lists concrete deliverables.
-    </p>
+  <p class="sr-only">
+    Straya Studio offers web design, web development, graphic design,
+    e-commerce, brand identity, and SEO across Framer, Webflow, Shopify,
+    Wix, and WordPress.
+  </p>
 
-    <div class="main-container mb-12 md:mb-16">
-        <div
-            class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between"
-        >
-            <div class="flex flex-col gap-4">
-                <p class="type-label">What we do</p>
-                <h2 class="type-h2 max-w-full text-left md:max-w-[40rem]">
-                    Design, development, and graphic
-                    {" "}design — across every no-code platform.
-                </h2>
-            </div>
-            <Button
-                href={`${import.meta.env.BASE_URL}#work`}
-                label="See our work"
-                variant="secondary"
-                class="group mt-2 shrink-0 md:mt-0"
-            >
-                <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    class="ml-2 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none"
-                >
-                    <path
-                        d="M6 3L11 8L6 13"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                </svg>
-            </Button>
-        </div>
+  <!-- Header -->
+  <div class="main-container mb-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">What we do</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          Design, development, and graphic design — across every platform.
+        </h2>
+      </div>
+      <a
+        href={`${baseUrl}#work`}
+        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
+      >
+        See our work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </div>
+  </div>
 
-    <div class="services-marquee" data-services-marquee>
-        <div
-            class="services-track flex w-max cursor-grab gap-2 pb-16 pt-4 will-change-transform active:cursor-grabbing"
-            data-services-track
-        >
-            {
-                [0, 1].map((copy) => (
-                    <div
-                        class="services-set flex shrink-0 gap-2"
-                        aria-hidden={copy === 1 ? "true" : undefined}
-                    >
-                        {services.map((service, idx) => (
-                            <div
-                                class="service-card group relative h-[240px] w-[184px] shrink-0 cursor-pointer overflow-hidden rounded-md border border-border-default bg-bg-base transition-[transform,box-shadow,border-color] duration-300 ease-luxury hover:z-[5] hover:-translate-y-3 hover:border-border-strong hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-border-default motion-reduce:hover:shadow-none lg:h-[400px] lg:w-[304px]"
-                                data-card={idx}
-                            >
-                                <div
-                                    class="absolute inset-0 z-0 overflow-hidden rounded-md"
-                                    aria-hidden="true"
-                                >
-                                    {service.image ? (
-                                        <img
-                                            src={service.image}
-                                            alt=""
-                                            width="304"
-                                            height="400"
-                                            loading="lazy"
-                                            decoding="async"
-                                            class="absolute inset-0 h-full w-full object-cover"
-                                        />
-                                    ) : null}
-                                    <div
-                                        class:list={[
-                                            "absolute inset-0 bg-[var(--card-bg)] transition-transform duration-300 ease-luxury group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
-                                            service.image
-                                                ? "opacity-90 mix-blend-multiply"
-                                                : "",
-                                        ]}
-                                    />
-                                    <div
-                                        class:list={[
-                                            "absolute inset-0 bg-gradient-to-t to-transparent",
-                                            service.image
-                                                ? "from-black/55 via-black/15"
-                                                : "from-black/35 via-black/5",
-                                        ]}
-                                    />
-                                </div>
+  <!-- Service rows -->
+  <div class="main-container" id="services-list" role="list">
+    {services.map((s, i) => (
+      <div
+        class="service-row group relative border-b border-black/5 last:border-0"
+        role="listitem"
+        data-index={i}
+        data-image={s.image}
+        data-title={s.title}
+        data-description={s.description}
+        data-tags={s.tags.join("|")}
+      >
+        <div class="service-row-inner flex items-center justify-between gap-6 py-7 cursor-default">
+          <!-- Index + title -->
+          <div class="flex items-center gap-6 min-w-0 pointer-events-none select-none">
+            <span class="type-label text-on-background/20 flex-shrink-0 w-8 tabular-nums">{s.index}</span>
+            <span class="type-h3 text-on-background transition-colors duration-300 group-hover:text-on-background/60">{s.title}</span>
+          </div>
 
-                                <div class="relative z-[2] flex w-full flex-col items-center p-6 md:p-8">
-                                    <h3 class="type-h3 md:text-[1.5rem] md:max-w-[130px] text-center">
-                                        {service.title}
-                                    </h3>
-                                </div>
+          <!-- Tag pills — visible on desktop, fade on hover -->
+          <div class="hidden lg:flex items-center gap-2 flex-shrink-0 pointer-events-none select-none transition-opacity duration-300 group-hover:opacity-0">
+            {s.tags.slice(0, 3).map(tag => (
+              <span class="type-label text-on-background/30 border border-black/5 px-2 py-1">{tag}</span>
+            ))}
+          </div>
 
-                                <div class="service-card-tags absolute bottom-4 left-3 right-3 z-[2] flex flex-wrap justify-center gap-x-1 gap-y-1 overflow-hidden opacity-0 translate-y-2 transition-[transform,opacity] duration-300 ease-luxury group-hover:translate-y-0 group-hover:opacity-100 lg:bottom-6 lg:left-5 lg:right-5 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none">
-                                    {service.tags.map((tag) => (
-                                        <span class="service-card-tag rounded-md border border-border-strong bg-[rgba(255,255,255,0.06)] px-1 py-0.5 font-medium leading-tight text-[#FFFFFF] backdrop-blur-md transition-[border-color,background-color] duration-300 ease-luxury group-hover:border-brand-secondary/35 group-hover:bg-[rgba(60,205,127,0.08)] whitespace-nowrap motion-reduce:transition-none">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))
-            }
+          <!-- Arrow — rotates on hover -->
+          <svg
+            class="w-4 h-4 text-on-background/20 flex-shrink-0 pointer-events-none select-none transition-all duration-300 group-hover:text-accent group-hover:translate-x-1"
+            viewBox="0 0 16 16" fill="none" aria-hidden="true"
+          >
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Bottom stat strip -->
+  <div class="main-container mt-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-black/5">
+      <div class="bg-background p-8">
+        <div class="type-h2 text-on-background mb-1">3</div>
+        <div class="type-label text-on-background/40">Core disciplines</div>
+      </div>
+      <div class="bg-background p-8">
+        <div class="type-h2 text-on-background mb-1">5</div>
+        <div class="type-label text-on-background/40">Platforms</div>
+      </div>
+      <div class="bg-background p-8">
+        <div class="type-h2 text-on-background mb-1">100+</div>
+        <div class="type-label text-on-background/40">Deployments</div>
+      </div>
+      <div class="bg-primary p-8">
+        <div class="type-h2 text-on-primary mb-1">5.0★</div>
+        <div class="type-label text-on-primary/60">Avg. rating</div>
+      </div>
     </div>
+  </div>
+
+  <!-- Cursor-following popup — horizontal card, image left / content right -->
+  <div
+    id="service-popup"
+    aria-hidden="true"
+    class="service-popup pointer-events-none fixed z-50 overflow-hidden"
+    style="width: 520px;"
+  >
+    <div class="service-popup-inner flex bg-surface-container-lowest border border-black/[0.08] shadow-[0_24px_64px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.06),0_1px_0_rgba(0,0,0,0.04)]">
+
+      <!-- Left: image column -->
+      <div class="service-popup-image relative overflow-hidden bg-surface-container flex-shrink-0" style="width: 180px;">
+        <img
+          id="service-popup-img"
+          src=""
+          alt=""
+          width="180"
+          height="320"
+          class="w-full h-full object-cover grayscale"
+          style="min-height: 100%;"
+          loading="eager"
+          decoding="async"
+        />
+        <!-- Right-edge fade into card bg -->
+        <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-r from-transparent to-surface-container-lowest pointer-events-none" aria-hidden="true"></div>
+      </div>
+
+      <!-- Right: content column -->
+      <div class="service-popup-content flex flex-col justify-between px-6 py-6 flex-1 min-w-0 gap-6">
+
+        <!-- Level 1: Index + Title -->
+        <div>
+          <span id="service-popup-index" class="type-label text-on-background/25 tabular-nums block mb-2"></span>
+          <h3 id="service-popup-title" class="type-h3 text-on-background leading-snug"></h3>
+        </div>
+
+        <!-- Level 2: Description -->
+        <p id="service-popup-desc" class="type-body-small text-on-surface-variant leading-relaxed flex-1"></p>
+
+        <!-- Level 3: Deliverables — inline marquee strip -->
+        <div class="border-t border-black/5 pt-4 overflow-hidden">
+          <span class="type-label text-on-background/25 block mb-2">Deliverables</span>
+          <div class="popup-deliverables-track flex whitespace-nowrap" id="service-popup-tags" aria-label="Deliverables"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
-    /* GEMINI §5.F — allowed: keyframes, mask, data-attribute gradients */
-    .services-marquee {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-        touch-action: pan-x;
-        mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            black 5%,
-            black 95%,
-            transparent 100%
-        );
-        -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            black 5%,
-            black 95%,
-            transparent 100%
-        );
-    }
+  /* ── Row entrance ──────────────────────────────────────────── */
+  .service-row {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .service-row.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .services-marquee.is-dragging {
-        touch-action: none;
-    }
+  /* ── Popup ─────────────────────────────────────────────────── */
+  .service-popup {
+    will-change: left, top;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .service-popup.is-active {
+    clip-path: inset(0 0% 0 0);
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-        .services-track {
-            transform: translateX(0);
-        }
-    }
+  /* Image fills full column height */
+  .service-popup-image {
+    align-self: stretch;
+  }
+  .service-popup-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .service-popup.is-active .service-popup-image img {
+    transform: scale(1);
+  }
 
-    /* Tag stack: smaller type, max three rows (chip height = lh + py-0.5 + border; gap-y-1 between rows) */
-    .service-card-tag {
-        font-size: 0.625rem;
-        line-height: 1.25;
-    }
+  /* Content fades in after clip wipe */
+  .service-popup-content {
+    opacity: 0;
+    transform: translateX(10px);
+    transition:
+      opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  }
+  .service-popup.is-active .service-popup-content {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-    .service-card-tags {
-        max-height: calc(3 * (1.25 * 0.625rem + 0.25rem + 2px) + 0.5rem);
-    }
+  /* ── Deliverable marquee strip ────────────────────────────── */
+  @keyframes popup-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
-    @media (min-width: 1200px) {
-        .service-card-tag {
-            font-size: 0.6875rem;
-        }
+  .popup-deliverables-track {
+    animation: popup-marquee 8s linear infinite;
+    will-change: transform;
+  }
 
-        .service-card-tags {
-            max-height: calc(3 * (1.25 * 0.6875rem + 0.25rem + 2px) + 0.5rem);
-        }
-    }
+  .popup-tag {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Instrument Sans', sans-serif;
+    color: #474747;
+    line-height: 1.4;
+    white-space: nowrap;
+    padding: 0 1rem;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+  }
 
-    /* Deep Space Elevation only — §6 / §5.K (no neon template gradients) */
-    .service-card[data-card="0"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #0f1115 0%,
-            #0a0a0a 45%,
-            #050505 100%
-        );
+  /* Remove ::after since we use border-right now */
+  .popup-tag::after {
+    display: none;
+  }
+
+  /* Separator span — hidden, not needed */
+  .popup-tag-sep {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-row {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
-    .service-card[data-card="1"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #050505 0%,
-            #0f1115 40%,
-            #0a0a0a 100%
-        );
+    .service-popup {
+      display: none !important;
     }
-    .service-card[data-card="2"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #0a0a0a 0%,
-            #050505 50%,
-            #0f1115 100%
-        );
-    }
-    .service-card[data-card="3"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #0f1115 0%,
-            rgba(60, 205, 127, 0.07) 38%,
-            #050505 100%
-        );
-    }
-    .service-card[data-card="4"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #050505 0%,
-            #0a0a0a 55%,
-            #0f1115 100%
-        );
-    }
-    .service-card[data-card="5"] {
-        --card-bg: linear-gradient(
-            135deg,
-            #0a0a0a 0%,
-            #0f1115 50%,
-            #050505 100%
-        );
-    }
+  }
 </style>
 
 <script>
-    function parseGapPx(el: HTMLElement) {
-        const g = getComputedStyle(el).gap;
-        const n = parseFloat(g);
-        return Number.isFinite(n) ? n : 0;
-    }
+  // ── Scroll entrance ─────────────────────────────────────────
+  const rows = document.querySelectorAll<HTMLElement>('.service-row');
 
-    function wrapMod(x: number, m: number) {
-        if (m <= 0) return x;
-        let r = x % m;
-        if (r < 0) r += m;
-        return r;
-    }
-
-    /** px/s — start inertial scroll after release */
-    const FLING_MIN_SPEED = 35;
-    /** px/s — hard cap for fling (phone-like) */
-    const FLING_MAX_SPEED = 6000;
-    /** exponential decay per second (higher = stops sooner) */
-    const FLING_FRICTION = 2.8;
-    /** px/s — stop fling below this */
-    const FLING_STOP_SPEED = 10;
-
-    /**
-     * Infinite loop = one `.services-set` width + flex gap to the duplicate set (measured, not -50%).
-     */
-    function initServicesMarquee(root: HTMLElement) {
-        const track = root.querySelector("[data-services-track]") as HTMLElement;
-        const firstSet = track?.querySelector(".services-set") as HTMLElement;
-        if (
-            !track ||
-            !firstSet ||
-            !(track instanceof HTMLElement) ||
-            !(firstSet instanceof HTMLElement)
-        )
-            return;
-
-        const reduced = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        ).matches;
-        const SECONDS_PER_LOOP = 60;
-
-        let loop = 0;
-        let position = 0;
-        let paused = false;
-        let dragging = false;
-        let flinging = false;
-        /** px/s — positive = content moves left (position increases), matches auto-scroll */
-        let momentumVelocity = 0;
-        let startX = 0;
-        let startPos = 0;
-        let lastFrameTime = 0;
-        /** Queue of {x, t} tracking the last 100ms */
-        let touchHistory: {x: number, t: number}[] = [];
-
-        function measure() {
-            loop = firstSet.offsetWidth + parseGapPx(track);
-        }
-
-        function applyTransform() {
-            track.style.transform = `translate3d(${-position}px,0,0)`;
-        }
-
-        function clampSpeed(v: number) {
-            const m = Math.min(Math.abs(v), FLING_MAX_SPEED);
-            return v < 0 ? -m : m;
-        }
-
-        function sampleVelocityFromEvents(events: PointerEvent[] | readonly PointerEvent[]) {
-            for (let i = 0; i < events.length; i++) {
-                const ev = events[i];
-                touchHistory.push({ x: ev.clientX, t: ev.timeStamp });
-            }
-            // Keep only last 100ms of history
-            const lastEvent = events[events.length - 1];
-            if (lastEvent) {
-                const nowTime = lastEvent.timeStamp;
-                const filtered = touchHistory.filter((h) => nowTime - h.t <= 100);
-                touchHistory.length = 0;
-                touchHistory.push(...filtered);
-            }
-        }
-
-        function getFinalVelocity() {
-            if (touchHistory.length < 2) return 0;
-            const oldest = touchHistory[0];
-            const newest = touchHistory[touchHistory.length - 1];
-            const dt = (newest.t - oldest.t) / 1000;
-            if (dt <= 0) return 0;
-            return -(newest.x - oldest.x) / dt;
-        }
-
-        function frame(now: number) {
-            requestAnimationFrame(frame);
-            const t = typeof now === "number" ? now : performance.now();
-            const dtRaw = lastFrameTime ? (t - lastFrameTime) / 1000 : 0;
-            lastFrameTime = t;
-            const dt = Math.min(Math.max(dtRaw, 0), 0.05);
-
-            if (loop <= 0) return;
-            if (dragging) return;
-
-            if (flinging) {
-                position += momentumVelocity * dt;
-                position = wrapMod(position, loop);
-                momentumVelocity *= Math.exp(-FLING_FRICTION * dt);
-                if (Math.abs(momentumVelocity) < FLING_STOP_SPEED) {
-                    flinging = false;
-                    momentumVelocity = 0;
-                }
-                applyTransform();
-                return;
-            }
-
-            if (!reduced && !paused) {
-                position += (loop / SECONDS_PER_LOOP) * dt;
-                if (position >= loop) position -= loop;
-                applyTransform();
-            }
-        }
-
-        function syncAfterMeasure() {
-            measure();
-            position = wrapMod(position, loop);
-            applyTransform();
-        }
-
-        syncAfterMeasure();
-        frame(performance.now());
-
-        const ro = new ResizeObserver(() => {
-            syncAfterMeasure();
-        });
-        ro.observe(track);
-        ro.observe(firstSet);
-
-        window.addEventListener("resize", syncAfterMeasure);
-
-        root.addEventListener("mouseenter", () => {
-            paused = true;
-        });
-        root.addEventListener("mouseleave", () => {
-            paused = false;
-        });
-
-        root.addEventListener("pointerdown", (e) => {
-            if (e.button !== 0) return;
-            dragging = true;
-            flinging = false;
-            momentumVelocity = 0;
-            touchHistory.length = 0;
-            startX = e.clientX;
-            startPos = position;
-            root.classList.add("is-dragging");
-            root.setPointerCapture(e.pointerId);
-            track.style.cursor = "grabbing";
-        });
-
-        root.addEventListener("pointermove", (e) => {
-            if (!dragging) return;
-            const coalesced =
-                typeof e.getCoalescedEvents === "function"
-                    ? e.getCoalescedEvents()
-                    : [];
-            if (coalesced.length) {
-                sampleVelocityFromEvents(coalesced);
-            } else {
-                sampleVelocityFromEvents([e]);
-            }
-            const dx = e.clientX - startX;
-            position = wrapMod(startPos - dx, loop);
-            applyTransform();
-        });
-
-        function endDrag(e: PointerEvent) {
-            if (!dragging) return;
-            dragging = false;
-            root.classList.remove("is-dragging");
-            track.style.cursor = "";
-            try {
-                root.releasePointerCapture(e.pointerId);
-            } catch {
-                /* already released */
-            }
-            const finalVel = getFinalVelocity();
-            const v = clampSpeed(finalVel);
-            if (Math.abs(v) >= FLING_MIN_SPEED) {
-                flinging = true;
-                momentumVelocity = v;
-            }
-        }
-        root.addEventListener("pointerup", (e) => endDrag(e as PointerEvent));
-        root.addEventListener("pointercancel", (e) => {
-            touchHistory.length = 0;
-            endDrag(e as PointerEvent);
-        });
-    }
-
-    document.querySelectorAll("[data-services-marquee]").forEach((el) => {
-        if (el instanceof HTMLElement) initServicesMarquee(el);
+  const rowObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target as HTMLElement;
+      const delay = parseInt(el.dataset.index ?? '0') * 55;
+      setTimeout(() => el.classList.add('is-visible'), delay);
+      rowObserver.unobserve(el);
     });
+  }, { threshold: 0.08 });
+
+  rows.forEach(r => rowObserver.observe(r));
+
+  // ── Cursor-following popup ──────────────────────────────────
+  const popup      = document.getElementById('service-popup')!;
+  const popupImg   = document.getElementById('service-popup-img') as HTMLImageElement;
+  const popupIndex = document.getElementById('service-popup-index')!;
+  const popupTitle = document.getElementById('service-popup-title')!;
+  const popupDesc  = document.getElementById('service-popup-desc')!;
+  const popupTags  = document.getElementById('service-popup-tags')!;
+
+  // Lerp state — popup lags slightly behind cursor for smoothness
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let rafId = 0;
+  let isVisible = false;
+  let activeRow: HTMLElement | null = null;
+
+  const POPUP_OFFSET_X = 16;  // px right of cursor — popup left edge starts here
+  const POPUP_OFFSET_Y = -120; // px — vertically centres popup on cursor
+  const LERP_FACTOR    = 0.10; // smooth lag
+
+  function lerp(a: number, b: number, t: number) {
+    return a + (b - a) * t;
+  }
+
+  function clampPopupPosition(x: number, y: number) {
+    const pw = popup.offsetWidth;
+    const ph = popup.offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    return {
+      x: Math.min(Math.max(x, 8), vw - pw - 8),
+      y: Math.min(Math.max(y, 8), vh - ph - 8),
+    };
+  }
+
+  function animatePopup() {
+    currentX = lerp(currentX, targetX, LERP_FACTOR);
+    currentY = lerp(currentY, targetY, LERP_FACTOR);
+
+    const { x, y } = clampPopupPosition(currentX, currentY);
+    popup.style.left = `${x}px`;
+    popup.style.top  = `${y}px`;
+
+    rafId = requestAnimationFrame(animatePopup);
+  }
+
+  function populatePopup(row: HTMLElement) {
+    const img   = row.dataset.image ?? '';
+    const index = row.dataset.index ?? '';
+    const title = row.dataset.title ?? '';
+    const desc  = row.dataset.description ?? '';
+    const tags  = (row.dataset.tags ?? '').split('|').filter(Boolean);
+
+    if (popupImg.getAttribute('data-src') !== img) {
+      popupImg.src = img;
+      popupImg.alt = title;
+      popupImg.setAttribute('data-src', img);
+    }
+    // Format index as 01, 02 etc
+    popupIndex.textContent = String(parseInt(index) + 1).padStart(2, '0');
+    popupTitle.textContent = title;
+    popupDesc.textContent  = desc;
+
+    popupTags.innerHTML = '';
+    // Duplicate tags for seamless marquee loop
+    [...tags, ...tags].forEach((tag) => {
+      const span = document.createElement('span');
+      span.textContent = tag;
+      // Apply styles directly — avoids Tailwind purge stripping dynamic classes
+      span.style.cssText = `
+        display: inline-block;
+        font-size: 0.625rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-family: 'Instrument Sans', sans-serif;
+        color: #474747;
+        line-height: 1.4;
+        white-space: nowrap;
+        padding: 0 1rem;
+        border-right: 1px solid rgba(0,0,0,0.18);
+        flex-shrink: 0;
+      `;
+      popupTags.appendChild(span);
+    });
+    // Restart animation so it always starts from left on row switch
+    popupTags.style.animation = 'none';
+    requestAnimationFrame(() => {
+      (popupTags as HTMLElement).style.animation = '';
+    });
+  }
+
+  function showPopup(row: HTMLElement) {
+    if (activeRow !== row) {
+      activeRow = row;
+      // If already visible, fade content out, swap, fade back in
+      if (isVisible) {
+        const content = document.querySelector('.service-popup-content') as HTMLElement;
+        content.style.transition = 'opacity 0.12s ease';
+        content.style.opacity = '0';
+        setTimeout(() => {
+          populatePopup(row);
+          content.style.transition = '';
+          content.style.opacity = '';
+        }, 120);
+      } else {
+        populatePopup(row);
+      }
+    }
+    if (!isVisible) {
+      isVisible = true;
+      // Snap position before showing to avoid fly-in from 0,0
+      currentX = targetX;
+      currentY = targetY;
+      const { x, y } = clampPopupPosition(currentX, currentY);
+      popup.style.left = `${x}px`;
+      popup.style.top  = `${y}px`;
+      popup.classList.add('is-active');
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(animatePopup);
+    }
+  }
+
+  function hidePopup() {
+    if (!isVisible) return;
+    isVisible = false;
+    activeRow = null;
+    popup.classList.remove('is-active');
+    cancelAnimationFrame(rafId);
+  }
+
+  rows.forEach(row => {
+    row.addEventListener('mouseenter', () => showPopup(row));
+    row.addEventListener('mouseleave', hidePopup);
+
+    row.addEventListener('mousemove', (e: MouseEvent) => {
+      // Only track X within the row — Y follows cursor vertically
+      targetX = e.clientX + POPUP_OFFSET_X;
+      targetY = e.clientY + POPUP_OFFSET_Y;
+    });
+  });
+
+  // Hide if mouse leaves the section entirely
+  document.getElementById('services-list')?.addEventListener('mouseleave', hidePopup);
 </script>

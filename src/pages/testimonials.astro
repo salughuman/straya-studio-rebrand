@@ -3,187 +3,140 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQ from "../components/FAQ.astro";
 import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
 import { SITE_CONFIG } from "../data/site-config";
-import {
-  testimonialsPageTestimonials,
-  type TestimonialsPageTestimonial,
-} from "../data/testimonials-page";
+import { testimonialsPageTestimonials, type TestimonialsPageTestimonial } from "../data/testimonials-page";
 
-const title = "Client Testimonials | Straya Studio";
-const description =
-  "Client testimonials from founders and teams. See the outcomes, communication quality, and build reliability across Framer, Webflow, and WordPress.";
-const image = "/og-testimonials.png";
-const pageUrl = `${SITE_CONFIG.url}/testimonials/`;
+const title       = "Client Testimonials | Straya Studio";
+const description = "Client testimonials from founders and teams across Framer, Webflow, Shopify, and WordPress builds.";
+const image       = "/og-testimonials.png";
+const pageUrl     = `${SITE_CONFIG.url}/testimonials/`;
+const baseUrl     = import.meta.env.BASE_URL;
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: title,
-  description,
-  url: pageUrl,
-  isPartOf: {
-    "@type": "WebSite",
-    name: SITE_CONFIG.name,
-    url: `${SITE_CONFIG.url}/`,
-  },
+  name: title, description, url: pageUrl,
+  isPartOf: { "@type": "WebSite", name: SITE_CONFIG.name, url: `${SITE_CONFIG.url}/` },
 };
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: `${SITE_CONFIG.url}/`,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Testimonials",
-      item: pageUrl,
-    },
+    { "@type": "ListItem", position: 1, name: "Home",         item: `${SITE_CONFIG.url}/` },
+    { "@type": "ListItem", position: 2, name: "Testimonials", item: pageUrl },
   ],
 };
 
-const wordCount = (text: string) =>
-  text.trim().split(/\s+/).filter(Boolean).length;
-
 const toSlug = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/['’]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-const baseUrl = import.meta.env.BASE_URL;
+  name.toLowerCase().replace(/['']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
 const getAvatarSrc = (t: TestimonialsPageTestimonial) =>
   t.avatar ?? `${baseUrl}images/testimonials/${toSlug(t.name)}.webp`;
 
-const getFallbackAvatarSrc = (t: TestimonialsPageTestimonial) =>
+const getFallback = (t: TestimonialsPageTestimonial) =>
   t.gender === "female"
     ? `${baseUrl}images/avatars/fallback-female.svg`
     : `${baseUrl}images/avatars/fallback-male.svg`;
 
-const getPrimaryMeta = (t: TestimonialsPageTestimonial) =>
-  [t.role, t.company].filter(Boolean).join(", ");
-
-type TileSize = "small" | "medium" | "large" | "xl";
-
-const getTileSize = (t: TestimonialsPageTestimonial, _index: number): TileSize => {
-  const wc = wordCount(t.quote);
-
-  // Tile sizing is driven by quote length so short quotes don't reserve tall grid space.
-  if (wc >= 120) return "xl";
-  if (wc >= 75) return "large";
-  if (wc >= 45) return "medium";
-  return "small";
-};
-
-const getTileLayout = (size: TileSize) => {
-  switch (size) {
-    case "xl":
-      return [
-        "md:col-span-12",
-        "lg:col-span-8 lg:row-span-3",
-      ];
-    case "large":
-      return [
-        "md:col-span-12",
-        "lg:col-span-8 lg:row-span-2",
-      ];
-    case "medium":
-      // Wide but single-row for medium-length quotes to avoid tall blanks.
-      return ["md:col-span-12", "lg:col-span-8 lg:row-span-1"];
-    case "small":
-    default:
-      return ["md:col-span-6", "lg:col-span-4 lg:row-span-1"];
-  }
-};
+const total = testimonialsPageTestimonials.length;
+// Simple alternating layout — every 7th tile is wide (col-span-8),
+// rest are col-span-4. Rows always sum to 12, no gaps.
+const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
+  i % 7 === 0 ? "md:col-span-8" : "md:col-span-4";
 ---
 
 <BaseLayout title={title} description={description} image={image}>
+
+  <!-- Page hero -->
   <section
-    class="testimonials-page-section section-y relative z-10 bg-brand-elevated text-brand-text-primary"
-    aria-label="Full client testimonials"
+    class="relative bg-background border-b border-black/5 overflow-hidden"
+    aria-label="Testimonials page header"
   >
+    <!-- 4-col grid -->
+    <div class="absolute inset-0 grid grid-cols-4 pointer-events-none" aria-hidden="true">
+      <div class="border-r border-black/[0.04]"></div>
+      <div class="border-r border-black/[0.04]"></div>
+      <div class="border-r border-black/[0.04]"></div>
+      <div></div>
+    </div>
+
+    <div class="main-container pt-36 pb-20 relative z-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div>
+          <span class="type-label text-on-background/40 block mb-4">Testimonials</span>
+          <h1 class="type-h2 text-on-background uppercase max-w-2xl">
+            Client proof across real delivery.
+          </h1>
+        </div>
+        <div class="flex flex-col gap-3 flex-shrink-0 md:text-right">
+          <div class="type-h2 text-on-background">{total}</div>
+          <div class="type-label text-on-background/40">Verified reviews</div>
+          <div class="flex items-center gap-2 md:justify-end mt-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+            <span class="type-label text-accent">5.0★ average</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Testimonials grid -->
+  <section
+    class="section-y bg-background border-b border-black/5"
+    aria-label="All client testimonials"
+  >
+    <p class="sr-only">
+      Full grid of client testimonials from founders and teams across Framer, Webflow, Shopify, and WordPress builds.
+    </p>
+
     <div class="main-container">
-      <p class="sr-only">
-        Full grid of non-video client testimonials. Cards vary in size to
-        accommodate different quote lengths.
-      </p>
-
-      <header class="mb-12 text-center md:mb-16">
-        <p class="type-label mb-2">Testimonials</p>
-        <h1 class="type-h2">Client proof across real delivery.</h1>
-        <p class="type-body mt-4 text-text-secondary">
-          Browse founder feedback from Framer, Webflow, and WordPress builds.
-         
-        </p>
-      </header>
-
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6 auto-rows-auto grid-flow-dense">
-        {testimonialsPageTestimonials.map((t, index) => {
-          const size = getTileSize(t, index);
-          const layout = getTileLayout(size);
-          const meta = getPrimaryMeta(t);
-          const showMeta = meta.length > 0;
-          const showCountry = t.country?.trim().length > 0;
-          const stars = t.stars ?? 5;
-
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
+        {testimonialsPageTestimonials.map((t, i) => {
+          const span = getSpan(t, i);
+          const meta = [t.role, t.company].filter(Boolean).join(", ");
           return (
             <article
-              class="flex flex-col rounded-md border border-border-default bg-brand-surface p-6 min-h-[270px] md:p-6 transition-[transform,border-color,box-shadow] duration-300 ease-luxury hover:-translate-y-1 hover:border-border-strong hover:shadow-primary motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none"
-              class:list={layout}
+              class:list={[
+                "testimonial-tile bg-background flex flex-col p-6 md:p-8 group",
+                span,
+              ]}
+              data-index={i}
+              aria-label={`Testimonial from ${t.name}`}
             >
-              <div class="flex items-center gap-1 text-brand-secondary" aria-label={`${stars} out of 5 stars`}>
-                {Array.from({ length: stars }).map((_, i) => (
-                  <svg
-                    class="h-3.5 w-3.5"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
+              <!-- Stars -->
+              <div class="flex gap-1 mb-5" aria-label={`${t.stars ?? 5} out of 5 stars`}>
+                {Array.from({ length: t.stars ?? 5 }).map((_, si) => (
+                  <svg class="w-3 h-3 text-accent" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+                    <path d="M6 0L7.35 4.18H11.71L8.18 6.77L9.53 10.95L6 8.36L2.47 10.95L3.82 6.77L0.29 4.18H4.65L6 0Z"/>
                   </svg>
                 ))}
               </div>
 
-              <blockquote class="mt-4 type-body m-0 leading-relaxed text-text-secondary">
-                “{t.quote}”
+              <!-- Quote -->
+              <blockquote class="flex-1 m-0">
+                <p class="type-body text-on-surface-variant leading-relaxed">"{t.quote}"</p>
               </blockquote>
 
-              <footer class="mt-auto pt-4 border-t border-border-subtle">
-                <cite class="not-italic">
-                  <div class="flex items-center gap-3">
-                    <img
-                      src={getAvatarSrc(t)}
-                      alt={`${t.name} profile photo`}
-                      width="40"
-                      height="40"
-                      loading="lazy"
-                      decoding="async"
-                      class="h-10 w-10 rounded-md border border-border-subtle object-cover bg-brand-elevated"
-                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                    />
-
-                    <span>
-                      <span class="block type-body font-medium text-brand-text-primary">
-                        {t.name}
-                      </span>
-
-                      {showMeta && (
-                        <span class="block type-caption">{meta}</span>
-                      )}
-
-                      {showCountry && (
-                        <span class="block type-caption">{t.country}</span>
-                      )}
-                    </span>
+              <!-- Attribution -->
+              <footer class="mt-6 pt-5 border-t border-black/5">
+                <cite class="not-italic flex items-center gap-3">
+                  <img
+                    src={getAvatarSrc(t)}
+                    alt={`${t.name} profile photo`}
+                    width="36"
+                    height="36"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-9 h-9 object-cover bg-surface-container flex-shrink-0"
+                    onerror={`this.onerror=null;this.src='${getFallback(t)}';`}
+                  />
+                  <div>
+                    <span class="type-label text-on-background block">{t.name}</span>
+                    {meta && <span class="type-label text-on-background/40 block mt-0.5">{meta}</span>}
+                    {t.country && <span class="type-label text-on-background/30 block mt-0.5">{t.country}</span>}
                   </div>
                 </cite>
               </footer>
@@ -197,7 +150,53 @@ const getTileLayout = (size: TileSize) => {
   <FAQ />
   <FinalCTA />
   <Footer />
+
   <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 </BaseLayout>
 
+<style>
+  /* ── Ticker ────────────────────────────────────────────────── */
+  @keyframes ticker-ltr {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .ticker-ltr {
+    animation: ticker-ltr 30s linear infinite;
+  }
+
+  /* ── Tile entrance ─────────────────────────────────────────── */
+  .testimonial-tile {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .testimonial-tile.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-ltr { animation: none; }
+    .testimonial-tile { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const tiles = document.querySelectorAll('.testimonial-tile');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.index ?? '0');
+      // Stagger in batches of 3 to avoid too much delay on large grids
+      setTimeout(() => el.classList.add('is-visible'), (idx % 6) * 60);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.05 });
+
+  tiles.forEach(t => observer.observe(t));
+</script>

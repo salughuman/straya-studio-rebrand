@@ -1,273 +1,314 @@
 ---
-// Pricing.astro — Straya Studio (v5 — Premium Polish)
-// 3-card grid preserved. Popular card physically taller.
-// Progression glow intensifies left→right. Top features highlighted.
+// Pricing.astro — Straya Studio [SIMPLE]
+// Horizontal comparison table with card-per-tier on mobile.
+// GEMINI §4: project-based, no retainers, 3 tiers.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
-import {
-  PRICING_BADGE,
-  PRICING_FOOTER,
-  PRICING_HEADLINE,
-  PRICING_SUBTITLE,
-  PRICING_TIERS,
-  PRICING_TRUST_LINE,
-} from "../data/pricing";
+import { PRICING_TIERS, PRICING_BADGE, PRICING_TRUST_LINE, PRICING_FOOTER } from "../data/pricing";
 import { SITE_CONFIG } from "../data/site-config";
-import Button from "./ui/buttons/Button.astro";
 
-// Number of features to highlight (brighter) per card
-const HIGHLIGHT_COUNT = 3;
+const baseUrl = import.meta.env.BASE_URL;
 
-const pricingHeadlineLines = PRICING_HEADLINE.replace(/\.$/, "").split(",");
-const pricingHeadlineTop = `${pricingHeadlineLines[0]?.trim() ?? ""},`;
-const pricingHeadlineBottom = pricingHeadlineLines.slice(1).join(",").trim();
-const pricingSubtitleShort = PRICING_SUBTITLE.replace(/\s*—\s*not a monthly drip\.?$/, "");
-
-// Progression glow per tier (subtle → medium → strong) — used as class strings (no inline style)
-const tierGlowClass = [
-  "bg-[radial-gradient(ellipse_at_50%_0%,rgba(60,205,127,0.03),transparent_70%)]",
-  "bg-[radial-gradient(ellipse_at_50%_0%,rgba(60,205,127,0.05),transparent_70%)]",
-  "bg-[radial-gradient(ellipse_at_50%_0%,rgba(60,205,127,0.08),transparent_70%)]",
+// All unique features across tiers for comparison rows
+const allFeatures = [
+  "Custom design — no templates, ever",
+  "Mobile-first responsive build",
+  "On-page SEO setup",
+  "Launch support and file handoff",
+  "Up to 10 custom-designed pages",
+  "CMS setup and content architecture",
+  "Custom interactions and animations",
+  "Performance tuning — 90+ Lighthouse",
+  "Unlimited revisions until sign-off",
+  "Discovery workshop and technical strategy",
+  "Unlimited pages and custom components",
+  "Advanced SEO and analytics integration",
+  "Graphic design — social kits, pitch decks",
+  "Dedicated Slack channel",
+  "60 days post-launch support",
 ];
 
-// Accent line width grows per tier
-const tierLineClass = ["w-1/4", "w-1/2", "w-full"];
-const START_PROJECT_TIERS = 2;
-const baseUrl = import.meta.env.BASE_URL;
+// Explicit inclusion per tier — avoids fuzzy string matching failures
+// Starter = rows 0-3, Growth = rows 0-8, Premium = all
+const tierInclusion: boolean[][] = [
+  // Starter
+  [true,  true,  true,  true,  false, false, false, false, false, false, false, false, false, false, false],
+  // Growth (includes everything in Starter + rows 4-8)
+  [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false, false],
+  // Premium (includes everything in Growth + rows 9-14)
+  [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true],
+];
 ---
 
 <section
   id="pricing"
-  class="section-y relative z-10 text-text-primary"
   aria-label="Project pricing"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
 >
   <div class="main-container">
 
-    <!-- ── Header ── -->
-    <header class="mb-12 md:mb-16">
-      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-        <div class="flex max-w-[34rem] flex-col gap-3">
-          <p class="type-label">Investment</p>
-          <h2 class="type-h2">
-            {pricingHeadlineTop}<br class="hidden md:inline" />
-            {pricingHeadlineBottom}.
-          </h2>
-          <p class="type-body text-text-secondary">{pricingSubtitleShort}</p>
-        </div>
-        <div
-          class="flex w-fit items-center gap-2 self-start rounded-md border border-brand-secondary/30 bg-[rgba(60,205,127,0.06)] px-3 py-1.5 md:self-auto"
-          role="status"
-        >
-          <span class="availability-dot h-1.5 w-1.5 rounded-full bg-[#3CCD7F]" aria-hidden="true"></span>
-          <span class="text-xs font-semibold tracking-wide text-brand-secondary">{PRICING_BADGE}</span>
-        </div>
+    <!-- Header -->
+    <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">Investment</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          Transparent pricing, no retainers required.
+        </h2>
+        <p class="type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed">
+          Every engagement is scoped, priced, and delivered as a complete project.
+        </p>
+      </div>
+      <!-- Availability badge -->
+      <div class="flex items-center gap-2 flex-shrink-0 border border-accent/20 bg-accent/5 px-4 py-2" role="status">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent availability-dot" aria-hidden="true"></span>
+        <span class="type-label text-accent">{PRICING_BADGE}</span>
       </div>
     </header>
 
-    <!-- ── Tier grid ── -->
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-end md:gap-4">
-      {
-        PRICING_TIERS.map((tier, i) => (
-          <article
-            class:list={[
-                  "pricing-card group relative flex flex-col overflow-hidden rounded-md border",
-              // Height control: cards 1 & 3 match height; popular card can be taller
-              tier.popular ? "md:min-h-[44rem]" : "md:min-h-[40rem]",
-              "transition-[transform,box-shadow,border-color,opacity] duration-300 ease-luxury",
-              "hover:-translate-y-1 hover:shadow-lg",
-              "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-              tier.popular
-                ? "is-popular border-brand-secondary/30 md:-mt-4"
-                : "border-border-default",
-            ]}
-          >
-            {/* ── Background glow (progression: gets brighter per tier) ── */}
-            <div
-              class:list={[
-                "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 ease-luxury group-hover:opacity-100 motion-reduce:hidden",
-                tierGlowClass[i] ?? tierGlowClass[0],
-              ]}
-              aria-hidden="true"
-            />
-
-            {/* ── Accent line at top (full width, opacity increases per tier on hover) ── */}
-            <div
-              class:list={[
-                "h-[2px] w-full bg-gradient-to-r from-[#3CCD7F] via-[#3CCD7F]/25 to-transparent transition-opacity duration-300 ease-luxury group-hover:opacity-100",
-                i === 0 ? "opacity-[0.04]" : i === 1 ? "opacity-50" : "opacity-90",
-              ]}
-              aria-hidden="true"
-            />
-
-            {/* ── Popular ribbon ── */}
+    <!-- ── Mobile: stacked cards ── -->
+    <div class="flex flex-col gap-px bg-black/5 lg:hidden mb-12">
+      {PRICING_TIERS.map((tier, i) => (
+        <article
+          class="pricing-card bg-background flex flex-col"
+          data-index={i}
+          aria-label={`${tier.name} pricing tier`}
+        >
+          <!-- Tier header -->
+          <div class:list={[
+            "relative p-8 border-b border-black/5",
+            tier.popular ? "bg-surface-container-lowest" : ""
+          ]}>
             {tier.popular && (
-              <div class="relative z-[1] flex items-center justify-center bg-[rgba(60,205,127,0.06)] px-4 py-2.5">
-                <span class="text-[0.625rem] font-bold uppercase tracking-[0.14em] text-[#3CCD7F]">
-                  Recommended
-                </span>
-              </div>
+              <span class="type-label text-accent absolute top-6 right-6">Most popular</span>
             )}
-
-            {/* ── Card body ── */}
-            <div class="relative z-[1] flex flex-1 flex-col p-6 md:p-8">
-
-              {/* ── Tier name + tagline ── */}
-              <h3 class="type-h3 mb-1">{tier.name}</h3>
-              <p class="mb-6 text-[0.8125rem] leading-relaxed text-text-muted">{tier.tagline}</p>
-
-              {/* ── Price block (elevated surface) ── */}
-              <div class="mb-6 rounded-md bg-bg-surface border border-border-default px-5 py-4">
-                <div class="flex items-baseline gap-2">
-                  <span class="text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-text-muted">
-                    From
-                  </span>
-                  <span class="font-display text-[clamp(2rem,4vw,2.75rem)] font-semibold leading-none tracking-tight">
-                    <span class="text-brand-secondary">$</span>
-                    <span class="text-text-primary">{tier.price.replace(/^From\s*\$?/i, "")}</span>
-                  </span>
-                </div>
-                <div class="mt-3 flex items-center gap-2">
-                  <svg class="h-3.5 w-3.5 text-[#3CCD7F]/60 motion-safe:animate-[clockTick_2.8s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                  <span class="text-xs text-text-secondary">{tier.timeline}</span>
-                </div>
-              </div>
-
-              {/* ── Best for ── */}
-              <p class="mb-5 text-[0.8125rem] leading-relaxed text-text-muted">{tier.bestFor}</p>
-
-              {/* ── Divider ── */}
-              <div class="mb-5 h-px bg-[rgba(255,255,255,0.05)]" aria-hidden="true" />
-
-              {/* ── Features ── */}
-              <ul class="flex flex-1 flex-col gap-2.5" aria-label={`Features in ${tier.name}`}>
-                {tier.included.map((feature, fi) => {
-                  const isInherit = fi === 0 && i > 0;
-                  const isHighlighted = fi < HIGHLIGHT_COUNT;
-
-                  return (
-                    <li
-                      class:list={[
-                        "flex items-start gap-2.5 text-[0.8125rem] leading-snug",
-                        isInherit
-                          ? "font-medium text-[#3CCD7F]"
-                          : isHighlighted
-                            ? "text-[#D1D5DB]"
-                            : "text-[#9CA3AF]",
-                      ]}
-                    >
-                      <svg
-                        class:list={[
-                          "mt-0.5 h-3.5 w-3.5 shrink-0",
-                          isInherit
-                            ? "text-[#3CCD7F]"
-                            : isHighlighted
-                              ? "text-[#3CCD7F]/80"
-                              : "text-[#3CCD7F]/40",
-                        ]}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M3.5 8.5L6.5 11.5L12.5 5.5"
-                          stroke="currentColor"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <span>{feature}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-
-              {/* ── CTA ── */}
-              <Button
-                href={
-                  i < START_PROJECT_TIERS
-                    ? `${baseUrl}contact?source=pricing-card&tier=${encodeURIComponent(tier.name.toLowerCase())}`
-                    : SITE_CONFIG.socials.calendly
-                }
-                target={i < START_PROJECT_TIERS ? undefined : "_blank"}
-                rel={i < START_PROJECT_TIERS ? undefined : "noopener noreferrer"}
-                label={tier.ctaLabel}
-                variant={tier.ctaPrimary ? "primary" : "light"}
-                class:list={[
-                  "group mt-8 !rounded-md !px-5 !py-3.5 !text-sm",
-                  tier.ctaPrimary
-                    ? "shadow-[0_0_20px_rgba(60,205,127,0.15)] hover:!bg-[#2FB96D] hover:!border-[#2FB96D]"
-                    : "!border-border-strong !text-text-primary hover:!border-border-strong hover:!bg-bg-overlay",
-                ]}
-              >
-                <svg
-                  class="h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-0.5 motion-reduce:transition-none"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </Button>
+            <h3 class="type-h3 text-on-background mb-1">{tier.name}</h3>
+            <p class="type-body-small text-on-surface-variant mb-6">{tier.tagline}</p>
+            <!-- Price -->
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="type-label text-on-background/40">From</span>
+              <span class="font-display font-medium text-3xl text-on-background tracking-tight">
+                {tier.price.replace(/^From\s*\$?/i, "$")}
+              </span>
             </div>
-          </article>
-        ))
-      }
+            <span class="type-label text-on-background/40">{tier.timeline}</span>
+          </div>
+          <!-- Features -->
+          <ul class="p-8 flex flex-col gap-3" aria-label={`${tier.name} features`}>
+            {tier.included.map((feature, fi) => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <svg class="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2.5 7.5L5.5 10.5L11.5 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+          <!-- CTA -->
+          <div class="px-8 pb-8">
+            <a
+              href={i < 2
+                ? `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`
+                : SITE_CONFIG.socials.calendly}
+              target={i >= 2 ? "_blank" : undefined}
+              rel={i >= 2 ? "noopener noreferrer" : undefined}
+              class:list={[
+                "magnetic-cta w-full flex items-center justify-center gap-3 type-button py-4 transition-colors duration-300",
+                tier.popular
+                  ? "bg-primary text-on-primary hover:bg-accent"
+                  : "border border-black/10 text-on-background hover:border-on-background"
+              ]}
+            >
+              {tier.ctaLabel}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
     </div>
 
-    
-    <!-- ── Footer CTA ── -->
-    <div class="glass-surface mt-10 flex flex-col gap-5 rounded-md p-6 md:mt-12 md:flex-row md:items-center md:justify-between md:p-8">
-      <div class="max-w-[32rem]">
-        <h3 class="type-h3 mb-1.5">{PRICING_FOOTER.title}</h3>
-        <p class="type-body text-text-secondary">{PRICING_FOOTER.description}</p>
+    <!-- ── Desktop: comparison table ── -->
+    <div class="hidden lg:block">
+      <!-- Tier headers -->
+      <div class="grid grid-cols-4 gap-px bg-black/5 mb-px">
+        <!-- Empty label column -->
+        <div class="bg-surface-container-low p-8 flex items-end border-r border-black/5">
+          <span class="type-label text-on-background/50">What's included</span>
+        </div>
+        <!-- Tier columns -->
+        {PRICING_TIERS.map((tier, i) => (
+          <div
+            class:list={[
+              "pricing-card relative flex flex-col gap-4 p-8",
+              tier.popular ? "bg-surface-container-lowest" : "bg-background"
+            ]}
+            data-index={i}
+          >
+            {tier.popular && (
+              <span class="type-label text-accent absolute top-6 right-6">Most popular</span>
+            )}
+            <div>
+              <h3 class="type-h3 text-on-background mb-1">{tier.name}</h3>
+              <p class="type-body-small text-on-surface-variant">{tier.tagline}</p>
+            </div>
+            <!-- Price -->
+            <div>
+              <div class="flex items-baseline gap-1.5 mb-0.5">
+                <span class="type-label text-on-background/40">From</span>
+                <span class="font-display font-medium text-3xl text-on-background tracking-tight">
+                  {tier.price.replace(/^From\s*\$?/i, "$")}
+                </span>
+              </div>
+              <span class="type-label text-on-background/40">{tier.timeline}</span>
+            </div>
+            <!-- CTA -->
+            <a
+              href={i < 2
+                ? `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`
+                : SITE_CONFIG.socials.calendly}
+              target={i >= 2 ? "_blank" : undefined}
+              rel={i >= 2 ? "noopener noreferrer" : undefined}
+              class:list={[
+                "magnetic-cta mt-auto flex items-center justify-center gap-2 type-button py-3.5 transition-colors duration-300",
+                tier.popular
+                  ? "bg-primary text-on-primary hover:bg-accent"
+                  : "border border-black/10 text-on-background hover:border-on-background"
+              ]}
+            >
+              {tier.ctaLabel}
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        ))}
       </div>
-      <Button
+
+      <!-- Feature rows -->
+      {allFeatures.map((feature, fi) => (
+        <div class="grid grid-cols-4 gap-px bg-black/5 mb-px feature-row" data-row={fi}>
+          <!-- Feature label -->
+          <div class="bg-surface-container-low px-8 py-4 flex items-center border-r border-black/5">
+            <span class="type-body-small text-on-background">{feature}</span>
+          </div>
+          <!-- Tier cells -->
+          {PRICING_TIERS.map((tier, ti) => {
+            const included = tierInclusion[ti]?.[fi] ?? false;
+            return (
+              <div
+                class:list={[
+                  "px-8 py-4 flex items-center justify-center",
+                  tier.popular ? "bg-surface-container-lowest" : "bg-background"
+                ]}
+              >
+                {included ? (
+                  <svg class="w-4 h-4 text-accent" viewBox="0 0 16 16" fill="none" aria-label="Included" role="img">
+                    <path d="M3.5 8.5L6.5 11.5L12.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                ) : (
+                  <span class="w-3 h-px bg-black/10 block" aria-label="Not included" role="img"></span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+
+    <!-- Footer CTA strip -->
+    <div class="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-black/5 p-8 bg-surface-container-lowest">
+      <div class="max-w-md">
+        <h3 class="type-h3 text-on-background mb-2">{PRICING_FOOTER.title}</h3>
+        <p class="type-body-small text-on-surface-variant leading-relaxed">{PRICING_FOOTER.description}</p>
+      </div>
+      <a
         href={SITE_CONFIG.socials.calendly}
         target="_blank"
         rel="noopener noreferrer"
-        label={PRICING_FOOTER.ctaLabel}
-        variant="primary"
-        class="group !w-fit !rounded-md !px-5 !py-3 !text-sm hover:!bg-[#2FB96D] hover:!border-[#2FB96D]"
+        class="magnetic-cta z-depth-1 flex-shrink-0 inline-flex items-center gap-3 type-button bg-primary text-on-primary px-8 py-4 hover:bg-accent transition-colors duration-300"
       >
-        <svg
-          class="h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-0.5 motion-reduce:transition-none"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        {PRICING_FOOTER.ctaLabel}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </Button>
+      </a>
     </div>
 
-    <!-- ── Trust line ── -->
-    <p class="mx-auto mt-10 max-w-[38rem] text-center type-caption text-text-muted">
+    <!-- Trust line -->
+    <p class="mt-8 text-center type-caption text-on-background/30">
       {PRICING_TRUST_LINE}
     </p>
-
-    
 
   </div>
 </section>
 
 <style>
-  /* GEMINI §5.F — keyframes only */
+  /* ── Card entrance ─────────────────────────────────────────── */
+  .pricing-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .pricing-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Feature row entrance ──────────────────────────────────── */
+  .feature-row {
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .feature-row.is-visible {
+    opacity: 1;
+  }
+
+  /* ── Availability dot pulse ────────────────────────────────── */
   .availability-dot {
     animation: pulse-dot 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-
   @keyframes pulse-dot {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60, 205, 127, 0); }
-    50% { opacity: 0.85; box-shadow: 0 0 8px 2px rgba(60, 205, 127, 0.35); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60,205,127,0); }
+    50%       { opacity: 0.85; box-shadow: 0 0 8px 3px rgba(60,205,127,0.25); }
   }
 
-  /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .availability-dot {
-      animation: none;
+    .pricing-card, .feature-row {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
+    .availability-dot { animation: none; }
   }
 </style>
+
+<script>
+  // Cards entrance
+  const cards = document.querySelectorAll('.pricing-card');
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.index ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), idx * 80);
+      cardObserver.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(c => cardObserver.observe(c));
+
+  // Feature rows staggered entrance
+  const rows = document.querySelectorAll('.feature-row');
+  const rowObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.row ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), idx * 30);
+      rowObserver.unobserve(el);
+    });
+  }, { threshold: 0.05 });
+  rows.forEach(r => rowObserver.observe(r));
+</script>

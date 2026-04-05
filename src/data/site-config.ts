@@ -36,11 +36,12 @@ export const SITE_CONFIG = {
     trackRecord: "100+ Five-Star Deployments",
   },
 
-  // 5. Platform Hierarchy
+  // 5. Platform Hierarchy (GEMINI §1 — always in this order)
   platforms: [
-    { name: "Framer", tier: "Premium", slug: "framer" },
-    { name: "Webflow", tier: "Premium", slug: "webflow" },
-    { name: "Shopify", tier: "Premium", slug: "shopify" },
+    { name: "Framer",    tier: "Premium",    slug: "framer" },
+    { name: "Webflow",   tier: "Premium",    slug: "webflow" },
+    { name: "Shopify",   tier: "Premium",    slug: "shopify" },
+    { name: "Wix",       tier: "Accessible", slug: "wix" },
     { name: "WordPress", tier: "Accessible", slug: "wordpress" },
   ],
 

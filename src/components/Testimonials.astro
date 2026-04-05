@@ -1,566 +1,290 @@
 ---
-// Testimonials.astro — Straya Studio
-// Utility-first masonry testimonial section (GEMINI §5/§6)
-import Button from "./ui/buttons/Button.astro";
+// Testimonials.astro — Straya Studio [IMMERSIVE]
+// Scroll-driven featured quote + dual-direction infinite ticker.
+// GEMINI §3: layered depth, scroll-linked, no static heroes, magnetic CTA.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius, blueprint tracking.
+
+const baseUrl = import.meta.env.BASE_URL;
 
 interface Testimonial {
   quote: string;
   name: string;
-  gender: "male" | "female";
-  country: string;
   role?: string;
   company?: string;
+  stars?: number;
   featured?: boolean;
   video?: string;
-  stars?: number;
-  // Optional explicit avatar override. If omitted, we default to:
-  // `/images/testimonials/${toSlug(name)}.webp`
-  avatar?: string;
 }
 
 const testimonials: Testimonial[] = [
   {
-    quote:
-      "Salman helped develop my Framer website, building complex animations and ensuring flawless functionality. He's a hard worker with a strong problem-solving mindset and great flexibility. Goes above and beyond to deliver quality results. Check out his excellent work at www.likeahuman.ai. Would definitely work with him again!",
+    quote: "Working with Ali was one of the best experiences I've ever had with a web developer. He has a true talent for the small details, cares about the project, and pays attention to best practices.",
+    name: "Sam Sarvas",
+    company: "CompleteCRO",
+    stars: 5,
+    featured: true,
+  },
+  {
+    quote: "Salman helped develop my Framer website, building complex animations and ensuring flawless functionality. Goes above and beyond to deliver quality results.",
     name: "Stefan Luttik",
-    gender: "male",
-    country: "",
-    role: "",
     company: "Like a Human",
     stars: 5,
   },
   {
-    quote:
-      "I greatly appreciated this collaboration: attentiveness, availability, and professionalism were evident at every stage. The work was carried out with seriousness and care, while remaining simple and pleasant. The final result perfectly meets my expectations, and I highly recommend it.",
-    name: "Elliot Wilson",
-    gender: "male",
-    country: "",
-    role: "",
-    company: "",
-    stars: 5,
-  },
-  {
-    quote:
-      "I've worked with Salman on several website projects using Framer, and the experience has been consistently excellent. The results have exceeded expectations, and communication throughout each project has been clear, timely, and professional. I highly recommend Salman for any web design or development work; especially if you're looking for high-quality results and a smooth collaboration.",
+    quote: "I've worked with Salman on several website projects using Framer, and the experience has been consistently excellent. Results exceeded expectations.",
     name: "Hector Alvarez",
-    gender: "male",
-    country: "",
-    role: "",
     company: "All Around Express Solutions",
     stars: 5,
   },
   {
-    quote:
-      "He is very professional. Responds immediately and always is done with his work before the deadline. He is a nice communicator, does things really professionally and is supportive to every project. I recommend him and have used his services more than 5 times already! If you're looking for someone who can help you with anything related to your Framer/Webflow project → Salman Ali is your man and not expensive compared to other developers.",
-    name: "Dimitar Petrov",
-    gender: "male",
-    country: "",
-    role: "",
-    company: "",
-    stars: 5,
-  },
-  {
-    quote:
-      "Salman was great to work with. He pushed the website designs to perfection. I appreciated his quick responses and willingness to meet over Zoom. I look forward to working with him again!",
-    name: "Oliver Montgomery",
-    gender: "male",
-    country: "",
-    role: "",
-    company: "",
-    stars: 5,
-  },
-  {
-    quote:
-      "Working with Ali was one of the best experiences I've ever had with a web developer. He has a true talent for the small details, cares about the project, and pays attention to best practices.",
-    name: "Sam Sarvas",
-    gender: "male",
-    country: "",
-    role: "",
-    company: "CompleteCRO",
-    stars: 5,
-  },
-  {
-    quote:
-      "Been working with Salman for a while now, never disappoints! Great work as always. Definitely a developer worth your money.",
-    name: "Renez Van Autreve",
-    gender: "male",
-    country: "",
-    role: "",
-    company: "WARPCO",
-    stars: 5,
-  },
-  {
-    quote:
-      "Working with Salman has been an amazing experience. He's hardworking, communicative, and always overdelivers. His web design and animations are top-notch—creative, polished, and exactly what I envisioned. Salman's positive energy makes collaboration effortless and enjoyable. I highly recommend him to anyone looking for high-quality work and a reliable partner. Looking forward to working with him again!",
+    quote: "Working with Salman has been an amazing experience. He's hardworking, communicative, and always overdelivers. His web design and animations are top-notch.",
     name: "Sergio Apollo",
-    gender: "male",
-    country: "",
     role: "CEO",
     company: "Better Match",
     stars: 5,
     featured: true,
     video: "https://youtu.be/Aq2wnh6KRz0",
   },
+  {
+    quote: "He is very professional. Responds immediately and always done before the deadline. I have used his services more than 5 times already.",
+    name: "Dimitar Petrov",
+    stars: 5,
+  },
+  {
+    quote: "Salman was great to work with. He pushed the website designs to perfection. I appreciated his quick responses and willingness to meet over Zoom.",
+    name: "Oliver Montgomery",
+    stars: 5,
+  },
+  {
+    quote: "Been working with Salman for a while now, never disappoints! Great work as always. Definitely a developer worth your money.",
+    name: "Renez Van Autreve",
+    company: "WARPCO",
+    stars: 5,
+  },
+  {
+    quote: "I greatly appreciated this collaboration: attentiveness, availability, and professionalism were evident at every stage.",
+    name: "Elliot Wilson",
+    stars: 5,
+  },
 ];
 
-// Ensure the video testimonial is always the first item in the center column.
-// This avoids the mobile layout where the "center" column was rendered second.
-const videoTestimonial = testimonials.find((t) => Boolean(t.video));
-const remainingTestimonials = testimonials.filter(
-  (t) => t !== videoTestimonial,
-);
-
-let leftColumn: Testimonial[] = [];
-let centerColumn: Testimonial[] = videoTestimonial ? [videoTestimonial] : [];
-let rightColumn: Testimonial[] = [];
-
-remainingTestimonials.forEach((t, index) => {
-  const mod = index % 3;
-  if (mod === 0) leftColumn.push(t);
-  else if (mod === 1) rightColumn.push(t);
-  else centerColumn.push(t);
-});
-
-// User-requested placement: keep "Dimitar Petrov" in the third (right) column.
-const dimitar = remainingTestimonials.find((t) => t.name === "Dimitar Petrov");
-if (dimitar) {
-  leftColumn = leftColumn.filter((t) => t.name !== "Dimitar Petrov");
-  centerColumn = centerColumn.filter((t) => t.name !== "Dimitar Petrov");
-  rightColumn = rightColumn.filter((t) => t.name !== "Dimitar Petrov");
-  rightColumn.push(dimitar);
-}
-
-// User-requested placement: move "Sam Sarvas" into the first (left) column.
-const samSarvas = remainingTestimonials.find((t) => t.name === "Sam Sarvas");
-if (samSarvas) {
-  leftColumn = leftColumn.filter((t) => t.name !== "Sam Sarvas");
-  centerColumn = centerColumn.filter((t) => t.name !== "Sam Sarvas");
-  rightColumn = rightColumn.filter((t) => t.name !== "Sam Sarvas");
-  leftColumn.push(samSarvas);
-}
-
-const toSlug = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/['’]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-const getAvatarSrc = (t: Testimonial) =>
-  t.avatar ?? `${baseUrl}images/testimonials/${toSlug(t.name)}.webp`;
-
-const getFallbackAvatarSrc = (t: Testimonial) =>
-  t.gender === "female"
-    ? `${baseUrl}images/avatars/fallback-female.svg`
-    : `${baseUrl}images/avatars/fallback-male.svg`;
-
-const getPrimaryMeta = (t: Testimonial) =>
-  [t.role, t.company].filter(Boolean).join(", ");
+const featured = testimonials.filter(t => t.featured);
+const ticker   = testimonials.filter(t => !t.featured);
 
 const getYouTubeId = (url: string) => {
-  const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
-  if (shortMatch?.[1]) return shortMatch[1];
-
-  const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
-  if (watchMatch?.[1]) return watchMatch[1];
-
-  const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
-  if (embedMatch?.[1]) return embedMatch[1];
-
-  return null;
+  const m = url.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/) || url.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
+  return m?.[1] ?? null;
 };
-
-const getVimeoId = (url: string) => {
-  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  return match?.[1] ?? null;
-};
-
-const getVideoSource = (url: string) => {
-  const youtubeId = getYouTubeId(url);
-  if (youtubeId) {
-    return {
-      type: "iframe" as const,
-      src: `https://www.youtube.com/embed/${youtubeId}?rel=0`,
-    };
-  }
-
-  const vimeoId = getVimeoId(url);
-  if (vimeoId) {
-    return {
-      type: "iframe" as const,
-      src: `https://player.vimeo.com/video/${vimeoId}`,
-    };
-  }
-
-  return {
-    type: "video" as const,
-    src: url,
-  };
-};
-
-const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section
-  class="testimonials-section section-y relative z-10 text-text-primary"
+  id="testimonials"
   aria-label="Client testimonials"
+  class="section-y relative overflow-hidden bg-background border-b border-black/5"
 >
-  <div class="main-container">
-    <p class="sr-only">
-      Client testimonials from founders and operators across Framer, Webflow,
-      and related web projects. One featured card includes a video testimonial;
-      all quotes preserve source attribution.
-    </p>
-
-    <header
-      class="mb-12 flex flex-col items-center justify-between gap-6 text-center md:mb-16 md:flex-row md:items-end md:text-left"
-    >
-      <div class="flex flex-col items-center gap-3 md:items-start">
-        <p class="type-label mb-0">What our clients say</p>
-        <h2 class="type-h2">
-          Trusted by founders and teams who demand the best.
+  <!-- Section header -->
+  <div class="main-container mb-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">Social Proof</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          Trusted by founders who demand the best.
         </h2>
       </div>
-
-      <Button
-        href={`${baseUrl}testimonials`}
-        label="View testimonials"
-        variant="primary"
-        class="group !w-44 !px-3 !py-3 !text-sm"
-      >
-        <svg
-          class="ml-2 h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M6 3L11 8L6 13"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </Button>
-    </header>
-
-    <div class="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-4">
-      {
-        /* On mobile the center column must come first so the video card is always at the top. */
-      }
-      <div class="order-2 lg:order-none lg:col-start-1 flex flex-col gap-4">
-        {
-          leftColumn.map((t) => (
-            <article
-              class:list={[
-                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-                t.featured
-                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                  : "",
-              ]}
-            >
-              {t.video && (
-                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
-                  {getVideoSource(t.video).type === "iframe" ? (
-                    <iframe
-                      src={getVideoSource(t.video).src}
-                      title={`Video testimonial from ${t.name}`}
-                      class="aspect-video w-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                      loading="lazy"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                    />
-                  ) : (
-                    <video
-                      class="aspect-video w-full"
-                      controls
-                      playsinline
-                      preload="metadata"
-                    >
-                      <source src={getVideoSource(t.video).src} />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-              )}
-
-              <div
-                class="mb-4 flex gap-0.5 text-brand-secondary"
-                aria-label={`${t.stars || 5} out of 5 stars`}
-              >
-                {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                  <svg
-                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                    style={`animation-delay:${si * 150}ms;`}
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                  </svg>
-                ))}
-              </div>
-
-              <blockquote
-                class:list={[
-                  "type-body m-0 leading-relaxed text-text-secondary",
-                  t.featured ? "text-text-primary" : "",
-                ]}
-              >
-                “{t.quote}”
-              </blockquote>
-
-              <footer class="mt-5 border-t border-border-default pt-4">
-                <cite class="not-italic">
-                  <div class="flex items-center gap-3">
-                    <img
-                      src={getAvatarSrc(t)}
-                      alt={`${t.name} profile photo`}
-                      width="40"
-                      height="40"
-                      loading="lazy"
-                      decoding="async"
-                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
-                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                    />
-                    <span>
-                      <span class="block type-body font-medium text-text-primary">
-                        {t.name}
-                      </span>
-                      {getPrimaryMeta(t) ? (
-                        <>
-                          <span class="block type-caption">
-                            {getPrimaryMeta(t)}
-                          </span>
-                          <span class="block type-caption">{t.country}</span>
-                        </>
-                      ) : (
-                        <span class="block type-caption">{t.country}</span>
-                      )}
-                    </span>
-                  </div>
-                </cite>
-              </footer>
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="order-first lg:order-none lg:col-start-2 flex flex-col gap-4">
-        {
-          centerColumn.map((t) => (
-            <article
-              class:list={[
-                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-                t.featured
-                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                  : "",
-              ]}
-            >
-              {t.video && (
-                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
-                  {getVideoSource(t.video).type === "iframe" ? (
-                    <iframe
-                      src={getVideoSource(t.video).src}
-                      title={`Video testimonial from ${t.name}`}
-                      class="aspect-video w-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                      loading="lazy"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                    />
-                  ) : (
-                    <video
-                      class="aspect-video w-full"
-                      controls
-                      playsinline
-                      preload="metadata"
-                    >
-                      <source src={getVideoSource(t.video).src} />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-              )}
-
-              <div
-                class="mb-4 flex gap-0.5 text-brand-secondary"
-                aria-label={`${t.stars || 5} out of 5 stars`}
-              >
-                {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                  <svg
-                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                    style={`animation-delay:${si * 150}ms;`}
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                  </svg>
-                ))}
-              </div>
-
-              <blockquote
-                class:list={[
-                  "type-body m-0 leading-relaxed text-text-secondary",
-                  t.featured ? "text-text-primary" : "",
-                ]}
-              >
-                “{t.quote}”
-              </blockquote>
-
-              <footer class="mt-5 border-t border-border-default pt-4">
-                <cite class="not-italic">
-                  <div class="flex items-center gap-3">
-                    <img
-                      src={getAvatarSrc(t)}
-                      alt={`${t.name} profile photo`}
-                      width="40"
-                      height="40"
-                      loading="lazy"
-                      decoding="async"
-                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
-                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                    />
-                    <span>
-                      <span class="block type-body font-medium text-text-primary">
-                        {t.name}
-                      </span>
-                      {getPrimaryMeta(t) ? (
-                        <>
-                          <span class="block type-caption">
-                            {getPrimaryMeta(t)}
-                          </span>
-                          <span class="block type-caption">{t.country}</span>
-                        </>
-                      ) : (
-                        <span class="block type-caption">{t.country}</span>
-                      )}
-                    </span>
-                  </div>
-                </cite>
-              </footer>
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="order-3 lg:order-none lg:col-start-3 flex flex-col gap-4">
-        {
-          rightColumn.map((t) => (
-            <article
-              class:list={[
-                "rounded-md border border-border-default bg-[#0A0A0A] p-6 md:p-7",
-                "transition-[transform,border-color,box-shadow] duration-300 ease-luxury",
-                "hover:-translate-y-1 hover:border-border-strong hover:shadow-lg",
-                "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
-                t.featured
-                  ? "border-brand-secondary/20 bg-[linear-gradient(135deg,rgba(60,205,127,0.08)_0%,#0A0A0A_62%)]"
-                  : "",
-              ]}
-            >
-              {t.video && (
-                <div class="mb-5 overflow-hidden rounded-md border border-border-strong bg-[#050505]">
-                  {getVideoSource(t.video).type === "iframe" ? (
-                    <iframe
-                      src={getVideoSource(t.video).src}
-                      title={`Video testimonial from ${t.name}`}
-                      class="aspect-video w-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                      loading="lazy"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                    />
-                  ) : (
-                    <video
-                      class="aspect-video w-full"
-                      controls
-                      playsinline
-                      preload="metadata"
-                    >
-                      <source src={getVideoSource(t.video).src} />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-              )}
-
-              <div
-                class="mb-4 flex gap-0.5 text-brand-secondary"
-                aria-label={`${t.stars || 5} out of 5 stars`}
-              >
-                {Array.from({ length: t.stars || 5 }).map((_, si) => (
-                  <svg
-                    class="h-3.5 w-3.5 motion-safe:animate-[starShimmer_3s_cubic-bezier(0.16,1,0.3,1)_infinite] motion-reduce:animate-none"
-                    style={`animation-delay:${si * 150}ms;`}
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 0.5L8.764 4.764L13.5 5.291L9.955 8.486L10.928 13.136L7 10.9L3.072 13.136L4.045 8.486L0.5 5.291L5.236 4.764L7 0.5Z" />
-                  </svg>
-                ))}
-              </div>
-
-              <blockquote
-                class:list={[
-                  "type-body m-0 leading-relaxed text-text-secondary",
-                  t.featured ? "text-text-primary" : "",
-                ]}
-              >
-                “{t.quote}”
-              </blockquote>
-
-              <footer class="mt-5 border-t border-border-default pt-4">
-                <cite class="not-italic">
-                  <div class="flex items-center gap-3">
-                    <img
-                      src={getAvatarSrc(t)}
-                      alt={`${t.name} profile photo`}
-                      width="40"
-                      height="40"
-                      loading="lazy"
-                      decoding="async"
-                      class="h-10 w-10 rounded-md border border-border-strong object-cover bg-bg-elevated"
-                      onerror={`this.onerror=null;this.src='${getFallbackAvatarSrc(t)}';`}
-                    />
-                    <span>
-                      <span class="block type-body font-medium text-text-primary">
-                        {t.name}
-                      </span>
-                      {getPrimaryMeta(t) ? (
-                        <>
-                          <span class="block type-caption">
-                            {getPrimaryMeta(t)}
-                          </span>
-                          <span class="block type-caption">{t.country}</span>
-                        </>
-                      ) : (
-                        <span class="block type-caption">{t.country}</span>
-                      )}
-                    </span>
-                  </div>
-                </cite>
-              </footer>
-            </article>
-          ))
-        }
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <span class="w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
+        <span class="type-label text-on-background/40">5.0 ★ — 100+ deployments</span>
       </div>
     </div>
   </div>
+
+  <!-- Featured quotes — scroll-driven stagger -->
+  <div class="main-container mb-20" id="testimonials-featured">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-black/5">
+      {featured.map((t, i) => (
+        <article
+          class="testimonial-card bg-background p-10 lg:p-14 flex flex-col justify-between gap-10 group cursor-default"
+          data-index={i}
+          aria-label={`Testimonial from ${t.name}`}
+        >
+          <!-- Stars -->
+          <div class="flex gap-1" aria-label="5 out of 5 stars">
+            {Array.from({ length: 5 }).map((_, si) => (
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"
+                class="text-accent" aria-hidden="true"
+                style={`transition-delay: ${si * 60}ms`}>
+                <path d="M6 0L7.35 4.18H11.71L8.18 6.77L9.53 10.95L6 8.36L2.47 10.95L3.82 6.77L0.29 4.18H4.65L6 0Z"/>
+              </svg>
+            ))}
+          </div>
+
+          <!-- Quote -->
+          <blockquote class="flex-1">
+            <p class="type-h3 text-on-background leading-snug font-medium">
+              "{t.quote}"
+            </p>
+          </blockquote>
+
+          <!-- Video embed if present -->
+          {t.video && getYouTubeId(t.video) && (
+            <div class="overflow-hidden border border-black/5 bg-surface-container-lowest aspect-video">
+              <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeId(t.video)}?rel=0`}
+                title={`Video testimonial from ${t.name}`}
+                class="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+          )}
+
+          <!-- Attribution -->
+          <footer class="border-t border-black/5 pt-6">
+            <cite class="not-italic flex items-center justify-between">
+              <div>
+                <span class="type-label text-on-background block">{t.name}</span>
+                {(t.role || t.company) && (
+                  <span class="type-label text-on-background/40 block mt-0.5">
+                    {[t.role, t.company].filter(Boolean).join(", ")}
+                  </span>
+                )}
+              </div>
+              <!-- Hover arrow -->
+              <svg
+                width="20" height="20" viewBox="0 0 20 20" fill="none"
+                class="text-on-background/20 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                aria-hidden="true"
+              >
+                <path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </cite>
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Infinite ticker — row 1 (left to right) -->
+  <div class="relative overflow-hidden mb-px border-y border-black/5 py-5" aria-hidden="true">
+    <div class="ticker-ltr flex whitespace-nowrap gap-0">
+      {[...ticker, ...ticker].map((t) => (
+        <div class="inline-flex items-center gap-6 px-8 flex-shrink-0">
+          <span class="type-body-small text-on-background/60 max-w-xs truncate">"{t.quote}"</span>
+          <span class="type-label text-on-background/30 flex-shrink-0">— {t.name}{t.company ? `, ${t.company}` : ''}</span>
+          <span class="w-px h-4 bg-black/10 flex-shrink-0" aria-hidden="true"></span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Infinite ticker — row 2 (right to left) -->
+  <div class="relative overflow-hidden border-b border-black/5 py-5" aria-hidden="true">
+    <div class="ticker-rtl flex whitespace-nowrap gap-0">
+      {[...ticker, ...ticker].reverse().map((t) => (
+        <div class="inline-flex items-center gap-6 px-8 flex-shrink-0">
+          <span class="type-label text-on-background/30 flex-shrink-0">{t.name}{t.company ? `, ${t.company}` : ''} —</span>
+          <span class="type-body-small text-on-background/60 max-w-xs truncate">"{t.quote}"</span>
+          <span class="w-px h-4 bg-black/10 flex-shrink-0" aria-hidden="true"></span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Bottom CTA strip -->
+  <div class="main-container mt-16">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-t border-black/5 pt-8">
+      <p class="type-body text-on-surface-variant max-w-sm">
+        Every project is founder-led, scoped, and delivered as a complete build.
+      </p>
+      <a
+        href={`${baseUrl}testimonials`}
+        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
+      >
+        Read all testimonials
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 </section>
+
+<style>
+  /* ── Ticker animations ─────────────────────────────────────── */
+  @keyframes ticker-ltr {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes ticker-rtl {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .ticker-ltr {
+    animation: ticker-ltr 40s linear infinite;
+  }
+  .ticker-rtl {
+    animation: ticker-rtl 50s linear infinite;
+  }
+
+  .ticker-ltr:hover,
+  .ticker-rtl:hover {
+    animation-play-state: paused;
+  }
+
+  /* ── Featured card entrance ────────────────────────────────── */
+  .testimonial-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.3s ease;
+  }
+
+  .testimonial-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .testimonial-card[data-index="1"] {
+    transition-delay: 0.12s;
+  }
+
+  .testimonial-card:hover {
+    background-color: theme('colors.surface-container-lowest');
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .ticker-ltr,
+    .ticker-rtl {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Intersection observer — triggers card entrance animation
+  const cards = document.querySelectorAll('.testimonial-card');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  cards.forEach(card => observer.observe(card));
+</script>

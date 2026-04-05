@@ -1,392 +1,217 @@
 ---
-import Button from "./ui/buttons/Button.astro";
+// SelectedWork.astro — Straya Studio [IMMERSIVE]
+// Bento grid of selected projects. Hover reveals description + CTA.
+// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+// GEMINI §3: scroll-linked entrance, cursor-reactive hover, z-depth.
+
 import { SELECTED_PROJECTS } from "../data/selected-work";
 import { SITE_CONFIG } from "../data/site-config";
 
 const baseUrl = import.meta.env.BASE_URL;
 
-const withBaseHref = (href: string) =>
-  href.startsWith("/") ? `${baseUrl}${href.replace(/^\//, "")}` : href;
-
-const defaultIndex = SELECTED_PROJECTS.findIndex((p) => p.featured);
-const activeIndex = defaultIndex >= 0 ? defaultIndex : 0;
-
-const thumbnailFallbacks = [
-  "bg-[radial-gradient(ellipse_at_top_right,rgba(60,205,127,0.22),transparent_55%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-  "bg-[radial-gradient(ellipse_at_20%_20%,rgba(99,102,241,0.22),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-  "bg-[radial-gradient(ellipse_at_80%_30%,rgba(245,158,11,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-  "bg-[radial-gradient(ellipse_at_25%_75%,rgba(236,72,153,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-  "bg-[radial-gradient(ellipse_at_85%_70%,rgba(14,165,233,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-  "bg-[radial-gradient(ellipse_at_50%_10%,rgba(168,85,247,0.2),transparent_58%),linear-gradient(135deg,rgba(15,17,21,0.85),rgba(5,5,5,0.95))]",
-];
-
-const getInitials = (title: string) =>
-  title.split(" ").map((w) => w[0]).join("").slice(0, 3);
+// Bento layout: featured project wide, rest in a 3-col grid
+const featured = SELECTED_PROJECTS.find(p => p.featured);
+const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
 ---
 
 <section
   id="work"
-  class="section-y relative z-10 text-text-primary"
-  aria-label="Selected work and case studies"
+  aria-label="Selected work"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
 >
   <div class="main-container">
-    <p class="sr-only">
-      {SITE_CONFIG.name} showcases selected Framer, Webflow, Shopify, and
-      WordPress builds for founders in {SITE_CONFIG.aeo.primaryMarkets.join(", ")}.
-      Each project emphasises performance, conversion, and long-term maintainability.
-    </p>
 
-    <header class="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-      <div class="flex max-w-[40rem] flex-col gap-3">
-        <p class="type-label">Selected work</p>
-        <h2 class="type-h2">
-          Platforms we ship<br class="hidden md:inline" /> in production.
+    <!-- Header -->
+    <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
+      <div>
+        <span class="type-label text-on-background/40 block mb-3">Selected work</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          Recent deployments across Framer, Webflow, and Shopify.
         </h2>
-        <p class="type-body text-text-secondary">
-          A snapshot of recent builds — from marketing sites to ecommerce and CMS-heavy
-          platforms. Every engagement is engineered for speed, clarity, and scale.
-        </p>
       </div>
-      <Button
-        href="#pricing"
-        label="Start a project"
-        variant="ghost"
-        class="group !w-fit !px-5 !py-3 !text-sm"
+      <a
+        href={SITE_CONFIG.socials.calendly}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
       >
-        <svg
-          class="ml-2 h-4 w-4 transition-transform duration-300 ease-luxury group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        Start a project
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </Button>
+      </a>
     </header>
 
-    <div class="work-tabs flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6" data-active={activeIndex}>
+    <!-- Bento grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
 
-      {/* ── Preview panel (stacked cards on mobile, tabbed at lg) ── */}
-      <div class="work-preview flex flex-col gap-4 lg:relative lg:block lg:w-[55%]" aria-live="polite">
-        {SELECTED_PROJECTS.map((project, i) => (
-          <div
-            class="work-panel rounded-md border border-border-default bg-bg-surface overflow-hidden flex flex-col"
-            data-panel={i}
-            role="tabpanel"
-            id={`work-panel-${i}`}
-            aria-labelledby={`work-tab-${i}`}
-          >
-            <div
-              class:list={[
-                "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-bg-elevated",
-                thumbnailFallbacks[i % thumbnailFallbacks.length],
-              ]}
-              aria-hidden="true"
-            >
+      <!-- Featured project — wide -->
+      {featured && (
+        <article
+          class="work-card md:col-span-8 bg-background group relative overflow-hidden flex flex-col"
+          data-index="0"
+          aria-label={`${featured.title} — ${featured.sector}`}
+        >
+          <!-- Image -->
+          <div class="relative overflow-hidden bg-surface-container aspect-video">
+            {featured.thumbnail ? (
               <img
-                src={project.thumbnail}
-                alt=""
-                loading={i === activeIndex ? "eager" : "lazy"}
+                src={`${baseUrl}${featured.thumbnail.replace(/^\//, '')}`}
+                alt={featured.title}
+                width="800"
+                height="450"
+                loading="lazy"
                 decoding="async"
-                width="1280"
-                height="800"
-                class="absolute inset-0 h-full w-full object-cover"
-                onerror="this.style.display='none'"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.03]"
               />
-              <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.6)_0%,transparent_50%)]" />
-              <span class="relative z-[1] font-display text-[clamp(2.5rem,5vw,4rem)] font-semibold tracking-[-0.03em] text-[rgba(60,205,127,0.7)]" aria-hidden="true">
-                {getInitials(project.title)}
-              </span>
-            </div>
-
-            <div class="flex flex-1 flex-col gap-3 p-6 md:p-8">
-              <div class="flex items-center gap-3">
-                {project.featured && (
-                  <span class="inline-block rounded-md border border-brand-secondary/20 bg-brand-muted px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-brand-secondary">
-                    Featured
-                  </span>
-                )}
-                <span class="text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
-                  {project.sector}
-                </span>
+            ) : (
+              <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
+                <span class="type-label text-on-background/20">{featured.title}</span>
               </div>
-              <h3 class="type-h3 text-text-primary">{project.title}</h3>
-              <p class="type-body flex-1 text-text-secondary leading-relaxed">{project.description}</p>
-
-              <div class="mt-1 flex flex-wrap items-center gap-4">
-                {project.liveUrl ? (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-brand-secondary no-underline transition-colors duration-300 ease-luxury hover:text-brand-hover"
-                  >
-                    View live site
-                    <svg
-                      class="h-3.5 w-3.5 transition-transform duration-300 ease-luxury group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 motion-reduce:transition-none"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </a>
-                ) : (
-                  <a
-                    href={withBaseHref(project.href)}
-                    class="group/link inline-flex items-center gap-2 text-[0.8125rem] font-medium text-text-primary no-underline transition-colors duration-300 ease-luxury hover:text-brand-secondary"
-                  >
-                    Discuss this build
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      class="transition-transform duration-300 ease-luxury group-hover/link:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover/link:translate-x-0"
-                      aria-hidden="true"
-                    >
-                      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </a>
-                )}
-              </div>
-            </div>
+            )}
+            <!-- Hover overlay -->
+            <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none"></div>
           </div>
-        ))}
+          <!-- Content -->
+          <div class="p-8 flex items-start justify-between gap-6 border-t border-black/5">
+            <div class="flex flex-col gap-2 min-w-0">
+              <h3 class="type-h3 text-on-background">{featured.title}</h3>
+              <p class="type-label text-on-background/40">{featured.sector}</p>
+              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-w-lg">{featured.description}</p>
+            </div>
+            <a
+              href={`${baseUrl}${featured.href.replace(/^\//, '')}`}
+              class="flex-shrink-0 w-10 h-10 border border-black/10 flex items-center justify-center text-on-background/30 group-hover:border-on-background group-hover:text-on-background transition-all duration-300"
+              aria-label={`View ${featured.title} project`}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      )}
+
+      <!-- Studio status card — narrow -->
+      <div class="md:col-span-4 bg-primary flex flex-col justify-between p-8 group">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent status-dot" aria-hidden="true"></span>
+            <span class="type-label text-accent">Accepting new briefs</span>
+          </div>
+          <h3 class="type-h3 text-on-primary leading-snug">
+            Ready to deploy your next vision?
+          </h3>
+          <p class="type-body-small text-on-primary/50 leading-relaxed">
+            We take 2–3 projects at a time. That's not a limitation — it's the product.
+          </p>
+        </div>
+        <a
+          href={SITE_CONFIG.socials.calendly}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="magnetic-cta mt-8 inline-flex items-center gap-3 type-button text-primary bg-accent px-6 py-3 hover:bg-white transition-colors duration-300 w-fit"
+        >
+          Initiate project
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
 
-      {/* ── Project index (tab triggers — desktop only) ── */}
-      <div
-        class="hidden lg:flex flex-col lg:w-[45%]"
-        role="tablist"
-        aria-label="Project list"
-        aria-orientation="vertical"
-        id="work-tablist"
-      >
-        <ol class="flex flex-1 list-none flex-col justify-between p-0 m-0">
-          {SELECTED_PROJECTS.map((project, i) => (
-            <li class:list={[
-              "border-b border-border-default",
-              i === 0 && "border-t border-border-default",
-            ]}>
-              <button
-                type="button"
-                id={`work-tab-${i}`}
-                role="tab"
-                aria-selected={i === activeIndex ? "true" : "false"}
-                aria-controls={`work-panel-${i}`}
-                tabindex={i === activeIndex ? 0 : -1}
-                class="work-tab group flex w-full cursor-pointer items-center gap-4 border-none bg-transparent py-5 text-left transition-[background-color,padding] duration-300 ease-luxury hover:bg-[rgba(255,255,255,0.02)] hover:pl-2 motion-reduce:transition-none motion-reduce:hover:pl-0 md:gap-5 md:py-6"
-                data-tab={i}
-              >
-                <span class="work-tab-index shrink-0 font-display text-[1.5rem] font-semibold leading-none tracking-[-0.03em] text-[rgba(255,255,255,0.08)] transition-colors duration-300 ease-luxury group-hover:text-[rgba(60,205,127,0.5)] md:text-[2rem]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <div class="flex flex-1 flex-col gap-1">
-                <span class="work-tab-title type-body font-medium text-text-primary transition-colors duration-300 ease-luxury group-hover:text-brand-secondary">
-                    {project.title}
-                  </span>
-                  <span class="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-text-muted">
-                    {project.sector}
-                  </span>
-                </div>
-
-                <svg
-                  class="shrink-0 h-4 w-4 text-[rgba(255,255,255,0.1)] transition-[transform,color] duration-300 ease-luxury group-hover:translate-x-1 group-hover:text-[#3CCD7F] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <!-- Rest of projects — 3-col grid -->
+      {rest.map((project, i) => (
+        <article
+          class="work-card md:col-span-4 bg-background group relative overflow-hidden flex flex-col"
+          data-index={i + 1}
+          aria-label={`${project.title} — ${project.sector}`}
+        >
+          <!-- Image -->
+          <div class="relative overflow-hidden bg-surface-container" style="aspect-ratio: 4/3;">
+            {project.thumbnail ? (
+              <img
+                src={`${baseUrl}${project.thumbnail.replace(/^\//, '')}`}
+                alt={project.title}
+                width="400"
+                height="300"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.04]"
+              />
+            ) : (
+              <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
+                <span class="type-label text-on-background/20">{project.title}</span>
+              </div>
+            )}
+          </div>
+          <!-- Content -->
+          <div class="p-6 flex items-start justify-between gap-4 border-t border-black/5 flex-1">
+            <div class="flex flex-col gap-1.5 min-w-0">
+              <h3 class="type-h4 text-on-background">{project.title}</h3>
+              <p class="type-label text-on-background/40">{project.sector}</p>
+              <!-- Description — visible on hover -->
+              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-500 ease-luxury">
+                {project.description}
+              </p>
+            </div>
+            <a
+              href={`${baseUrl}${project.href.replace(/^\//, '')}`}
+              class="flex-shrink-0 w-8 h-8 border border-black/10 flex items-center justify-center text-on-background/20 group-hover:border-on-background/40 group-hover:text-on-background/60 transition-all duration-300 mt-0.5"
+              aria-label={`View ${project.title} project`}
+            >
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
 
     </div>
   </div>
 </section>
 
 <style>
-  @media (min-width: 1200px) {
-    .work-panel {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      will-change: opacity;
-    }
-    .work-panel.is-active {
-      position: relative;
-      opacity: 1;
-      pointer-events: auto;
-    }
+  /* ── Card entrance ─────────────────────────────────────────── */
+  .work-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .work-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .work-tab[aria-selected="true"] {
-    background-color: rgba(255, 255, 255, 0.02);
-    padding-left: 0.5rem;
+  /* ── Status dot ────────────────────────────────────────────── */
+  .status-dot {
+    animation: status-pulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-  .work-tab[aria-selected="true"] .work-tab-index {
-    color: rgba(60, 205, 127, 0.6);
-  }
-  .work-tab[aria-selected="true"] .work-tab-title {
-    color: #3CCD7F;
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60,205,127,0); }
+    50%       { opacity: 0.8; box-shadow: 0 0 6px 2px rgba(60,205,127,0.3); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .work-panel {
-      will-change: auto;
-    }
+    .work-card { opacity: 1; transform: none; transition: none; }
+    .status-dot { animation: none; }
   }
 </style>
 
 <script>
-  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
-  const DURATION = 350;
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cards = document.querySelectorAll('.work-card');
 
-  const container = document.querySelector<HTMLElement>(".work-tabs");
-  if (container) {
-    const panels = Array.from(container.querySelectorAll<HTMLElement>(".work-panel"));
-    const tabs = Array.from(container.querySelectorAll<HTMLButtonElement>(".work-tab"));
-    let current = Number(container.dataset.active ?? 0);
-    let activeAnim: Animation | null = null;
-    const desktopTabsMq = window.matchMedia("(min-width: 1200px)");
-
-    const setActive = (index: number) => {
-      panels.forEach((p, i) => {
-        if (i === index) {
-          p.classList.add("is-active");
-          p.removeAttribute("aria-hidden");
-        } else {
-          p.classList.remove("is-active");
-          if (desktopTabsMq.matches) {
-            p.setAttribute("aria-hidden", "true");
-          } else {
-            p.removeAttribute("aria-hidden");
-          }
-        }
-      });
-      tabs.forEach((t, i) => {
-        t.setAttribute("aria-selected", i === index ? "true" : "false");
-        t.tabIndex = i === index ? 0 : -1;
-      });
-      current = index;
-    };
-
-    setActive(current);
-
-    desktopTabsMq.addEventListener("change", () => {
-      setActive(current);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el  = entry.target as HTMLElement;
+      const idx = parseInt(el.dataset.index ?? '0');
+      setTimeout(() => el.classList.add('is-visible'), idx * 80);
+      observer.unobserve(el);
     });
+  }, { threshold: 0.08 });
 
-    const switchTo = (index: number) => {
-      if (index === current) return;
-
-      if (activeAnim) {
-        activeAnim.cancel();
-        activeAnim = null;
-      }
-
-      const outPanel = panels[current];
-      const inPanel = panels[index];
-      if (!outPanel || !inPanel) return;
-
-      tabs.forEach((t, i) => {
-        t.setAttribute("aria-selected", i === index ? "true" : "false");
-        t.tabIndex = i === index ? 0 : -1;
-      });
-
-      if (prefersReduced) {
-        setActive(index);
-        return;
-      }
-
-      inPanel.classList.add("is-active");
-      inPanel.removeAttribute("aria-hidden");
-      inPanel.style.position = "absolute";
-      inPanel.style.opacity = "0";
-
-      const outAnim = outPanel.animate(
-        [{ opacity: 1 }, { opacity: 0 }],
-        { duration: DURATION / 2, easing: EASE }
-      );
-      activeAnim = outAnim;
-
-      outAnim.onfinish = () => {
-        outPanel.classList.remove("is-active");
-        if (desktopTabsMq.matches) {
-          outPanel.setAttribute("aria-hidden", "true");
-        } else {
-          outPanel.removeAttribute("aria-hidden");
-        }
-        outPanel.style.opacity = "";
-        outPanel.style.position = "";
-
-        inPanel.style.position = "relative";
-
-        const inAnim = inPanel.animate(
-          [{ opacity: 0 }, { opacity: 1 }],
-          { duration: DURATION / 2, easing: EASE }
-        );
-        activeAnim = inAnim;
-
-        inAnim.onfinish = () => {
-          inPanel.style.opacity = "";
-          inPanel.style.position = "";
-          inPanel.classList.add("is-active");
-          activeAnim = null;
-          current = index;
-        };
-      };
-    };
-
-    tabs.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const idx = Number(btn.dataset.tab);
-        if (!Number.isNaN(idx)) switchTo(idx);
-      });
-    });
-
-    const tablist = document.getElementById("work-tablist");
-    tablist?.addEventListener("keydown", (e) => {
-      const target = e.target;
-      if (!(target instanceof HTMLButtonElement) || !target.classList.contains("work-tab")) {
-        return;
-      }
-      const idx = tabs.indexOf(target);
-      if (idx === -1) return;
-
-      let nextIdx = idx;
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        e.preventDefault();
-        nextIdx = Math.min(idx + 1, tabs.length - 1);
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        nextIdx = Math.max(idx - 1, 0);
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        nextIdx = 0;
-      } else if (e.key === "End") {
-        e.preventDefault();
-        nextIdx = tabs.length - 1;
-      } else {
-        return;
-      }
-      if (nextIdx !== idx) {
-        switchTo(nextIdx);
-        tabs[nextIdx]?.focus();
-      }
-    });
-  }
+  cards.forEach(c => observer.observe(c));
 </script>
