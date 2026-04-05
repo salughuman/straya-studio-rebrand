@@ -219,7 +219,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
       );
     });
     headerObserver.disconnect();
-  }, { threshold: 0.15 });
+  }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
 
   const section = document.getElementById('work');
   if (section) headerObserver.observe(section);
@@ -240,7 +240,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
       );
       cardObserver.unobserve(el);
     });
-  }, { threshold: 0.08 });
+  }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
 
   cards.forEach(c => cardObserver.observe(c));
 </script>
