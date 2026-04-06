@@ -100,6 +100,9 @@ const getYouTubeId = (url: string) => {
 
   <!-- Featured quotes -->
   <div class="main-container mb-20">
+    <p class="sr-only">
+      Featured client testimonials from Sam Sarvas of CompleteCRO and Sergio Apollo, CEO of Better Match, praising the quality of work, attention to detail, and communication throughout their Framer and web development projects.
+    </p>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-black/5">
       {featured.map((t, i) => (
         <article
@@ -216,10 +219,7 @@ const getYouTubeId = (url: string) => {
   }
 
   /* ── Featured cards ────────────────────────────────────────── */
-  .t-card {
-    opacity: 0;
-    transform: translateY(28px);
-  }
+  /* t-card: visible by default — no entrance animation */
   .t-card:hover {
     background-color: theme('colors.surface-container-lowest');
   }
@@ -227,7 +227,7 @@ const getYouTubeId = (url: string) => {
   /* ── Tickers ───────────────────────────────────────────────── */
 
   @media (prefers-reduced-motion: reduce) {
-    .t-el, .t-card { opacity: 1 !important; transform: none !important; }
+    .t-el { opacity: 1 !important; transform: none !important; }
   }
 </style>
 
@@ -257,23 +257,7 @@ const getYouTubeId = (url: string) => {
   const section = document.getElementById('testimonials');
   if (section) headerObs.observe(section);
 
-  // ── Featured cards ───────────────────────────────────────────
-  const cards = document.querySelectorAll<HTMLElement>('.t-card');
-
-  const cardObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      el.animate(
-        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay: 360 + idx * 120, easing: EASE, fill: 'forwards' }
-      );
-      cardObs.unobserve(el);
-    });
-  }, { rootMargin: MARGIN, threshold: 0 });
-
-  cards.forEach(c => cardObs.observe(c));
+  // t-card entrance animation removed — cards visible by default
 
   // ── Video player — load iframe on click ─────────────────────
   document.querySelectorAll<HTMLElement>('.video-player').forEach(player => {
@@ -299,16 +283,5 @@ const getYouTubeId = (url: string) => {
     player.addEventListener('click', activate);
     player.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
   });
-  const cta = document.querySelector<HTMLElement>('#testimonials .t-el[data-delay="0"]:last-of-type');
-  if (cta) {
-    const ctaObs = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) return;
-      cta.animate(
-        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, easing: EASE, fill: 'forwards' }
-      );
-      ctaObs.disconnect();
-    }, { rootMargin: MARGIN, threshold: 0 });
-    ctaObs.observe(cta);
-  }
+  // bottom CTA strip uses .t-el — handled by header observer above
 </script>

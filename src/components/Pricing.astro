@@ -50,16 +50,17 @@ const tierInclusion: boolean[][] = [
     <!-- Header -->
     <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
-        <span class="type-label text-on-background/40 block mb-3">Investment</span>
+        <span class="pr-el type-label text-on-background/40 block mb-3" data-delay="0">Investment</span>
         <h2 class="type-h2 text-on-background max-w-lg">
-          Transparent pricing, no retainers required.
+          <span class="pr-line block overflow-hidden"><span class="pr-el inline-block" data-delay="80">Transparent pricing,</span></span>
+          <span class="pr-line block overflow-hidden"><span class="pr-el inline-block" data-delay="140">no retainers required.</span></span>
         </h2>
-        <p class="type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed">
+        <p class="pr-el type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed" data-delay="240">
           Every engagement is scoped, priced, and delivered as a complete project.
         </p>
       </div>
       <!-- Availability badge -->
-      <div class="flex items-center gap-2 flex-shrink-0 border border-accent/20 bg-accent/5 px-4 py-2" role="status">
+      <div class="pr-el flex items-center gap-2 flex-shrink-0 border border-accent/20 bg-accent/5 px-4 py-2" role="status" data-delay="300">
         <span class="w-1.5 h-1.5 rounded-full bg-accent availability-dot" aria-hidden="true"></span>
         <span class="type-label text-accent">{PRICING_BADGE}</span>
       </div>
@@ -69,7 +70,10 @@ const tierInclusion: boolean[][] = [
     <div class="flex flex-col gap-px bg-black/5 lg:hidden mb-12">
       {PRICING_TIERS.map((tier, i) => (
         <article
-          class="pricing-card bg-background flex flex-col"
+          class:list={[
+            "pricing-card flex flex-col",
+            tier.popular ? "bg-surface-container-lowest" : "bg-surface-container-low"
+          ]}
           data-index={i}
           aria-label={`${tier.name} pricing tier`}
         >
@@ -130,6 +134,9 @@ const tierInclusion: boolean[][] = [
 
     <!-- ── Desktop: comparison table ── -->
     <div class="hidden lg:block">
+      <p class="sr-only">
+        Pricing comparison table across three tiers. Starter from $2,000 (1–2 weeks): custom design, development, mobile-first build, SEO, 2 revision rounds. Growth from $4,000 (2–4 weeks): everything in Starter plus up to 10 pages, CMS, interactions, brand identity, 90+ Lighthouse, unlimited revisions. Premium from $9,500 (4–8 weeks): everything in Growth plus discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, and 60 days post-launch support.
+      </p>
       <!-- Tier headers -->
       <div class="grid grid-cols-4 gap-px bg-black/5 mb-px">
         <!-- Empty label column -->
@@ -141,7 +148,7 @@ const tierInclusion: boolean[][] = [
           <div
             class:list={[
               "pricing-card relative flex flex-col gap-4 card-pad",
-              tier.popular ? "bg-surface-container-lowest" : "bg-background"
+              tier.popular ? "bg-surface-container-lowest" : "bg-surface-container-low"
             ]}
             data-index={i}
           >
@@ -199,7 +206,7 @@ const tierInclusion: boolean[][] = [
               <div
                 class:list={[
                   "px-8 py-4 flex items-center justify-center",
-                  tier.popular ? "bg-surface-container-lowest" : "bg-background"
+                  tier.popular ? "bg-surface-container-lowest" : "bg-surface-container-low"
                 ]}
               >
                 {included ? (
@@ -244,27 +251,12 @@ const tierInclusion: boolean[][] = [
 </section>
 
 <style>
-  /* ── Card entrance ─────────────────────────────────────────── */
-  .pricing-card {
-    opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .pricing-card.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ── Header elements ───────────────────────────────────────── */
+  .pr-el { opacity: 0; transform: translateY(28px); }
+  .pr-line .pr-el { transform: translateY(100%); opacity: 1; }
 
-  /* ── Feature row entrance ──────────────────────────────────── */
-  .feature-row {
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .feature-row.is-visible {
-    opacity: 1;
-  }
+  /* ── pricing-card — visible by default, no entrance animation  */
+  /* ── feature-row — visible by default, no entrance animation  */
 
   /* ── Availability dot pulse ────────────────────────────────── */
   .availability-dot {
@@ -276,39 +268,33 @@ const tierInclusion: boolean[][] = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pricing-card, .feature-row {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
     .availability-dot { animation: none; }
   }
 </style>
 
 <script>
-  // Cards entrance
-  const cards = document.querySelectorAll('.pricing-card');
-  const cardObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), idx * 80);
-      cardObserver.unobserve(el);
-    });
-  }, { threshold: 0.1 });
-  cards.forEach(c => cardObserver.observe(c));
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
 
-  // Feature rows staggered entrance
-  const rows = document.querySelectorAll('.feature-row');
-  const rowObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.row ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), idx * 30);
-      rowObserver.unobserve(el);
+  // ── Header entrance ─────────────────────────────────────────
+  const headerEls = document.querySelectorAll<HTMLElement>('#pricing .pr-el');
+  const headerObs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    headerEls.forEach(el => {
+      const delay  = parseInt(el.dataset.delay ?? '0');
+      const isLine = el.closest('.pr-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+      );
     });
-  }, { threshold: 0.05 });
-  rows.forEach(r => rowObserver.observe(r));
+    headerObs.disconnect();
+  }, { rootMargin: MARGIN, threshold: 0 });
+  const pricingSection = document.getElementById('pricing');
+  if (pricingSection) headerObs.observe(pricingSection);
+
+  // pricing-card and feature-row entrance animations removed — visible by default
 </script>

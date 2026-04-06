@@ -157,6 +157,7 @@ export default {
                     '--spacing-base':               tokens.spacing.base,
                     '--spacing-container-max':      tokens.spacing.containerMax,
                     '--spacing-container-mobile':   tokens.spacing.containerPaddingMobile,
+                    '--spacing-container-tablet':   tokens.spacing.containerPaddingTablet,
                     '--spacing-container-desktop':  tokens.spacing.containerPaddingDesktop,
                     '--spacing-section-mobile':     tokens.spacing.sectionMobile,
                     '--spacing-section-desktop':    tokens.spacing.sectionDesktop,

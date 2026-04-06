@@ -152,7 +152,7 @@
             "_comment": "Section headings — fluid clamp, tight tracking. Used for major section titles.",
             "fontSize": "clamp(1.75rem, 4vw, 2.75rem)",
             "fontWeight": "500",
-            "lineHeight": "1",
+            "lineHeight": "1.125",
             "letterSpacing": "-0.04em",
             "fontFamily": "'PP_Mori', sans-serif",
             "color": "#1A1C1C"
@@ -279,11 +279,12 @@
     },
 
     "spacing": {
-        "_comment": "All spacing is based on an 8px grid. Section padding uses section-mobile/desktop. Container padding uses containerPaddingMobile/Desktop.",
+        "_comment": "All spacing is based on an 8px grid. Section padding uses section-mobile/desktop. Container padding: 1.25rem mobile, 3rem tablet (810px+), 4rem desktop (1200px+).",
         "base": "8px",
         "containerMax": "1400px",
-        "containerPaddingMobile": "2rem",
-        "containerPaddingDesktop": "0rem",
+        "containerPaddingMobile": "1.25rem",
+        "containerPaddingTablet": "3rem",
+        "containerPaddingDesktop": "2rem",
         "sectionMobile": "5rem",
         "sectionDesktop": "8rem",
         "cardPadding": "2rem",

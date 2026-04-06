@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_CONFIG } from "../data/site-config";
+
+const title       = "Privacy Policy | Straya Studio";
+const description = "How Straya Studio collects, uses, and protects your personal information.";
+const pageUrl     = `${SITE_CONFIG.url}/privacy/`;
+
+const lastUpdated = "April 2026";
+---
+
+<BaseLayout title={title} description={description} noindex={false}>
+
+  <section
+    aria-label="Privacy Policy"
+    class="relative bg-background border-b border-black/5"
+  >
+    <div class="main-container pt-36 pb-24">
+
+      <!-- Header -->
+      <header class="mb-16 border-b border-black/5 pb-10 max-w-2xl">
+        <span class="type-label text-on-background/40 block mb-3">Legal</span>
+        <h1 class="type-h2 text-on-background mb-3">Privacy Policy</h1>
+        <p class="type-label text-on-background/40">Last updated: {lastUpdated}</p>
+      </header>
+
+      <!-- Content -->
+      <div class="max-w-2xl flex flex-col gap-12">
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Overview</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Straya Studio ("we", "the studio") is committed to protecting your privacy. This policy explains what information we collect, how we use it, and your rights regarding that information. We operate from Lahore, Pakistan and serve clients globally.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Information We Collect</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">We collect information you provide directly when you:</p>
+          <ul class="flex flex-col gap-3">
+            {[
+              "Submit a project brief via our contact form (name, email, project details)",
+              "Book a scoping call via Calendly (name, email, calendar data)",
+              "Send us an email directly",
+            ].map(item => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="w-1 h-1 rounded-full bg-black/20 mt-2 flex-shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            We do not use tracking cookies, analytics scripts, or third-party advertising pixels on this site.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">How We Use Your Information</h2>
+          <ul class="flex flex-col gap-3">
+            {[
+              "To respond to your project brief and provide a quote",
+              "To schedule and conduct scoping calls",
+              "To deliver the agreed project scope",
+              "To send project-related communications",
+            ].map(item => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="w-1 h-1 rounded-full bg-black/20 mt-2 flex-shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            We do not sell, rent, or share your personal information with third parties for marketing purposes.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Third-Party Services</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            We use the following third-party services to operate the studio:
+          </p>
+          <ul class="flex flex-col gap-3">
+            {[
+              "Formsubmit.co — processes contact form submissions",
+              "Calendly — manages scoping call scheduling",
+              "Cloudflare Pages — hosts this website",
+            ].map(item => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="w-1 h-1 rounded-full bg-black/20 mt-2 flex-shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Each service has its own privacy policy. We recommend reviewing them if you have concerns.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Data Retention</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            We retain project-related communications for the duration of the engagement and up to 12 months after project completion for reference purposes. You may request deletion of your data at any time.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Your Rights</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            You have the right to access, correct, or delete any personal information we hold about you. To exercise these rights, contact us at:
+          </p>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            class="type-label text-on-background hover:text-accent transition-colors duration-300 w-fit"
+          >
+            {SITE_CONFIG.email}
+          </a>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Changes to This Policy</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            We may update this policy from time to time. The date at the top of this page reflects the most recent revision. Continued use of the site after changes constitutes acceptance of the updated policy.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

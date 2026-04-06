@@ -17,12 +17,16 @@ const baseUrl = import.meta.env.BASE_URL;
     <!-- Header -->
     <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
-        <span class="type-label text-on-background/40 block mb-3">The Straya offer</span>
-        <h2 class="type-h2 text-on-background max-w-lg">Engineered for founders who ship fast.</h2>
+        <span class="ws-el type-label text-on-background/40 block mb-3" data-delay="0">The Straya offer</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          <span class="ws-line block overflow-hidden"><span class="ws-el inline-block" data-delay="80">Engineered for founders</span></span>
+          <span class="ws-line block overflow-hidden"><span class="ws-el inline-block" data-delay="140">who ship fast.</span></span>
+        </h2>
       </div>
       <a
         href="#pricing"
-        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
+        class="ws-el magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
+        data-delay="240"
       >
         Start a project
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -33,6 +37,9 @@ const baseUrl = import.meta.env.BASE_URL;
 
     <!-- Bento grid -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
+      <p class="sr-only">
+        The Straya offer covers five key advantages: launch-ready delivery in days not months, pixel-perfect builds hand-checked across all breakpoints, 90+ Lighthouse performance scores, direct communication with the founder throughout the project, and full ownership of all deliverables with no lock-in.
+      </p>
 
       <!-- Card 1: Speed — Framer canvas mockup (wide) -->
       <article
@@ -303,18 +310,11 @@ const baseUrl = import.meta.env.BASE_URL;
 </section>
 
 <style>
-  /* ── Card entrance ─────────────────────────────────────────── */
-  .why-card {
-    opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .why-card.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ── Header elements ───────────────────────────────────────── */
+  .ws-el { opacity: 0; transform: translateY(28px); }
+  .ws-line .ws-el { transform: translateY(100%); opacity: 1; }
+
+  /* ── why-card — visible by default, no entrance animation ──── */
 
   /* ── Framer canvas ─────────────────────────────────────────── */
   .framer-grid {
@@ -413,11 +413,6 @@ const baseUrl = import.meta.env.BASE_URL;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .why-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
     .framer-anim, .framer-layer,
     .webflow-el, .webflow-prop,
     .lighthouse-ring, .lighthouse-score,
@@ -430,17 +425,28 @@ const baseUrl = import.meta.env.BASE_URL;
 </style>
 
 <script>
-  const cards = document.querySelectorAll('.why-card');
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target as HTMLElement;
-      const idx = Array.from(cards).indexOf(el);
-      setTimeout(() => el.classList.add('is-visible'), idx * 80);
-      observer.unobserve(el);
+  // ── Header entrance ─────────────────────────────────────────
+  const headerEls = document.querySelectorAll<HTMLElement>('#why .ws-el');
+  const headerObs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    headerEls.forEach(el => {
+      const delay  = parseInt(el.dataset.delay ?? '0');
+      const isLine = el.closest('.ws-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+      );
     });
-  }, { threshold: 0.1 });
+    headerObs.disconnect();
+  }, { rootMargin: MARGIN, threshold: 0 });
+  const whySection = document.getElementById('why');
+  if (whySection) headerObs.observe(whySection);
 
-  cards.forEach(c => observer.observe(c));
+  // why-card entrance animation removed — cards visible by default
 </script>

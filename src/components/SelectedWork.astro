@@ -46,6 +46,9 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
 
     <!-- Bento grid -->
     <div class="sw-el grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5" data-delay="360">
+      <p class="sr-only">
+        Selected work includes Kova Labs (Framer marketing site, B2B SaaS), Meridian Health (Webflow, healthcare), Altitude Gear Co. (Shopify e-commerce), Luminary Finance (Webflow, fintech UK), NexGen Systems (Framer, enterprise EU), and Parallel Studio (Shopify Plus, US).
+      </p>
 
       <!-- Featured project — wide -->
       {featured && (
@@ -197,6 +200,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
     .sw-el { opacity: 1 !important; transform: none !important; }
     .status-dot { animation: none; }
   }
+  /* work-card: visible by default — no entrance animation */
 </style>
 
 <script>
@@ -224,23 +228,5 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
   const section = document.getElementById('work');
   if (section) headerObserver.observe(section);
 
-  // ── Card entrance ────────────────────────────────────────────
-  // Cards use the existing work-card class — keep IntersectionObserver
-  // but replace CSS transition with Web Animations API for consistency
-  const cards = document.querySelectorAll<HTMLElement>('.work-card');
-
-  const cardObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      el.animate(
-        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay: 360 + idx * 60, easing: EASE, fill: 'forwards' }
-      );
-      cardObserver.unobserve(el);
-    });
-  }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-
-  cards.forEach(c => cardObserver.observe(c));
+  // work-card entrance animation removed — cards visible by default
 </script>

@@ -8,25 +8,30 @@
 <section
   id="difference"
   aria-label="Our difference"
-  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
+  class="section-y relative bg-surface-container-lowest border-b border-black/5 overflow-hidden"
 >
   <div class="main-container">
 
     <!-- Header -->
     <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
-        <span class="type-label text-on-background/40 block mb-3">Our difference</span>
-        <h2 class="type-h2 text-on-background max-w-lg">Built systems. Faster outcomes.</h2>
+        <span class="od-el type-label text-on-background/40 block mb-3" data-delay="0">Our difference</span>
+        <h2 class="type-h2 text-on-background max-w-lg">
+          <span class="od-line block overflow-hidden"><span class="od-el inline-block" data-delay="80">Built systems.</span></span>
+          <span class="od-line block overflow-hidden"><span class="od-el inline-block" data-delay="140">Faster outcomes.</span></span>
+        </h2>
       </div>
     </header>
 
     <!-- 3-card grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/5">
+      <p class="sr-only">
+        Our difference spans three areas: Bento-Grid Architecture (modular components built with mathematical precision), Zero-Latency Deployment (sub-80ms TTFB on Cloudflare Pages), and Signal Monitoring (live health telemetry maintaining 90+ Lighthouse scores post-launch).
+      </p>
 
       <!-- Card 1: Bento Architecture — Framer canvas grid -->
       <article
         class="diff-card bg-background flex flex-col overflow-hidden group"
-        data-index="0"
         aria-label="Bento-grid architecture"
       >
         <!-- Mockup: Framer-style component grid snapping into place -->
@@ -66,7 +71,6 @@
       <!-- Card 2: Zero-Latency — Webflow edge flow -->
       <article
         class="diff-card bg-background flex flex-col overflow-hidden group"
-        data-index="1"
         aria-label="Zero-latency deployment"
       >
         <!-- Mockup: data flowing across edge nodes -->
@@ -120,7 +124,6 @@
       <!-- Card 3: Signal Monitoring — Lighthouse/analytics dashboard -->
       <article
         class="diff-card bg-background flex flex-col overflow-hidden group"
-        data-index="2"
         aria-label="Signal monitoring layer"
       >
         <!-- Mockup: live bar chart with scan line -->
@@ -141,7 +144,7 @@
                 { label: "Best Practices", score: 100, delay: 300 },
                 { label: "SEO",            score: 100, delay: 450 },
               ].map((m, i) => (
-                <div class="bg-surface-container-lowest flex flex-col items-center justify-center gap-2 p-4 score-cell" data-score={m.score} data-delay={m.delay}>
+                <div class="bg-surface-container flex flex-col items-center justify-center gap-2 p-4 score-cell" data-score={m.score} data-delay={m.delay}>
                   <!-- Ring -->
                   <div class="relative w-12 h-12">
                     <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36" aria-hidden="true">
@@ -177,18 +180,11 @@
 </section>
 
 <style>
-  /* ── Card entrance ─────────────────────────────────────────── */
-  .diff-card {
-    opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .diff-card.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ── Header elements ───────────────────────────────────────── */
+  .od-el { opacity: 0; transform: translateY(28px); }
+  .od-line .od-el { transform: translateY(100%); opacity: 1; }
+
+  /* ── diff-card — visible by default, no entrance animation ─── */
 
   /* ── Card 1: Tile snap ─────────────────────────────────────── */
   @keyframes tile-snap {
@@ -221,31 +217,26 @@
 
   /* ── Card 3: Score rings ──────────────────────────────────── */
   @keyframes ring-99 {
-    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
-    50%, 85% { stroke-dasharray: 99 100; opacity: 1; }
-    100%     { stroke-dasharray: 99 100; opacity: 0; }
+    0%, 10%  { stroke-dasharray: 0 100; opacity: 0; }
+    30%, 70% { stroke-dasharray: 99 100; opacity: 1; }
+    90%, 100%{ stroke-dasharray: 99 100; opacity: 0; }
   }
   @keyframes ring-100 {
-    0%, 15%  { stroke-dasharray: 0 100; opacity: 0; }
-    50%, 85% { stroke-dasharray: 100 100; opacity: 1; }
-    100%     { stroke-dasharray: 100 100; opacity: 0; }
+    0%, 10%  { stroke-dasharray: 0 100; opacity: 0; }
+    30%, 70% { stroke-dasharray: 100 100; opacity: 1; }
+    90%, 100%{ stroke-dasharray: 100 100; opacity: 0; }
   }
-  .score-ring[data-score="99"]  { stroke-dasharray: 0 100; animation: ring-99  3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
-  .score-ring[data-score="100"] { stroke-dasharray: 0 100; animation: ring-100 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  .score-ring[data-score="99"]  { stroke-dasharray: 0 100; animation: ring-99  4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  .score-ring[data-score="100"] { stroke-dasharray: 0 100; animation: ring-100 4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
 
   @keyframes score-cell-in {
     0%, 10%  { opacity: 0; transform: translateY(6px); }
-    30%, 80% { opacity: 1; transform: translateY(0); }
-    95%, 100%{ opacity: 0; transform: translateY(-4px); }
+    30%, 70% { opacity: 1; transform: translateY(0); }
+    90%, 100%{ opacity: 0; transform: translateY(-4px); }
   }
-  .score-cell { animation: score-cell-in 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  .score-cell { animation: score-cell-in 4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
 
   @media (prefers-reduced-motion: reduce) {
-    .diff-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
     .tile-snap, .flow-pulse, .edge-dot,
     .score-ring, .score-cell {
       animation: none !important;
@@ -256,19 +247,30 @@
 </style>
 
 <script>
-  const cards = document.querySelectorAll('.diff-card');
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), idx * 100);
-      observer.unobserve(el);
+  // ── Header entrance ─────────────────────────────────────────
+  const headerEls = document.querySelectorAll<HTMLElement>('#difference .od-el');
+  const headerObs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    headerEls.forEach(el => {
+      const delay  = parseInt(el.dataset.delay ?? '0');
+      const isLine = el.closest('.od-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+      );
     });
-  }, { threshold: 0.1 });
+    headerObs.disconnect();
+  }, { rootMargin: MARGIN, threshold: 0 });
+  const diffSection = document.getElementById('difference');
+  if (diffSection) headerObs.observe(diffSection);
 
-  cards.forEach(c => observer.observe(c));
+  // diff-card entrance animation removed — cards visible by default
 
   // Score counter — counts 0 → target in sync with ring animation (3.5s cycle)
   function animateCounters() {
@@ -276,7 +278,7 @@
     numbers.forEach(el => {
       const target = parseInt(el.dataset.target ?? '0');
       const delay  = parseInt(el.closest('.score-cell')?.getAttribute('data-delay') ?? '0');
-      const duration = 1200; // ms to count up
+      const duration = 1400; // ms to count up — matches 4s cycle
 
       function cycle() {
         let start: number | null = null;
@@ -302,7 +304,7 @@
   }
 
   // Start counters when card 3 enters viewport
-  const card3 = document.querySelector('.diff-card[data-index="2"]');
+  const card3 = document.querySelectorAll('.diff-card')[2];
   if (card3) {
     const counterObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {

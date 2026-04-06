@@ -13,7 +13,7 @@ const baseUrl = import.meta.env.BASE_URL;
 <section
   id="faq"
   aria-label="Frequently asked questions"
-  class="section-y relative bg-background border-b border-black/5"
+  class="section-y relative bg-surface-container-lowest border-b border-black/5"
 >
   <p class="sr-only">
     Common questions about working with Straya Studio — process, pricing,
@@ -25,9 +25,12 @@ const baseUrl = import.meta.env.BASE_URL;
 
       <!-- Sticky header -->
       <header class="flex-shrink-0 lg:sticky lg:top-28 lg:self-start lg:w-80">
-        <span class="type-label text-on-background/40 block mb-3">FAQ</span>
-        <h2 class="type-h2 text-on-background mb-4">Questions we hear most.</h2>
-        <p class="type-body-small text-on-surface-variant leading-relaxed mb-8">
+        <span class="faq-el type-label text-on-background/40 block mb-3" data-delay="0">FAQ</span>
+        <h2 class="type-h2 text-on-background mb-4">
+          <span class="faq-line block overflow-hidden"><span class="faq-el inline-block" data-delay="80">Questions we</span></span>
+          <span class="faq-line block overflow-hidden"><span class="faq-el inline-block" data-delay="140">hear most.</span></span>
+        </h2>
+        <p class="faq-el type-body-small text-on-surface-variant leading-relaxed mb-8" data-delay="240">
           Everything you need to know before starting a project with the studio.
         </p>
         <!-- CTA -->
@@ -105,6 +108,10 @@ const baseUrl = import.meta.env.BASE_URL;
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
 
+  /* ── Header elements ───────────────────────────────────────── */
+  .faq-el { opacity: 0; transform: translateY(28px); }
+  .faq-line .faq-el { transform: translateY(100%); opacity: 1; }
+
   /* Collapsed state */
   .faq-content {
     height: 0;
@@ -112,25 +119,10 @@ const baseUrl = import.meta.env.BASE_URL;
     will-change: height, opacity;
   }
 
-  /* Row entrance */
-  .faq-item {
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .faq-item.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* faq-item: visible by default — no entrance animation */
 
   @media (prefers-reduced-motion: reduce) {
-    .faq-item {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
+    .faq-el { opacity: 1 !important; transform: none !important; }
     .faq-content {
       will-change: auto;
     }
@@ -178,17 +170,24 @@ const baseUrl = import.meta.env.BASE_URL;
     content.style.opacity = '0';
   });
 
-  // ── Row entrance ─────────────────────────────────────────────
-  const items = document.querySelectorAll('.faq-item');
-  const rowObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      setTimeout(() => el.classList.add('is-visible'), idx * 40);
-      rowObserver.unobserve(el);
+  // ── Header entrance ─────────────────────────────────────────
+  const faqHeaderEls = document.querySelectorAll<HTMLElement>('#faq .faq-el');
+  const faqHeaderObs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    faqHeaderEls.forEach(el => {
+      const delay  = parseInt(el.dataset.delay ?? '0');
+      const isLine = el.closest('.faq-line') !== null;
+      el.animate(
+        isLine
+          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+        { duration: 900, delay, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' }
+      );
     });
-  }, { threshold: 0.05 });
+    faqHeaderObs.disconnect();
+  }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+  const faqSection = document.getElementById('faq');
+  if (faqSection) faqHeaderObs.observe(faqSection);
 
-  items.forEach(item => rowObserver.observe(item));
+  // faq-item entrance animation removed — items visible by default
 </script>

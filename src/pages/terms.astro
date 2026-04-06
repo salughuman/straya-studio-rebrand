@@ -1,0 +1,135 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_CONFIG } from "../data/site-config";
+
+const title       = "Terms & Conditions | Straya Studio";
+const description = "Terms and conditions governing projects and engagements with Straya Studio.";
+const pageUrl     = `${SITE_CONFIG.url}/terms/`;
+
+const lastUpdated = "April 2026";
+---
+
+<BaseLayout title={title} description={description} noindex={false}>
+
+  <section
+    aria-label="Terms and Conditions"
+    class="relative bg-background border-b border-black/5"
+  >
+    <div class="main-container pt-36 pb-24">
+
+      <!-- Header -->
+      <header class="mb-16 border-b border-black/5 pb-10 max-w-2xl">
+        <span class="type-label text-on-background/40 block mb-3">Legal</span>
+        <h1 class="type-h2 text-on-background mb-3">Terms &amp; Conditions</h1>
+        <p class="type-label text-on-background/40">Last updated: {lastUpdated}</p>
+      </header>
+
+      <!-- Content -->
+      <div class="max-w-2xl flex flex-col gap-12">
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Agreement</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            By engaging Straya Studio for a project, you agree to these terms. These terms govern all project engagements between Straya Studio ("the studio", "we") and the client ("you").
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Project Scope</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Every engagement begins with a written scope document outlining deliverables, timeline, and fixed price. Work outside the agreed scope requires a separate written agreement and may incur additional fees.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Payment Terms</h2>
+          <ul class="flex flex-col gap-3">
+            {[
+              "50% deposit required before work begins",
+              "50% balance due upon project completion, before final file handoff",
+              "Payments accepted via bank transfer or agreed payment method",
+              "Overdue invoices (30+ days) may result in work suspension",
+            ].map(item => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="w-1 h-1 rounded-full bg-black/20 mt-2 flex-shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Revisions</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Revision allowances are defined per tier in the project scope. Starter tier includes 2 rounds of revisions. Growth and Premium tiers include unlimited revisions until sign-off. Revisions are limited to the agreed scope — new features or direction changes are treated as scope additions.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Intellectual Property</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Upon receipt of final payment, full ownership of all custom-designed and developed assets transfers to the client. The studio retains the right to display the completed work in its portfolio unless otherwise agreed in writing.
+          </p>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Third-party assets (fonts, stock images, plugins) remain subject to their respective licenses. The client is responsible for maintaining any required licenses post-handoff.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Client Responsibilities</h2>
+          <ul class="flex flex-col gap-3">
+            {[
+              "Provide all required content, copy, and assets on time",
+              "Respond to review requests within 5 business days",
+              "Designate a single point of contact for approvals",
+              "Provide accurate and complete project requirements upfront",
+            ].map(item => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
+                <span class="w-1 h-1 rounded-full bg-black/20 mt-2 flex-shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Cancellation</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Either party may cancel the engagement with 7 days written notice. Work completed up to the cancellation date will be invoiced at a pro-rata rate. The initial deposit is non-refundable once work has commenced.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Limitation of Liability</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            The studio's liability is limited to the total fees paid for the specific project. We are not liable for indirect, incidental, or consequential damages arising from the use of delivered work.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Governing Law</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            These terms are governed by the laws of Pakistan. Any disputes will be resolved through good-faith negotiation before any formal proceedings.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h2 class="type-h3 text-on-background">Contact</h2>
+          <p class="type-body text-on-surface-variant leading-relaxed">
+            Questions about these terms? Reach us at:
+          </p>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            class="type-label text-on-background hover:text-accent transition-colors duration-300 w-fit"
+          >
+            {SITE_CONFIG.email}
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

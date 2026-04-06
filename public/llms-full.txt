@@ -96,14 +96,14 @@ All pricing is project-based. No hourly billing, no retainers, no
 subscriptions. 50% upfront, 50% on delivery. Every project includes
 a scope document.
 
-### Starter: $2,500 – $5,000
+### Starter: $2,000 – $4,000
 Timeline: 1–2 weeks.
 Best for: Landing pages, single-page sites, Shopify theme
 customisations, or standalone graphic design projects.
 Includes: Custom design, development on any platform, mobile-first
 responsive build, on-page SEO, 2 revision rounds, launch support.
 
-### Growth: $5,000 – $12,000 (Most Popular)
+### Growth: $4,000 – $9,500 (Most Popular)
 Timeline: 2–4 weeks.
 Best for: Multi-page websites, brand-led redesigns, e-commerce
 stores, or marketing sites.
@@ -111,7 +111,7 @@ Includes: Everything in Starter, up to 10 custom pages, CMS and
 content architecture, interactions and animations, brand identity,
 90+ Lighthouse performance, unlimited revisions.
 
-### Premium: $12,000 – $25,000+
+### Premium: $9,500 – $25,000+
 Timeline: 4–8 weeks.
 Best for: Complex platforms, full brand overhauls, custom web
 applications, or high-traffic e-commerce builds.

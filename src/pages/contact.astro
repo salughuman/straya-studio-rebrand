@@ -47,16 +47,17 @@ const breadcrumbSchema = {
       <header class="mb-16 border-b border-black/5 pb-10">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span class="type-label text-on-background/40 block mb-3">Start a project</span>
+            <span class="cp-el type-label text-on-background/40 block mb-3" data-delay="0">Start a project</span>
             <h1 class="type-h2 text-on-background max-w-lg">
-              Send your brief and get a fixed quote.
+              <span class="cp-line block overflow-hidden"><span class="cp-el inline-block" data-delay="80">Send your brief and</span></span>
+              <span class="cp-line block overflow-hidden"><span class="cp-el inline-block" data-delay="140">get a fixed quote.</span></span>
             </h1>
-            <p class="type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed">
+            <p class="cp-el type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed" data-delay="240">
               Tell us what you're building, what success looks like, and any constraints. We review every brief directly and reply with the next best step.
             </p>
           </div>
           <!-- Calendly alternative -->
-          <div class="flex-shrink-0 flex flex-col gap-3 md:text-right">
+          <div class="cp-el flex-shrink-0 flex flex-col gap-3 md:text-right" data-delay="320">
             <span class="type-label text-on-background/40">Prefer a call?</span>
             <a
               href={SITE_CONFIG.socials.calendly}
@@ -74,10 +75,10 @@ const breadcrumbSchema = {
       </header>
 
       <!-- Two-column layout: form left, info right -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-px bg-black/5">
+      <div class="cp-el grid grid-cols-1 lg:grid-cols-12 gap-px bg-black/5" data-delay="440">
 
         <!-- Form -->
-        <div class="lg:col-span-8 bg-background p-8 md:p-10">
+        <div class="lg:col-span-8 bg-background card-pad">
           <form
             action={`https://formsubmit.co/${SITE_CONFIG.contactEmail}`}
             method="POST"
@@ -315,6 +316,10 @@ const breadcrumbSchema = {
 </BaseLayout>
 
 <style>
+  /* ── Contact page entrance ─────────────────────────────────── */
+  .cp-el { opacity: 0; transform: translateY(28px); }
+  .cp-line .cp-el { transform: translateY(100%); opacity: 1; }
+
   .contact-input {
     width: 100%;
     background: theme('colors.surface-container-lowest');
@@ -328,9 +333,7 @@ const breadcrumbSchema = {
     border-radius: 0;
     appearance: none;
   }
-  .contact-input::placeholder {
-    color: rgba(0, 0, 0, 0.25);
-  }
+  .contact-input::placeholder { color: rgba(0, 0, 0, 0.25); }
   .contact-input:focus {
     border-color: #3CCD7F;
     box-shadow: 0 0 0 3px rgba(60, 205, 127, 0.08);
@@ -342,4 +345,30 @@ const breadcrumbSchema = {
     padding-right: 2.5rem;
     cursor: pointer;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cp-el { opacity: 1 !important; transform: none !important; }
+  }
 </style>
+
+<script>
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+
+  // Above-the-fold — double rAF like hero
+  const cpEls = document.querySelectorAll<HTMLElement>('.cp-el');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      cpEls.forEach(el => {
+        const delay  = parseInt(el.dataset.delay ?? '0');
+        const isLine = el.closest('.cp-line') !== null;
+        el.animate(
+          isLine
+            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+            : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+          { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+        );
+      });
+    });
+  });
+</script>

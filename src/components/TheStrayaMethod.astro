@@ -75,6 +75,9 @@ const steps = [
 
   <!-- Steps -->
   <div class="main-container" id="method-steps">
+    <p class="sr-only">
+      The Straya Method is a four-step process: Discovery (mapping objectives, market, and technical requirements), Architecture (platform selection, CMS structure, and performance strategy), Engineering (sprint-based builds with milestone reviews), and Optimisation (Lighthouse tuning, Core Web Vitals, and post-launch support).
+    </p>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/5">
       {steps.map((step, i) => (
         <div
@@ -132,11 +135,7 @@ const steps = [
     opacity: 1;
   }
 
-  /* ── Step entrance ─────────────────────────────────────────── */
-  .method-step {
-    opacity: 0;
-    transform: translateY(28px);
-  }
+  /* ── Step — visible by default, no entrance animation ─────── */
 
   /* ── Active step ───────────────────────────────────────────── */
   .method-step.is-active {
@@ -159,7 +158,6 @@ const steps = [
 
   @media (prefers-reduced-motion: reduce) {
     .m-el { opacity: 1 !important; transform: none !important; }
-    .method-step { opacity: 1; transform: none; }
     .method-fill, #method-progress { transition: none; }
   }
 </style>
@@ -190,26 +188,12 @@ const steps = [
   const section = document.getElementById('method');
   if (section) headerObs.observe(section);
 
-  // ── Step entrance ────────────────────────────────────────────
+  // method-step entrance animation removed — steps visible by default
+
+  // ── Active step on scroll ────────────────────────────────────
   const steps    = document.querySelectorAll<HTMLElement>('.method-step');
   const progress = document.getElementById('method-progress');
 
-  const entranceObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.step ?? '0');
-      el.animate(
-        [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay: 360 + idx * 80, easing: EASE, fill: 'forwards' }
-      );
-      entranceObs.unobserve(el);
-    });
-  }, { rootMargin: MARGIN, threshold: 0 });
-
-  steps.forEach(s => entranceObs.observe(s));
-
-  // ── Active step on scroll ────────────────────────────────────
   const activeObs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const el  = entry.target as HTMLElement;

@@ -117,34 +117,17 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
     50%       { opacity: 0.85; box-shadow: 0 0 8px 3px rgba(60,205,127,0.3); }
   }
 
-  /* ── Headline entrance ─────────────────────────────────────── */
-  .cta-headline {
-    opacity: 0;
-    transform: translateY(24px);
-    transition:
-      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .cta-headline.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ── cta-headline — visible by default, no entrance animation  */
 
   @media (prefers-reduced-motion: reduce) {
     .cta-dot { animation: none; }
-    .cta-headline { opacity: 1; transform: none; transition: none; }
   }
 </style>
 
 <script>
-  const headline = document.querySelector('.cta-headline');
-  if (headline) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        headline.classList.add('is-visible');
-        observer.disconnect();
-      }
-    }, { threshold: 0.2 });
-    observer.observe(headline);
-  }
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
+
+  // cta-headline entrance animation removed — visible by default
 </script>

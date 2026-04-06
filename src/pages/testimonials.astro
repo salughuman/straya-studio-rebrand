@@ -65,12 +65,13 @@ const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
     <div class="main-container pt-36 pb-20 relative z-10">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
         <div>
-          <span class="type-label text-on-background/40 block mb-4">Testimonials</span>
+          <span class="tp-el type-label text-on-background/40 block mb-4" data-delay="0">Testimonials</span>
           <h1 class="type-h2 text-on-background uppercase max-w-2xl">
-            Client proof across real delivery.
+            <span class="tp-line block overflow-hidden"><span class="tp-el inline-block" data-delay="80">Client proof across</span></span>
+            <span class="tp-line block overflow-hidden"><span class="tp-el inline-block" data-delay="140">real delivery.</span></span>
           </h1>
         </div>
-        <div class="flex flex-col gap-3 flex-shrink-0 md:text-right">
+        <div class="tp-el flex flex-col gap-3 flex-shrink-0 md:text-right" data-delay="240">
           <div class="type-h2 text-on-background">{total}</div>
           <div class="type-label text-on-background/40">Verified reviews</div>
           <div class="flex items-center gap-2 md:justify-end mt-1">
@@ -79,7 +80,6 @@ const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -100,7 +100,7 @@ const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
           return (
             <article
               class:list={[
-                "testimonial-tile bg-background flex flex-col p-6 md:p-8 group",
+                "testimonial-tile bg-background flex flex-col card-pad group",
                 span,
               ]}
               data-index={i}
@@ -156,47 +156,38 @@ const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
 </BaseLayout>
 
 <style>
-  /* ── Ticker ────────────────────────────────────────────────── */
-  @keyframes ticker-ltr {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  .ticker-ltr {
-    animation: ticker-ltr 30s linear infinite;
-  }
+  /* ── Page hero entrance ────────────────────────────────────── */
+  .tp-el { opacity: 0; transform: translateY(28px); }
+  .tp-line .tp-el { transform: translateY(100%); opacity: 1; }
 
-  /* ── Tile entrance ─────────────────────────────────────────── */
-  .testimonial-tile {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .testimonial-tile.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ── Tile — visible by default, no entrance animation ─────── */
 
   @media (prefers-reduced-motion: reduce) {
-    .ticker-ltr { animation: none; }
-    .testimonial-tile { opacity: 1; transform: none; transition: none; }
+    .tp-el { opacity: 1 !important; transform: none !important; }
   }
 </style>
 
 <script>
-  const tiles = document.querySelectorAll('.testimonial-tile');
+  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const DURATION = 900;
+  const MARGIN   = '0px 0px -80px 0px';
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.index ?? '0');
-      // Stagger in batches of 3 to avoid too much delay on large grids
-      setTimeout(() => el.classList.add('is-visible'), (idx % 6) * 60);
-      observer.unobserve(el);
+  // ── Hero header — above fold, double rAF ─────────────────────
+  const heroEls = document.querySelectorAll<HTMLElement>('.tp-el');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      heroEls.forEach(el => {
+        const delay  = parseInt(el.dataset.delay ?? '0');
+        const isLine = el.closest('.tp-line') !== null;
+        el.animate(
+          isLine
+            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
+            : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
+          { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+        );
+      });
     });
-  }, { threshold: 0.05 });
+  });
 
-  tiles.forEach(t => observer.observe(t));
+  // testimonial-tile entrance animation removed — tiles visible by default
 </script>
