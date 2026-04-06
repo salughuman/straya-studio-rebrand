@@ -45,13 +45,6 @@ const baseUrl = import.meta.env.BASE_URL;
 		<slot name="head" />
 	</head>
 	<body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary perspective-[1000px]">
-		<!-- Global Background Grid Overlay -->
-		<div class="fixed inset-0 grid grid-cols-4 pointer-events-none opacity-[0.06] z-0">
-			<div class="border-r border-on-background"></div>
-			<div class="border-r border-on-background"></div>
-			<div class="border-r border-on-background"></div>
-			<div></div>
-		</div>
 		<div class="grain-overlay"></div>
 		<!-- GEMINI §5.O — first focusable element -->
 		<a
