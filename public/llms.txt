@@ -40,7 +40,7 @@ in the US, Canada, UK, Europe, and Australia.
 - [Home](https://strayastudio.com): Main studio overview, positioning,
   and service proof.
 - [Contact](https://strayastudio.com/contact): Start a project or
-  book a free 15-minute scoping call.
+  book a free 30-minute scoping call.
 - [Testimonials](https://strayastudio.com/testimonials): Client proof,
   delivery feedback, and trust signals from real projects.
 

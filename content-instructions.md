@@ -105,7 +105,7 @@ Frame all services as elevating brands, not just delivering work. "We elevate" n
 ### Payment Terms
 - 50% upfront, 50% on delivery
 - Every project includes a scope document — no surprise invoices
-- Final quote provided after a 15-minute scoping call or project brief review
+- Final quote provided after a 30-minute scoping call or project brief review
 
 ### Availability Badge
 Update monthly on the site: "1 spot open for [Month Year]"
@@ -137,7 +137,7 @@ Prices sit ~20% below comparable US/UK boutique agencies. We don't say that. The
 
 **Pathway B — "Book a call" (Consultative)**
 - For larger/complex projects
-- 15-minute video call with Salman directly
+- 30-minute video call with Salman directly
 - Discovery → proposal → kickoff
 
 ### Homepage Section Pipeline

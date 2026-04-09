@@ -1,12 +1,8 @@
-# robots.txt — Straya Studio (STAGING — NOT FOR INDEXING)
+# robots.txt — Straya Studio (PRODUCTION)
 # https://strayastudio.com
 
-# Block all crawlers while site is in staging
 User-agent: *
-Disallow: /
-
-# Sitemap
-Sitemap: https://strayastudio.com/sitemap-index.xml
+Allow: /
 
 # -----------------------------------------------
 # AI / LLM Crawlers — Explicitly Allowed

@@ -25,12 +25,12 @@ export const PRICING_SUBTITLE =
 export const PRICING_BADGE = "1 spot open for April 2026";
 
 export const PRICING_TRUST_LINE =
-  "Final quote provided after a 15-minute scoping call or project brief review — no surprises.";
+  "Final quote provided after a 30-minute scoping call or project brief review — no surprises.";
 
 export const PRICING_FOOTER = {
   title: "Not sure which tier fits?",
   description:
-    "Book a free 15-minute scoping call or send us your project brief. We'll review the scope, recommend the right tier, and send you a fixed quote — no obligation.",
+    "Book a free 30-minute scoping call or send us your project brief. We'll review the scope, recommend the right tier, and send you a fixed quote — no obligation.",
   ctaLabel: "Schedule a call",
 };
 

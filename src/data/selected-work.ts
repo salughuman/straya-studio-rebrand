@@ -1,17 +1,19 @@
 /**
  * Selected work — curated case-style entries for the homepage grid.
  * Thumbnail behavior in SelectedWork.astro:
- * - Cards use a framed viewport with hover pan reveal.
- * - Image starts from the top (hero area) and pans downward on hover.
+ * - Cards use a framed viewport with subtle hover scale treatment.
+ * - No hover scroll/pan is used currently.
  *
  * IMAGE GUIDELINES
  * ─────────────────────────────────────────────────────────────────
- * For this interaction, WIDTH consistency matters most.
- * Use full-page screenshots (tall images), not cropped thumbnails.
+ * Target card ratios:
+ *   Featured card  : 16:9
+ *   Grid cards     : 4:3
  *
  * Recommended export:
- *   Width        : 1600px (all projects, including featured + grid)
- *   Height       : Auto / full-page capture (typically 2800–5200px)
+ *   Featured size : 1600 x 900px (16:9)
+ *   Grid size     : 1200 x 900px (4:3)
+ *   Width guide   : keep at least 1200px wide
  *   Format       : WebP preferred (AVIF acceptable)
  *   Max size     : <= 450KB per image (optimize aggressively)
  *
@@ -24,7 +26,7 @@
  *   - /images/work/pal-puppy-fullpage.webp
  *
  * Visual notes:
- * - Keep key content near top (hero area is visible at rest).
+ * - Keep composition centered for each ratio crop.
  * - Avoid relying only on color to communicate info (cards start grayscale).
  * ─────────────────────────────────────────────────────────────────
  */
@@ -56,7 +58,7 @@ export const SELECTED_PROJECTS: SelectedProject[] = [
       "Logo Diffusion turns simple prompts into polished logo concepts, generating multiple ready-to-use directions in seconds with a smooth flow for saving, refining, and launching.",
     creditLine: "Direct build",
     partnershipType: "Direct",
-    thumbnail: "/images/work/logo-diffusion-fullpage.png",
+    thumbnail: "/images/work/logo-diffusion-fullpage.webp",
     href: "https://logodiffusion.com/",
   },
   {

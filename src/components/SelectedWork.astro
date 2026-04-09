@@ -63,7 +63,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
           aria-label={`${featured.title} — ${featured.sector}`}
         >
           <!-- Image -->
-          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[16/7] md:aspect-[16/8]">
+          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[16/9]">
             {featured.thumbnail ? (
               <div class="thumb-frame" data-thumb-frame>
                 <img
@@ -163,7 +163,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
           aria-label={`${project.title} — ${project.sector}`}
         >
           <!-- Image -->
-          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[16/10]">
+          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[4/3]">
             {project.thumbnail ? (
               <div class="thumb-frame" data-thumb-frame>
                 <img
@@ -324,61 +324,6 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
   const section = document.getElementById('work');
   if (section) headerObserver.observe(section);
 
-  // ── Thumbnail eased-pan reveal (slow premium glide) ───────────
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (!prefersReducedMotion) {
-    const easeInOutCubic = (t: number) => {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    };
-
-    const animateTo = (img: HTMLElement, targetY: number, durationMs: number) => {
-      const state = (img as HTMLElement & { _motion?: { y: number; raf: number } });
-      if (!state._motion) {
-        state._motion = { y: 0, raf: 0 };
-      }
-      const m = state._motion;
-      const startY = m.y;
-      const startTs = performance.now();
-
-      cancelAnimationFrame(m.raf);
-
-      const tick = (now: number) => {
-        const elapsed = now - startTs;
-        const progress = Math.min(1, elapsed / durationMs);
-        const eased = easeInOutCubic(progress);
-        m.y = startY + (targetY - startY) * eased;
-        img.style.transform = `translate3d(0, ${m.y}px, 0)`;
-
-        if (progress < 1) {
-          m.raf = requestAnimationFrame(tick);
-        } else {
-          m.y = targetY;
-          img.style.transform = `translate3d(0, ${targetY}px, 0)`;
-        }
-      };
-
-      m.raf = requestAnimationFrame(tick);
-    };
-
-    document.querySelectorAll<HTMLElement>('.work-card').forEach(card => {
-      const frame = card.querySelector<HTMLElement>('[data-thumb-frame]');
-      const img = card.querySelector<HTMLElement>('[data-thumb-image]');
-      if (!frame || !img) return;
-
-      const getMaxPan = () => Math.max(0, img.offsetHeight - frame.clientHeight);
-
-      const onEnter = () => {
-        // Extra-slow, premium reveal
-        animateTo(img, -getMaxPan(), 5200);
-      };
-      const onLeave = () => {
-        // Return slightly faster than reveal for responsiveness
-        animateTo(img, 0, 3400);
-      };
-
-      card.addEventListener('mouseenter', onEnter);
-      card.addEventListener('mouseleave', onLeave);
-    });
-  }
+  // Thumbnail hover pan removed intentionally.
+  // Keeping only the frame scale-down and visual hover treatment.
 </script>

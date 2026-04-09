@@ -7,7 +7,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "How does a project start?",
     answer:
-      "Every engagement begins with a free 15-minute scoping call. We learn what you are building, align on platform fit, and follow up with a clear scope document and fixed quote — no surprises.",
+      "Every engagement begins with a free 30-minute scoping call. We learn what you are building, align on platform fit, and follow up with a clear scope document and fixed quote — no surprises.",
   },
   {
     question: "Which platform is right for my project?",

@@ -26,7 +26,7 @@ export const SITE_CONFIG = {
     contra: "https://contra.com/salughuman/",
     github: "https://github.com/salughuman",
     framer: "https://www.framer.community/u/da916398",
-    calendly: "https://calendly.com/salughuman/15min",
+    calendly: "https://calendly.com/straya-studio/30min",
   },
 
   // 4. Strategic Authority
