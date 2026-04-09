@@ -2,6 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-Extralight.otf') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-Regular.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-Regular.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-ExtralightItalic.otf') format('opentype');
+	font-weight: 300;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-RegularItalic.otf') format('opentype');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP_Mori';
+	src: url('/fonts/PPMori-SemiBoldItalic.otf') format('opentype');
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
 /* 
  * Straya Studio — Global Styles (Cinematic Digital Deployments)
  * Design Tokens: src/styles/design-tokens.json
@@ -72,7 +120,7 @@
 				0 4px 14px rgba(0, 0, 0, 0.06);
 		}
 		main > footer {
-			margin-bottom: 12px;
+			margin-bottom: 0px;
 		}
 		section[id], footer[id], main [id] {
 			scroll-margin-top: 20px;

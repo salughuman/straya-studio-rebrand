@@ -25,10 +25,13 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
     <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
       <div>
         <span class="sw-el type-label text-on-background/40 block mb-3" data-delay="0">Selected work</span>
-        <h2 class="type-h2 text-on-background max-w-lg">
+        <h2 class="type-h2 text-on-background max-w-2xl">
           <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="80">Recent deployments across</span></span>
           <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="140">Framer, Webflow, and Shopify.</span></span>
         </h2>
+        <p class="sw-el type-body-small text-on-surface-variant mt-4 max-w-xl" data-delay="190">
+          Transparent credits, always. Every project clearly states whether it was direct or white-label, with agency credit links where relevant.
+        </p>
       </div>
       <a
         href={SITE_CONFIG.socials.calendly}
@@ -82,6 +85,27 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             <div class="flex flex-col gap-2 min-w-0">
               <h3 class="type-h3 text-on-background">{featured.title}</h3>
               <p class="type-label text-on-background/40">{featured.sector}</p>
+              <div class="flex items-center gap-2 flex-wrap mt-1">
+                {featured.partnershipType && (
+                  <span class={`type-label px-2 py-1 border ${featured.partnershipType === "White-label" ? "border-accent/30 text-accent" : "border-black/10 text-on-background/50"}`}>
+                    {featured.partnershipType}
+                  </span>
+                )}
+                <span class="type-label text-on-background/60">{featured.creditLine}</span>
+              </div>
+              {featured.creditAgencyName && featured.creditAgencyUrl && (
+                <a
+                  href={featured.creditAgencyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="type-label text-on-background/45 hover:text-on-background transition-colors duration-300 inline-flex items-center gap-1.5 mt-0.5 w-fit"
+                >
+                  Credit agency: {featured.creditAgencyName}
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              )}
               <p class="type-body-small text-on-surface-variant mt-1 max-w-lg">{featured.description}</p>
             </div>
             <a
@@ -154,8 +178,28 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
             <div class="flex flex-col gap-1.5 min-w-0">
               <h3 class="type-h4 text-on-background">{project.title}</h3>
               <p class="type-label text-on-background/40">{project.sector}</p>
-              <!-- Description — visible on hover -->
-              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1 max-h-0 overflow-hidden group-hover:max-h-40 transition-all duration-500 ease-luxury">
+              <div class="flex items-center gap-2 flex-wrap">
+                {project.partnershipType && (
+                  <span class={`type-label px-2 py-1 border ${project.partnershipType === "White-label" ? "border-accent/30 text-accent" : "border-black/10 text-on-background/50"}`}>
+                    {project.partnershipType}
+                  </span>
+                )}
+                <span class="type-label text-on-background/60">{project.creditLine}</span>
+              </div>
+              {project.creditAgencyName && project.creditAgencyUrl && (
+                <a
+                  href={project.creditAgencyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="type-label text-on-background/45 hover:text-on-background transition-colors duration-300 inline-flex items-center gap-1.5 mt-0.5 w-fit"
+                >
+                  Credit agency: {project.creditAgencyName}
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              )}
+              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1">
                 {project.description}
               </p>
             </div>

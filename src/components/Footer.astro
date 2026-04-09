@@ -9,6 +9,7 @@ import { SITE_CONFIG } from "../data/site-config";
 const year = new Date().getFullYear();
 
 const navLinks = [
+  { label: "Work",      href: "/#work" },
   { label: "Framework", href: "/#framework" },
   { label: "Studio",    href: "/#studio" },
   { label: "Pricing",   href: "/#pricing" },
@@ -35,9 +36,13 @@ const socialLinks = [
       <div class="md:col-span-5 flex flex-col gap-6">
         <!-- Logo -->
         <a href="/" aria-label="Straya Studio — Home" class="no-underline w-fit">
-          <span class="font-display font-medium text-xl tracking-tight text-on-background uppercase">
-            STRAYA STUDIO
-          </span>
+          <img
+            src="/logo.svg"
+            alt="Straya Studio"
+            class="h-[26px] w-auto"
+            loading="lazy"
+            decoding="async"
+          />
         </a>
         <!-- Tagline -->
         <p class="type-body-small text-on-surface-variant leading-relaxed max-w-xs">
