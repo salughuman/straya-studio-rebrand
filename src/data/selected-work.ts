@@ -1,22 +1,31 @@
 /**
  * Selected work — curated case-style entries for the homepage grid.
- * Platform tags must follow tier order: Framer → Webflow → Shopify → WordPress.
+ * Thumbnail behavior in SelectedWork.astro:
+ * - Cards use a framed viewport with hover pan reveal.
+ * - Image starts from the top (hero area) and pans downward on hover.
  *
  * IMAGE GUIDELINES
  * ─────────────────────────────────────────────────────────────────
- * Featured project (first item, featured: true):
- *   Aspect ratio : 16:9  (e.g. 1600 × 900px)
- *   Path         : /images/work/<slug>.webp
- *   Max size     : 300KB
+ * For this interaction, WIDTH consistency matters most.
+ * Use full-page screenshots (tall images), not cropped thumbnails.
  *
- * Grid cards (remaining items):
- *   Aspect ratio : 4:3  (e.g. 800 × 600px)
- *   Path         : /images/work/<slug>.webp
- *   Max size     : 150KB
+ * Recommended export:
+ *   Width        : 1600px (all projects, including featured + grid)
+ *   Height       : Auto / full-page capture (typically 2800–5200px)
+ *   Format       : WebP preferred (AVIF acceptable)
+ *   Max size     : <= 450KB per image (optimize aggressively)
  *
- * Format: WebP preferred, AVIF acceptable.
- * All images should be grayscale-friendly (they render grayscale by default,
- * color on hover) — avoid images that rely on color to communicate meaning.
+ * Naming convention:
+ *   /images/work/<project-slug>-fullpage.webp
+ *   Examples:
+ *   - /images/work/logo-diffusion-fullpage.webp
+ *   - /images/work/knine-solution-fullpage.webp
+ *   - /images/work/tnt-simmonds-fullpage.webp
+ *   - /images/work/pal-puppy-fullpage.webp
+ *
+ * Visual notes:
+ * - Keep key content near top (hero area is visible at rest).
+ * - Avoid relying only on color to communicate info (cards start grayscale).
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -41,70 +50,50 @@ export interface SelectedProject {
 
 export const SELECTED_PROJECTS: SelectedProject[] = [
   {
-    title: "SaaS Marketing Platform",
-    sector: "B2B SaaS · Australia / US",
+    title: "Logo Diffusion",
+    sector: "Webflow",
     description:
-      "Marketing site and CMS on Framer — sub-second loads and a conversion-led narrative for a technical audience.",
-    creditLine: "Development by Straya Studio",
+      "Logo Diffusion turns simple prompts into polished logo concepts, generating multiple ready-to-use directions in seconds with a smooth flow for saving, refining, and launching.",
+    creditLine: "Direct build",
     partnershipType: "Direct",
-    thumbnail: "/images/work/kova-labs.webp",
-    href: "/contact?source=selected-work&project=kova-labs",
+    thumbnail: "/images/work/logo-diffusion-fullpage.png",
+    href: "https://logodiffusion.com/",
+  },
+  {
+    title: "Knine Solution",
+    sector: "Framer",
+    description:
+      "For K-Nine Solutions, we refreshed brand identity, produced custom photography, and built a high-performance site designed to elevate trust, drive sales, and support growth.",
+    creditLine: "Built for bluefin Studio",
+    partnershipType: "White-label",
+    creditAgencyName: "bluefin Studio",
+    creditAgencyUrl: "https://www.bluefin.studio/",
+    thumbnail: "/images/work/knine-solution-fullpage.webp",
+    href: "https://kninesolutions.com/",
+  },
+  {
+    title: "TNT Simmonds",
+    sector: "Framer",
+    description:
+      "For TNT Simmonds, we designed a digital presence that reflects their luxury craftsmanship, presenting portfolio work with clarity and sophistication to attract ideal clients.",
+    creditLine: "Built for bluefin Studio",
+    partnershipType: "White-label",
+    creditAgencyName: "bluefin Studio",
+    creditAgencyUrl: "https://www.bluefin.studio/",
+    thumbnail: "/images/work/tnt-simmonds-fullpage.webp",
+    href: "https://tntsimmonds.com/",
     featured: true,
   },
   {
-    title: "Healthcare Content Hub",
-    sector: "Healthcare · US",
+    title: "Pal Puppy",
+    sector: "Framer",
     description:
-      "Patient-facing Webflow build with structured CMS, accessibility hardening, and performance tuned for Core Web Vitals.",
-    creditLine: "Built for Northline Studio",
+      "For PAL Puppy, we defined an early-stage brand and website with a warm, trustworthy tone that makes owners feel confident from the first interaction.",
+    creditLine: "Built for bluefin Studio",
     partnershipType: "White-label",
-    creditAgencyName: "Northline Studio",
-    creditAgencyUrl: "https://example.com/northline-studio",
-    thumbnail: "/images/work/meridian-health.webp",
-    href: "/contact?source=selected-work&project=meridian-health",
-  },
-  {
-    title: "Outdoor Commerce Storefront",
-    sector: "E-commerce · Global",
-    description:
-      "Custom Shopify storefront with Liquid sections, checkout optimisation, and analytics-ready event layer.",
-    creditLine: "Development by Straya Studio",
-    partnershipType: "Direct",
-    thumbnail: "/images/work/altitude-gear.webp",
-    href: "/contact?source=selected-work&project=altitude-gear",
-  },
-  {
-    title: "Fintech Migration Rebuild",
-    sector: "Fintech · UK",
-    description:
-      "WordPress to Webflow migration — design system, gated content, and SEO layer rebuilt for scale.",
-    creditLine: "Built for Beacon Collective",
-    partnershipType: "White-label",
-    creditAgencyName: "Beacon Collective",
-    creditAgencyUrl: "https://example.com/beacon-collective",
-    thumbnail: "/images/work/luminary-finance.webp",
-    href: "/contact?source=selected-work&project=luminary-finance",
-  },
-  {
-    title: "Enterprise Launch Site",
-    sector: "Enterprise · EU",
-    description:
-      "Framer site plus custom code components and CMS modelling for a multi-region product launch.",
-    creditLine: "Development by Straya Studio",
-    partnershipType: "Direct",
-    thumbnail: "/images/work/nexgen-systems.webp",
-    href: "/contact?source=selected-work&project=nexgen-systems",
-  },
-  {
-    title: "DTC Subscription Build",
-    sector: "Startup · US",
-    description:
-      "Shopify Plus build with app integrations, subscription flows, and performance budget enforced in production.",
-    creditLine: "Built for Parallel Studio",
-    partnershipType: "White-label",
-    creditAgencyName: "Parallel Studio",
-    creditAgencyUrl: "https://example.com/parallel-studio",
-    thumbnail: "/images/work/parallel-studio.webp",
-    href: "/contact?source=selected-work&project=parallel-studio",
+    creditAgencyName: "bluefin Studio",
+    creditAgencyUrl: "https://www.bluefin.studio/",
+    thumbnail: "/images/work/pal-puppy-fullpage.webp",
+    href: "https://palpuppy.com/",
   },
 ];
