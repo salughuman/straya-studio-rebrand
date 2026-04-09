@@ -46,11 +46,7 @@ const baseUrl = import.meta.env.BASE_URL;
           </svg>
         </a>
 
-        <!-- Trust signal -->
-        <div class="mt-10 pt-8 border-t border-black/5">
-          <div class="type-h3 text-on-background mb-1">{faqItems.length}</div>
-          <div class="type-label text-on-background/40">Questions answered</div>
-        </div>
+        
       </header>
 
       <!-- Accordion -->
@@ -67,7 +63,7 @@ const baseUrl = import.meta.env.BASE_URL;
                   <span class="type-label text-on-background/20 flex-shrink-0 tabular-nums w-6">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <dt class="type-body text-on-background transition-colors duration-300 group-open:text-accent">
+                  <dt class="type-body text-on-background hover:text-accent transition-colors duration-300 group-open:text-accent">
                     {item.question}
                   </dt>
                 </div>
