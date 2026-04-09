@@ -23,7 +23,7 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		html {
-			scroll-behavior: auto;
+			scroll-behavior: smooth;
 		}
 	}
 
@@ -64,7 +64,7 @@
 		main > section:not(#hero):not(#final-cta),
 		main > footer {
 			position: relative;
-			margin: 12px 12px 0 12px; /* reveals page surface behind */
+			margin: 12px 0 0 0; /* reveals page surface behind */
 			border: 1px solid rgba(0, 0, 0, 0.06);
 			background-color: var(--color-background, theme('colors.background'));
 			box-shadow:
