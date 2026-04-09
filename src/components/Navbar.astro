@@ -4,7 +4,6 @@ import NavButton from "./ui/buttons/NavButton.astro";
 const baseUrl = import.meta.env.BASE_URL;
 
 const navLinks = [
-  { label: "Work",     href: `${baseUrl}#work` },
   { label: "Services", href: `${baseUrl}#services` },
   { label: "Process",  href: `${baseUrl}#method` },
   { label: "Pricing",  href: `${baseUrl}#pricing` },
@@ -51,14 +50,14 @@ const navLinks = [
       <!-- Hamburger — mobile only -->
       <button
         id="nav-toggle"
-        class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-[5px]"
+        class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-[6px]"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <span class="bar block h-px bg-on-background origin-center transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]" style="width:22px;"></span>
-        <span class="bar block h-px bg-on-background origin-center transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]" style="width:22px;"></span>
-        <span class="bar block h-px bg-on-background origin-center transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]" style="width:14px; margin-left:auto; margin-right:4px;"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
       </button>
     </div>
 
@@ -79,25 +78,25 @@ const navLinks = [
     </span>
     <button
       id="nav-close"
-      class="w-10 h-10 flex flex-col justify-center items-center gap-[5px]"
+      class="w-10 h-10 relative"
       aria-label="Close menu"
     >
-      <span class="block h-px bg-on-background origin-center" style="width:22px; transform: translateY(0.5px) rotate(45deg);"></span>
-      <span class="block h-px bg-on-background origin-center" style="width:22px; transform: translateY(-0.5px) rotate(-45deg);"></span>
+      <span class="xbar" aria-hidden="true"></span>
+      <span class="xbar" aria-hidden="true"></span>
     </button>
   </div>
 
   <!-- Links — top-left aligned -->
-  <nav class="flex-1 flex flex-col justify-start items-start gap-0 pt-6 pb-4 overflow-y-auto px-5 md:px-12" aria-label="Mobile navigation">
+  <nav class="flex-1 flex flex-col justify-start items-start gap-0 pt-5 pb-3 overflow-y-auto px-5 md:px-12" aria-label="Mobile navigation">
     {navLinks.map((link, i) => (
       <a
         href={link.href}
-        class="mobile-link nav-link block w-full border-b border-black/5 last:border-0 py-5"
+        class="mobile-link nav-link block w-full border-b border-black/5 last:border-0 py-4"
         data-nav-link
         data-i={i}
       >
         <div class="flex items-center justify-between">
-          <span class="font-display font-medium text-on-background" style="font-size: clamp(2rem, 8vw, 3rem); letter-spacing: -0.03em;">
+          <span class="font-display font-medium text-on-background" style="font-size: clamp(1.6rem, 6.5vw, 2.25rem); letter-spacing: -0.03em;">
             {link.label}
           </span>
           <svg class="w-4 h-4 text-on-background/20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -130,6 +129,39 @@ const navLinks = [
 <style>
   /* Navbar backdrop */
   #navbar { -webkit-backdrop-filter: blur(24px); }
+
+  /* Mobile icons */
+  #nav-toggle, #nav-close { -webkit-tap-highlight-color: transparent; }
+
+  .bar {
+    display: block;
+    height: 2px;
+    width: 22px;
+    background: theme('colors.on-background');
+    border-radius: 999px;
+    transform-origin: center;
+    transition: transform 0.32s cubic-bezier(0.19,1,0.22,1), opacity 0.2s ease;
+  }
+  .bar:nth-of-type(3) {
+    width: 14px;
+    /* Keep right edge visually aligned with 22px bars */
+    transform: translateX(4px);
+  }
+
+  .xbar {
+    display: block;
+    height: 2px;
+    width: 22px;
+    background: theme('colors.on-background');
+    border-radius: 999px;
+    transform-origin: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #nav-close .xbar:nth-of-type(1) { transform: translate(-50%, -50%) rotate(45deg); }
+  #nav-close .xbar:nth-of-type(2) { transform: translate(-50%, -50%) rotate(-45deg); }
 
   /* Mobile menu — hidden by default via clip-path */
   #mobile-menu {
@@ -172,13 +204,13 @@ const navLinks = [
   .mobile-link.is-active span {
     color: theme('colors.accent');
   }
-  #nav-toggle.is-open .bar:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+  #nav-toggle.is-open .bar:nth-of-type(1) {
+    transform: translateY(8px) rotate(45deg);
   }
-  #nav-toggle.is-open .bar:nth-child(2) {
-    transform: translateY(-6px) rotate(-45deg);
+  #nav-toggle.is-open .bar:nth-of-type(2) {
+    transform: translateY(-8px) rotate(-45deg);
   }
-  #nav-toggle.is-open .bar:nth-child(3) {
+  #nav-toggle.is-open .bar:nth-of-type(3) {
     opacity: 0;
     transform: scaleX(0);
   }

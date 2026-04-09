@@ -285,7 +285,7 @@
         "containerPaddingMobile": "1.25rem",
         "containerPaddingTablet": "3rem",
         "containerPaddingDesktop": "2rem",
-        "sectionMobile": "5rem",
+        "sectionMobile": "3rem",
         "sectionDesktop": "8rem",
         "cardPadding": "2rem",
         "gridColumns": 4,

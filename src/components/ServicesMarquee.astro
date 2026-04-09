@@ -86,11 +86,11 @@ const services = [
           Tap a service to explore
         </span>
         <a
-          href={`${baseUrl}#work`}
+          href={`${baseUrl}contact`}
           class="svc-el magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
           data-delay="360"
         >
-          See our work
+          Start your project
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -245,9 +245,11 @@ const services = [
       top: auto !important;
       clip-path: inset(100% 0 0 0);
       transition: clip-path 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
     }
     .service-popup.is-active {
       clip-path: inset(0 0 0 0);
+      pointer-events: auto; /* prevent taps passing through to service rows */
     }
     .service-popup-image {
       height: 180px;
@@ -479,7 +481,11 @@ const services = [
   const isMobile = () => window.innerWidth < 810;
 
   // Close button — mobile only
-  document.getElementById('popup-close-btn')?.addEventListener('click', hidePopup);
+  document.getElementById('popup-close-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    hidePopup();
+  });
 
   const rows = document.querySelectorAll<HTMLElement>('.service-row');
   rows.forEach(row => {
