@@ -86,6 +86,12 @@
 		cursor: var(--cursor, crosshair);
 	}
 
+	/* Sit above global spatial layer (z-0) so cursor glow stays behind page content */
+	#main-content {
+		position: relative;
+		z-index: 1;
+	}
+
 	:focus:not(:focus-visible) {
 		outline: none;
 	}
@@ -108,8 +114,8 @@
 			/* Add a touch of depth behind stacked sections */
 			background-color: var(--color-surface-container-lowest, theme('colors.surface-container-lowest'));
 		}
-		/* Mobile hierarchy: make sections read as stacked panels */
-		main > section:not(#hero):not(#final-cta),
+		/* Mobile hierarchy: make sections read as stacked panels (skip dark bands) */
+		main > section:not(#hero):not(#final-cta):not(#pricing):not(#testimonials),
 		main > footer {
 			position: relative;
 			margin: 12px 0 0 0; /* reveals page surface behind */
@@ -129,18 +135,6 @@
 }
 
 @layer components {
-	/* Grain Overlay - 0.02 opacity SVG noise */
-	.grain-overlay {
-		position: fixed;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		z-index: 9999;
-		opacity: var(--grain-opacity, 0.02);
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-	}
-
 	/* Cinematic Depth Classes */
 	.z-depth-1 { transform: var(--depth-1, translateZ(10px)); }
 	.z-depth-2 { transform: var(--depth-2, translateZ(20px)); }

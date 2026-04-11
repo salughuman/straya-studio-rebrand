@@ -16,11 +16,17 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
   aria-label="Start your project with Straya Studio"
   class="relative bg-primary overflow-hidden border-b border-white/5"
 >
-  <!-- Ghost wordmark background -->
-  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden" aria-hidden="true">
+  <!-- Ghost wordmark — above global glow; opacity boosted when cursor is near (GlobalSpatialEffect) -->
+  <div
+    class="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none select-none overflow-hidden"
+    aria-hidden="true"
+  >
     <span
-      class="font-display font-medium text-white uppercase"
-      style="font-size: clamp(8rem, 25vw, 22rem); letter-spacing: -0.04em; opacity: 0.03; line-height: 1; white-space: nowrap;"
+      class="ghost-wordmark font-display font-medium text-white uppercase transition-[opacity] duration-200 ease-out"
+      data-ghost-base="0.03"
+      data-ghost-range="0.14"
+      data-ghost-falloff="380"
+      style="font-size: clamp(8rem, 25vw, 22rem); letter-spacing: -0.04em; line-height: 1; white-space: nowrap; opacity: 0.03;"
     >
       STRAYA
     </span>

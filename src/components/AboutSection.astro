@@ -1,245 +1,119 @@
 ---
-// AboutSection.astro — Straya Studio [IMMERSIVE]
-// Scroll-driven narrative — 3 nodes fade in/out as user scrolls through 400vh.
-// GEMINI §2: About page only — "Salman" / "Founder" allowed here.
-// GEMINI §3: scroll-linked, depth layers, spatial narrative.
-// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+// AboutSection — simple scroll-highlighted narrative (replaces multi-node 400vh scroll).
 ---
 
 <section
   id="about"
-  class="relative w-full bg-background"
-  style="height: 400vh;"
+  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
   aria-label="About Straya Studio"
 >
-  <!-- Sticky viewport -->
-  <div class="sticky top-0 w-full overflow-hidden" style="height: 100vh;">
+  <!-- Ghost wordmark — above global glow; opacity boosted when cursor is near -->
+  <div
+    class="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none select-none overflow-hidden"
+    aria-hidden="true"
+  >
+    <span
+      class="ghost-wordmark font-display font-medium text-on-background uppercase transition-[opacity] duration-200 ease-out"
+      data-ghost-base="0.035"
+      data-ghost-range="0.12"
+      data-ghost-falloff="360"
+      style="font-size: clamp(8rem, 22vw, 18rem); letter-spacing: -0.04em; line-height: 1; white-space: nowrap; opacity: 0.035;"
+    >
+      STRAYA
+    </span>
+  </div>
 
-    <!-- Background: large ghost wordmark -->
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0" aria-hidden="true">
-      <span
-        class="font-display font-medium text-on-background uppercase"
-        style="font-size: clamp(8rem, 22vw, 20rem); letter-spacing: -0.04em; opacity: 0.025; line-height: 1;"
+  <div class="main-container relative z-10 max-w-4xl mx-auto text-center">
+    <p class="sr-only">
+      About Straya Studio: a boutique technical studio taking on 2–3 projects at a time, founded in Pakistan by Salman Ali, serving clients globally. Official Certified Framer Expert, Advanced Webflow Architect, and Shopify developer.
+    </p>
+
+    <p class="about-lead font-sans font-normal text-on-background leading-relaxed">
+      <span class="about-frag" data-frag>Straya Studio is a boutique web partner—engineered for depth, not volume.</span>
+      <span class="about-frag" data-frag> We intentionally cap work at two to three active projects so every interface and commit stays founder-led.</span>
+      <span class="about-frag" data-frag> Based in Pakistan, we deploy for teams across the US, UK, Europe, and Australia.</span>
+      <span class="about-frag" data-frag> Framer, Webflow, and Shopify builds where craft and performance match the brief.</span>
+    </p>
+
+    <p class="mt-12 md:mt-14 flex justify-center">
+      <a
+        href="#method"
+        class="magnetic-cta type-label text-on-background/50 border-b border-on-background/15 pb-px hover:text-on-background hover:border-on-background transition-colors duration-300"
       >
-        STRAYA
-      </span>
-    </div>
-
-    <!-- Vertical thread line -->
-    <div
-      class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px z-0 hidden md:block"
-      style="background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.06) 20%, rgba(0,0,0,0.06) 80%, transparent);"
-      aria-hidden="true"
-    ></div>
-
-    <!-- Nodes container -->
-    <div class="relative z-10 w-full h-full flex items-center justify-center px-8">
-      <p class="sr-only">
-        About Straya Studio: A boutique technical studio engineered for depth, not volume — taking on 2–3 projects at a time. Founded in Pakistan by Salman Ali, serving clients globally across the US, UK, Europe, and Australia. Credentials include Official Certified Framer Expert, Advanced Webflow Architect, Shopify Developer, and Lead Developer at Globaltize. The studio has delivered 100+ projects with a 5.0-star average rating.
-      </p>
-
-      <!-- Node 1: The Model -->
-      <article
-        class="narrative-node absolute inset-x-0 flex flex-col items-center justify-center text-center px-8 md:px-24 will-change-transform"
-        data-in-start="0.0"
-        data-in-end="0.1"
-        data-out-start="0.25"
-        data-out-end="0.33"
-        aria-label="The Model — how Straya Studio works"
-      >
-        <span class="type-label text-accent block mb-6">01 — The Model</span>
-        <h2 class="type-h2 text-on-background uppercase max-w-3xl mb-8" style="line-height: 0.95;">
-          Engineered for depth,<br/>not volume.
-        </h2>
-        <p class="type-body text-on-surface-variant max-w-xl leading-relaxed">
-          Exclusivity is our primary standard. By intentionally capping capacity to just 2–3 projects at a time, every commit and design decision is handled by the studio's senior core.
-        </p>
-      </article>
-
-      <!-- Node 2: Global Reach -->
-      <article
-        class="narrative-node absolute inset-x-0 flex flex-col items-center justify-center text-center px-8 md:px-24 will-change-transform"
-        data-in-start="0.33"
-        data-in-end="0.43"
-        data-out-start="0.58"
-        data-out-end="0.66"
-        aria-label="Founded in Pakistan, deployed globally"
-      >
-        <span class="type-label text-accent block mb-6">02 — The Network</span>
-        <h2 class="type-h2 text-on-background uppercase max-w-3xl mb-8" style="line-height: 0.95;">
-          Founded in Pakistan.<br/>Deployed globally.
-        </h2>
-        <p class="type-body text-on-surface-variant max-w-xl leading-relaxed">
-          Bridging timezones with uncompromising engineering. Our strategic founding base allows for 24/7 technical readiness, serving brands across the US, UK, Europe, and Australia.
-        </p>
-        <!-- Credential strip -->
-        <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
-          {[
-            "Certified Framer Expert",
-            "Advanced Webflow Architect",
-            "Shopify Developer",
-          ].map(cred => (
-            <span class="type-label text-on-background/40 border border-black/5 px-3 py-1.5">{cred}</span>
-          ))}
-        </div>
-      </article>
-
-      <!-- Node 3: Founder's Note -->
-      <article
-        class="narrative-node absolute inset-x-0 flex flex-col items-center justify-center text-center px-8 md:px-24 will-change-transform"
-        data-in-start="0.66"
-        data-in-end="0.76"
-        data-out-start="1.5"
-        data-out-end="2.0"
-        aria-label="Founder's note from Salman Ali"
-      >
-        <span class="type-label text-accent block mb-6">03 — Accountability</span>
-        <!-- Large quote -->
-        <blockquote class="max-w-3xl mb-10">
-          <p class="type-h2 text-on-background uppercase max-w-3xl mb-8" style="line-height: 0.95;">
-            "I built this studio to make the things I couldn't find elsewhere — platforms where the craft matches the price tag."
-          </p>
-        </blockquote>
-        <!-- Attribution -->
-        <div class="flex flex-col items-center gap-6">
-          <div class="flex items-center gap-3">
-            <span class="w-8 h-px bg-black/20" aria-hidden="true"></span>
-            <cite class="not-italic type-label text-on-background">Salman Ali, Founder</cite>
-            <span class="w-8 h-px bg-black/20" aria-hidden="true"></span>
-          </div>
-          <!-- Stats row -->
-          <div class="flex items-center gap-8 mt-2">
-            {[
-              ["100+", "Deployments"],
-              ["5.0★", "Avg. rating"],
-              ["2–3", "Projects at a time"],
-            ].map(([val, label]) => (
-              <div class="text-center">
-                <div class="font-display font-medium text-on-background" style="font-size: 1.5rem; letter-spacing: -0.04em;">{val}</div>
-                <div class="type-label text-on-background/40 mt-0.5">{label}</div>
-              </div>
-            ))}
-          </div>
-          <!-- CTA -->
-          <a
-            href="#method"
-            class="magnetic-cta z-depth-1 mt-2 inline-flex items-center gap-3 type-button bg-primary text-on-primary px-8 py-4 hover:bg-accent transition-colors duration-300"
-          >
-            Explore the method
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </div>
-      </article>
-
-    </div>
-
-    <!-- Scroll progress indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10" aria-hidden="true">
-      <div class="w-px h-12 bg-black/10 relative overflow-hidden">
-        <div id="about-scroll-line" class="absolute top-0 left-0 w-full bg-accent transition-none" style="height: 0%;"></div>
-      </div>
-      <span class="type-label text-on-background/20" id="about-scroll-label">Scroll</span>
-    </div>
-
+        Explore the method
+      </a>
+    </p>
   </div>
 </section>
 
 <style>
-  .narrative-node {
-    opacity: 0;
-    pointer-events: none;
+  .about-lead {
+    font-size: clamp(1.25rem, 2.8vw + 0.6rem, 1.875rem);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+  }
+
+  @media (min-width: 810px) {
+    .about-lead {
+      line-height: 1.5;
+    }
+  }
+
+  /* --about-w: 0…1 set by scroll script; eases from muted to full ink */
+  .about-frag {
+    --about-w: 0;
+    display: inline;
+    color: rgba(26, 28, 28, calc(0.22 + 0.78 * var(--about-w)));
+    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .narrative-node {
-      transition: opacity 0.3s ease;
+    .about-frag {
+      transition: none;
+      color: rgba(26, 28, 28, 0.92);
     }
   }
 </style>
 
 <script>
-  const setupAboutScroll = () => {
-    const section  = document.getElementById('about');
-    const nodes    = document.querySelectorAll<HTMLElement>('.narrative-node');
-    const line     = document.getElementById('about-scroll-line');
-    const label    = document.getElementById('about-scroll-label');
-
-    if (!section || nodes.length === 0) return;
+  const setupAboutHighlight = () => {
+    const section = document.getElementById('about');
+    const frags = section?.querySelectorAll<HTMLElement>('[data-frag]');
+    if (!section || !frags?.length) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      frags.forEach((el) => el.style.setProperty('--about-w', '1'));
+      return;
+    }
 
-    let current  = 0;
-    let target   = 0;
-    let rafId    = 0;
-
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    const easeOut = (t: number) => Math.sin((t * Math.PI) / 2);
-    const easeIn  = (t: number) => Math.cos((t * Math.PI) / 2);
-
-    const render = () => {
-      current = lerp(current, target, 0.08);
-
-      nodes.forEach(node => {
-        const inStart  = parseFloat(node.dataset.inStart  ?? '0');
-        const inEnd    = parseFloat(node.dataset.inEnd    ?? '0');
-        const outStart = parseFloat(node.dataset.outStart ?? '1');
-        const outEnd   = parseFloat(node.dataset.outEnd   ?? '1');
-
-        let opacity    = 0;
-        let translateY = 0;
-        let blur       = 0;
-        let scale      = 1;
-
-        if (current < inStart) {
-          opacity = 0; translateY = 32; blur = 12; scale = 0.97;
-        } else if (current <= inEnd) {
-          const p = (current - inStart) / (inEnd - inStart);
-          const e = easeOut(p);
-          opacity = e; translateY = 32 * (1 - e); blur = 12 * (1 - e); scale = 0.97 + 0.03 * e;
-        } else if (current < outStart) {
-          opacity = 1; translateY = 0; blur = 0; scale = 1;
-        } else if (current <= outEnd) {
-          const p = (current - outStart) / (outEnd - outStart);
-          const e = easeIn(p);
-          opacity = e; translateY = -32 * (1 - e); blur = 12 * (1 - e); scale = 1 + 0.03 * (1 - e);
-        } else {
-          opacity = 0; translateY = -32; blur = 12; scale = 1.03;
-        }
-
-        if (reduced) {
-          node.style.opacity = (current > inStart && current < outEnd) ? '1' : '0';
-          node.style.transform = '';
-          node.style.filter = '';
-        } else {
-          node.style.opacity    = opacity.toFixed(3);
-          node.style.transform  = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
-          node.style.filter     = `blur(${blur.toFixed(1)}px)`;
-        }
-        node.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
-      });
-
-      // Scroll progress line
-      if (line) line.style.height = `${(current * 100).toFixed(1)}%`;
-      if (label) label.textContent = current > 0.05 ? `${Math.round(current * 100)}%` : 'Scroll';
-
-      rafId = requestAnimationFrame(render);
-    };
+    const ease = (t: number) => 1 - Math.pow(1 - t, 2);
 
     const update = () => {
-      const { top, height } = section.getBoundingClientRect();
-      const scrollable = height - window.innerHeight;
-      target = Math.max(0, Math.min(-top / scrollable, 1));
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const enter = vh * 0.9;
+      const exit = -rect.height * 0.4;
+      const span = Math.max(1, enter - exit);
+      const raw = (enter - rect.top) / span;
+      const progress = Math.max(0, Math.min(1, ease(raw)));
+
+      const n = frags.length;
+      frags.forEach((el, i) => {
+        const start = i / n;
+        const end = (i + 1) / n;
+        let w = 0;
+        if (progress >= end) w = 1;
+        else if (progress > start) w = (progress - start) / (end - start);
+        el.style.setProperty('--about-w', w.toFixed(4));
+      });
     };
 
     window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
     update();
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(render);
   };
 
-  setupAboutScroll();
-  document.addEventListener('astro:after-swap', setupAboutScroll);
+  setupAboutHighlight();
+  document.addEventListener('astro:after-swap', setupAboutHighlight);
 </script>

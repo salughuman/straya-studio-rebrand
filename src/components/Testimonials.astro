@@ -77,21 +77,21 @@ const ticker   = testimonials.filter(t => !t.featured);
 <section
   id="testimonials"
   aria-label="Client testimonials"
-  class="section-y pt-10 md:pt-16 relative overflow-hidden bg-background border-b border-black/5"
+  class="section-y pt-10 md:pt-16 relative overflow-hidden bg-primary border-b border-white/5"
 >
-  <!-- Section header -->
+  <!-- Section header — same black-band language as FinalCTA -->
   <div class="main-container mb-16">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/5">
       <div>
-        <span class="t-el type-label text-on-background/40 block mb-3" data-delay="0">Social Proof</span>
-        <h2 class="type-h2 text-on-background max-w-lg">
+        <span class="t-el type-label text-white/40 block mb-3" data-delay="0">Social Proof</span>
+        <h2 class="type-h2 text-white max-w-lg">
           <span class="t-line block overflow-hidden"><span class="t-el inline-block" data-delay="80">Trusted by founders</span></span>
           <span class="t-line block overflow-hidden"><span class="t-el inline-block" data-delay="140">who demand the best.</span></span>
         </h2>
       </div>
       <div class="t-el flex items-center gap-3 flex-shrink-0" data-delay="240">
         <span class="w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
-        <span class="type-label text-on-background/40">5.0 ★ — 100+ deployments</span>
+        <span class="type-label text-white/40">5.0 ★ — 100+ deployments</span>
       </div>
     </div>
   </div>
@@ -101,10 +101,10 @@ const ticker   = testimonials.filter(t => !t.featured);
     <p class="sr-only">
       Featured client testimonials from Sam Sarvas of CompleteCRO and Sergio Apollo, CEO of Better Match, praising the quality of work, attention to detail, and communication throughout their Framer and web development projects.
     </p>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-black/5">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
       {featured.map((t, i) => (
         <article
-          class="t-card bg-[#fefefe] card-pad flex flex-col justify-between gap-8 md:gap-10 group cursor-default"
+          class="t-card bg-white/5 card-pad flex flex-col justify-between gap-8 md:gap-10 group cursor-default"
           data-index={i}
           aria-label={`Testimonial from ${t.name}`}
         >
@@ -120,7 +120,7 @@ const ticker   = testimonials.filter(t => !t.featured);
 
           <!-- Quote -->
           <blockquote class="flex-1">
-            <p class="type-h3 text-on-background leading-snug font-medium">
+            <p class="type-h3 text-white leading-snug font-medium">
               "{t.quote}"
             </p>
           </blockquote>
@@ -128,7 +128,7 @@ const ticker   = testimonials.filter(t => !t.featured);
           <!-- Video embed — custom local video player -->
           {t.videoSrc && (
             <div
-              class="video-player relative overflow-hidden bg-surface-container aspect-video border border-black/5"
+              class="video-player relative overflow-hidden bg-black/30 aspect-video border border-white/10"
               data-video-player
               aria-label={`Video testimonial from ${t.name}`}
             >
@@ -149,7 +149,7 @@ const ticker   = testimonials.filter(t => !t.featured);
                 data-video-play
                 aria-label={`Play video testimonial from ${t.name}`}
               >
-                <span class="video-play-chip w-14 h-14 bg-background text-on-background flex items-center justify-center shadow-lg transition-all duration-300">
+                <span class="video-play-chip w-14 h-14 bg-white text-primary flex items-center justify-center shadow-lg transition-all duration-300">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                     <path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="currentColor"/>
                   </svg>
@@ -190,19 +190,19 @@ const ticker   = testimonials.filter(t => !t.featured);
           )}
 
           <!-- Attribution -->
-          <footer class="border-t border-black/5 pt-5 md:pt-6">
+          <footer class="border-t border-white/5 pt-5 md:pt-6">
             <cite class="not-italic flex items-center justify-between">
               <div>
-                <span class="type-label text-on-background block">{t.name}</span>
+                <span class="type-label text-white block">{t.name}</span>
                 {(t.role || t.company) && (
-                  <span class="type-label text-on-background/40 block mt-0.5">
+                  <span class="type-label text-white/40 block mt-0.5">
                     {[t.role, t.company].filter(Boolean).join(", ")}
                   </span>
                 )}
               </div>
               <svg
                 width="20" height="20" viewBox="0 0 20 20" fill="none"
-                class="text-on-background/20 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                class="text-white/25 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
                 aria-hidden="true"
               >
                 <path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -216,13 +216,13 @@ const ticker   = testimonials.filter(t => !t.featured);
 
   <!-- Bottom CTA strip -->
   <div class="main-container mt-16">
-    <div class="t-el flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-black/5 pt-8" data-delay="0">
-      <p class="type-body text-on-surface-variant max-w-sm">
+    <div class="t-el flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-white/5 pt-8" data-delay="0">
+      <p class="type-body text-white/60 max-w-sm">
         Every project is founder-led, scoped, and delivered as a complete build.
       </p>
       <a
         href={`${baseUrl}testimonials`}
-        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
+        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-white/60 border-b border-white/20 pb-px hover:text-white hover:border-white transition-colors duration-300"
       >
         Read all testimonials
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -247,7 +247,7 @@ const ticker   = testimonials.filter(t => !t.featured);
   /* ── Featured cards ────────────────────────────────────────── */
   /* t-card: visible by default — no entrance animation */
   .t-card:hover {
-    background-color: theme('colors.surface-container-lowest');
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .video-play {

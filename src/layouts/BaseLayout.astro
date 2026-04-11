@@ -2,7 +2,6 @@
 import GlobalSchema from "../components/GlobalSchema.astro";
 import Meta from "../components/Meta.astro";
 import Navbar from "../components/Navbar.astro";
-import GlobalGrain from "../components/design-effects/GlobalGrain.astro";
 import GlobalSpatialEffect from "../components/design-effects/GlobalSpatialEffect.astro";
 import "../styles/global.css";
 import { SITE_CONFIG } from "../data/site-config";
@@ -45,7 +44,7 @@ const baseUrl = import.meta.env.BASE_URL;
 		<slot name="head" />
 	</head>
 	<body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary perspective-[1000px]">
-		<div class="grain-overlay"></div>
+		<GlobalSpatialEffect />
 		<!-- GEMINI §5.O — first focusable element -->
 		<a
 			href="#main-content"
@@ -57,7 +56,5 @@ const baseUrl = import.meta.env.BASE_URL;
 		<main id="main-content">
 			<slot />
 		</main>
-		<GlobalSpatialEffect />
-		<GlobalGrain />
 	</body>
 </html>

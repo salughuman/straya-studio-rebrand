@@ -152,7 +152,6 @@ export default {
                     '--depth-2':                tokens.effects.depth['2'],
                     '--depth-3':                tokens.effects.depth['3'],
                     '--magnetic-cta':           tokens.effects.magnetic.cta,
-                    '--grain-opacity':          String(tokens.effects.grain.opacity),
                     // Spacing
                     '--spacing-base':               tokens.spacing.base,
                     '--spacing-container-max':      tokens.spacing.containerMax,

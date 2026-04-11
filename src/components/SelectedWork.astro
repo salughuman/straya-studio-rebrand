@@ -73,7 +73,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
                   height="450"
                   loading="lazy"
                   decoding="async"
-                  class="thumb-image grayscale"
+                  class="thumb-image"
                   data-thumb-image
                 />
               </div>
@@ -129,7 +129,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
       )}
 
       <!-- Studio status card — narrow -->
-      <div class="md:col-span-5 bg-primary flex flex-col justify-between p-4 md:p-5 group">
+      <div class="md:col-span-5 bg-primary flex flex-col justify-between p-4 md:p-5 group hidden md:flex">
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-accent status-dot" aria-hidden="true"></span>
@@ -173,7 +173,7 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
                   height="300"
                   loading="lazy"
                   decoding="async"
-                  class="thumb-image grayscale"
+                  class="thumb-image"
                   data-thumb-image
                 />
               </div>
@@ -277,9 +277,6 @@ const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
     transform: translate3d(0, 0, 0);
     will-change: transform, filter;
     transition: filter 420ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .work-card:hover .thumb-image {
-    filter: grayscale(0);
   }
 
   /* ── Status dot ────────────────────────────────────────────── */

@@ -27,7 +27,7 @@
  *
  * Visual notes:
  * - Keep composition centered for each ratio crop.
- * - Avoid relying only on color to communicate info (cards start grayscale).
+ * - Avoid relying only on color to communicate info (thumbnails use grayscale on md+ until hover).
  * ─────────────────────────────────────────────────────────────────
  */
 
