@@ -1,5 +1,9 @@
-# When this repo is deployed on Netlify (e.g. straya.netlify.app), send all
-# traffic to the canonical production site.
+# Build must run on Netlify so postbuild injects dist/_redirects (301! shadows HTML).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Backup rule; primary redirect is dist/_redirects from scripts/inject-netlify-redirects.mjs
 [[redirects]]
   from = "/*"
   to = "https://strayastudio.com/:splat"
