@@ -44,18 +44,19 @@ const baseUrl = import.meta.env.BASE_URL;
     <!-- Metrics Grid -->
     <div
       class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+      role="region"
       aria-label="Studio metrics"
     >
       <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="480">
-        <div class="type-h2 mb-1" aria-label="100 plus deployments">100+</div>
+        <div class="type-h2 mb-1"><span class="sr-only">100 plus deployments</span><span aria-hidden="true">100+</span></div>
         <div class="type-label text-on-background/40">Deployments</div>
       </div>
       <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="520">
-        <div class="type-h2 mb-1" aria-label="5 point 0 star rating">5.0</div>
+        <div class="type-h2 mb-1"><span class="sr-only">5 point 0 star rating</span><span aria-hidden="true">5.0</span></div>
         <div class="type-label text-on-background/40">Rating</div>
       </div>
         <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="560">
-        <div class="type-h2 mb-1" aria-label="100 percent">100%</div>
+        <div class="type-h2 mb-1"><span class="sr-only">100 percent</span><span aria-hidden="true">100%</span></div>
         <div class="type-label text-on-background/40">Quality</div>
       </div>
       <div class="hero-el p-8 border border-black/5 bg-primary group hover:bg-secondary transition-colors duration-300" data-delay="600">

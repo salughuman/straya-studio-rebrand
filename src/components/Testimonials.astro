@@ -112,7 +112,7 @@ const ticker   = testimonials.filter(t => !t.featured);
           aria-label={`Testimonial from ${t.name}`}
         >
           <!-- Stars -->
-          <div class="flex gap-1" aria-label="5 out of 5 stars">
+          <div class="flex gap-1" role="img" aria-label="5 out of 5 stars">
             {Array.from({ length: 5 }).map((_, si) => (
               <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"
                 class="text-accent" aria-hidden="true">
