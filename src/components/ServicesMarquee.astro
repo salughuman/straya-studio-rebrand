@@ -99,27 +99,30 @@ const services = [
     </div>
   </div>
 
-  <!-- Service rows -->
-  <div class="main-container" id="services-list" role="list">
+  <!-- Service rows — each row is a button for keyboard + SR (hover still drives popup on desktop) -->
+  <div class="main-container" id="services-list">
     {services.map((s, i) => (
-      <div
-        class="service-row group relative border-b border-black/5 last:border-0"
-        role="listitem"
+      <button
+        type="button"
+        class="service-row group relative w-full max-w-full text-left bg-transparent p-0 m-0 font-sans text-inherit cursor-pointer md:cursor-default border-0 border-b border-solid border-black/5 last:border-b-0 appearance-none rounded-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         data-index={i}
         data-image={s.image}
         data-title={s.title}
         data-description={s.description}
         data-tags={s.tags.join("|")}
+        aria-expanded="false"
+        aria-controls="service-popup"
+        aria-label={`${s.title}. ${s.description}`}
       >
-        <div class="service-row-inner flex items-center justify-between gap-6 py-7 cursor-default">
+        <div class="service-row-inner flex items-center justify-between gap-6 py-7 pointer-events-none select-none">
           <!-- Index + title -->
-          <div class="flex items-center gap-6 min-w-0 pointer-events-none select-none">
+          <div class="flex items-center gap-6 min-w-0">
             <span class="type-label text-on-background/20 flex-shrink-0 w-8 tabular-nums">{s.index}</span>
             <span class="type-h3 text-on-background transition-colors duration-300 group-hover:opacity-60">{s.title}</span>
           </div>
 
           <!-- Tag pills — visible on desktop, fade on hover -->
-          <div class="hidden lg:flex items-center gap-2 flex-shrink-0 pointer-events-none select-none transition-opacity duration-300 group-hover:opacity-60">
+          <div class="hidden lg:flex items-center gap-2 flex-shrink-0 transition-opacity duration-300 group-hover:opacity-60">
             {s.tags.slice(0, 3).map(tag => (
               <span class="type-label text-on-background/30 border border-black/5 px-2 py-1">{tag}</span>
             ))}
@@ -127,13 +130,13 @@ const services = [
 
           <!-- Arrow — rotates on hover -->
           <svg
-            class="w-4 h-4 text-on-background/20 flex-shrink-0 pointer-events-none select-none transition-all duration-300 group-hover:text-accent group-hover:translate-x-1"
+            class="w-4 h-4 text-on-background/20 flex-shrink-0 transition-all duration-300 group-hover:text-accent group-hover:translate-x-1"
             viewBox="0 0 16 16" fill="none" aria-hidden="true"
           >
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-      </div>
+      </button>
     ))}
   </div>
 
@@ -314,7 +317,13 @@ const services = [
 
   @media (prefers-reduced-motion: reduce) {
     .svc-el { opacity: 1 !important; transform: none !important; }
-    .service-popup { display: none !important; }
+    .service-popup { transition: none !important; }
+    .service-popup-content {
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .popup-deliverables-track { animation: none !important; }
   }
 </style>
 
@@ -439,6 +448,15 @@ const services = [
     });
   }
 
+  const rows = document.querySelectorAll<HTMLElement>('.service-row');
+
+  function syncPopupA11y() {
+    popup.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+    rows.forEach((r) => {
+      r.setAttribute('aria-expanded', r === activeRow && isVisible ? 'true' : 'false');
+    });
+  }
+
   function showPopup(row: HTMLElement) {
     if (activeRow !== row) {
       activeRow = row;
@@ -468,6 +486,7 @@ const services = [
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(animatePopup);
     }
+    syncPopupA11y();
   }
 
   function hidePopup() {
@@ -476,6 +495,7 @@ const services = [
     activeRow = null;
     popup.classList.remove('is-active');
     cancelAnimationFrame(rafId);
+    syncPopupA11y();
   }
 
   const isMobile = () => window.innerWidth < 810;
@@ -487,10 +507,27 @@ const services = [
     hidePopup();
   });
 
-  const rows = document.querySelectorAll<HTMLElement>('.service-row');
-  rows.forEach(row => {
+  rows.forEach((row) => {
     row.addEventListener('mouseenter', () => { if (!isMobile()) showPopup(row); });
-    row.addEventListener('mouseleave', () => { if (!isMobile()) hidePopup(); });
+    row.addEventListener('mouseleave', () => {
+      if (isMobile()) return;
+      if (row.matches(':focus-within')) return;
+      hidePopup();
+    });
+
+    row.addEventListener('focusin', () => {
+      if (!isMobile()) showPopup(row);
+    });
+    row.addEventListener('focusout', (e) => {
+      if (isMobile()) return;
+      const related = e.relatedTarget as HTMLElement | null;
+      if (related?.closest?.('.service-row')) return;
+      if (related?.closest?.('#service-popup')) return;
+      queueMicrotask(() => {
+        const ae = document.activeElement as HTMLElement | null;
+        if (!ae?.closest?.('#services-list') && !ae?.closest?.('#service-popup')) hidePopup();
+      });
+    });
 
     row.addEventListener('mousemove', (e: MouseEvent) => {
       if (isMobile()) return;
@@ -509,8 +546,12 @@ const services = [
     });
   });
 
-  // Hide if mouse leaves the section entirely (desktop only)
+  syncPopupA11y();
+
+  // Hide if mouse leaves the section entirely (desktop only) — keep open if a row still has focus
   document.getElementById('services-list')?.addEventListener('mouseleave', () => {
-    if (!isMobile()) hidePopup();
+    if (isMobile()) return;
+    if (document.getElementById('services-list')?.contains(document.activeElement)) return;
+    hidePopup();
   });
 </script>

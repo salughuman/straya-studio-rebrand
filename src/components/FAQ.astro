@@ -1,7 +1,7 @@
 ---
 // FAQ.astro — Straya Studio [SIMPLE]
 // Sticky header + animated accordion. Light mode, numbered questions.
-// GEMINI §15: semantic <dl>, slide+fade animation, max 7 visible.
+// GEMINI §15: accordion + slide+fade animation, max 7 visible (aria-level=3 on question labels).
 // GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
 import { faqItems } from "../data/faq";
@@ -49,25 +49,28 @@ const baseUrl = import.meta.env.BASE_URL;
         
       </header>
 
-      <!-- Accordion -->
+      <!-- Accordion — native details (not inside <dl>: <details> is not valid as a direct child of definition lists) -->
       <div class="flex-1 min-w-0">
-        <dl>
-          {faqItems.map((item, i) => (
-            <details
-              class="faq-item group border-b border-black/5"
-              data-index={i}
-            >
-              <summary class="faq-summary flex items-center justify-between gap-6 py-6 cursor-pointer select-none list-none text-left transition-colors duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
-                <!-- Index + question -->
-                <div class="flex items-baseline gap-4 min-w-0">
-                  <span class="type-label text-on-background/20 flex-shrink-0 tabular-nums w-6">
+        {faqItems.map((item, i) => (
+          <details
+            class="faq-item group border-b border-black/5"
+            data-index={i}
+          >
+            <summary class="faq-summary cursor-pointer select-none list-none text-left transition-colors duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
+              <!-- Single flow wrapper required by HTML: summary may contain only one flow child -->
+              <span class="flex w-full items-center justify-between gap-6 py-6">
+                <span class="flex items-baseline gap-4 min-w-0">
+                  <span class="type-label text-on-background/20 flex-shrink-0 tabular-nums w-6" aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <dt class="type-body text-on-background hover:text-accent transition-colors duration-300 group-open:text-accent">
+                  <span
+                    class="type-body text-on-background font-normal group-open:text-accent transition-colors duration-300"
+                    role="heading"
+                    aria-level="3"
+                  >
                     {item.question}
-                  </dt>
-                </div>
-                <!-- Toggle icon -->
+                  </span>
+                </span>
                 <span
                   class="faq-icon flex-shrink-0 w-6 h-6 flex items-center justify-center border border-black/10 transition-all duration-300 group-open:border-accent/30 group-open:bg-accent/5"
                   aria-hidden="true"
@@ -80,19 +83,17 @@ const baseUrl = import.meta.env.BASE_URL;
                     <path d="M6 1v10M1 6h10"/>
                   </svg>
                 </span>
-              </summary>
+              </span>
+            </summary>
 
-              <!-- Answer panel -->
-              <div class="faq-content overflow-hidden">
-                <dd class="m-0">
-                  <p class="type-body-small text-on-surface-variant leading-relaxed pb-6 pl-10 pr-8">
-                    {item.answer}
-                  </p>
-                </dd>
-              </div>
-            </details>
-          ))}
-        </dl>
+            <!-- Answer panel -->
+            <div class="faq-content overflow-hidden">
+              <p class="type-body-small text-on-surface-variant leading-relaxed pb-6 pl-10 pr-8 m-0">
+                {item.answer}
+              </p>
+            </div>
+          </details>
+        ))}
       </div>
 
     </div>

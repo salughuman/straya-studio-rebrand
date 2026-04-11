@@ -91,17 +91,19 @@ const breadcrumbSchema = {
 
             <!-- Name + Email row -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <label class="flex flex-col gap-2">
+              <label class="flex flex-col gap-2" for="contact-name">
                 <span class="type-label text-on-background/60">Full name <span class="text-accent" aria-hidden="true">*</span></span>
                 <input
+                  id="contact-name"
                   required name="name" type="text" autocomplete="name"
                   placeholder="Alex Morgan"
                   class="contact-input"
                 />
               </label>
-              <label class="flex flex-col gap-2">
+              <label class="flex flex-col gap-2" for="contact-email">
                 <span class="type-label text-on-background/60">Email <span class="text-accent" aria-hidden="true">*</span></span>
                 <input
+                  id="contact-email"
                   required name="email" type="email" autocomplete="email"
                   placeholder="you@example.com"
                   class="contact-input"
@@ -110,9 +112,9 @@ const breadcrumbSchema = {
             </div>
 
             <!-- Platform -->
-            <label class="flex flex-col gap-2">
+            <label class="flex flex-col gap-2" for="contact-platform">
               <span class="type-label text-on-background/60">Platform preference</span>
-              <select name="platform" class="contact-input">
+              <select id="contact-platform" name="platform" class="contact-input">
                 <option value="">Not sure yet</option>
                 <option value="Framer">Framer</option>
                 <option value="Webflow">Webflow</option>
@@ -123,9 +125,9 @@ const breadcrumbSchema = {
             </label>
 
             <!-- Budget -->
-            <label class="flex flex-col gap-2">
+            <label class="flex flex-col gap-2" for="contact-budget">
               <span class="type-label text-on-background/60">Budget range</span>
-              <select name="budget" class="contact-input">
+              <select id="contact-budget" name="budget" class="contact-input">
                 <option value="">Select a range</option>
                 <option value="$1,500–$2,000">$1,500 – $2,000 (Starter)</option>
                 <option value="$3,500–$4,500">$3,500 – $4,500 (Growth)</option>
@@ -135,9 +137,10 @@ const breadcrumbSchema = {
             </label>
 
             <!-- Brief -->
-            <label class="flex flex-col gap-2">
+            <label class="flex flex-col gap-2" for="contact-brief">
               <span class="type-label text-on-background/60">Project brief <span class="text-accent" aria-hidden="true">*</span></span>
               <textarea
+                id="contact-brief"
                 required name="brief" rows={6} autocomplete="off"
                 placeholder="Share your goals, scope, platform preference, and any deadline constraints."
                 class="contact-input resize-none"

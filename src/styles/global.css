@@ -71,7 +71,7 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		html {
-			scroll-behavior: smooth;
+			scroll-behavior: auto;
 		}
 	}
 
@@ -256,4 +256,11 @@ textarea:-webkit-autofill {
 
 .animate-marquee {
 	animation: marquee var(--animation-marquee-duration, 20s) var(--animation-marquee-timing, linear) var(--animation-marquee-iteration, infinite);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-marquee {
+		animation: none;
+		transform: none;
+	}
 }

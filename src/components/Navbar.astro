@@ -80,10 +80,14 @@ const navLinks = [
 <!-- Mobile menu — full screen, slides down from top -->
 <div
   id="mobile-menu"
+  role="dialog"
+  aria-modal="false"
   aria-hidden="true"
+  aria-labelledby="mobile-menu-title"
   class="fixed inset-x-0 top-0 z-40 bg-background flex flex-col md:hidden"
   style="height: 100dvh;"
 >
+  <h2 id="mobile-menu-title" class="sr-only">Site menu</h2>
   <!-- Header row (mirrors navbar) -->
   <div class="main-container flex justify-between items-center py-4 border-b border-black/5 flex-shrink-0">
     <img
@@ -251,6 +255,7 @@ const navLinks = [
   function open() {
     menu?.classList.add('is-open');
     menu?.setAttribute('aria-hidden', 'false');
+    menu?.setAttribute('aria-modal', 'true');
     toggle?.classList.add('is-open');
     toggle?.setAttribute('aria-expanded', 'true');
     toggle?.setAttribute('aria-label', 'Close menu');
@@ -260,6 +265,7 @@ const navLinks = [
   function close() {
     menu?.classList.remove('is-open');
     menu?.setAttribute('aria-hidden', 'true');
+    menu?.setAttribute('aria-modal', 'false');
     toggle?.classList.remove('is-open');
     toggle?.setAttribute('aria-expanded', 'false');
     toggle?.setAttribute('aria-label', 'Open menu');
