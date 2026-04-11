@@ -1,0 +1,7 @@
+# When this repo is deployed on Netlify (e.g. straya.netlify.app), send all
+# traffic to the canonical production site.
+[[redirects]]
+  from = "/*"
+  to = "https://strayastudio.com/:splat"
+  status = 301
+  force = true
