@@ -56,7 +56,7 @@ const navLinks = [
       <button
         id="nav-toggle"
         type="button"
-        class="nav-icon-btn md:hidden w-10 h-10 relative text-on-background"
+        class="nav-icon-btn inline-flex md:hidden w-10 h-10 relative text-on-background"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -155,13 +155,16 @@ const navLinks = [
   #nav-toggle,
   #nav-close {
     -webkit-tap-highlight-color: transparent;
-    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     border: none;
     background: transparent;
     cursor: pointer;
+  }
+  /* #nav-toggle uses Tailwind inline-flex + md:hidden — do not set display here or it overrides md:hidden */
+  #nav-close {
+    display: inline-flex;
   }
 
   .nav-toggle-face {
