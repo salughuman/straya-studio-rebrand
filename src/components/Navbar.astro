@@ -13,67 +13,54 @@ const navLinks = [
 ];
 ---
 
-<!-- Navbar -->
+<!-- Navbar — same pill style as hero nav, slides down after hero scrolls out -->
 <nav
   id="navbar"
   aria-label="Main navigation"
-  class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-black/5"
+  class="fixed top-0 w-full z-50 flex justify-center transition-transform duration-500"
+  style="transform: translateY(-100%);"
 >
-  <div class="main-container flex justify-between items-center py-4">
-
-    <!-- Logo -->
-    <a href={baseUrl} aria-label="Straya Studio — Home" class="no-underline flex-shrink-0 z-10">
-      <img
-        src={`${baseUrl}logo.svg`}
-        alt="Straya Studio"
-        class="h-[16px] w-auto md:h-[20px]"
-        loading="eager"
-        decoding="async"
-      />
-    </a>
-
-    <!-- Desktop links -->
-    <div class="hidden md:flex items-center gap-8">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          data-nav-link
-          class="nav-link type-label text-on-background/40 hover:text-on-background transition-colors duration-300"
-        >
-          {link.label}
-        </a>
-      ))}
-    </div>
-
-    <!-- Right side -->
-    <div class="flex items-center gap-3">
-      <!-- CTA — desktop only -->
-      <div class="hidden md:block">
-        <NavButton href={SITE_CONFIG.socials.calendly} label="Initiate Project" variant="primary" />
-      </div>
-
-      <!-- Mobile menu toggle: SVG hamburger ↔ SVG X (no CSS bar rotation — avoids crooked X) -->
-      <button
-        id="nav-toggle"
-        type="button"
-        class="nav-icon-btn inline-flex md:hidden w-10 h-10 relative text-on-background"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
+  <div class="flex items-center gap-3 rounded-b-2xl bg-black/90 backdrop-blur-xl px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
+    {navLinks.map(link => (
+      <a
+        href={link.href}
+        data-nav-link
+        class="global-nav-link text-[10px] transition-colors sm:text-xs md:text-sm"
+        style="color: rgba(225,224,204,0.8);"
       >
-        <span class="nav-toggle-face nav-toggle-face--menu" aria-hidden="true">
-          <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
-            <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </span>
-        <span class="nav-toggle-face nav-toggle-face--close" aria-hidden="true">
-          <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </span>
-      </button>
-    </div>
-
+        {link.label}
+      </a>
+    ))}
+    <a
+      href={SITE_CONFIG.socials.calendly}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-[10px] font-medium transition-colors sm:text-xs md:text-sm hidden md:block"
+      style="color: #E1E0CC;"
+    >
+      Initiate Project
+    </a>
+    <!-- Mobile hamburger -->
+    <button
+      id="nav-toggle"
+      type="button"
+      class="nav-icon-btn inline-flex md:hidden w-8 h-8 relative"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      style="color: #E1E0CC;"
+    >
+      <span class="nav-toggle-face nav-toggle-face--menu" aria-hidden="true">
+        <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
+          <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="nav-toggle-face nav-toggle-face--close" aria-hidden="true">
+        <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </button>
   </div>
 </nav>
 
@@ -154,6 +141,14 @@ const navLinks = [
 <style>
   /* Navbar backdrop */
   #navbar { -webkit-backdrop-filter: blur(24px); }
+
+  /* Global nav link style — matches hero nav */
+  .global-nav-link:hover { color: #E1E0CC !important; }
+  .global-nav-link.is-active {
+    color: #E1E0CC !important;
+    border-bottom: 1px solid rgba(225,224,204,0.4);
+    padding-bottom: 1px;
+  }
 
   /* Mobile icons — square tap targets, crisp vector icons */
   #nav-toggle,
@@ -278,6 +273,20 @@ const navLinks = [
   closeBtn?.addEventListener('click', close);
   links.forEach(l => l.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  // ── Show navbar after hero scrolls out ─────────────────────
+  const navbar = document.getElementById('navbar');
+  const hero   = document.getElementById('hero');
+
+  if (navbar && hero) {
+    const heroObs = new IntersectionObserver(entries => {
+      navbar.style.transform = entries[0].isIntersecting ? 'translateY(-100%)' : 'translateY(0)';
+    }, { threshold: 0.05 });
+    heroObs.observe(hero);
+  } else if (navbar) {
+    // No hero on this page — always show
+    navbar.style.transform = 'translateY(0)';
+  }
 
   // ── Active section tracking ─────────────────────────────────
   const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');

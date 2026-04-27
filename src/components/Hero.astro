@@ -1,153 +1,197 @@
 ---
 // Hero.astro — Straya Studio
-// Compliant with GEMINI.md: light mode, no bold fonts, magnetic CTA,
-// 4-col grid background, z-depth, blueprint tracking, semantic HTML + SEO.
-import TrustGrid from "./TrustGrid.astro";
-
+// Exact Prisma Hero layout from screenshot — single massive word bottom-left,
+// description + pill CTA bottom-right, centered pill nav at top.
+import { SITE_CONFIG } from "../data/site-config";
 const baseUrl = import.meta.env.BASE_URL;
+
+const navLinks = [
+  { label: "Work",     href: `${baseUrl}#work` },
+  { label: "Services", href: `${baseUrl}#services` },
+  { label: "Process",  href: `${baseUrl}#method` },
+  { label: "Pricing",  href: `${baseUrl}#pricing` },
+  { label: "About",    href: `${baseUrl}#about` },
+  { label: "FAQ",      href: `${baseUrl}#faq` },
+];
 ---
 
 <section
   id="hero"
   aria-label="Straya Studio — Cinematic Digital Deployments"
-  class="relative overflow-hidden perspective-1k"
+  class="h-screen w-full"
 >
-  <div class="relative z-10 main-container pt-32 pb-20 lg:pt-40 lg:pb-24">
+  <!-- SEO sr-only summary -->
+  <p class="sr-only">
+    Straya Studio is a boutique web design and development studio by Salman Ali, an Official Certified Framer Expert. We deliver custom web design, web development, and graphic design across Framer, Webflow, Shopify, Wix, and WordPress. Project-based pricing starts at $2,000.
+  </p>
 
-    <!-- Headline + Description row -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-16">
+  <!-- Rounded inner container — clips everything -->
+  <div class="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem]">
 
-      <!-- Left: Headline -->
-      <div class="z-depth-1">
-        <h1 class="type-h1 text-on-background uppercase">
-          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="80">Cinematic</span></span>
-          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="140">Digital</span></span>
-          <span class="hero-line block overflow-hidden"><span class="hero-el inline-block" data-delay="200">Deployments</span></span>
-        </h1>
+    <!-- Background video -->
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 h-full w-full object-cover"
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+      aria-hidden="true"
+    ></video>
+
+    <!-- Fallback bg -->
+    <div class="absolute inset-0 bg-[#1a1a1a]" aria-hidden="true"></div>
+
+    <!-- Noise overlay -->
+    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay" aria-hidden="true"></div>
+
+    <!-- Gradient overlay -->
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" aria-hidden="true"></div>
+
+    <!-- ── Navbar — centered pill at top ── -->
+    <nav
+      id="hero-nav"
+      aria-label="Main navigation"
+      class="absolute left-1/2 top-0 z-20 -translate-x-1/2"
+    >
+      <div class="flex items-center gap-3 rounded-b-2xl bg-black px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            data-nav-link
+            class="hero-nav-link text-[10px] transition-colors sm:text-xs md:text-sm"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
+    </nav>
 
-      <!-- Right: Description + Founder -->
-      <div class="max-w-md text-left md:text-right z-depth-1">
-        <p class="hero-el type-body text-on-surface-variant mb-6" data-delay="320">
-          Designing &amp; developing ideas into icons. From Framer to Shopify — we
-          engineer platforms that load faster, convert higher, and look like
-          nothing else in your market.
-        </p>
-        <div class="hero-el flex items-center justify-start md:justify-end gap-2" data-delay="400">
-          <span class="type-label text-on-background">SALMAN ALI</span>
-          <span class="w-8 h-px bg-black/10" aria-hidden="true"></span>
-          <span class="type-label text-on-background/40">Founder / Framer Expert</span>
+    <!-- ── Hero content — absolute bottom ── -->
+    <div class="absolute bottom-0 left-0 right-0 px-4 pb-2 sm:px-6 md:px-10">
+      <div class="grid grid-cols-12 items-end gap-4">
+
+        <!-- Left: Single massive word with asterisk -->
+        <div class="col-span-12 lg:col-span-8">
+          <h1
+            class="prisma-title font-display font-medium leading-[0.85] tracking-[-0.07em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"
+            aria-label="Straya Studio"
+          >
+            <span class="words-pull-up inline-flex flex-wrap" data-words-pull-up>
+              <span class="word inline-block relative" style="--word-index: 0;">
+                Straya
+                <!-- Asterisk superscript — exact Prisma position -->
+                <span class="absolute top-[0.65em] -right-[0.3em] text-[0.31em]" aria-hidden="true">*</span>
+              </span>
+            </span>
+          </h1>
+        </div>
+
+        <!-- Right: Description + CTA -->
+        <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
+
+          <p
+            class="hero-paragraph text-xs sm:text-sm md:text-base"
+            style="color: rgba(225,224,204,0.7); line-height: 1.2;"
+          >
+            Designing &amp; developing ideas into icons. From Framer to Shopify — we engineer platforms that load faster, convert higher, and look like nothing else in your market.
+          </p>
+
+          <!-- Pill CTA — exact Prisma style -->
+          <a
+            href={`${baseUrl}contact`}
+            class="hero-button group inline-flex items-center gap-2 self-start rounded-full bg-[#E1E0CC] py-1 pl-5 pr-1 text-sm font-medium text-black transition-all hover:gap-3 sm:text-base"
+            aria-label="Start a project with Straya Studio"
+          >
+            Start a project
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4"
+                style="color: #E1E0CC;"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </span>
+          </a>
+
         </div>
       </div>
-    </div>
-
-    <!-- Metrics Grid -->
-    <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-      role="region"
-      aria-label="Studio metrics"
-    >
-      <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="480">
-        <div class="type-h2 mb-1"><span class="sr-only">100 plus deployments</span><span aria-hidden="true">100+</span></div>
-        <div class="type-label text-on-background/40">Deployments</div>
-      </div>
-      <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="520">
-        <div class="type-h2 mb-1"><span class="sr-only">5 point 0 star rating</span><span aria-hidden="true">5.0</span></div>
-        <div class="type-label text-on-background/40">Rating</div>
-      </div>
-        <div class="hero-el p-8 border border-black/5 bg-surface-container-lowest group hover:bg-surface transition-colors duration-500" data-delay="560">
-        <div class="type-h2 mb-1"><span class="sr-only">100 percent</span><span aria-hidden="true">100%</span></div>
-        <div class="type-label text-on-background/40">Quality</div>
-      </div>
-      <div class="hero-el p-8 border border-black/5 bg-primary group hover:bg-secondary transition-colors duration-300" data-delay="600">
-        <div class="type-h2 text-on-primary mb-1">Elite</div>
-        <div class="type-label text-on-primary/60">Status</div>
-      </div>
-    </div>
-
-    <!-- CTA Row -->
-    <div class="hero-el flex flex-row items-start sm:items-center gap-4 mb-16" data-delay="680">
-      <a
-        href={`${baseUrl}contact`}
-        class="magnetic-cta z-depth-2 inline-flex items-center gap-3 bg-primary text-on-primary px-2 py-3 md:px-8 md:py-4 type-button hover:bg-accent transition-colors duration-300 whitespace-nowrap"
-        aria-label="Start a project with Straya Studio"
-      >
-        Initiate Project
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="flex-shrink-0">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-      <a
-        href="#work"
-        class="inline-flex items-center gap-2 type-label text-on-background/40 hover:text-on-background transition-colors duration-300 border-b border-transparent hover:border-on-background/20 pb-px whitespace-nowrap"
-      >
-        View Selected Work
-      </a>
-    </div>
-
-    <!-- Platform Marquee -->
-    <div class="hero-el" data-delay="760">
-      <TrustGrid />
     </div>
 
   </div>
 </section>
 
 <style>
-  /* All hero elements start hidden */
-  .hero-el {
-    opacity: 0;
-    transform: translateY(28px);
+  .prisma-title { color: #E1E0CC; }
+
+  .hero-nav-link { color: rgba(225, 224, 204, 0.8); }
+  .hero-nav-link:hover { color: #E1E0CC; }
+  .hero-nav-link.is-active {
+    color: #E1E0CC;
+    border-bottom: 1px solid rgba(225,224,204,0.4);
+    padding-bottom: 1px;
   }
 
-  /* Headline lines — clip reveal from bottom */
-  .hero-line {
-    display: block;
-    overflow: hidden;
+  /* Word pull-up — mirrors framer-motion initial/animate */
+  .words-pull-up .word {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  .hero-line .hero-el {
-    transform: translateY(100%);
-    opacity: 1; /* opacity handled by clip, not fade */
+  .words-pull-up.in-view .word {
+    animation: wordsPullUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--word-index) * 0.08s);
+  }
+  @keyframes wordsPullUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Paragraph + button entry */
+  .hero-paragraph { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+  .hero-button    { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Noise overlay */
+  .noise-overlay {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-el { opacity: 1 !important; transform: none !important; }
+    .words-pull-up .word,
+    .hero-paragraph,
+    .hero-button { opacity: 1 !important; transform: none !important; animation: none !important; }
   }
 </style>
 
 <script>
-  // GSAP-style entrance — power3.out easing via cubic-bezier
-  // Each element animates independently with its own delay
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)'; // power3.out equivalent
-  const DURATION = 900; // ms — slightly longer for premium feel
+  // Trigger word pull-up when heading enters viewport (mirrors useInView once:true)
+  const targets = document.querySelectorAll<HTMLElement>("[data-words-pull-up]");
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in-view"); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  targets.forEach(el => obs.observe(el));
 
-  const els   = document.querySelectorAll<HTMLElement>('.hero-el');
-  const lines = document.querySelectorAll<HTMLElement>('.hero-line .hero-el');
-
-  // Small RAF delay so browser has painted before animating
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-
-      els.forEach(el => {
-        const delay = parseInt(el.dataset.delay ?? '0');
-        const isLine = el.closest('.hero-line') !== null;
-
-        el.animate(
-          isLine
-            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-            : [
-                { opacity: 0, transform: 'translateY(28px)' },
-                { opacity: 1, transform: 'translateY(0px)' },
-              ],
-          {
-            duration: DURATION,
-            delay,
-            easing: EASE,
-            fill: 'forwards',
-          }
-        );
-      });
-
+  // Active section tracking
+  const heroNavLinks = document.querySelectorAll<HTMLAnchorElement>('#hero-nav [data-nav-link]');
+  const sectionIds = Array.from(heroNavLinks).map(l => l.getAttribute('href')?.split('#')[1]).filter(Boolean) as string[];
+  const sectionObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) heroNavLinks.forEach(l => l.classList.toggle('is-active', (l.getAttribute('href') ?? '').endsWith(`#${e.target.id}`)));
     });
-  });
+  }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
+  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) sectionObs.observe(el); });
 </script>
