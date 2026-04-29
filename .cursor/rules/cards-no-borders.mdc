@@ -1,0 +1,12 @@
+---
+description: Card surfaces must not use CSS borders — use elevation instead
+globs: "**/*.{astro,css}"
+alwaysApply: true
+---
+
+# Cards: no borders
+
+- **Do not** use `border` / `border-*` as the primary edge treatment on **cards** (rounded content panels, tier tiles, media frames, testimonial panels, dashboard-style shells). Prefer **no** `outline` / `ring-*` on card shells either (decorative), except where required for **`:focus-visible`** accessibility.
+- **Use instead:** `box-shadow` (outer depth + `inset` hairlines), `bg-*` / gradient separation, `backdrop-blur`, or spacing/gutters so hierarchy reads without an outline.
+- **Exceptions (not cards):** comparison grids may use **inset** shadow column dividers instead of borders; **buttons and links** (`Button.astro`, pill CTAs, nav), **form fields**, **`:focus-visible`** outlines, small controls (e.g. carousel dots), and **decorative UI mockups** inside bento cards (fake browser chrome).
+- **Naming:** Prefer classes like `*-card`, `card-pad`, `card-surface`, `pricing-card`, `media-card`, `tm-quote-panel` when checking whether this rule applies.

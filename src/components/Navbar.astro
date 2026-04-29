@@ -13,14 +13,15 @@ const navLinks = [
 ];
 ---
 
-<!-- Navbar — same pill style as hero nav, slides down after hero scrolls out -->
+<!-- Navbar — always visible, centered pill style matching hero -->
 <nav
   id="navbar"
   aria-label="Main navigation"
-  class="fixed top-0 w-full z-50 flex justify-center transition-transform duration-500"
-  style="transform: translateY(-100%);"
+  class="fixed top-0 w-full z-50 flex justify-center"
 >
-  <div class="flex items-center gap-3 rounded-b-2xl bg-black/90 backdrop-blur-xl px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
+  <div
+    class="flex items-center gap-3 rounded-b-2xl border-2 border-zinc-800 bg-black/80 px-4 py-2 shadow-[0_0_50px_-12px_rgba(99,102,241,0.45),0_12px_40px_-16px_rgba(236,72,153,0.2)] backdrop-blur-xl sm:gap-6 md:gap-6 md:rounded-b-3xl md:px-8 lg:gap-7"
+  >
     {navLinks.map(link => (
       <a
         href={link.href}
@@ -76,7 +77,7 @@ const navLinks = [
 >
   <h2 id="mobile-menu-title" class="sr-only">Site menu</h2>
   <!-- Header row (mirrors navbar) -->
-  <div class="main-container flex justify-between items-center py-4 border-b border-black/5 flex-shrink-0">
+  <div class="main-container flex flex-shrink-0 items-center justify-between border-b-2 border-zinc-800 py-4">
     <img
       src={`${baseUrl}logo.svg`}
       alt="Straya Studio"
@@ -103,7 +104,7 @@ const navLinks = [
     {navLinks.map((link, i) => (
       <a
         href={link.href}
-        class="mobile-link nav-link block w-full border-b border-black/5 last:border-0 py-4"
+        class="mobile-link nav-link block w-full border-b-2 border-zinc-800/90 last:border-0 py-4"
         data-nav-link
         data-i={i}
       >
@@ -125,9 +126,16 @@ const navLinks = [
       href={SITE_CONFIG.socials.calendly}
       target="_blank"
       rel="noopener noreferrer"
-      class="w-full flex items-center justify-center type-button bg-primary text-on-primary py-4 hover:bg-accent transition-colors duration-300"
+      class="btn-pill w-full justify-center"
+      aria-label="Initiate a project with Straya Studio"
     >
       Initiate Project
+      <span class="btn-pill-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </span>
     </a>
     <a
       href={`mailto:${SITE_CONFIG.email}`}
@@ -146,8 +154,8 @@ const navLinks = [
   .global-nav-link:hover { color: #E1E0CC !important; }
   .global-nav-link.is-active {
     color: #E1E0CC !important;
-    border-bottom: 1px solid rgba(225,224,204,0.4);
-    padding-bottom: 1px;
+    border-bottom: 2px solid rgba(60, 205, 127, 0.7);
+    padding-bottom: 0;
   }
 
   /* Mobile icons — square tap targets, crisp vector icons */
@@ -228,8 +236,8 @@ const navLinks = [
   /* Active nav link */
   .nav-link.is-active {
     color: theme('colors.on-background') !important;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 1px;
+    border-bottom: 2px solid theme('colors.accent');
+    padding-bottom: 0;
   }
   /* Mobile active — accent color on the label */
   .mobile-link.is-active span {
@@ -273,20 +281,6 @@ const navLinks = [
   closeBtn?.addEventListener('click', close);
   links.forEach(l => l.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-
-  // ── Show navbar after hero scrolls out ─────────────────────
-  const navbar = document.getElementById('navbar');
-  const hero   = document.getElementById('hero');
-
-  if (navbar && hero) {
-    const heroObs = new IntersectionObserver(entries => {
-      navbar.style.transform = entries[0].isIntersecting ? 'translateY(-100%)' : 'translateY(0)';
-    }, { threshold: 0.05 });
-    heroObs.observe(hero);
-  } else if (navbar) {
-    // No hero on this page — always show
-    navbar.style.transform = 'translateY(0)';
-  }
 
   // ── Active section tracking ─────────────────────────────────
   const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');

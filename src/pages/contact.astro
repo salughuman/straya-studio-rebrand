@@ -4,6 +4,7 @@ import { SITE_CONFIG } from "../data/site-config";
 import FAQ from "../components/FAQ.astro";
 import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
+import Button from "../components/ui/buttons/Button.astro";
 
 const title       = "Start a Project | Straya Studio";
 const description = "Share your project brief with Straya Studio. We review every submission and reply with a clear fixed quote — no surprises.";
@@ -31,12 +32,12 @@ const breadcrumbSchema = {
   <section
     id="contact"
     aria-label="Start a project"
-    class="relative bg-background border-b border-black/5 overflow-hidden"
+    class="relative bg-background overflow-hidden"
   >
     <div class="main-container pt-36 pb-24 relative z-10">
 
       <!-- Page header -->
-      <header class="mb-16 border-b border-black/5 pb-10">
+      <header class="mb-16 pb-10">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span class="cp-el type-label text-on-background/40 block mb-3" data-delay="0">Start a project</span>
@@ -51,17 +52,18 @@ const breadcrumbSchema = {
           <!-- Calendly alternative -->
           <div class="cp-el flex-shrink-0 flex flex-col gap-3 md:text-right" data-delay="320">
             <span class="type-label text-on-background/40">Prefer a call?</span>
-            <a
+            <Button
               href={SITE_CONFIG.socials.calendly}
+              label="Book 30-min scoping call"
+              variant="text-link"
               target="_blank"
               rel="noopener noreferrer"
-              class="magnetic-cta inline-flex items-center gap-2 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300"
+              class="magnetic-cta inline-flex items-center gap-2"
             >
-              Book 30-min scoping call
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </a>
+            </Button>
           </div>
         </div>
       </header>
@@ -152,12 +154,15 @@ const breadcrumbSchema = {
               <button
                 type="submit"
                 id="submit-btn"
-                class="magnetic-cta w-full flex items-center justify-center gap-3 type-button bg-primary text-on-primary py-4 hover:bg-accent transition-colors duration-300"
+                class="btn-pill w-full justify-center magnetic-cta"
               >
                 <span id="submit-label">Send project brief</span>
-                <svg id="submit-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <span class="btn-pill-circle" id="submit-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </span>
               </button>
               <p id="form-status" class="type-label text-center hidden" role="status" aria-live="polite"></p>
             </div>
@@ -168,7 +173,7 @@ const breadcrumbSchema = {
         <div class="lg:col-span-4 bg-surface-container-low flex flex-col gap-0">
 
           <!-- What happens next -->
-          <div class="p-8 border-b border-black/5">
+          <div class="p-8">
             <span class="type-label text-on-background/40 block mb-5">What happens next</span>
             <ol class="flex flex-col gap-5 list-none p-0">
               {[
@@ -186,7 +191,7 @@ const breadcrumbSchema = {
           </div>
 
           <!-- Trust signals -->
-          <div class="p-8 border-b border-black/5">
+          <div class="p-8">
             <span class="type-label text-on-background/40 block mb-5">Why Straya Studio</span>
             <ul class="flex flex-col gap-3 list-none p-0">
               {[

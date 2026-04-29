@@ -1,0 +1,109 @@
+---
+interface Segment {
+  text: string;
+  className?: string;
+}
+
+interface Props {
+  text?: string;
+  segments?: Segment[];
+  class?: string;
+  className?: string;
+  showAsterisk?: boolean;
+  delay?: number;
+  centered?: boolean;
+  /** Prismatic animated gradient on each word (hero / display moments). */
+  spectral?: boolean;
+}
+
+const {
+  text = "",
+  segments = [],
+  class: classProp = "",
+  className = "",
+  showAsterisk = false,
+  delay = 0,
+  centered = false,
+  spectral = false,
+} = Astro.props as Props;
+
+const words =
+  segments.length > 0
+    ? segments.flatMap((segment) =>
+        segment.text
+          .split(" ")
+          .filter(Boolean)
+          .map((word) => ({ word, className: segment.className ?? "" })),
+      )
+    : text
+        .split(" ")
+        .filter(Boolean)
+        .map((word) => ({ word, className: "" }));
+
+const wrapperClass = [
+  "inline-flex flex-wrap",
+  centered ? "justify-center" : "",
+  spectral ? "words-pull-up--spectral" : "",
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class={wrapperClass} data-words-pull-up data-delay={String(delay)}>
+  {
+    words.map((entry, i) => {
+      const isLast = i === words.length - 1;
+      return (
+        <span
+          class={`inline-block relative ${entry.className}`.trim()}
+          style={isLast ? "" : "margin-right:0.25em"}
+          data-word
+        >
+          {entry.word}
+          {showAsterisk && isLast && (
+            <span class="absolute top-[0.65em] -right-[0.3em] text-[0.31em] drop-shadow-[0_0_14px_rgba(244,114,182,0.85)]">
+              *
+            </span>
+          )}
+        </span>
+      );
+    })
+  }
+</div>
+
+<script>
+  // @ts-nocheck
+  import gsap from "gsap";
+
+  const animateWordsPullUp = (container) => {
+    if (container.dataset.initialized === "true") return;
+    container.dataset.initialized = "true";
+
+    const items = container.querySelectorAll("[data-word]");
+    const delay = Number(container.dataset.delay || "0");
+    gsap.set(items, { y: 20, opacity: 0 });
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        const visible = entries.some((entry) => entry.isIntersecting);
+        if (!visible) return;
+        gsap.to(items, {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          delay,
+          stagger: 0.08,
+          ease: "power3.out",
+        });
+        obs.disconnect();
+      },
+      { threshold: 0.2, rootMargin: "-10% 0px" },
+    );
+
+    observer.observe(container);
+  };
+
+  document.querySelectorAll("[data-words-pull-up]").forEach(animateWordsPullUp);
+</script>

@@ -1,407 +1,537 @@
 ---
-// Testimonials.astro — Straya Studio [IMMERSIVE]
-// Scroll-driven featured quote + dual-direction infinite ticker.
-// Animation: standard entrance system (GEMINI §7 — power3.out, 900ms, -80px rootMargin).
-
 const baseUrl = import.meta.env.BASE_URL;
 
-interface Testimonial {
-  quote: string;
-  name: string;
-  role?: string;
-  company?: string;
-  stars?: number;
-  featured?: boolean;
-  videoSrc?: string;
-  videoPoster?: string;
-}
+const featured = {
+  name: "Sergio Apollo",
+  role: "CEO, Better Match",
+  quote:
+    "From kickoff to launch, every decision felt intentional. The quality of execution and communication stayed consistent the whole way through.",
+  videoSrc: `${baseUrl}videos/testimonials/sergio-apollo.webm`,
+};
 
-const testimonials: Testimonial[] = [
+const escapeHtml = (input: string) =>
+  input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const highlightQuote = (quote: string) => {
+  const safe = escapeHtml(quote);
+  const highlightPattern =
+    /\b(professional(?:ism)?|responsive|communication|quality|recommend(?:ed)?|timelines?|delivery|helpful|patient|committed|outcome|vision)\b/gi;
+  return safe.replace(highlightPattern, '<span class="t-keyword">$1</span>');
+};
+
+const preferredTestimonials = [
   {
-    quote: "Working with Ali was one of the best experiences I've ever had with a web developer. He has a true talent for the small details, cares about the project, and pays attention to best practices.",
-    name: "Sam Sarvas",
-    company: "CompleteCRO",
-    stars: 5,
-    featured: true,
+    quote:
+      "One of the best web designers and developers I have worked with. I would recommend Straya Studio to anyone serious about quality.",
+    name: "Dejan Djokovic",
+    role: "Founder",
+    country: "Canada",
+    company: "",
   },
   {
-    quote: "Salman helped develop my Framer website, building complex animations and ensuring flawless functionality. Goes above and beyond to deliver quality results.",
-    name: "Stefan Luttik",
-    company: "Like a Human",
-    stars: 5,
+    quote:
+      "Helpful from the initial brief through delivery. Timelines and feedback were always respected and the final result matched the vision.",
+    name: "Luca Sartorello",
+    role: "Founder",
+    country: "Italy",
+    company: "",
   },
   {
-    quote: "I've worked with Salman on several website projects using Framer, and the experience has been consistently excellent. Results exceeded expectations.",
-    name: "Hector Alvarez",
-    company: "All Around Express Solutions",
-    stars: 5,
-  },
-  {
-    quote: "Working with Salman has been an amazing experience. He's hardworking, communicative, and always overdelivers. His web design and animations are top-notch.",
-    name: "Sergio Apollo",
-    role: "CEO",
-    company: "Better Match",
-    stars: 5,
-    featured: true,
-    videoSrc: `${baseUrl}videos/testimonials/sergio-apollo.webm`,
-    videoPoster: `${baseUrl}images/testimonials/sergio-apollo-poster.png`,
-  },
-  {
-    quote: "He is very professional. Responds immediately and always done before the deadline. I have used his services more than 5 times already.",
-    name: "Dimitar Petrov",
-    stars: 5,
-  },
-  {
-    quote: "Salman was great to work with. He pushed the website designs to perfection. I appreciated his quick responses and willingness to meet over Zoom.",
+    quote:
+      "Strong communication under pressure. Every revision sharpened the product instead of adding noise.",
     name: "Oliver Montgomery",
-    stars: 5,
+    role: "Founder",
+    country: "United States",
+    company: "Bluefin Studio",
   },
   {
-    quote: "Been working with Salman for a while now, never disappoints! Great work as always. Definitely a developer worth your money.",
-    name: "Renez Van Autreve",
-    company: "WARPCO",
-    stars: 5,
-  },
-  {
-    quote: "I greatly appreciated this collaboration: attentiveness, availability, and professionalism were evident at every stage.",
-    name: "Elliot Wilson",
-    stars: 5,
+    quote:
+      "Patient, dependable, and committed from kickoff to launch. The process felt senior-led from day one.",
+    name: "Omar Bran",
+    role: "Founder",
+    country: "Australia",
+    company: "",
   },
 ];
-
-const featured = testimonials.filter(t => t.featured);
-const ticker   = testimonials.filter(t => !t.featured);
-
 ---
 
 <section
   id="testimonials"
-  aria-label="Client testimonials"
-  class="section-y pt-10 md:pt-16 relative overflow-hidden bg-primary border-b border-white/5"
+  aria-labelledby="testimonials-heading"
+  class="section-y t-accent-section relative overflow-hidden"
+  data-mode="brutalism"
+  data-testimonials-root
 >
-  <!-- Section header — same black-band language as FinalCTA -->
-  <div class="main-container mb-16">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/5">
-      <div>
-        <span class="t-el type-label text-white/40 block mb-3" data-delay="0">Social Proof</span>
-        <h2 class="type-h2 text-white max-w-lg">
-          <span class="t-line block overflow-hidden"><span class="t-el inline-block" data-delay="80">Trusted by founders</span></span>
-          <span class="t-line block overflow-hidden"><span class="t-el inline-block" data-delay="140">who demand the best.</span></span>
-        </h2>
-      </div>
-      <div class="t-el flex items-center gap-3 flex-shrink-0" data-delay="240">
-        <span class="w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
-        <p class="type-label text-white/40 m-0">
-          <span class="sr-only">Average client rating 5.0 out of 5 stars.</span>
-          <span aria-hidden="true">5.0 ★ — 100+ deployments</span>
-        </p>
-      </div>
-    </div>
-  </div>
+  <p class="sr-only">
+    Testimonials section on an accent background with a featured founder video and an infinite
+    carousel of founder quotes moving from right to left.
+  </p>
 
-  <!-- Featured quotes -->
-  <div class="main-container mb-20">
-    <p class="sr-only">
-      Featured client testimonials from Sam Sarvas of CompleteCRO and Sergio Apollo, CEO of Better Match, praising the quality of work, attention to detail, and communication throughout their Framer and web development projects.
-    </p>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
-      {featured.map((t, i) => (
-        <article
-          class="t-card bg-white/5 card-pad flex flex-col justify-between gap-8 md:gap-10 group cursor-default"
-          data-index={i}
-          aria-label={`Testimonial from ${t.name}`}
-        >
-          <!-- Stars -->
-          <div class="flex gap-1" role="img" aria-label="5 out of 5 stars">
-            {Array.from({ length: 5 }).map((_, si) => (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"
-                class="text-accent" aria-hidden="true">
-                <path d="M6 0L7.35 4.18H11.71L8.18 6.77L9.53 10.95L6 8.36L2.47 10.95L3.82 6.77L0.29 4.18H4.65L6 0Z"/>
-              </svg>
+  <div class="main-container relative z-10">
+    <header class="mb-10 md:mb-14">
+      <p
+        class="m-0 type-label-small font-mono uppercase tracking-[0.08em] text-[#0A0A0A]/65"
+        aria-hidden="true"
+      >
+        [06] / Testimonials
+      </p>
+      <h2
+        id="testimonials-heading"
+        class="m-0 mt-3 max-w-[16ch] text-[#0A0A0A]"
+        style="font-size: clamp(2.2rem, 6.3vw, 5rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em;"
+      >
+        Founder proof,<br />in motion.
+      </h2>
+    </header>
+
+    <div class="t-stage relative">
+      <figure
+        class="t-featured-card relative z-20 m-0"
+        aria-label={`Featured video testimonial from ${featured.name}, ${featured.role}`}
+      >
+        <div class="t-video-frame relative overflow-hidden bg-[#070707]">
+          <video
+            class="absolute inset-0 h-full w-full object-cover"
+            controls
+            preload="metadata"
+            playsinline
+            aria-label={`Video testimonial from ${featured.name}`}
+            data-asset-category="portrait"
+            data-asset-id="testimonial-sergio-apollo-video"
+            data-placeholder="true"
+            data-asset-spec="Founder video testimonial — talking head, three-quarter framing, neutral background, natural daylight, mid-conversation"
+          >
+            <source src={featured.videoSrc} type="video/webm" />
+            Your browser does not support HTML5 video.
+          </video>
+          <div class="t-video-slate" aria-hidden="true"></div>
+          <div class="t-video-vignette" aria-hidden="true"></div>
+          <div class="t-frame-identity" aria-hidden="true">
+            <p class="m-0 t-frame-name">{featured.name}</p>
+            <p class="m-0 t-frame-role">{featured.role}</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="t-carousel-shell relative z-10" aria-hidden="true">
+        <div class="t-carousel-track">
+          <div class="t-carousel-group">
+            {preferredTestimonials.map((item) => (
+              <article class="t-card">
+                <p class="m-0 t-card-quote">
+                  <span set:html={`&ldquo;${highlightQuote(item.quote)}&rdquo;`}></span>
+                </p>
+                <footer class="t-card-meta mt-5">
+                  <p class="m-0 t-card-name type-label">{item.name}</p>
+                  <div class="t-card-submeta">
+                    <p class="m-0 t-card-role type-label-small font-mono uppercase tracking-[0.08em]">
+                      {item.company ? `${item.role}, ${item.company}` : item.role}
+                    </p>
+                    <p class="m-0 t-card-country type-label-small font-mono uppercase tracking-[0.08em]">
+                      {item.country}
+                    </p>
+                  </div>
+                </footer>
+              </article>
             ))}
           </div>
-
-          <!-- Quote -->
-          <blockquote class="flex-1">
-            <p class="type-h3 text-white leading-snug font-medium">
-              "{t.quote}"
-            </p>
-          </blockquote>
-
-          <!-- Video embed — custom local video player -->
-          {t.videoSrc && (
-            <div
-              class="video-player relative overflow-hidden bg-black/30 aspect-video border border-white/10"
-              data-video-player
-              aria-label={`Video testimonial from ${t.name}`}
-            >
-              <video
-                class="video-el w-full h-full object-cover"
-                preload="metadata"
-                playsinline
-                poster={t.videoPoster ?? `${baseUrl}og-testimonials.png`}
-                aria-label={`Video testimonial from ${t.name}`}
-              >
-                <source src={t.videoSrc} type="video/webm" />
-                Your browser does not support HTML5 video.
-              </video>
-
-              <button
-                type="button"
-                class="video-play absolute inset-0 flex items-center justify-center"
-                data-video-play
-                aria-label={`Play video testimonial from ${t.name}`}
-              >
-                <span class="video-play-chip w-14 h-14 bg-white text-primary flex items-center justify-center shadow-lg transition-all duration-300">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="currentColor"/>
-                  </svg>
-                </span>
-              </button>
-
-              <div class="video-controls absolute inset-x-0 bottom-0 p-3">
-                <div class="video-controls-inner flex items-center gap-3 bg-primary/70 text-on-primary px-3 py-2 backdrop-blur-sm">
-                  <button
-                    type="button"
-                    class="video-ctrl-btn"
-                    data-video-toggle
-                    aria-label={`Toggle playback for ${t.name}`}
-                  >
-                    <span data-video-toggle-icon>Play</span>
-                  </button>
-                  <span class="type-label text-on-primary/80 tabular-nums text-[10px]" data-video-time>0:00 / 0:00</span>
-                  <input
-                    class="video-progress flex-1"
-                    data-video-progress
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="0"
-                    aria-label={`Seek video testimonial from ${t.name}`}
-                  />
-                  <button
-                    type="button"
-                    class="video-ctrl-btn"
-                    data-video-mute
-                    aria-label={`Mute video testimonial from ${t.name}`}
-                  >
-                    Sound
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <!-- Attribution -->
-          <footer class="border-t border-white/5 pt-5 md:pt-6">
-            <cite class="not-italic flex items-center justify-between">
-              <div>
-                <span class="type-label text-white block">{t.name}</span>
-                {(t.role || t.company) && (
-                  <span class="type-label text-white/40 block mt-0.5">
-                    {[t.role, t.company].filter(Boolean).join(", ")}
-                  </span>
-                )}
-              </div>
-              <svg
-                width="20" height="20" viewBox="0 0 20 20" fill="none"
-                class="text-white/25 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
-                aria-hidden="true"
-              >
-                <path d="M4 16L16 4M16 4H8M16 4V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </cite>
-          </footer>
-        </article>
-      ))}
+          <div class="t-carousel-group">
+            {preferredTestimonials.map((item) => (
+              <article class="t-card">
+                <p class="m-0 t-card-quote">
+                  <span set:html={`&ldquo;${highlightQuote(item.quote)}&rdquo;`}></span>
+                </p>
+                <footer class="t-card-meta mt-5">
+                  <p class="m-0 t-card-name type-label">{item.name}</p>
+                  <div class="t-card-submeta">
+                    <p class="m-0 t-card-role type-label-small font-mono uppercase tracking-[0.08em]">
+                      {item.company ? `${item.role}, ${item.company}` : item.role}
+                    </p>
+                    <p class="m-0 t-card-country type-label-small font-mono uppercase tracking-[0.08em]">
+                      {item.country}
+                    </p>
+                  </div>
+                </footer>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Bottom CTA strip -->
-  <div class="main-container mt-16">
-    <div class="t-el flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-white/5 pt-8" data-delay="0">
-      <p class="type-body text-white/60 max-w-sm">
-        Every project is founder-led, scoped, and delivered as a complete build.
-      </p>
+    <div class="mt-8 md:mt-10 flex justify-end">
       <a
         href={`${baseUrl}testimonials`}
-        class="magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-white/60 border-b border-white/20 pb-px hover:text-white hover:border-white transition-colors duration-300"
+        class="t-cta inline-flex items-center gap-2 type-label-small font-mono uppercase tracking-[0.08em]"
       >
-        Read all testimonials
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <span class="t-cta__label">View all testimonials</span>
+        <span aria-hidden="true">→</span>
       </a>
     </div>
   </div>
 </section>
 
 <style>
-  /* ── Header elements ───────────────────────────────────────── */
-  .t-el {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  .t-line .t-el {
-    transform: translateY(100%);
-    opacity: 1;
+  .t-accent-section {
+    background: var(--color-accent, #3ccd7f);
+    position: relative;
+    z-index: 2;
   }
 
-  /* ── Featured cards ────────────────────────────────────────── */
-  /* t-card: visible by default — no entrance animation */
-  .t-card:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  @media (min-width: 1024px) {
+    /* C2 color carry — overlap with TheStrayaMethod's hard-edge accent takeover */
+    .t-accent-section {
+      margin-top: -6rem;
+    }
   }
 
-  .video-play {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.08));
-    transition: opacity 250ms ease;
-  }
-  .video-play-chip:hover {
-    transform: scale(1.06);
-    background-color: theme('colors.accent');
-    color: theme('colors.primary');
-  }
-  .video-player.is-playing .video-play {
-    opacity: 0;
-    pointer-events: none;
+  .t-stage {
+    min-height: clamp(30rem, 56vw, 40rem);
   }
 
-  .video-controls-inner {
-    border: 1px solid rgba(255, 255, 255, 0.16);
+  .t-featured-card {
+    width: min(100%, 23rem);
   }
-  .video-ctrl-btn {
-    font-size: 10px;
+
+  .t-video-frame {
+    aspect-ratio: 3 / 4;
+    box-shadow:
+      0 18px 42px rgba(10, 10, 10, 0.35),
+      inset 0 0 0 1px rgba(225, 224, 204, 0.2);
+  }
+
+  .t-frame-identity {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    color: rgba(225, 224, 204, 0.92);
+    background: rgba(10, 10, 10, 0.58);
+    backdrop-filter: blur(3px);
+    padding: 0.45rem 0.6rem;
+    z-index: 3;
+  }
+
+  .t-frame-name {
+    font-size: 0.78rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  .t-frame-role {
+    margin-top: 0.2rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.62rem;
+    line-height: 1;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.85);
-    transition: color 200ms ease;
-  }
-  .video-ctrl-btn:hover {
-    color: #fff;
-  }
-  .video-progress {
-    appearance: none;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.25);
-    outline: none;
-  }
-  .video-progress::-webkit-slider-thumb {
-    appearance: none;
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 999px;
-    border: none;
-  }
-  .video-progress::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 999px;
-    border: none;
-  }
-  .video-progress::-moz-range-track {
-    height: 2px;
-    background: rgba(255, 255, 255, 0.25);
+    letter-spacing: 0.08em;
+    color: rgba(225, 224, 204, 0.78);
   }
 
-  /* ── Tickers ───────────────────────────────────────────────── */
+  .t-video-slate {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 80% at 18% 8%, rgba(225, 224, 204, 0.08) 0%, rgba(225, 224, 204, 0) 45%),
+      linear-gradient(180deg, rgba(10, 10, 10, 0.22) 0%, rgba(10, 10, 10, 0.02) 38%, rgba(10, 10, 10, 0.22) 100%);
+    z-index: 1;
+  }
+
+  .t-video-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(7, 7, 7, 0.38) 0%, rgba(7, 7, 7, 0.05) 32%, rgba(7, 7, 7, 0.22) 100%);
+    z-index: 2;
+  }
+
+  .t-carousel-shell {
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .t-carousel-shell::before,
+  .t-carousel-shell::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(4rem, 10vw, 8rem);
+    pointer-events: none;
+    z-index: 15;
+  }
+
+  .t-carousel-shell::before {
+    left: 0;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent, #3ccd7f) 0%,
+      rgba(60, 205, 127, 0.92) 24%,
+      rgba(60, 205, 127, 0.62) 52%,
+      rgba(60, 205, 127, 0) 100%
+    );
+  }
+
+  .t-carousel-shell::after {
+    right: 0;
+    width: clamp(1.4rem, 3.8vw, 2.6rem);
+    background: linear-gradient(
+      270deg,
+      rgba(60, 205, 127, 0.46) 0%,
+      rgba(60, 205, 127, 0.22) 34%,
+      rgba(60, 205, 127, 0.08) 62%,
+      rgba(60, 205, 127, 0) 100%
+    );
+  }
+
+  .t-carousel-track {
+    display: flex;
+    width: max-content;
+    align-items: stretch;
+    animation: testimonials-marquee 44.2s linear infinite;
+    will-change: transform;
+  }
+
+  .t-carousel-group {
+    display: flex;
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+
+  .t-card {
+    position: relative;
+    width: clamp(16rem, 24vw, 21rem);
+    min-height: 12.5rem;
+    background: rgba(10, 10, 10, 0.94);
+    color: #e1e0cc;
+    padding: 1.1rem 1.15rem;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.24),
+      inset 0 0 0 1px rgba(225, 224, 204, 0.11);
+  }
+
+  .t-card-quote {
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  :global(.t-keyword) {
+    color: #e1e0cc;
+    background-image: linear-gradient(
+      180deg,
+      rgba(60, 205, 127, 0) 0%,
+      rgba(60, 205, 127, 0) 62%,
+      rgba(60, 205, 127, 0.35) 62%,
+      rgba(60, 205, 127, 0.35) 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    text-decoration: underline;
+    text-decoration-color: rgba(60, 205, 127, 0.82);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+    transition:
+      background-size 560ms cubic-bezier(0.16, 1, 0.3, 1),
+      text-decoration-color 300ms ease;
+  }
+
+  .t-accent-section.is-inview :global(.t-keyword) {
+    background-size: 100% 100%;
+    text-decoration-color: rgba(60, 205, 127, 0.98);
+  }
+
+  .t-card-meta {
+    padding-top: 0.35rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .t-card-submeta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .t-card-name {
+    color: #e1e0cc;
+  }
+
+  .t-card-role {
+    color: rgba(225, 224, 204, 0.66);
+  }
+
+  .t-card-country {
+    color: rgba(225, 224, 204, 0.92);
+    text-align: right;
+    white-space: nowrap;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    font-weight: 600;
+    position: relative;
+    padding-left: 0.55rem;
+  }
+
+  .t-card-country::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.3rem;
+    height: 1px;
+    background: rgba(60, 205, 127, 0.95);
+    transform: translateY(-50%);
+  }
+
+  .t-cta {
+    text-decoration: none;
+    color: #0a0a0a;
+    background: rgba(225, 224, 204, 0.88);
+    padding: 0.55rem 0.75rem;
+    transition: background-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .t-cta__label {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: 2px;
+  }
+
+  .t-cta:hover,
+  .t-cta:focus-visible {
+    background: #0a0a0a;
+    color: #e1e0cc;
+  }
+
+  .t-cta:hover .t-cta__label,
+  .t-cta:focus-visible .t-cta__label {
+    background-size: 100% 1px;
+  }
+
+  .t-cta:focus-visible {
+    outline: 2px solid #0a0a0a;
+    outline-offset: 4px;
+  }
+
+  @media (min-width: 1024px) {
+    .t-stage {
+      --t-featured-width: 23rem;
+      --t-featured-height: calc(var(--t-featured-width) * 4 / 3);
+      display: grid;
+      grid-template-columns: var(--t-featured-width) 1fr;
+      align-items: start;
+      gap: 0;
+    }
+
+    .t-featured-card {
+      position: relative;
+      height: var(--t-featured-height);
+    }
+
+    .t-video-frame {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .t-carousel-shell {
+      margin-top: 0;
+      margin-left: -5.5rem;
+      padding-left: 5.5rem;
+      height: var(--t-featured-height);
+      align-self: stretch;
+    }
+
+    .t-carousel-track,
+    .t-carousel-group {
+      height: 100%;
+    }
+
+    .t-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  @keyframes testimonials-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .t-el { opacity: 1 !important; transform: none !important; }
+    .t-carousel-track {
+      animation: none;
+      transform: none;
+    }
+    :global(.t-keyword) {
+      transition: none !important;
+      background-size: 100% 100%;
+    }
+    .t-cta,
+    .t-cta__label {
+      transition: none !important;
+    }
   }
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const DURATION = 900;
-  const MARGIN   = '0px 0px -80px 0px';
+  const setupTestimonialsEnterFx = () => {
+    const root = document.querySelector<HTMLElement>("[data-testimonials-root]");
+    if (!root) return;
+    if (root.dataset.enterFxReady === "true") return;
+    root.dataset.enterFxReady = "true";
 
-  // ── Header entrance ─────────────────────────────────────────
-  const headerEls = document.querySelectorAll<HTMLElement>('#testimonials .t-el');
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      root.classList.add("is-inview");
+      return;
+    }
 
-  const headerObs = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    headerEls.forEach(el => {
-      const delay  = parseInt(el.dataset.delay ?? '0');
-      const isLine = el.closest('.t-line') !== null;
-      el.animate(
-        isLine
-          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
-      );
-    });
-    headerObs.disconnect();
-  }, { rootMargin: MARGIN, threshold: 0 });
+    const trigger = () => {
+      root.classList.add("is-inview");
+    };
 
-  const section = document.getElementById('testimonials');
-  if (section) headerObs.observe(section);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          trigger();
+          io.disconnect();
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    );
 
-  // t-card entrance animation removed — cards visible by default
+    io.observe(root);
 
-  // ── Video player — local HTML5 video with custom controls ───
-  const formatTime = (seconds: number) => {
-    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${String(secs).padStart(2, '0')}`;
+    // Fallback for cases where observer timing misses initial viewport state.
+    const rect = root.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const alreadyInView = rect.top < vh * 0.82 && rect.bottom > vh * 0.2;
+    if (alreadyInView) {
+      trigger();
+      io.disconnect();
+    }
   };
 
-  document.querySelectorAll<HTMLElement>('[data-video-player]').forEach(player => {
-    const video = player.querySelector<HTMLVideoElement>('.video-el');
-    const playOverlay = player.querySelector<HTMLButtonElement>('[data-video-play]');
-    const toggleBtn = player.querySelector<HTMLButtonElement>('[data-video-toggle]');
-    const toggleIcon = player.querySelector<HTMLElement>('[data-video-toggle-icon]');
-    const muteBtn = player.querySelector<HTMLButtonElement>('[data-video-mute]');
-    const progress = player.querySelector<HTMLInputElement>('[data-video-progress]');
-    const time = player.querySelector<HTMLElement>('[data-video-time]');
-
-    if (!video || !playOverlay || !toggleBtn || !toggleIcon || !muteBtn || !progress || !time) return;
-
-    const syncUi = () => {
-      const current = video.currentTime || 0;
-      const duration = video.duration || 0;
-      const percent = duration > 0 ? (current / duration) * 100 : 0;
-      progress.value = String(percent);
-      time.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
-      toggleIcon.textContent = video.paused ? 'Play' : 'Pause';
-      muteBtn.textContent = video.muted ? 'Muted' : 'Sound';
-      player.classList.toggle('is-playing', !video.paused);
-    };
-
-    const togglePlay = () => {
-      if (video.paused) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    };
-
-    playOverlay.addEventListener('click', togglePlay);
-    video.addEventListener('click', togglePlay);
-    toggleBtn.addEventListener('click', togglePlay);
-    muteBtn.addEventListener('click', () => {
-      video.muted = !video.muted;
-      syncUi();
-    });
-    progress.addEventListener('input', () => {
-      const duration = video.duration || 0;
-      const next = (Number(progress.value) / 100) * duration;
-      if (Number.isFinite(next)) video.currentTime = next;
-    });
-
-    video.addEventListener('play', syncUi);
-    video.addEventListener('pause', syncUi);
-    video.addEventListener('timeupdate', syncUi);
-    video.addEventListener('loadedmetadata', syncUi);
-    video.addEventListener('ended', () => {
-      video.currentTime = 0;
-      syncUi();
-    });
-
-    syncUi();
-  });
-  // bottom CTA strip uses .t-el — handled by header observer above
+  setupTestimonialsEnterFx();
+  document.addEventListener("astro:after-swap", setupTestimonialsEnterFx);
 </script>

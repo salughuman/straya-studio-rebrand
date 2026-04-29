@@ -3,6 +3,8 @@ import GlobalSchema from "../components/GlobalSchema.astro";
 import Meta from "../components/Meta.astro";
 import Navbar from "../components/Navbar.astro";
 import GlobalSpatialEffect from "../components/design-effects/GlobalSpatialEffect.astro";
+import PremiumSnake from "../components/design-effects/PremiumSnake.astro";
+import CustomCursor from "../components/design-effects/CustomCursor.astro";
 import "../styles/global.css";
 import { SITE_CONFIG } from "../data/site-config";
 
@@ -43,12 +45,14 @@ const baseUrl = import.meta.env.BASE_URL;
 		<GlobalSchema />
 		<slot name="head" />
 	</head>
-	<body class="bg-background text-on-background selection:bg-secondary selection:text-on-secondary perspective-[1000px]">
+	<body class="bg-[#0A0A0A] text-[#E1E0CC] selection:bg-fuchsia-500/35 selection:text-[#E1E0CC] perspective-[1000px]">
 		<GlobalSpatialEffect />
+		<PremiumSnake />
+		<CustomCursor />
 		<!-- GEMINI §5.O — first focusable element -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:bg-secondary focus:text-on-secondary focus:outline-none focus:ring-2 focus:ring-white/80 focus:ring-offset-2 focus:ring-offset-background transition-none"
+			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:bg-secondary focus:text-on-secondary focus:outline-none focus:ring-2 focus:ring-[#3CCD7F]/70 focus:ring-offset-2 focus:ring-offset-background transition-none"
 		>
 			Skip to main content
 		</a>

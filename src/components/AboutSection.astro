@@ -1,119 +1,209 @@
----
-// AboutSection — simple scroll-highlighted narrative (replaces multi-node 400vh scroll).
----
 
 <section
   id="about"
-  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
+  class="section-frosted section-y relative overflow-hidden"
   aria-label="About Straya Studio"
+  data-about-effects
+  data-mode="brutalism"
 >
-  <!-- Ghost wordmark — above global glow; opacity boosted when cursor is near -->
-  <div
-    class="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none select-none overflow-hidden"
-    aria-hidden="true"
-  >
-    <span
-      class="ghost-wordmark font-display font-medium text-on-background uppercase transition-[opacity] duration-200 ease-out"
-      data-ghost-base="0.035"
-      data-ghost-range="0.12"
-      data-ghost-falloff="360"
-      style="font-size: clamp(8rem, 22vw, 18rem); letter-spacing: -0.04em; line-height: 1; white-space: nowrap; opacity: 0.035;"
+  <p class="sr-only">
+    About Straya Studio section summarising who we are and how we work: a senior-led boutique
+    studio founded by Salman Ali, taking on only two to three projects at a time, delivering web
+    design, web development, and graphic design for teams across the US, Canada, UK, Europe, and
+    Australia.
+  </p>
+
+  <div class="main-container relative z-10 grid grid-cols-12 items-start gap-4 md:gap-6">
+    <div class="col-span-12 md:col-span-2" aria-hidden="true">
+      <span
+        class="a-eyebrow type-label-small font-mono uppercase tracking-[0.08em] text-on-background/60"
+      >
+        [02] About
+      </span>
+      <span class="a-eyebrow-rule mt-2 block h-[2px] bg-accent" data-a-rule></span>
+    </div>
+
+    <header class="col-span-12 md:col-span-9 md:col-start-2">
+      <h2
+        data-index="02"
+        class="reveal-clip type-h2 m-0 max-w-3xl text-on-background"
+        style="letter-spacing:-0.04em"
+      >
+        <span>Senior-led by design. Selective by model.</span>
+      </h2>
+    </header>
+
+    <div
+      class="col-span-12 grid max-w-3xl gap-4 md:col-span-6 md:col-start-4 md:mt-5"
     >
-      STRAYA
-    </span>
-  </div>
+      <p class="type-body m-0 text-on-background/90">
+        Straya Studio is a boutique technical studio led by Salman Ali, taking on only two to
+        three projects at a time so every decision stays close to the brief.
+      </p>
+      <p class="type-body m-0 text-on-background/90">
+        We deliver web design, web development, and graphic design across Framer, Webflow, and
+        Shopify for founders and teams in the US, Canada, UK, Europe, and Australia.
+      </p>
 
-  <div class="main-container relative z-10 max-w-4xl mx-auto text-center">
-    <p class="sr-only">
-      About Straya Studio: a boutique technical studio taking on 2–3 projects at a time, founded in Pakistan by Salman Ali, serving clients globally. Official Certified Framer Expert, Advanced Webflow Architect, and Shopify developer.
-    </p>
-
-    <p class="about-lead font-sans font-normal text-on-background leading-relaxed">
-      <span class="about-frag" data-frag>Straya Studio is a boutique web partner—engineered for depth, not volume.</span>
-      <span class="about-frag" data-frag> We intentionally cap work at two to three active projects so every interface and commit stays founder-led.</span>
-      <span class="about-frag" data-frag> Based in Pakistan, we deploy for teams across the US, UK, Europe, and Australia.</span>
-      <span class="about-frag" data-frag> Framer, Webflow, and Shopify builds where craft and performance match the brief.</span>
-    </p>
-
-    <p class="mt-12 md:mt-14 flex justify-center">
       <a
         href="#method"
-        class="magnetic-cta type-label text-on-background/50 border-b border-on-background/15 pb-px hover:text-on-background hover:border-on-background transition-colors duration-300"
+        class="cta-accent mt-6 inline-flex items-center gap-3 type-label uppercase tracking-[0.08em] self-start"
       >
-        Explore the method
+        <span class="cta-accent__label">Explore the method</span>
+        <span class="cta-accent__arrow" aria-hidden="true">→</span>
       </a>
-    </p>
+    </div>
+
+    <aside
+      class="col-span-12 mt-4 grid gap-3 md:col-span-3 md:col-start-10 md:mt-8 md:justify-self-end md:text-right"
+      aria-label="Key credentials"
+    >
+      <p
+        class="type-label-small m-0 font-mono uppercase tracking-[0.08em] text-on-background/70"
+      >
+        Official Certified Framer Expert
+      </p>
+      <p
+        class="type-label-small m-0 font-mono uppercase tracking-[0.08em] text-on-background/70"
+      >
+        <span data-count-to="100">0</span>+ deployments
+      </p>
+      <p
+        class="type-label-small m-0 font-mono uppercase tracking-[0.08em] text-on-background/70"
+      >
+        Project-based, no retainers
+      </p>
+    </aside>
   </div>
 </section>
 
 <style>
-  .about-lead {
-    font-size: clamp(1.25rem, 2.8vw + 0.6rem, 1.875rem);
-    line-height: 1.55;
-    letter-spacing: -0.01em;
+  .reveal-clip {
+    display: inline-block;
+    overflow: hidden;
+  }
+  .reveal-clip > span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 720ms cubic-bezier(0.16, 1, 0.30, 1);
+    will-change: transform;
+  }
+  .reveal-clip.in-view > span {
+    transform: translateY(0);
   }
 
-  @media (min-width: 810px) {
-    .about-lead {
-      line-height: 1.5;
-    }
+  .a-eyebrow-rule {
+    width: 0;
+    transition: width 720ms cubic-bezier(0.16, 1, 0.30, 1);
+  }
+  .a-eyebrow-rule.in-view {
+    width: 32px;
   }
 
-  /* --about-w: 0…1 set by scroll script; eases from muted to full ink */
-  .about-frag {
-    --about-w: 0;
-    display: inline;
-    color: rgba(26, 28, 28, calc(0.22 + 0.78 * var(--about-w)));
-    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Ghost CTA — accent text + M3 underline-draw + M4 focus halo */
+  .cta-accent {
+    text-decoration: none;
+    background: transparent;
+    color: var(--color-accent, #3CCD7F);
+    line-height: 1;
+    padding-bottom: 2px;
+    transition: color 240ms cubic-bezier(0.16, 1, 0.30, 1);
+  }
+  .cta-accent .cta-accent__label {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 240ms cubic-bezier(0.16, 1, 0.30, 1);
+    padding-bottom: 2px;
+  }
+  .cta-accent .cta-accent__arrow {
+    transition: transform 240ms cubic-bezier(0.16, 1, 0.30, 1);
+  }
+  .cta-accent:hover .cta-accent__label,
+  .cta-accent:focus-visible .cta-accent__label {
+    background-size: 100% 1px;
+  }
+  .cta-accent:hover .cta-accent__arrow,
+  .cta-accent:focus-visible .cta-accent__arrow {
+    transform: translateX(4px);
+  }
+  .cta-accent:focus-visible {
+    outline: 2px solid var(--color-accent, #3CCD7F);
+    outline-offset: 6px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .about-frag {
-      transition: none;
-      color: rgba(26, 28, 28, 0.92);
+    .reveal-clip > span,
+    .a-eyebrow-rule,
+    .cta-accent,
+    .cta-accent .cta-accent__arrow {
+      transition: none !important;
     }
   }
 </style>
 
 <script>
-  const setupAboutHighlight = () => {
-    const section = document.getElementById('about');
-    const frags = section?.querySelectorAll<HTMLElement>('[data-frag]');
-    if (!section || !frags?.length) return;
+  const setupAboutEffects = () => {
+    const root = document.querySelector<HTMLElement>("[data-about-effects]");
+    if (!root) return;
+    if (root.dataset.aboutFxReady === "true") return;
+    root.dataset.aboutFxReady = "true";
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const clipEls = root.querySelectorAll<HTMLElement>(".reveal-clip");
+    const ruleEl = root.querySelector<HTMLElement>("[data-a-rule]");
+    const counters = root.querySelectorAll<HTMLElement>("[data-count-to]");
+
     if (reduced) {
-      frags.forEach((el) => el.style.setProperty('--about-w', '1'));
+      clipEls.forEach((el) => el.classList.add("in-view"));
+      if (ruleEl) ruleEl.classList.add("in-view");
+      counters.forEach((el) => {
+        el.textContent = el.dataset.countTo ?? el.textContent;
+      });
       return;
     }
 
-    const ease = (t: number) => 1 - Math.pow(1 - t, 2);
+    // A5 — scroll-triggered (headings + eyebrow rule grow only).
+    const trigIO = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          el.classList.add("in-view");
+          trigIO.unobserve(el);
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+    );
+    clipEls.forEach((el) => trigIO.observe(el));
+    if (ruleEl) trigIO.observe(ruleEl);
 
-    const update = () => {
-      const rect = section.getBoundingClientRect();
+    // B5 — scroll-coupled counter (progress tied to scroll position 0..1).
+    const updateCounters = () => {
       const vh = window.innerHeight;
-      const enter = vh * 0.9;
-      const exit = -rect.height * 0.4;
-      const span = Math.max(1, enter - exit);
-      const raw = (enter - rect.top) / span;
-      const progress = Math.max(0, Math.min(1, ease(raw)));
-
-      const n = frags.length;
-      frags.forEach((el, i) => {
-        const start = i / n;
-        const end = (i + 1) / n;
-        let w = 0;
-        if (progress >= end) w = 1;
-        else if (progress > start) w = (progress - start) / (end - start);
-        el.style.setProperty('--about-w', w.toFixed(4));
+      counters.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const raw = 1 - (r.top + r.height) / (vh + r.height);
+        const p = Math.max(0, Math.min(1, raw));
+        const target = parseFloat(el.dataset.countTo ?? "0");
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
       });
     };
-
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-    update();
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        updateCounters();
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    updateCounters();
   };
 
-  setupAboutHighlight();
-  document.addEventListener('astro:after-swap', setupAboutHighlight);
+  setupAboutEffects();
+  document.addEventListener("astro:after-swap", setupAboutEffects);
 </script>

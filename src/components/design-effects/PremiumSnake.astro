@@ -1,0 +1,344 @@
+---
+// PremiumSnake.astro
+// Long, tapered 3D ribbon flowing vertically. The head is strictly mapped to
+// window.scrollY (top of doc → top-bias, footer → viewport bottom). The body
+// extends upward from the head as a continuous Bezier-smoothed polygon ribbon.
+// X = sin spiral + simplex-style noise. Z = noise → width + depth opacity.
+// Persists in place on scroll stop. Emerges smoothly from behind hero section.
+---
+
+<div
+  id="premium-snake-root"
+  class="pointer-events-none fixed inset-0 z-[0] overflow-hidden"
+  aria-hidden="true"
+  hidden
+>
+  <svg
+    id="premium-snake-svg"
+    class="h-full w-full"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <!-- Tapered ribbon fill: alpha 0 at head/tail, peak through the middle. -->
+      <linearGradient id="ribbonFill" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#0d0b2e" stop-opacity="0" />
+        <stop offset="9%"   stop-color="#7c3aed" stop-opacity="0.55" />
+        <stop offset="32%"  stop-color="#22d3ee" stop-opacity="0.95" />
+        <stop offset="55%"  stop-color="#34d399" stop-opacity="0.9" />
+        <stop offset="78%"  stop-color="#a3e635" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="#a3e635" stop-opacity="0" />
+      </linearGradient>
+
+      <!-- Bright neon glow on the core ribbon. -->
+      <filter id="ribbonGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur2" />
+        <feMerge>
+          <feMergeNode in="blur2" />
+          <feMergeNode in="blur1" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <!-- Outer halo (broad atmospheric luminance). -->
+      <filter id="ribbonHalo" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="14" />
+      </filter>
+    </defs>
+
+    <!-- Outer halo (very soft). -->
+    <path
+      id="ribbon-halo"
+      fill="rgba(124, 58, 237, 0.20)"
+      filter="url(#ribbonHalo)"
+    ></path>
+
+    <!-- Main ribbon body (gradient fill + glow). -->
+    <path
+      id="ribbon-core"
+      fill="url(#ribbonFill)"
+      filter="url(#ribbonGlow)"
+    ></path>
+
+    <!-- Shimmer streak near the head for a "trailing light" silk texture. -->
+    <path
+      id="ribbon-shimmer"
+      fill="none"
+      stroke="rgba(255, 255, 255, 0.85)"
+      stroke-width="1.3"
+      stroke-linecap="round"
+      stroke-dasharray="2 14"
+    ></path>
+  </svg>
+</div>
+
+<style>
+  #premium-snake-root {
+    --snake-opacity: 0;
+    opacity: var(--snake-opacity);
+    transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    mix-blend-mode: screen;
+    will-change: opacity;
+  }
+
+  #premium-snake-svg {
+    overflow: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #premium-snake-root {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  type V = { x: number; y: number };
+
+  const SEG_COUNT = 180;          // 150–200 per spec → long flowing ribbon
+  const SEG_DY = 9;               // vertical px between segments (≈1.6k px length)
+  const W_HEAD = 14;              // head ribbon width
+  const W_TAIL = 4;               // tail ribbon width
+  const X_FREQ = 0.0035;          // sinusoidal spiral frequency vs scroll
+  const X_PHASE = 0.18;           // per-segment phase offset
+  const X_AMP_SIN_VW = 0.08;      // sin amplitude as fraction of vw
+  const X_AMP_NOISE_VW = 0.11;    // noise amplitude as fraction of vw
+  const EDGE_MARGIN = 56;         // px clamp from screen edges
+  const HEAD_Y_TOP = 0.18;        // headY at scroll=0  (fraction of vh)
+  const HEAD_Y_BOTTOM_OFFSET = 14;// headY at scroll=footer  (vh − this)
+
+  /* Inline 2D value-noise (smooth, deterministic, simplex-style feel,
+     zero dependency cost). */
+  const SEED = 1337;
+  const hash = (x: number, y: number) => {
+    const s = Math.sin(x * 374761393 + y * 668265263 + SEED) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const clamp = (v: number, lo: number, hi: number) =>
+    v < lo ? lo : v > hi ? hi : v;
+  const noise2D = (x: number, y: number) => {
+    const xi = Math.floor(x);
+    const yi = Math.floor(y);
+    const xf = x - xi;
+    const yf = y - yi;
+    const u = fade(xf);
+    const v = fade(yf);
+    const aa = hash(xi, yi);
+    const ab = hash(xi, yi + 1);
+    const ba = hash(xi + 1, yi);
+    const bb = hash(xi + 1, yi + 1);
+    const x1 = lerp(aa, ba, u);
+    const x2 = lerp(ab, bb, u);
+    return lerp(x1, x2, v) * 2 - 1; // [-1, 1]
+  };
+
+  /* Catmull-Rom → cubic Bezier; produces perfectly fluid curves with no kinks. */
+  const smoothPath = (pts: V[]): string => {
+    if (pts.length < 2) return "";
+    let d = "";
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2] || p2;
+      const c1x = p1.x + (p2.x - p0.x) / 6;
+      const c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6;
+      const c2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
+    }
+    return d;
+  };
+
+  const init = () => {
+    const root = document.getElementById("premium-snake-root");
+    if (!root || root.dataset.initialized === "true") return;
+    root.dataset.initialized = "true";
+
+    const svg = document.getElementById("premium-snake-svg") as SVGSVGElement | null;
+    const halo = document.getElementById("ribbon-halo") as SVGPathElement | null;
+    const core = document.getElementById("ribbon-core") as SVGPathElement | null;
+    const shimmer = document.getElementById("ribbon-shimmer") as SVGPathElement | null;
+    if (!svg || !halo || !core || !shimmer) return;
+
+    /* Layout snapshot — recomputed on resize/orientation change. */
+    let vw = window.innerWidth;
+    let vh = window.innerHeight;
+    let docH = document.documentElement.scrollHeight;
+    let heroEl = document.getElementById("hero");
+    let heroBottomDoc = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : vh;
+
+    /* Scroll state — head is a strict function of this. */
+    let scrollY = window.scrollY;
+    let lastScrollY = Number.NEGATIVE_INFINITY; // forces first compute
+    let lastVw = -1;
+    let lastVh = -1;
+
+    const updateLayout = () => {
+      vw = window.innerWidth;
+      vh = window.innerHeight;
+      docH = document.documentElement.scrollHeight;
+      heroEl = document.getElementById("hero");
+      heroBottomDoc = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : vh;
+      svg.setAttribute("viewBox", `0 0 ${vw} ${vh}`);
+      lastScrollY = Number.NEGATIVE_INFINITY; // mark dirty
+    };
+    updateLayout();
+    window.addEventListener("resize", updateLayout, { passive: true });
+    window.addEventListener("orientationchange", updateLayout, { passive: true });
+
+    const onScroll = () => {
+      scrollY = window.scrollY;
+      // Refresh docH lazily — content may grow as images/fonts load.
+      const live = document.documentElement.scrollHeight;
+      if (Math.abs(live - docH) > 4) {
+        docH = live;
+        const h = document.getElementById("hero");
+        if (h) heroBottomDoc = h.offsetTop + h.offsetHeight;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    /* Hero gating via IntersectionObserver — the snake stays hidden while
+       the hero is in view, then fades in as it leaves. We still pair with
+       a smooth scroll-driven opacity ramp for a graceful emergence. */
+    let heroIntersecting = true;
+    if (heroEl && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) heroIntersecting = e.isIntersecting;
+        },
+        { threshold: 0 }
+      );
+      io.observe(heroEl);
+    } else {
+      heroIntersecting = false;
+    }
+
+    /* Bell-curve taper: 0 at head, peak at midpoint, 0 at tail. */
+    const taper = (t: number) => Math.pow(Math.sin(Math.PI * t), 1.15);
+
+    const buildRibbonPath = (left: V[], right: V[]): string => {
+      // Walk down the left boundary, jump across, walk back up the right.
+      let d = `M ${left[0].x.toFixed(2)} ${left[0].y.toFixed(2)}`;
+      d += smoothPath(left);
+      const rev = right.slice().reverse();
+      d += ` L ${rev[0].x.toFixed(2)} ${rev[0].y.toFixed(2)}`;
+      d += smoothPath(rev);
+      d += " Z";
+      return d;
+    };
+
+    const compute = () => {
+      /* Head Y in viewport space — strict map of scrollY. */
+      const pageMax = Math.max(1, docH - vh);
+      const progress = clamp(scrollY / pageMax, 0, 1);
+      const headY = lerp(vh * HEAD_Y_TOP, vh - HEAD_Y_BOTTOM_OFFSET, progress);
+      const centerX = vw * 0.5;
+      const ampSin = vw * X_AMP_SIN_VW;
+      const ampNoise = vw * X_AMP_NOISE_VW;
+
+      const center: V[] = new Array(SEG_COUNT);
+      const widths: number[] = new Array(SEG_COUNT);
+
+      for (let i = 0; i < SEG_COUNT; i++) {
+        const t = i / (SEG_COUNT - 1); // 0 = head, 1 = tail
+        const segY = headY - i * SEG_DY;
+
+        /* X-axis: sin spiral + simplex noise drift, clamped to viewport. */
+        const phase = scrollY * X_FREQ + i * X_PHASE;
+        const sinPart = Math.sin(phase) * ampSin;
+        const noisePart = noise2D(i * 0.045, scrollY * 0.0009) * ampNoise;
+        let x = centerX + sinPart + noisePart;
+        x = clamp(x, EDGE_MARGIN, vw - EDGE_MARGIN);
+
+        /* Z-axis: third noise field → width modulation (depth simulation).
+           Higher z → thicker (closer); lower z → thinner (farther). */
+        const z = noise2D(i * 0.07 + 100, scrollY * 0.0014 + 200); // [-1,1]
+        const zNorm = (z + 1) * 0.5;                               // [0,1]
+        const baseW = lerp(W_TAIL, W_HEAD, 1 - t);                  // head=W_HEAD, tail=W_TAIL
+        const taperedW = baseW * taper(t);
+        const zWidth = lerp(0.55, 1.45, zNorm);
+        widths[i] = taperedW * zWidth;
+
+        center[i] = { x, y: segY };
+      }
+
+      /* Ribbon boundary points: offset each center point along its normal
+         by ±width/2. Tangent computed from neighbors for smoothness. */
+      const left: V[] = new Array(SEG_COUNT);
+      const right: V[] = new Array(SEG_COUNT);
+      for (let i = 0; i < SEG_COUNT; i++) {
+        const a = center[Math.max(0, i - 1)];
+        const b = center[Math.min(SEG_COUNT - 1, i + 1)];
+        let tx = b.x - a.x;
+        let ty = b.y - a.y;
+        const len = Math.hypot(tx, ty) || 1;
+        tx /= len;
+        ty /= len;
+        const nx = -ty;
+        const ny = tx;
+        const w = widths[i] * 0.5;
+        const c = center[i];
+        left[i] = { x: c.x + nx * w, y: c.y + ny * w };
+        right[i] = { x: c.x - nx * w, y: c.y - ny * w };
+      }
+
+      const ribbonD = buildRibbonPath(left, right);
+      core.setAttribute("d", ribbonD);
+      halo.setAttribute("d", ribbonD);
+
+      /* Shimmer streak on top portion of the body (head-side only). */
+      const headPts = center.slice(0, 24);
+      let sd = `M ${headPts[0].x.toFixed(2)} ${headPts[0].y.toFixed(2)}`;
+      sd += smoothPath(headPts);
+      shimmer.setAttribute("d", sd);
+    };
+
+    /* First paint so the snake is visible immediately on hero exit
+       (rather than waiting for the first scroll event). */
+    compute();
+
+    /* Reveal ramp: smooth fade-in across last 30% of hero + 50vh after.
+       Combined with IntersectionObserver gating for a clean handoff. */
+    const computeRevealOpacity = (): number => {
+      if (heroIntersecting && scrollY < heroBottomDoc * 0.65) return 0;
+      const start = heroBottomDoc * 0.78;
+      const end = heroBottomDoc + vh * 0.4;
+      return clamp((scrollY - start) / Math.max(1, end - start), 0, 1);
+    };
+
+    const tick = () => {
+      /* Visibility update every frame (cheap; just CSS variable). */
+      root.style.setProperty(
+        "--snake-opacity",
+        computeRevealOpacity().toFixed(3)
+      );
+
+      /* Recompute the ribbon ONLY when scrollY (or layout) changes,
+         so on scroll-stop the snake remains rendered exactly where it was. */
+      if (scrollY !== lastScrollY || vw !== lastVw || vh !== lastVh) {
+        lastScrollY = scrollY;
+        lastVw = vw;
+        lastVh = vh;
+        compute();
+      }
+
+      requestAnimationFrame(tick);
+    };
+
+    root.removeAttribute("hidden");
+    requestAnimationFrame(tick);
+  };
+
+  const boot = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.readyState === "complete") init();
+    else window.addEventListener("load", init, { once: true });
+  };
+
+  boot();
+  document.addEventListener("astro:after-swap", boot);
+</script>

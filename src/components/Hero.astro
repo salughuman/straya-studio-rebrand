@@ -1,197 +1,250 @@
 ---
-// Hero.astro — Straya Studio
-// Exact Prisma Hero layout from screenshot — single massive word bottom-left,
-// description + pill CTA bottom-right, centered pill nav at top.
-import { SITE_CONFIG } from "../data/site-config";
-const baseUrl = import.meta.env.BASE_URL;
+import WordsPullUp from "./words-pull-up.astro";
+import Button from "./ui/buttons/Button.astro";
 
-const navLinks = [
-  { label: "Work",     href: `${baseUrl}#work` },
-  { label: "Services", href: `${baseUrl}#services` },
-  { label: "Process",  href: `${baseUrl}#method` },
-  { label: "Pricing",  href: `${baseUrl}#pricing` },
-  { label: "About",    href: `${baseUrl}#about` },
-  { label: "FAQ",      href: `${baseUrl}#faq` },
-];
+interface Props {
+  videoSrc?: string;
+  headline?: string;
+  tagline?: string;
+  ctaLabel?: string;
+}
+
+const DEFAULT_VIDEO =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4";
+
+const baseUrl = import.meta.env.BASE_URL;
+const {
+  videoSrc = DEFAULT_VIDEO,
+  headline = "Straya",
+  tagline = "Straya is a digital studio building brand-defining websites and product experiences for ambitious teams. We design, build and ship - end to end.",
+  ctaLabel = "Start a project",
+} = Astro.props as Props;
 ---
 
 <section
   id="hero"
-  aria-label="Straya Studio — Cinematic Digital Deployments"
-  class="h-screen w-full"
+  aria-label="Straya Studio hero"
+  class="relative h-screen w-full overflow-visible bg-[#0A0A0A] z-[999] px-2 pt-2 pb-0 sm:px-3 sm:pt-3 sm:pb-0 md:p-4"
+  data-prisma-hero
 >
-  <!-- SEO sr-only summary -->
   <p class="sr-only">
-    Straya Studio is a boutique web design and development studio by Salman Ali, an Official Certified Framer Expert. We deliver custom web design, web development, and graphic design across Framer, Webflow, Shopify, Wix, and WordPress. Project-based pricing starts at $2,000.
+    Straya Studio hero section with cinematic background video, headline, supporting
+    positioning statement, and a direct call to start a project.
   </p>
 
-  <!-- Rounded inner container — clips everything -->
-  <div class="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem]">
-
-    <!-- Background video -->
-    <video
-      autoplay
-      loop
-      muted
-      playsinline
-      class="absolute inset-0 h-full w-full object-cover"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
-      aria-hidden="true"
-    ></video>
-
-    <!-- Fallback bg -->
-    <div class="absolute inset-0 bg-[#1a1a1a]" aria-hidden="true"></div>
-
-    <!-- Noise overlay -->
-    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay" aria-hidden="true"></div>
-
-    <!-- Gradient overlay -->
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" aria-hidden="true"></div>
-
-    <!-- ── Navbar — centered pill at top ── -->
-    <nav
-      id="hero-nav"
-      aria-label="Main navigation"
-      class="absolute left-1/2 top-0 z-20 -translate-x-1/2"
+  <!-- Animated gradient frame -->
+  <div
+    class="hero-chrome relative h-full w-full overflow-hidden rounded-2xl  p-[2px] md:rounded-[2rem] md:p-[3px]"
+    data-hero-chrome
+  >
+    <div
+      class="relative h-full w-full overflow-hidden rounded-[14px] bg-[#030304] md:rounded-[1.9rem]"
     >
-      <div class="flex items-center gap-3 rounded-b-2xl bg-black px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8 lg:gap-14">
-        {navLinks.map(link => (
-          <a
-            href={link.href}
-            data-nav-link
-            class="hero-nav-link text-[10px] transition-colors sm:text-xs md:text-sm"
-          >
-            {link.label}
-          </a>
-        ))}
+      <!-- Floating color orbs (screen blend over video) -->
+      <div class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
+        <div
+          class="hero-orb hero-orb-a absolute -left-[20%] top-[10%] h-[55vmin] w-[55vmin] rounded-full bg-fuchsia-500/25 blur-[90px] mix-blend-screen"
+        />
+        <div
+          class="hero-orb hero-orb-b absolute -right-[15%] bottom-[20%] h-[45vmin] w-[45vmin] rounded-full bg-cyan-400/20 blur-[80px] mix-blend-screen"
+        />
+        <div
+          class="hero-orb hero-orb-c absolute left-[30%] -bottom-[25%] h-[40vmin] w-[40vmin] rounded-full bg-amber-300/18 blur-[70px] mix-blend-screen"
+        />
       </div>
-    </nav>
 
-    <!-- ── Hero content — absolute bottom ── -->
-    <div class="absolute bottom-0 left-0 right-0 px-4 pb-2 sm:px-6 md:px-10">
-      <div class="grid grid-cols-12 items-end gap-4">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+        src={videoSrc}
+      />
 
-        <!-- Left: Single massive word with asterisk -->
-        <div class="col-span-12 lg:col-span-8">
-          <h1
-            class="prisma-title font-display font-medium leading-[0.85] tracking-[-0.07em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"
-            aria-label="Straya Studio"
-          >
-            <span class="words-pull-up inline-flex flex-wrap" data-words-pull-up>
-              <span class="word inline-block relative" style="--word-index: 0;">
-                Straya
-                <!-- Asterisk superscript — exact Prisma position -->
-                <span class="absolute top-[0.65em] -right-[0.3em] text-[0.31em]" aria-hidden="true">*</span>
-              </span>
-            </span>
-          </h1>
-        </div>
+      <div class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"></div>
 
-        <!-- Right: Description + CTA -->
-        <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
+      <!-- Top-right wash first, then vignette so the bottom dark reads true → #0A0A0A -->
+      <div
+        class="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-tr from-transparent via-transparent to-fuchsia-600/12"
+        aria-hidden="true"
+      />
+      <div class="hero-vignette pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
-          <p
-            class="hero-paragraph text-xs sm:text-sm md:text-base"
-            style="color: rgba(225,224,204,0.7); line-height: 1.2;"
-          >
-            Designing &amp; developing ideas into icons. From Framer to Shopify — we engineer platforms that load faster, convert higher, and look like nothing else in your market.
-          </p>
+      <div class="absolute bottom-0 left-0 right-0 z-[3] px-4 pb-2 sm:px-6 md:px-10">
+        <div class="grid grid-cols-12 items-end gap-4">
+          <div class="col-span-12 lg:col-span-8">
+            <h1
+              class="font-display font-bold leading-[1] tracking-[-0.04em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-60"
+            style="color:rgba(245,244,232,0.92)"
+            >
+              <WordsPullUp text={headline} />
+            </h1>
+          </div>
 
-          <!-- Pill CTA — exact Prisma style -->
-          <a
-            href={`${baseUrl}contact`}
-            class="hero-button group inline-flex items-center gap-2 self-start rounded-full bg-[#E1E0CC] py-1 pl-5 pr-1 text-sm font-medium text-black transition-all hover:gap-3 sm:text-base"
-            aria-label="Start a project with Straya Studio"
-          >
-            Start a project
-            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
+          <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
+            <p
+              data-hero-tagline
+              class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
+              style="line-height:1.35;color:rgba(245,244,232,0.92)"
+            >
+              {tagline}
+            </p>
+
+            <Button
+              href={`${baseUrl}contact`}
+              label={ctaLabel}
+              variant="hero-pill"
+              iconCircle={true}
+              data-hero-cta
+              class="self-start shadow-[0_0_40px_-8px_rgba(236,72,153,0.45)] transition-shadow duration-500 hover:shadow-[0_0_48px_-6px_rgba(34,211,238,0.55)]"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="h-4 w-4"
-                style="color: #E1E0CC;"
+                class="h-4 w-4 text-cyan-200"
                 aria-hidden="true"
               >
                 <path d="M5 12h14"></path>
                 <path d="m12 5 7 7-7 7"></path>
               </svg>
-            </span>
-          </a>
-
+            </Button>
+          </div>
         </div>
       </div>
     </div>
-
+    <div
+      class="pointer-events-none absolute -bottom-20 left-0 right-0 z-[2] h-20 bg-gradient-to-b from-[#0A0A0A] to-transparent"
+      aria-hidden="true"
+    />
   </div>
 </section>
 
 <style>
-  .prisma-title { color: #E1E0CC; }
-
-  .hero-nav-link { color: rgba(225, 224, 204, 0.8); }
-  .hero-nav-link:hover { color: #E1E0CC; }
-  .hero-nav-link.is-active {
-    color: #E1E0CC;
-    border-bottom: 1px solid rgba(225,224,204,0.4);
-    padding-bottom: 1px;
+  .hero-chrome {
+    background: linear-gradient(
+      125deg,
+      rgba(34, 211, 238, 0.75) 0%,
+      rgba(167, 139, 250, 0.65) 22%,
+      rgba(244, 114, 182, 0.7) 45%,
+      rgba(251, 191, 36, 0.65) 68%,
+      rgba(52, 211, 153, 0.55) 100%
+    );
+    background-size: 220% 220%;
+    box-shadow:
+      0 0 0 2px rgba(0, 0, 0, 0.45) inset,
+      0 25px 80px -20px rgba(99, 102, 241, 0.35),
+      0 40px 100px -30px rgba(236, 72, 153, 0.25);
+    animation: hero-chrome-flow 14s ease-in-out infinite alternate;
   }
 
-  /* Word pull-up — mirrors framer-motion initial/animate */
-  .words-pull-up .word {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  .words-pull-up.in-view .word {
-    animation: wordsPullUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: calc(var(--word-index) * 0.08s);
-  }
-  @keyframes wordsPullUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes hero-chrome-flow {
+    0% {
+      background-position: 0% 40%;
+    }
+    100% {
+      background-position: 100% 60%;
+    }
   }
 
-  /* Paragraph + button entry */
-  .hero-paragraph { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
-  .hero-button    { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes hero-orb-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(8%, -6%) scale(1.08);
+    }
   }
 
-  /* Noise overlay */
-  .noise-overlay {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+  @keyframes hero-orb-drift-alt {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-10%, 8%) scale(1.06);
+    }
+  }
+
+  @keyframes hero-orb-pulse {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: translate(-4%, -8%) scale(1.12);
+      opacity: 1;
+    }
+  }
+
+  .hero-orb-a {
+    animation: hero-orb-drift 18s ease-in-out infinite;
+  }
+  .hero-orb-b {
+    animation: hero-orb-drift-alt 22s ease-in-out infinite;
+  }
+  .hero-orb-c {
+    animation: hero-orb-pulse 12s ease-in-out infinite;
+  }
+
+  .hero-vignette {
+    background: linear-gradient(
+      to bottom,
+      rgba(46, 16, 101, 0.26) 0%,
+      rgba(10, 10, 10, 0) 34%,
+      rgba(10, 10, 10, 0.45) 68%,
+      #0a0a0a 100%
+    );
+  }
+
+  .hero-tagline-glow {
+    text-shadow:
+      0 0 24px rgba(167, 139, 250, 0.25),
+      0 0 48px rgba(34, 211, 238, 0.12);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .words-pull-up .word,
-    .hero-paragraph,
-    .hero-button { opacity: 1 !important; transform: none !important; animation: none !important; }
+    .hero-chrome {
+      animation: none;
+      background-position: 50% 50%;
+    }
+    .hero-orb-a,
+    .hero-orb-b,
+    .hero-orb-c {
+      animation: none;
+    }
   }
 </style>
 
 <script>
-  // Trigger word pull-up when heading enters viewport (mirrors useInView once:true)
-  const targets = document.querySelectorAll<HTMLElement>("[data-words-pull-up]");
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in-view"); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  targets.forEach(el => obs.observe(el));
+  // @ts-nocheck
+  import gsap from "gsap";
 
-  // Active section tracking
-  const heroNavLinks = document.querySelectorAll<HTMLAnchorElement>('#hero-nav [data-nav-link]');
-  const sectionIds = Array.from(heroNavLinks).map(l => l.getAttribute('href')?.split('#')[1]).filter(Boolean) as string[];
-  const sectionObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) heroNavLinks.forEach(l => l.classList.toggle('is-active', (l.getAttribute('href') ?? '').endsWith(`#${e.target.id}`)));
-    });
-  }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
-  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) sectionObs.observe(el); });
+  document.querySelectorAll("[data-prisma-hero]").forEach((hero) => {
+    if (hero.dataset.initialized === "true") return;
+    hero.dataset.initialized = "true";
+
+    const tagline = hero.querySelector("[data-hero-tagline]");
+    const cta = hero.querySelector("[data-hero-cta]");
+    if (!tagline || !cta) return;
+
+    gsap.fromTo(
+      tagline,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out" },
+    );
+    gsap.fromTo(
+      cta,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 0.7, ease: "power3.out" },
+    );
+
+  });
 </script>

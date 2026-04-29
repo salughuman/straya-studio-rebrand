@@ -1,326 +1,244 @@
 ---
-// SelectedWork.astro — Straya Studio [IMMERSIVE]
-// Bento grid of selected projects. Hover reveals description + CTA.
-// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
-// GEMINI §3: scroll-linked entrance, cursor-reactive hover, z-depth.
-
 import { SELECTED_PROJECTS } from "../data/selected-work";
-import { SITE_CONFIG } from "../data/site-config";
 
 const baseUrl = import.meta.env.BASE_URL;
-const getProjectHref = (href: string) => (href.startsWith("http://") || href.startsWith("https://")) ? href : `${baseUrl}${href.replace(/^\//, "")}`;
-const isExternalHref = (href: string) => href.startsWith("http://") || href.startsWith("https://");
-
-// Bento layout: featured project wide, rest in a 3-col grid
-const featured = SELECTED_PROJECTS.find(p => p.featured);
-const rest      = SELECTED_PROJECTS.filter(p => !p.featured);
 ---
 
 <section
   id="work"
   aria-label="Selected work"
-  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
+  class="section-frosted relative"
 >
-  <div class="main-container">
+  <div class="relative">
+    <p class="sr-only">
+      Selected work section with left and right project image cards and a sticky center project title that updates as each project enters view.
+    </p>
 
-    <!-- Header -->
-    <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-black/5 pb-6">
-      <div>
-        <span class="sw-el type-label text-on-background/40 block mb-3" data-delay="0">Selected work</span>
-        <h2 class="type-h2 text-on-background max-w-2xl">
-          <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="80">Recent deployments across</span></span>
-          <span class="sw-line block overflow-hidden"><span class="sw-el inline-block" data-delay="140">Framer, Webflow, and Shopify.</span></span>
-        </h2>
-        <p class="sw-el type-body-small text-on-surface-variant mt-4 max-w-xl" data-delay="190">
-          Transparent credits, always. Every project clearly states whether it was direct or white-label, with agency credit links where relevant.
-        </p>
-      </div>
-      <a
-        href={SITE_CONFIG.socials.calendly}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="sw-el magnetic-cta z-depth-1 inline-flex items-center gap-3 type-button text-on-background border-b border-on-background/20 pb-px hover:border-on-background transition-colors duration-300 flex-shrink-0"
-        data-delay="240"
-      >
-        Start a project
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </header>
-
-    <!-- Bento grid -->
-    <div class="sw-el grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5" data-delay="360">
-      <p class="sr-only">
-        Selected work includes Kova Labs (Framer marketing site, B2B SaaS), Meridian Health (Webflow, healthcare), Altitude Gear Co. (Shopify e-commerce), Luminary Finance (Webflow, fintech UK), NexGen Systems (Framer, enterprise EU), and Parallel Studio (Shopify Plus, US).
-      </p>
-
-      <!-- Featured project — wide -->
-      {featured && (
-        <article
-          class="work-card md:col-span-7 bg-background group relative overflow-hidden flex flex-col"
-          data-index="0"
-          aria-label={`${featured.title} — ${featured.sector}`}
-        >
-          <!-- Image -->
-          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[16/9]">
-            {featured.thumbnail ? (
-              <div class="thumb-frame" data-thumb-frame>
-                <img
-                  src={`${baseUrl}${featured.thumbnail.replace(/^\//, '')}`}
-                  alt={featured.title}
-                  width="800"
-                  height="450"
-                  loading="lazy"
-                  decoding="async"
-                  class="thumb-image"
-                  data-thumb-image
-                />
-              </div>
-            ) : (
-              <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
-                <span class="type-label text-on-background/20">{featured.title}</span>
-              </div>
-            )}
-            <!-- Hover overlay -->
-            <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none"></div>
-          </div>
-          <!-- Content -->
-          <div class="p-4 md:p-5 flex items-start justify-between gap-4 border-t border-black/5">
-            <div class="flex flex-col gap-2 min-w-0">
-              <h3 class="type-h3 text-on-background">{featured.title}</h3>
-              <p class="type-label text-on-background/40">{featured.sector}</p>
-              <div class="flex items-center gap-2 flex-wrap mt-1">
-                {featured.partnershipType && (
-                  <span class={`type-label px-2 py-1 border ${featured.partnershipType === "White-label" ? "border-accent/30 text-accent" : "border-black/10 text-on-background/50"}`}>
-                    {featured.partnershipType}
-                  </span>
-                )}
-                <span class="type-label text-on-background/60">{featured.creditLine}</span>
-              </div>
-              {featured.creditAgencyName && featured.creditAgencyUrl && (
-                <a
-                  href={featured.creditAgencyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="type-label text-on-background/45 hover:text-on-background transition-colors duration-300 inline-flex items-center gap-1.5 mt-0.5 w-fit"
-                >
-                  Credit agency: {featured.creditAgencyName}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+    <div class="w-full py-24 md:py-32">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0" data-work-rows>
+        <div class="hidden lg:block lg:col-span-4 space-y-64 lg:pl-0 lg:pr-3" data-left-rail>
+          {SELECTED_PROJECTS.map((project, i) => (
+            <div class={`work-media ${i % 2 === 0 ? "" : "invisible pointer-events-none"}`} data-work-media-slot data-work-index={i}>
+              {i % 2 === 0 && (
+                <a href={project.href} target="_blank" rel="noopener noreferrer" class="media-card media-card--edge media-card--edge-left" aria-label={`View ${project.title} project`}>
+                  <div class="aspect-[4/5] bg-[#151522] overflow-hidden">
+                    {project.thumbnail ? (
+                      <img
+                        src={`${baseUrl}${project.thumbnail.replace(/^\//, "")}`}
+                        alt=""
+                        width="960"
+                        height="1200"
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="h-full w-full flex items-center justify-center type-label text-[#E1E0CC]/45">{project.title}</div>
+                    )}
+                  </div>
                 </a>
               )}
-              <p class="type-body-small text-on-surface-variant mt-1 max-w-lg leading-relaxed">{featured.description}</p>
             </div>
-            <a
-              href={getProjectHref(featured.href)}
-              target={isExternalHref(featured.href) ? "_blank" : undefined}
-              rel={isExternalHref(featured.href) ? "noopener noreferrer" : undefined}
-              class="flex-shrink-0 w-9 h-9 border border-black/10 flex items-center justify-center text-on-background/30 group-hover:border-on-background group-hover:text-on-background transition-all duration-300"
-              aria-label={`View ${featured.title} project`}
-            >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </div>
-        </article>
-      )}
-
-      <!-- Studio status card — narrow -->
-      <div class="md:col-span-5 bg-primary flex flex-col justify-between p-4 md:p-5 group hidden md:flex">
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent status-dot" aria-hidden="true"></span>
-            <span class="type-label text-accent">Accepting new briefs</span>
-          </div>
-          <h3 class="type-h3 text-on-primary leading-snug">
-            Ready to deploy your next vision?
-          </h3>
-          <p class="type-body-small text-on-primary/50 leading-relaxed">
-            We take 2–3 projects at a time. That's not a limitation — it's the product.
-          </p>
+          ))}
         </div>
-        <a
-          href={SITE_CONFIG.socials.calendly}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="magnetic-cta mt-6 inline-flex items-center gap-3 type-button text-primary bg-accent px-5 py-2.5 hover:bg-white transition-colors duration-300 w-fit"
-        >
-          Initiate project
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
 
-      <!-- Rest of projects — 3-col grid -->
-      {rest.map((project, i) => (
-        <article
-          class="work-card md:col-span-4 bg-background group relative overflow-hidden flex flex-col"
-          data-index={i + 1}
-          aria-label={`${project.title} — ${project.sector}`}
-        >
-          <!-- Image -->
-          <div class="thumb-shell relative overflow-hidden bg-surface-container aspect-[4/3]">
-            {project.thumbnail ? (
-              <div class="thumb-frame" data-thumb-frame>
-                <img
-                  src={`${baseUrl}${project.thumbnail.replace(/^\//, '')}`}
-                  alt={project.title}
-                  width="400"
-                  height="300"
-                  loading="lazy"
-                  decoding="async"
-                  class="thumb-image"
-                  data-thumb-image
-                />
-              </div>
-            ) : (
-              <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
-                <span class="type-label text-on-background/20">{project.title}</span>
-              </div>
-            )}
+        <div class="lg:col-span-4">
+          <div class="sticky top-0 h-screen flex items-center justify-center text-center px-4 sm:px-6 md:px-8" data-work-center>
+            <div class="w-full max-w-lg">
+              <span class="type-label sw-kicker block mb-5 md:mb-6">Selected work</span>
+              <ul class="flex flex-col gap-3 md:gap-4" aria-label="Project titles">
+                {SELECTED_PROJECTS.map((project, i) => (
+                  <li
+                    class="work-title-item font-display font-semibold tracking-[-0.04em] leading-[0.88] text-[clamp(2.35rem,5.5vw,4.75rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
+                    data-work-title-item
+                    data-index={i}
+                  >
+                    {project.title}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <!-- Content -->
-          <div class="p-4 md:p-5 flex items-start justify-between gap-3 border-t border-black/5 flex-1">
-            <div class="flex flex-col gap-1.5 min-w-0">
-              <h3 class="type-h4 text-on-background">{project.title}</h3>
-              <p class="type-label text-on-background/40">{project.sector}</p>
-              <div class="flex items-center gap-2 flex-wrap">
-                {project.partnershipType && (
-                  <span class={`type-label px-2 py-1 border ${project.partnershipType === "White-label" ? "border-accent/30 text-accent" : "border-black/10 text-on-background/50"}`}>
-                    {project.partnershipType}
-                  </span>
-                )}
-                <span class="type-label text-on-background/60">{project.creditLine}</span>
-              </div>
-              {project.creditAgencyName && project.creditAgencyUrl && (
-                <a
-                  href={project.creditAgencyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="type-label text-on-background/45 hover:text-on-background transition-colors duration-300 inline-flex items-center gap-1.5 mt-0.5 w-fit"
-                >
-                  Credit agency: {project.creditAgencyName}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+        </div>
+
+        <div class="hidden lg:block lg:col-span-4 space-y-64 lg:pr-0 lg:pl-3" data-right-rail>
+          {SELECTED_PROJECTS.map((project, i) => (
+            <div class={`work-media ${i % 2 !== 0 ? "" : "invisible pointer-events-none"}`} data-work-media-slot data-work-index={i}>
+              {i % 2 !== 0 && (
+                <a href={project.href} target="_blank" rel="noopener noreferrer" class="media-card media-card--edge media-card--edge-right" aria-label={`View ${project.title} project`}>
+                  <div class="aspect-[4/5] bg-[#151522] overflow-hidden">
+                    {project.thumbnail ? (
+                      <img
+                        src={`${baseUrl}${project.thumbnail.replace(/^\//, "")}`}
+                        alt=""
+                        width="960"
+                        height="1200"
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="h-full w-full flex items-center justify-center type-label text-[#E1E0CC]/45">{project.title}</div>
+                    )}
+                  </div>
                 </a>
               )}
-              <p class="type-body-small text-on-surface-variant leading-relaxed mt-1">
-                {project.description}
-              </p>
             </div>
-            <a
-              href={getProjectHref(project.href)}
-              target={isExternalHref(project.href) ? "_blank" : undefined}
-              rel={isExternalHref(project.href) ? "noopener noreferrer" : undefined}
-              class="flex-shrink-0 w-7 h-7 border border-black/10 flex items-center justify-center text-on-background/20 group-hover:border-on-background/40 group-hover:text-on-background/60 transition-all duration-300 mt-0.5"
-              aria-label={`View ${project.title} project`}
-            >
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M3 11L11 3M11 3H6M11 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </div>
-        </article>
-      ))}
+          ))}
+        </div>
+      </div>
 
+      <div class="main-container lg:hidden mt-8 space-y-16">
+        {SELECTED_PROJECTS.map((project) => (
+          <a
+            href={project.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block overflow-hidden rounded-2xl bg-[#11111B] shadow-[0_24px_56px_-32px_rgba(0,0,0,0.65),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+            aria-label={`View ${project.title} project`}
+          >
+            <div class="aspect-[4/5] bg-[#151522] overflow-hidden">
+              {project.thumbnail ? (
+                <img
+                  src={`${baseUrl}${project.thumbnail.replace(/^\//, "")}`}
+                  alt=""
+                  width="960"
+                  height="1200"
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="h-full w-full flex items-center justify-center type-label text-[#E1E0CC]/45">{project.title}</div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Header elements start hidden */
-  .sw-el {
-    opacity: 0;
-    transform: translateY(28px);
+  .sw-kicker {
+    color: rgba(225, 224, 204, 0.62);
+    letter-spacing: 0.08em;
   }
-  .sw-line .sw-el {
-    transform: translateY(100%);
-    opacity: 1;
-  }
-
-  /* ── Full-page thumbnail viewport ───────────────────────────── */
-  .thumb-shell {
-    padding: 14px;
-  }
-  .thumb-frame {
-    position: relative;
+  .media-card {
+    display: block;
     width: 100%;
-    height: 100%;
+    max-width: 320px;
+    border: none;
+    border-radius: 1rem;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: theme('colors.surface-container-lowest');
+    background: linear-gradient(160deg, rgba(15, 15, 26, 0.96) 0%, rgba(9, 9, 16, 0.96) 100%);
     box-shadow:
-      0 14px 28px rgba(0, 0, 0, 0.12),
-      0 2px 8px rgba(0, 0, 0, 0.06);
-    transform: scale(1);
-    transition:
-      transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1);
+      0 16px 34px rgba(0, 0, 0, 0.45),
+      0 4px 14px rgba(0, 0, 0, 0.25),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: translateY(0);
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .work-card:hover .thumb-frame {
-    transform: scale(0.972);
+  @media (min-width: 1024px) {
+    .media-card--edge {
+      max-width: none;
+      width: 50%;
+    }
+    .media-card--edge-left {
+      border-radius: 0 1rem 1rem 0;
+    }
+    .media-card--edge-right {
+      border-radius: 1rem 0 0 1rem;
+    }
+  }
+  .media-card:hover {
+    transform: translateY(-4px);
     box-shadow:
-      0 10px 22px rgba(0, 0, 0, 0.10),
-      0 2px 6px rgba(0, 0, 0, 0.05);
+      0 24px 48px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(60, 205, 127, 0.45),
+      0 0 48px -12px rgba(60, 205, 127, 0.28),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   }
-  .thumb-image {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
-    transform: translate3d(0, 0, 0);
-    will-change: transform, filter;
-    transition: filter 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  .work-media {
+    min-height: 280px;
   }
-
-  /* ── Status dot ────────────────────────────────────────────── */
-  .status-dot {
-    animation: status-pulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  @media (min-width: 1024px) {
+    .work-media {
+      min-height: 220px;
+    }
   }
-  @keyframes status-pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60,205,127,0); }
-    50%       { opacity: 0.8; box-shadow: 0 0 6px 2px rgba(60,205,127,0.3); }
+  [data-left-rail] .work-media {
+    display: flex;
+    justify-content: flex-start;
   }
-
+  [data-right-rail] .work-media {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .work-title-item.is-active {
+    background: linear-gradient(105deg, #f5d0fe 0%, #e9d5ff 32%, #a5f3fc 72%, #fbcfe8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 28px rgba(244, 114, 182, 0.42);
+    transform: translateY(-1px) scale(1.01);
+  }
   @media (prefers-reduced-motion: reduce) {
-    .sw-el { opacity: 1 !important; transform: none !important; }
-    .status-dot { animation: none; }
-    .thumb-frame, .thumb-image { transition: none !important; }
+    .media-card {
+      transition: none !important;
+      transform: none !important;
+    }
+    .work-title-item {
+      transition: none !important;
+    }
   }
-  /* work-card: visible by default — no entrance animation */
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const DURATION = 900;
+  import { gsap } from "gsap";
 
-  // ── Header entrance (IntersectionObserver) ──────────────────
-  const headerEls = document.querySelectorAll<HTMLElement>('.sw-el');
+  const rows = gsap
+    .utils
+    .toArray<HTMLElement>("[data-work-media-slot]")
+    .filter((el) => !el.classList.contains("invisible"));
+  const titleItems = gsap.utils.toArray<HTMLElement>("[data-work-title-item]");
 
-  const headerObserver = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    headerEls.forEach(el => {
-      const delay   = parseInt(el.dataset.delay ?? '0');
-      const isLine  = el.closest('.sw-line') !== null;
-      el.animate(
-        isLine
-          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
-      );
+  const setActive = (index: number) => {
+    titleItems.forEach((el, i) => {
+      el.classList.toggle("is-active", i === index);
     });
-    headerObserver.disconnect();
-  }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+  };
 
-  const section = document.getElementById('work');
-  if (section) headerObserver.observe(section);
+  setActive(0);
 
-  // Thumbnail hover pan removed intentionally.
-  // Keeping only the frame scale-down and visual hover treatment.
+  let ticking = false;
+  const syncActiveFromViewport = () => {
+    const midY = window.innerHeight * 0.5;
+    let bestIdx = 0;
+    let bestDist = Number.POSITIVE_INFINITY;
+
+    rows.forEach((row) => {
+      const rect = row.getBoundingClientRect();
+      const center = rect.top + rect.height * 0.5;
+      const dist = Math.abs(center - midY);
+      const idx = Number(row.dataset.workIndex ?? "-1");
+      if (idx >= 0 && dist < bestDist) {
+        bestDist = dist;
+        bestIdx = idx;
+      }
+    });
+
+    setActive(bestIdx);
+    ticking = false;
+  };
+
+  const onScrollOrResize = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(syncActiveFromViewport);
+  };
+
+  window.addEventListener("scroll", onScrollOrResize, { passive: true });
+  window.addEventListener("resize", onScrollOrResize);
+  syncActiveFromViewport();
 </script>

@@ -5,6 +5,7 @@
 // GEMINI §5: light mode tokens, no bold fonts, 0px radius.
 
 import { SITE_CONFIG } from "../data/site-config";
+import Button from "./ui/buttons/Button.astro";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -14,7 +15,7 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
 <section
   id="final-cta"
   aria-label="Start your project with Straya Studio"
-  class="relative bg-primary overflow-hidden border-b border-white/5"
+  class="section-frosted relative overflow-hidden"
 >
   <!-- Ghost wordmark — above global glow; opacity boosted when cursor is near (GlobalSpatialEffect) -->
   <div
@@ -36,7 +37,7 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
     <div class="flex flex-col items-start gap-12">
 
       <!-- Availability badge -->
-      <div class="flex items-center gap-2 border border-white/10 bg-white/5 px-4 py-2" role="status">
+      <div class="flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 shadow-[0_14px_36px_-16px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.06)]" role="status">
         <span class="w-1.5 h-1.5 rounded-full bg-accent cta-dot" aria-hidden="true"></span>
         <span class="type-label text-accent">1 spot open for {currentMonth}</span>
       </div>
@@ -44,7 +45,7 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
       <!-- Headline — large, kinetic -->
       <div class="cta-headline max-w-4xl">
         <h2
-          class="font-display font-medium text-white uppercase leading-none"
+          class="font-display font-bold text-white uppercase leading-none"
           style="font-size: clamp(2.5rem, 7vw, 6rem); letter-spacing: -0.04em;"
         >
           Ready to build<br/>
@@ -64,28 +65,32 @@ const currentMonth = new Date().toLocaleString("en-US", { month: "long", year: "
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-shrink-0">
           <a
             href={`${baseUrl}contact`}
-            class="magnetic-cta z-depth-2 inline-flex items-center gap-3 type-button bg-accent text-primary px-8 py-4 hover:bg-white transition-colors duration-300"
+            class="btn-pill btn-pill-inverted magnetic-cta z-depth-2"
             aria-label="Start a project with Straya Studio"
           >
             Start a project
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <span class="btn-pill-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #000000;" aria-hidden="true">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </span>
           </a>
-          <a
+          <Button
             href={SITE_CONFIG.socials.calendly}
+            label="Book a 30-min call"
+            variant="text-link"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 type-button text-white/60 border-b border-white/20 pb-px hover:text-white hover:border-white transition-colors duration-300"
+            class="inline-flex items-center gap-3 rounded-md border-2 border-transparent text-white/60 hover:border-[#3CCD7F]/50 hover:text-white"
           >
-            Book a 30-min call
-          </a>
+          </Button>
         </div>
 
       </div>
 
       <!-- Bottom trust strip -->
-      <div class="flex flex-wrap items-center gap-6 pt-4 border-t border-white/5 w-full">
+      <div class="flex flex-wrap items-center gap-6 pt-4 w-full">
         {[
           "Fixed quotes — no surprises",
           "50% upfront, 50% on delivery",

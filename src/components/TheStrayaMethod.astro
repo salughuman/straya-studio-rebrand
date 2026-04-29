@@ -1,211 +1,257 @@
 ---
-// TheStrayaMethod.astro — Straya Studio [IMMERSIVE]
-// Numbered process timeline with scroll-driven active states.
-// Standard entrance animations (GEMINI §7).
-
 const steps = [
   {
     num: "01",
-    title: "Discovery",
-    description: "We map your objectives, market position, and technical requirements before a single pixel is placed.",
-    items: [
-      "Project objectives & success metrics",
-      "Brand, market, and competitor deep-dive",
-      "Technical requirements and platform fit",
-    ],
+    title: "Performance First",
+    description: "I focus on building websites that load fast, and feel smooth from the first interaction. Performance is considered at every stage.",
+    linkText: "My workflow ↗",
+    bgClass: "bg-surface"
   },
   {
     num: "02",
-    title: "Architecture",
-    description: "Platform selection, CMS structure, and performance strategy — all decided before development begins.",
-    items: [
-      "Platform and technology stack selection",
-      "CMS structure and content modeling",
-      "Performance, SEO, and conversion strategy",
-    ],
+    title: "Clean & Scalable Code",
+    description: "I write clean, well-structured, and maintainable code with a strong focus on clarity and long-term scalability.",
+    linkText: "My workflow ↗",
+    bgClass: "bg-sage" 
   },
   {
     num: "03",
-    title: "Engineering",
-    description: "Sprint-based builds with milestone reviews. Every component is production-grade from day one.",
-    items: [
-      "Sprint-based development with milestones",
-      "Design system and component architecture",
-      "Iteration review at every stage",
-    ],
-  },
-  {
-    num: "04",
-    title: "Optimisation",
-    description: "100/100 Lighthouse scores, Core Web Vitals, and post-launch support included as standard.",
-    items: [
-      "100/100 Lighthouse score tuning",
-      "Core Web Vitals and technical SEO",
-      "Post-launch monitoring and support",
-    ],
+    title: "Modern UI & UX",
+    description: "I design and build interfaces with clarity, usability, and consistency in mind for an intuitive user experience.",
+    linkText: "Explore designs ↗",
+    bgClass: "bg-surface" 
   },
 ];
 ---
 
-<section
-  id="method"
-  aria-label="The Straya Method — our process"
-  class="section-y relative bg-background border-b border-black/5 overflow-hidden"
->
-  <!-- Header -->
-  <div class="main-container mb-16">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/5 pb-8">
-      <div>
-        <span class="m-el type-label text-on-background/40 block mb-3" data-delay="0">How we work</span>
-        <h2 class="type-h2 text-on-background max-w-lg">
-          <span class="m-line block overflow-hidden"><span class="m-el inline-block" data-delay="80">The Straya Method —</span></span>
-          <span class="m-line block overflow-hidden"><span class="m-el inline-block" data-delay="140">four stages, zero shortcuts.</span></span>
-        </h2>
-      </div>
-      <span class="m-el type-label text-on-background/20 flex-shrink-0" data-delay="240">V1.0.2 / SYSTEM_STATUS: STABLE</span>
-    </div>
-  </div>
+<section id="method" class="method bg-background relative" data-mode="neobrutalism">
+  
+  <div class="method__cards-container main-container pb-32 pt-24">
+    
+    <header class="mb-16">
+      <span class="inline-block px-3 py-1 bg-brand-text-primary text-background font-mono text-xs uppercase tracking-widest -rotate-2 mb-6">
+        <span class="text-accent">[03]</span> / How we work
+      </span>
+      <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight text-on-background">
+        The strategy behind<br/>the structure.
+      </h2>
+    </header>
 
-  <!-- Progress track — desktop only -->
-  <div class="main-container mb-0 hidden md:block" aria-hidden="true">
-    <div class="relative h-px bg-black/5">
-      <div id="method-progress" class="h-full bg-accent absolute left-0 top-0 transition-all duration-700 ease-luxury" style="width: 0%;"></div>
-    </div>
-  </div>
-
-  <!-- Steps -->
-  <div class="main-container" id="method-steps">
-    <p class="sr-only">
-      The Straya Method is a four-step process: Discovery (mapping objectives, market, and technical requirements), Architecture (platform selection, CMS structure, and performance strategy), Engineering (sprint-based builds with milestone reviews), and Optimisation (Lighthouse tuning, Core Web Vitals, and post-launch support).
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-black/5">
+    <div class="method__stack">
       {steps.map((step, i) => (
-        <div
-          class="method-step bg-background group relative overflow-hidden flex flex-col card-pad"
-          data-step={i}
-        >
-          <!-- Ghost number -->
-          <span
-            class="method-num absolute top-4 right-4 font-display font-medium select-none pointer-events-none transition-all duration-700 text-on-background/[0.04]"
-            style="font-size: clamp(3.5rem, 7vw, 5rem); line-height: 1;"
-            aria-hidden="true"
-          >
-            {step.num}
-          </span>
-
-          <!-- Index + fill line -->
-          <div class="flex items-center gap-3 mb-8">
-            <span class="method-index type-label text-on-background/25 transition-colors duration-500 flex-shrink-0">
-              {step.num}
-            </span>
-            <div class="h-px flex-1 bg-black/5 relative overflow-hidden">
-              <div class="method-fill h-full bg-accent absolute left-0 top-0 w-0 transition-all duration-700 ease-luxury"></div>
-            </div>
+        <div class={`method__step ${step.bgClass}`} data-step>
+          <div class="method__step-content relative z-10 flex flex-col items-center text-center">
+            <h3 class="method__step-title">{step.title}</h3>
+            <p class="method__step-body">{step.description}</p>
+            <a href="#" class="method__step-link">{step.linkText}</a>
           </div>
-
-          <!-- Title -->
-          <h3 class="type-h3 text-on-background uppercase mb-4">{step.title}</h3>
-
-          <!-- Description -->
-          <p class="type-body-small text-on-surface-variant leading-relaxed mb-8">{step.description}</p>
-
-          <!-- Items -->
-          <ul class="flex flex-col gap-3 mt-auto border-t border-black/5 pt-6" aria-label={`${step.title} deliverables`}>
-            {step.items.map(item => (
-              <li class="flex items-start gap-3 type-body-small text-on-surface-variant">
-                <span class="method-dot w-1 h-1 rounded-full bg-black/15 mt-[9px] shrink-0 transition-colors duration-500"></span>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <span class="method__numeral" aria-hidden="true">{step.num}</span>
         </div>
       ))}
     </div>
   </div>
+
+  <div class="method__zoom-wrapper">
+    <div class="method__zoom-sticky">
+      <h3 class="method__liquid-title">
+        <span class="method__word">CLARITY</span>
+        <span class="method__plus text-accent">+</span>
+        <span class="method__word">PERFORMANCE</span>
+      </h3>
+    </div>
+  </div>
+
 </section>
 
 <style>
-  /* ── Header elements ───────────────────────────────────────── */
-  .m-el {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  .m-line .m-el {
-    transform: translateY(100%);
-    opacity: 1;
-  }
-
-  /* ── Step — visible by default, no entrance animation ─────── */
-
-  /* ── Active step ───────────────────────────────────────────── */
-  .method-step.is-active {
-    background-color: theme('colors.surface-container-lowest');
-  }
-  .method-step.is-active .method-index {
-    color: theme('colors.on-background');
-  }
-  .method-step.is-active .method-fill {
-    width: 100%;
-  }
-  .method-step.is-active .method-num {
-    color: rgba(0, 0, 0, 0.07);
-    transform: scale(1.04);
-    transform-origin: top right;
-  }
-  .method-step.is-active .method-dot {
-    background-color: theme('colors.accent');
+  .method {
+    --m-ink: #0A0A0A;                
+    --m-bg-raised: #F4F4F4; 
+    --m-bg-sage: #84A98C; 
+    --m-fg-strong: #111111;
+    --m-accent: #2A4365; /* The color that will flood the screen */
+    --m-hairline: rgba(0, 0, 0, 0.1);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .m-el { opacity: 1 !important; transform: none !important; }
-    .method-fill, #method-progress { transition: none; }
+  .bg-surface { background: var(--m-bg-raised); color: var(--m-fg-strong); }
+  .bg-sage { background: var(--m-bg-sage); color: var(--m-ink); }
+
+  /* ─── Cards ──────────────────────────────────────────────────── */
+  .method__stack {
+    display: flex;
+    flex-direction: column;
+    /* Spacing between cards when scrolling normally */
+    gap: 4rem; 
+    margin-top: 4rem;
+  }
+
+  .method__step {
+    /* Magic: Sticks to top of viewport, allowing next card to slide over */
+    position: sticky;
+    top: 10vh; 
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2rem;
+    border: 1px solid var(--m-hairline);
+    min-height: 50vh;
+    overflow: hidden;
+    
+    /* Smooth transform updates from JS */
+    transform-origin: top center;
+    will-change: transform, opacity;
+  }
+
+  .method__step-title {
+    font-family: 'Impact', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+  }
+
+  .method__step-body {
+    font-family: sans-serif;
+    font-size: 1.125rem;
+    max-width: 60ch;
+    margin-bottom: 2rem;
+  }
+
+  .method__step-link {
+    font-family: monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  .method__numeral {
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: clamp(15rem, 30vw, 35rem);
+    line-height: 0.75;
+    color: rgba(0, 0, 0, 0.04);
+    z-index: 0;
+  }
+
+  /* ─── Zoom Takeover ──────────────────────────────────────────── */
+  .method__zoom-wrapper {
+    /* 300vh gives the user enough scroll distance to trigger the full zoom */
+    height: 300vh;
+    position: relative;
+    background-color: var(--m-ink); /* Background behind the text */
+  }
+
+  .method__zoom-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .method__liquid-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+    font-family: 'Impact', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 8rem);
+    color: #EDEDED;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+
+  .method__plus {
+    display: inline-block;
+    color: var(--m-accent);
+    /* Scale happens from the very center of the plus sign */
+    transform-origin: center center;
+    will-change: transform;
+    /* Keeps the plus sharp as it scales infinitely */
+    -webkit-font-smoothing: antialiased;
   }
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const DURATION = 900;
-  const MARGIN   = '0px 0px -80px 0px';
+  // Setup a high-performance scroll loop
+  let scrollRaf;
 
-  // ── Header entrance ─────────────────────────────────────────
-  const headerEls = document.querySelectorAll<HTMLElement>('#method .m-el');
+  const updateAnimations = () => {
+    // 1. STICKY CARDS SCALING DOWN
+    const cards = document.querySelectorAll('.method__step');
+    const stickyTop = window.innerHeight * 0.1; // Matches the top: 10vh in CSS
 
-  const headerObs = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    headerEls.forEach(el => {
-      const delay  = parseInt(el.dataset.delay ?? '0');
-      const isLine = el.closest('.m-line') !== null;
-      el.animate(
-        isLine
-          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
-      );
-    });
-    headerObs.disconnect();
-  }, { rootMargin: MARGIN, threshold: 0 });
-
-  const section = document.getElementById('method');
-  if (section) headerObs.observe(section);
-
-  // method-step entrance animation removed — steps visible by default
-
-  // ── Active step on scroll ────────────────────────────────────
-  const steps    = document.querySelectorAll<HTMLElement>('.method-step');
-  const progress = document.getElementById('method-progress');
-
-  const activeObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const el  = entry.target as HTMLElement;
-      const idx = parseInt(el.dataset.step ?? '0');
-      if (entry.isIntersecting) {
-        el.classList.add('is-active');
-        if (progress) progress.style.width = `${((idx + 1) / steps.length) * 100}%`;
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      
+      // If the card has hit the sticky point at the top of the screen
+      if (rect.top <= stickyTop) {
+        // Calculate how far past the sticky point we have scrolled
+        const distancePastSticky = stickyTop - rect.top;
+        // Normalize it against the screen height
+        const progress = distancePastSticky / window.innerHeight;
+        
+        // Scale down from 1 to 0.9 slowly
+        const scale = Math.max(0.9, 1 - progress * 0.15);
+        // Fade out slightly
+        const opacity = Math.max(0.4, 1 - progress * 1.2);
+        
+        card.style.transform = `scale(${scale})`;
+        card.style.opacity = opacity.toString();
       } else {
-        el.classList.remove('is-active');
+        // Reset when scrolling back up
+        card.style.transform = `scale(1)`;
+        card.style.opacity = '1';
       }
     });
-  }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
 
-  steps.forEach(s => activeObs.observe(s));
+    // 2. MASSIVE PLUS TAKEOVER
+    const wrapper = document.querySelector('.method__zoom-wrapper');
+    const plus = document.querySelector('.method__plus');
+    
+    if (wrapper && plus) {
+      const wrapperRect = wrapper.getBoundingClientRect();
+      
+      let zoomProgress = 0;
+      // Start zooming only when the wrapper hits the top of the viewport
+      if (wrapperRect.top < 0) {
+        // Calculate progress from 0 to 1 over the 300vh scroll space
+        const maxScroll = wrapperRect.height - window.innerHeight;
+        zoomProgress = Math.min(1, Math.abs(wrapperRect.top) / maxScroll);
+      }
+
+      if (zoomProgress > 0) {
+        // Exponential scale: starts slow, then shoots up incredibly fast
+        // Scale factor of 250 is usually enough to cover a 4k monitor
+        const scaleFactor = 1 + Math.pow(zoomProgress, 4) * 250;
+        plus.style.transform = `scale(${scaleFactor})`;
+      } else {
+        plus.style.transform = `scale(1)`;
+      }
+    }
+  };
+
+  // Run on scroll and resize
+  window.addEventListener('scroll', () => {
+    if (!scrollRaf) {
+      scrollRaf = requestAnimationFrame(() => {
+        updateAnimations();
+        scrollRaf = null;
+      });
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateAnimations);
+  
+  // Initial check on load
+  updateAnimations();
 </script>
