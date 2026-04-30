@@ -49,7 +49,7 @@ const baseUrl = import.meta.env.BASE_URL;
               <ul class="flex flex-col gap-3 md:gap-4" aria-label="Project titles">
                 {SELECTED_PROJECTS.map((project, i) => (
                   <li
-                    class="work-title-item font-display font-semibold tracking-[-0.04em] leading-[0.88] text-[clamp(2.35rem,5.5vw,4.75rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
+                    class="work-title-item font-display font-extrabold tracking-[-0.04em] leading-[0.88] text-[clamp(2.5rem,5.5vw,5.5rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
                     data-work-title-item
                     data-index={i}
                   >
@@ -176,11 +176,7 @@ const baseUrl = import.meta.env.BASE_URL;
     justify-content: flex-end;
   }
   .work-title-item.is-active {
-    background: linear-gradient(105deg, #f5d0fe 0%, #e9d5ff 32%, #a5f3fc 72%, #fbcfe8 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 28px rgba(244, 114, 182, 0.42);
+    color: var(--color-accent, #3CCD7F);
     transform: translateY(-1px) scale(1.01);
   }
   @media (prefers-reduced-motion: reduce) {

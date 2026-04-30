@@ -26,19 +26,19 @@ const steps = [
 
 <section id="method" class="method bg-background relative" data-mode="neobrutalism">
 
-  <div class="method__cards-container main-container pt-24 pb-8">
+  <div class="method__cards-container main-container pt-24">
 
     <header class="mb-16">
       <span class="inline-block px-3 py-1 bg-brand-text-primary text-background font-mono text-xs uppercase tracking-widest -rotate-2 mb-6">
         <span class="text-accent">[03]</span> / The Straya Method
       </span>
-      <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight text-on-background">
+      <h2 class="type-h2 uppercase text-on-background">
         Four stages.<br/>Zero shortcuts.
       </h2>
     </header>
 
     <div class="method__stack">
-      {steps.map((step, i) => (
+      {steps.map((step) => (
         <div class={`method__step ${step.bgClass}`} data-step>
           <h3 class="method__step-title">{step.title}</h3>
           <div class="method__step-content">
@@ -65,31 +65,36 @@ const steps = [
 
 <style>
   .method {
-    --m-ink: #0A0A0A;
-    --m-bg-raised: #F4F4F4;
-    --m-bg-sage: #84A98C;
-    --m-fg-strong: #111111;
-    /* Accent is now the brutalist green (matches design system —color-accent). */
-    --m-accent: #3CCD7F;
-    --m-hairline: rgba(0, 0, 0, 0.15);
+    /* ── Design token aliases ─────────────────────────────────────────── */
+    --m-ink:       var(--ink-800, #0A0A0A);
+    --m-bg-raised: var(--bone-100, #FFFEF7);
+    --m-bg-sage:   #84A98C;                     /* muted sage — no exact token */
+    --m-fg:        var(--ink-800, #0A0A0A);      /* text on light + sage cards */
+    --m-accent:    var(--color-accent, #3CCD7F);
+    --method-bottom-gap: 9.5rem;                /* ~152 px gap before zoom section */
   }
 
-  .bg-surface { background: var(--m-bg-raised); color: var(--m-fg-strong); }
-  .bg-sage    { background: var(--m-bg-sage);   color: var(--m-ink); }
+  .bg-surface { background: var(--m-bg-raised); color: var(--m-fg); }
+  .bg-sage    { background: var(--m-bg-sage);   color: var(--m-fg); }
 
-  /* ─── Stack ──────────────────────────────────────────────────── */
+  /* ─── Cards container — bottom gap ~150 px ───────────────────────── */
+  .method__cards-container {
+    padding-bottom: var(--method-bottom-gap);
+  }
+
+  /* ─── Stack ──────────────────────────────────────────────────────── */
   .method__stack {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    margin-top: 4rem;
+    gap: var(--space-6, 2rem);
+    margin-top: var(--space-8, 4rem);
   }
 
-  /* ─── Card — horizontal three-zone layout ────────────────────── */
-  /* Layout (per the reference screenshot):
-       [  TITLE  ][      body + link      ][  NUMERAL (outline)  ]
-        left          centered, narrow             right edge
-     min-height brought down to ~32vh (was 50vh). */
+  /* ─── Card — horizontal three-zone layout ────────────────────────── */
+  /* BUG FIX: the old code had `position: sticky` then `position: relative`
+     in the same rule — the second declaration overrode the first, making
+     cards never actually stick. `position: relative` removed; child elements
+     with z-index already carry their own `position: relative`. */
   .method__step {
     position: sticky;
     top: 10vh;
@@ -98,14 +103,11 @@ const steps = [
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
     align-items: center;
 
-    padding: 2.5rem 3rem;
-    border: 1px solid var(--m-hairline);
+    padding: var(--space-7, 3rem) var(--space-8, 4rem);
+    border: var(--hairline, 1px solid rgba(0,0,0,0.15));
     min-height: 32vh;
     overflow: hidden;
-    position: relative;
 
-    /* JS writes one number per element per frame. Visual interpolation
-       is handled by CSS via this --p variable. */
     --p: 0;
 
     transform-origin: top center;
@@ -114,17 +116,25 @@ const steps = [
     opacity: calc(1 - var(--p) * 0.55);
   }
 
+  /* Last card snaps to the very top — never blurs, fades, or scales down */
+  .method__step:last-child {
+    top: 0;
+    transform: scale(1) !important;
+    filter: blur(0) !important;
+    opacity: 1 !important;
+  }
+
   .method__step[data-active="true"] {
     will-change: transform, filter, opacity;
   }
 
   .method__step-title {
-    font-family: 'Impact', 'Helvetica Neue', sans-serif;
-    font-weight: 900;
+    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
+    font-weight: var(--weight-black, 900);
     font-size: clamp(2.5rem, 6vw, 5rem);
     text-transform: uppercase;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
+    line-height: var(--leading-display, 0.92);
+    letter-spacing: var(--tracking-display, -0.04em);
     margin: 0;
     z-index: 2;
     position: relative;
@@ -140,49 +150,48 @@ const steps = [
   }
 
   .method__step-body {
-    font-family: sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-family: var(--font-body, sans-serif);
+    font-size: var(--text-base, 0.95rem);
+    line-height: var(--leading-body, 1.55);
     max-width: 42ch;
-    margin: 0 0 1.25rem;
+    margin: 0 0 var(--space-5, 1.5rem);
   }
 
   .method__step-link {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-weight: 600;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-weight: var(--weight-bold, 700);
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
+    font-size: var(--text-xs, 0.75rem);
+    letter-spacing: var(--tracking-wide, 0.05em);
     text-decoration: none;
     color: inherit;
   }
 
-  /* Outline numeral on the right (per screenshot — see-through stroke) */
+  /* Outline numeral — right edge (see-through stroke) */
   .method__numeral {
     position: absolute;
     right: -1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'Impact', 'Helvetica Neue', sans-serif;
-    font-weight: 900;
+    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
+    font-weight: var(--weight-black, 900);
     font-size: clamp(8rem, 22vw, 18rem);
     line-height: 0.75;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--tracking-display, -0.02em);
     z-index: 1;
     pointer-events: none;
-
     color: transparent;
     -webkit-text-stroke: 2px rgba(0, 0, 0, 0.18);
     text-stroke: 2px rgba(0, 0, 0, 0.18);
   }
 
-  /* ─── Zoom Takeover — full width, accent green ───────────────── */
-  /* Reduced from 300vh → 200vh. Closer to last card.
-     Cards container pb reduced from pb-32 → pb-8 above too. */
+  /* ─── Zoom Takeover ──────────────────────────────────────────────── */
   .method__zoom-wrapper {
     height: 200vh;
     position: relative;
     background-color: var(--m-ink);
+    /* clip-x without creating a scroll container — sticky inside still works */
+    overflow-x: clip;
     --z: 0;
   }
 
@@ -198,72 +207,62 @@ const steps = [
     padding: 0;
   }
 
-  /* Full-width heading. Stretches edge to edge, accent green floods in. */
+  /* Full-width heading — layout only, individual elements animate */
   .method__liquid-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 4vw;
+    padding: 0 2vw;
 
-    font-family: 'Impact', 'Helvetica Neue', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3rem, 12vw, 14rem);
-    line-height: 0.9;
+    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
+    font-weight: var(--weight-black, 900);
+    font-size: clamp(2.5rem, 9vw, 11rem);
+    line-height: var(--leading-display, 0.9);
     text-transform: uppercase;
-    letter-spacing: -0.04em;
+    letter-spacing: var(--tracking-display, -0.04em);
     z-index: 10;
     margin: 0;
-
-    /* Cream → accent (green) as zoom progresses. */
-    color: color-mix(
-      in oklab,
-      #EDEDED calc((1 - var(--z)) * 100%),
-      var(--m-accent) calc(var(--z) * 100%)
-    );
+    /* No transform on the container — children animate individually */
+    color: var(--bone-300, #E1E0CC);
   }
 
+  /* Words slide outward and fade — JS drives opacity + translateX */
   .method__word {
     flex: 0 1 auto;
-    letter-spacing: calc(-0.04em + var(--z) * -0.02em);
-    transform: translateY(calc(var(--z) * -0.5vh));
+    will-change: transform, opacity;
   }
 
+  /* Plus is the focal point — scales up and drifts to viewport centre */
   .method__plus {
     flex: 0 0 auto;
     color: var(--m-accent);
     transform-origin: center center;
-    -webkit-font-smoothing: antialiased;
     will-change: transform;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── Reduced motion ─────────────────────────────────────────── */
+  /* ─── Reduced motion ─────────────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .method__step,
-    .method__plus,
-    .method__liquid-title,
-    .method__word {
+    .method__step {
       transition: none !important;
       animation: none !important;
-    }
-    .method__step {
       --p: 0 !important;
-      transform: none !important;
-      filter: none !important;
+      transform: scale(1) !important;
+      filter: blur(0) !important;
       opacity: 1 !important;
     }
-    .method__plus {
-      transform: none !important;
-    }
+    .method__plus  { transform: scale(1) !important; }
+    .method__word  { opacity: 1 !important; transform: none !important; }
   }
 
-  /* ─── Mobile ─────────────────────────────────────────────────── */
+  /* ─── Mobile ─────────────────────────────────────────────────────── */
   @media (max-width: 768px) {
     .method__step {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
-      gap: 1.5rem;
-      padding: 2rem 1.5rem;
+      gap: var(--space-5, 1.5rem);
+      padding: var(--space-6, 2rem) var(--space-5, 1.5rem);
       min-height: 40vh;
       text-align: left;
     }
@@ -280,7 +279,7 @@ const steps = [
     }
     .method__liquid-title {
       flex-direction: column;
-      gap: 1rem;
+      gap: var(--space-4, 1rem);
       font-size: clamp(2.5rem, 14vw, 6rem);
     }
   }
@@ -294,48 +293,59 @@ const steps = [
     const root = document.querySelector(".method");
     if (!root) return;
 
-    const cards = Array.from(root.querySelectorAll(".method__step"));
-    const wrapper = root.querySelector(".method__zoom-wrapper");
-    const plus = root.querySelector(".method__plus");
+    const cards   = Array.from(root.querySelectorAll<HTMLElement>(".method__step"));
+    const wrapper = root.querySelector<HTMLElement>(".method__zoom-wrapper");
+    const plus    = root.querySelector<HTMLElement>(".method__plus");
+    const wordEls = Array.from(root.querySelectorAll<HTMLElement>(".method__word"));
+    const lastIdx = cards.length - 1;
 
     if (cards.length === 0) return;
 
-    let vh = window.innerHeight;
-    let stickyTop = vh * 0.1;
-    let raf = 0;
+    let vh          = window.innerHeight;
+    let vw          = window.innerWidth;
+    let stickyTop   = vh * 0.1;
+    let raf         = 0;
+    // Offset from plus centre to viewport centre — cached so we only measure once at z=0
+    let plusOffsetX = 0;
 
-    const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+    const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+    // Measure plus position with no transform applied (called on init + resize)
+    const cachePlusOffset = () => {
+      if (!plus) return;
+      plus.style.transform = "";
+      const r = plus.getBoundingClientRect();
+      plusOffsetX = vw / 2 - (r.left + r.width / 2);
+    };
 
     const update = () => {
       raf = 0;
 
-      // ── CARDS ──
+      // ── CARDS ──────────────────────────────────────────────────────
       // Two-phase progress model:
-      //
-      //   Phase A (approach):  card top crosses screen center → sticky line
-      //     Card hasn't pinned yet, but starts scaling down anticipatorily.
-      //     Contributes 0 → 0.4 of total progress.
-      //
-      //   Phase B (overlap):   card is sticky, next card slides over it
-      //     Contributes 0.4 → 1.0.
-      //
-      // The card starts shrinking *before* it pins — that's the
-      // "scale down as it crosses center of screen" behaviour.
-
-      const screenCenter = vh / 2;
+      //   Phase A (approach):  card top crosses screen center → sticky line (0 → 0.4)
+      //   Phase B (overlap):   card pinned, next card slides over it     (0.4 → 1.0)
+      const screenCenter   = vh / 2;
       const PHASE_A_WEIGHT = 0.4;
       const PHASE_B_WEIGHT = 0.6;
 
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
-        const rect = card.getBoundingClientRect();
 
+        // ── Last card: always fully visible, never blurs or scales down
+        if (i === lastIdx) {
+          card.style.setProperty("--p", "0");
+          card.dataset.active = "false";
+          continue;
+        }
+
+        const rect = card.getBoundingClientRect();
         let progress = 0;
 
         if (rect.top > vh + 200 || rect.bottom < -200) {
           progress = 0;
         } else if (rect.top > stickyTop) {
-          // Phase A — between screen center and sticky line
+          // Phase A — between screen centre and sticky line
           if (rect.top < screenCenter) {
             const phaseA = clamp01(
               (screenCenter - rect.top) / (screenCenter - stickyTop)
@@ -345,19 +355,13 @@ const steps = [
             progress = 0;
           }
         } else {
-          // Phase B — sticky-pinned, next card sliding over
+          // Phase B — pinned; next card sliding over
           const next = cards[i + 1];
           if (next) {
             const nextRect = next.getBoundingClientRect();
-            const span = rect.height;
+            const span    = rect.height;
             const traveled = stickyTop + span - nextRect.top;
-            const phaseB = clamp01(traveled / span);
-            progress = PHASE_A_WEIGHT + phaseB * PHASE_B_WEIGHT;
-          } else if (wrapper) {
-            // Last card — fade as zoom-wrapper approaches
-            const wRect = wrapper.getBoundingClientRect();
-            const distance = vh - wRect.top;
-            const phaseB = clamp01(distance / vh) * 0.6;
+            const phaseB  = clamp01(traveled / span);
             progress = PHASE_A_WEIGHT + phaseB * PHASE_B_WEIGHT;
           } else {
             progress = PHASE_A_WEIGHT;
@@ -369,7 +373,11 @@ const steps = [
           progress > 0.001 && progress < 0.999 ? "true" : "false";
       }
 
-      // ── ZOOM TAKEOVER ──
+      // ── ZOOM TAKEOVER ──────────────────────────────────────────────
+      // Focus on the + sign:
+      //   1. Words fade out and slide to their respective edges (fast, z 0→0.3)
+      //   2. + drifts to viewport centre (reaches centre by z ≈ 0.35)
+      //   3. + scales explosively until it floods the screen
       if (wrapper && plus) {
         const wRect = wrapper.getBoundingClientRect();
         let z = 0;
@@ -381,8 +389,20 @@ const steps = [
 
         wrapper.style.setProperty("--z", z.toFixed(4));
 
-        const scaleFactor = z > 0 ? 1 + Math.pow(z, 2.6) * 220 : 1;
-        plus.style.transform = `scale(${scaleFactor.toFixed(2)})`;
+        // ─ Words: fade quickly, slide outward
+        const wordOpacity = clamp01(1 - z * 4);           // gone by z ≈ 0.25
+        const slideAmount = z * vw * 0.12;                // 12 % of viewport width
+        wordEls.forEach((w, idx) => {
+          const dir = idx === 0 ? -1 : 1;                 // CLARITY → left, PERFORMANCE → right
+          w.style.opacity   = wordOpacity.toFixed(3);
+          w.style.transform = `translateX(${(dir * slideAmount).toFixed(1)}px)`;
+        });
+
+        // ─ Plus: drift to centre then explode
+        const centerProgress = clamp01(z / 0.35);         // 0→1 over first 35 % of scroll
+        const tx = plusOffsetX * centerProgress;
+        const scaleFactor = 1 + Math.pow(z, 2.2) * 220;
+        plus.style.transform = `translateX(${tx.toFixed(1)}px) scale(${scaleFactor.toFixed(2)})`;
       }
     };
 
@@ -392,14 +412,17 @@ const steps = [
     };
 
     const onResize = () => {
-      vh = window.innerHeight;
+      vh        = window.innerHeight;
+      vw        = window.innerWidth;
       stickyTop = vh * 0.1;
+      cachePlusOffset();
       update();
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
 
+    cachePlusOffset();
     update();
   })();
 </script>

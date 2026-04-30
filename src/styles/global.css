@@ -148,14 +148,18 @@
 		}
 	}
 
-	/* All semantic headings use display type (PP_Mori) — same stack as the hero wordmark */
+	/* All semantic headings use display type — Bricolage Grotesque */
 	h1,
 	h2,
 	h3,
 	h4,
 	h5,
 	h6 {
-		font-family: var(--font-display, 'PP_Mori', sans-serif);
+		font-family: var(--font-display, 'Bricolage Grotesque', 'Helvetica Neue', sans-serif);
+		font-weight: 800; /* Bricolage Grotesque max weight */
+		font-optical-sizing: auto;
+		text-wrap: balance;       /* even line-breaking, prevents a lone word on line 3 */
+		overflow-wrap: break-word; /* hard safety — no heading ever overflows its container */
 	}
 }
 

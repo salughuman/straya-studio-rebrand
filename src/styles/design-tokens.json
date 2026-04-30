@@ -51,7 +51,7 @@
 
             "typography": {
                 "_comment": "Font stacks. Mono is a first-class face — used for metadata, captions, code, brutalist annotations.",
-                "display": "'PP_Mori', 'Helvetica Neue', Arial, sans-serif",
+                "display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
                 "body": "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
                 "mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
             },
@@ -65,10 +65,10 @@
                 "textMd":   "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
                 "textLg":   "clamp(1.440rem, 1.37rem + 0.36vw, 1.64rem)",
 
-                "displaySm": "clamp(2.000rem, 1.70rem + 1.50vw, 3.000rem)",
-                "displayMd": "clamp(3.236rem, 2.60rem + 3.18vw, 4.854rem)",
-                "displayLg": "clamp(5.236rem, 4.10rem + 5.68vw, 7.854rem)",
-                "displayXl": "clamp(8.472rem, 6.40rem + 10.36vw, 12.71rem)"
+                "displaySm": "clamp(2.5rem,  2.1rem  + 2.00vw,  4.0rem)",
+                "displayMd": "clamp(4.0rem,  3.2rem  + 4.00vw,  6.5rem)",
+                "displayLg": "clamp(6.5rem,  5.0rem  + 7.50vw, 10.5rem)",
+                "displayXl": "clamp(10.5rem, 7.5rem  + 13.0vw, 17.0rem)"
             },
 
             "leading": {
@@ -546,7 +546,7 @@
         "_comment": "Fluid type system. Body scale = Minor Third (1.200). Display scale = Golden (1.618). Mono is first-class — used for metadata, captions, brutalist annotations.",
 
         "fontFamily": {
-            "display":  "'PP_Mori', 'Helvetica Neue', Arial, sans-serif",
+            "display":  "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
             "body":     "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
             "mono":     "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
             "fallback": {
@@ -601,68 +601,68 @@
 
         "hero": {
             "_comment": "Once per page. Display-xl + black weight + display tracking.",
-            "fontSize":      "clamp(8.472rem, 6.40rem + 10.36vw, 12.71rem)",
-            "fontWeight":    "900",
-            "lineHeight":    "0.92",
+            "fontSize":      "clamp(10.5rem, 7.5rem + 13.0vw, 17.0rem)",
+            "fontWeight":    "800",
+            "lineHeight":    "0.88",
             "letterSpacing": "-0.04em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "color":         "#FFFEF7"
         },
         "h1": {
             "_comment": "Section opener (when not the hero). Display-lg + black weight.",
-            "fontSize":      "clamp(5.236rem, 4.10rem + 5.68vw, 7.854rem)",
-            "fontWeight":    "900",
+            "fontSize":      "clamp(3.5rem, 5.0rem + 7.5vw, 10.5rem)",
+            "fontWeight":    "800",
             "lineHeight":    "0.92",
             "letterSpacing": "-0.04em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
             "color":         "#E1E0CC"
         },
         "h2": {
-            "_comment": "Major section heading. Display-md + bold.",
-            "fontSize":      "clamp(3.236rem, 2.60rem + 3.18vw, 4.854rem)",
-            "fontWeight":    "700",
-            "lineHeight":    "1.10",
-            "letterSpacing": "-0.02em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "_comment": "Major section heading. Display-md + black weight.",
+            "fontSize":      "clamp(2.8rem, 3.2rem + 4.0vw, 6.5rem)",
+            "fontWeight":    "800",
+            "lineHeight":    "1.00",
+            "letterSpacing": "-0.03em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
             "color":         "#E1E0CC"
         },
         "h3": {
-            "_comment": "Card and subsection heading. Display-sm + bold.",
-            "fontSize":      "clamp(2.000rem, 1.70rem + 1.50vw, 3.000rem)",
-            "fontWeight":    "700",
-            "lineHeight":    "1.10",
-            "letterSpacing": "-0.02em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "_comment": "Card and subsection heading. Display-sm + black weight.",
+            "fontSize":      "clamp(1.6rem, 2.1rem + 2.0vw, 4.0rem)",
+            "fontWeight":    "800",
+            "lineHeight":    "1.05",
+            "letterSpacing": "-0.03em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
             "color":         "#E1E0CC"
         },
         "h4": {
-            "_comment": "Minor heading — feature titles, pricing tier names. text-lg + medium.",
-            "fontSize":      "clamp(1.440rem, 1.37rem + 0.36vw, 1.64rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
+            "_comment": "Minor heading — feature titles, pricing tier names. text-lg + bold.",
+            "fontSize":      "clamp(1.6rem, 1.4rem + 0.8vw, 2.0rem)",
+            "fontWeight":    "700",
+            "lineHeight":    "1.15",
             "letterSpacing": "-0.02em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "color":         "#E1E0CC"
         },
         "h5": {
-            "_comment": "Small heading — sidebar titles, accordion headers. text-md + medium.",
-            "fontSize":      "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
+            "_comment": "Small heading — sidebar titles, accordion headers. text-md + bold.",
+            "fontSize":      "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)",
+            "fontWeight":    "700",
+            "lineHeight":    "1.20",
             "letterSpacing": "-0.02em",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "color":         "#E1E0CC"
         },
         "h6": {
-            "_comment": "Micro heading — metadata labels, table headers. text-base + medium.",
-            "fontSize":      "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
-            "fontWeight":    "500",
+            "_comment": "Micro heading — metadata labels, table headers. text-base + bold.",
+            "fontSize":      "clamp(1.000rem, 0.95rem + 0.25vw, 1.2rem)",
+            "fontWeight":    "700",
             "lineHeight":    "1.25",
             "letterSpacing": "0",
-            "fontFamily":    "'PP_Mori', sans-serif",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "color":         "#E1E0CC"
         },
         "lead": {
