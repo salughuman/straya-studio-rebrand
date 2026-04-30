@@ -1,4 +1,3 @@
-
 <section
   id="about"
   class="section-frosted section-y relative overflow-hidden"
@@ -7,26 +6,29 @@
   data-mode="brutalism"
 >
   <p class="sr-only">
-    About Straya Studio section summarising who we are and how we work: a senior-led boutique
-    studio founded by Salman Ali, taking on only two to three projects at a time, delivering web
-    design, web development, and graphic design for teams across the US, Canada, UK, Europe, and
-    Australia.
+    About Straya Studio section summarising who we are and how we work: a
+    senior-led boutique studio founded by Salman Ali, taking on only two to
+    three projects at a time, delivering web design, web development, and
+    graphic design for teams across the US, Canada, UK, Europe, and Australia.
   </p>
 
-  <div class="main-container relative z-10 grid grid-cols-12 items-start gap-4 md:gap-6">
+  <div
+    class="main-container relative z-10 grid grid-cols-12 items-start gap-4 md:gap-6"
+  >
     <div class="col-span-12 md:col-span-2" aria-hidden="true">
       <span
         class="a-eyebrow type-label-small font-mono uppercase tracking-[0.08em] text-on-background/60"
       >
         [02] About
       </span>
-      <span class="a-eyebrow-rule mt-2 block h-[2px] bg-accent" data-a-rule></span>
+      <span class="a-eyebrow-rule mt-2 block h-[2px] bg-accent" data-a-rule
+      ></span>
     </div>
 
     <header class="col-span-12 md:col-span-9 md:col-start-2">
       <h2
         data-index="02"
-        class="reveal-clip type-h2 m-0 max-w-3xl text-on-background"
+        class="reveal-clip type-h2 m-0 max-w-5xl text-on-background"
         style="letter-spacing:-0.04em"
       >
         <span>Senior-led by design. Selective by model.</span>
@@ -37,12 +39,14 @@
       class="col-span-12 grid max-w-3xl gap-4 md:col-span-6 md:col-start-4 md:mt-5"
     >
       <p class="type-body m-0 text-on-background/90">
-        Straya Studio is a boutique technical studio led by Salman Ali, taking on only two to
-        three projects at a time so every decision stays close to the brief.
+        Straya Studio is a boutique technical studio led by Salman Ali, taking
+        on only two to three projects at a time so every decision stays close to
+        the brief.
       </p>
       <p class="type-body m-0 text-on-background/90">
-        We deliver web design, web development, and graphic design across Framer, Webflow, and
-        Shopify for founders and teams in the US, Canada, UK, Europe, and Australia.
+        We deliver web design, web development, and graphic design across
+        Framer, Webflow, and Shopify for founders and teams in the US, Canada,
+        UK, Europe, and Australia.
       </p>
 
       <a
@@ -85,7 +89,7 @@
   .reveal-clip > span {
     display: inline-block;
     transform: translateY(110%);
-    transition: transform 720ms cubic-bezier(0.16, 1, 0.30, 1);
+    transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
   }
   .reveal-clip.in-view > span {
@@ -94,7 +98,7 @@
 
   .a-eyebrow-rule {
     width: 0;
-    transition: width 720ms cubic-bezier(0.16, 1, 0.30, 1);
+    transition: width 720ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .a-eyebrow-rule.in-view {
     width: 32px;
@@ -104,21 +108,21 @@
   .cta-accent {
     text-decoration: none;
     background: transparent;
-    color: var(--color-accent, #3CCD7F);
+    color: var(--color-accent, #3ccd7f);
     line-height: 1;
     padding-bottom: 2px;
-    transition: color 240ms cubic-bezier(0.16, 1, 0.30, 1);
+    transition: color 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .cta-accent .cta-accent__label {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 1px;
-    transition: background-size 240ms cubic-bezier(0.16, 1, 0.30, 1);
+    transition: background-size 240ms cubic-bezier(0.16, 1, 0.3, 1);
     padding-bottom: 2px;
   }
   .cta-accent .cta-accent__arrow {
-    transition: transform 240ms cubic-bezier(0.16, 1, 0.30, 1);
+    transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .cta-accent:hover .cta-accent__label,
   .cta-accent:focus-visible .cta-accent__label {
@@ -129,7 +133,7 @@
     transform: translateX(4px);
   }
   .cta-accent:focus-visible {
-    outline: 2px solid var(--color-accent, #3CCD7F);
+    outline: 2px solid var(--color-accent, #3ccd7f);
     outline-offset: 6px;
   }
 
@@ -150,7 +154,9 @@
     if (root.dataset.aboutFxReady === "true") return;
     root.dataset.aboutFxReady = "true";
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const clipEls = root.querySelectorAll<HTMLElement>(".reveal-clip");
     const ruleEl = root.querySelector<HTMLElement>("[data-a-rule]");
     const counters = root.querySelectorAll<HTMLElement>("[data-count-to]");
@@ -174,7 +180,7 @@
           trigIO.unobserve(el);
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
     );
     clipEls.forEach((el) => trigIO.observe(el));
     if (ruleEl) trigIO.observe(ruleEl);

@@ -28,61 +28,49 @@ const {
   data-prisma-hero
 >
   <p class="sr-only">
-    Straya Studio hero section with cinematic background video, headline, supporting
-    positioning statement, and a direct call to start a project.
+    Straya Studio hero section with cinematic background video, headline,
+    supporting positioning statement, and a direct call to start a project.
   </p>
 
   <!-- Animated gradient frame -->
   <div
-    class="hero-chrome relative h-full w-full overflow-hidden rounded-2xl  p-[2px] md:rounded-[2rem] md:p-[3px]"
+    class="relative h-full w-full overflow-hidden rounded-2xl p-[2px] md:rounded-[2rem] md:p-[3px]"
     data-hero-chrome
   >
     <div
       class="relative h-full w-full overflow-hidden rounded-[14px] bg-[#030304] md:rounded-[1.9rem]"
     >
-      <!-- Floating color orbs (screen blend over video) -->
-      <div class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
-        <div
-          class="hero-orb hero-orb-a absolute -left-[20%] top-[10%] h-[55vmin] w-[55vmin] rounded-full bg-fuchsia-500/25 blur-[90px] mix-blend-screen"
-        />
-        <div
-          class="hero-orb hero-orb-b absolute -right-[15%] bottom-[20%] h-[45vmin] w-[45vmin] rounded-full bg-cyan-400/20 blur-[80px] mix-blend-screen"
-        />
-        <div
-          class="hero-orb hero-orb-c absolute left-[30%] -bottom-[25%] h-[40vmin] w-[40vmin] rounded-full bg-amber-300/18 blur-[70px] mix-blend-screen"
-        />
-      </div>
-
       <video
         autoplay
         loop
         muted
         playsinline
         class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
-        src={videoSrc}
-      />
+        src={videoSrc}></video>
 
-      <div class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"></div>
+      <div
+        class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"
+      >
+      </div>
 
       <!-- Top-right wash first, then vignette so the bottom dark reads true → #0A0A0A -->
-      <div
-        class="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-tr from-transparent via-transparent to-fuchsia-600/12"
-        aria-hidden="true"
-      />
-      <div class="hero-vignette pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
-      <div class="absolute bottom-0 left-0 right-0 z-[3] px-4 pb-2 sm:px-6 md:px-10">
+      <div
+        class="absolute bottom-0 left-0 right-0 z-[3] px-4 pb-2 sm:px-6 md:px-10"
+      >
         <div class="grid grid-cols-12 items-end gap-4">
           <div class="col-span-12 lg:col-span-8">
             <h1
               class="font-display font-extrabold leading-[0.92] tracking-[-0.04em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-60"
-            style="color:rgba(245,244,232,0.92)"
+              style="color:rgba(245,244,232,0.92)"
             >
               <WordsPullUp text={headline} />
             </h1>
           </div>
 
-          <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
+          <div
+            class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10"
+          >
             <p
               data-hero-tagline
               class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
@@ -121,95 +109,12 @@ const {
     <div
       class="pointer-events-none absolute -bottom-20 left-0 right-0 z-[2] h-20 bg-gradient-to-b from-[#0A0A0A] to-transparent"
       aria-hidden="true"
-    />
+    >
+    </div>
   </div>
 </section>
 
 <style>
-  .hero-chrome {
-    background: linear-gradient(
-      125deg,
-      rgba(34, 211, 238, 0.75) 0%,
-      rgba(167, 139, 250, 0.65) 22%,
-      rgba(244, 114, 182, 0.7) 45%,
-      rgba(251, 191, 36, 0.65) 68%,
-      rgba(52, 211, 153, 0.55) 100%
-    );
-    background-size: 220% 220%;
-    box-shadow:
-      0 0 0 2px rgba(0, 0, 0, 0.45) inset,
-      0 25px 80px -20px rgba(99, 102, 241, 0.35),
-      0 40px 100px -30px rgba(236, 72, 153, 0.25);
-    animation: hero-chrome-flow 14s ease-in-out infinite alternate;
-  }
-
-  @keyframes hero-chrome-flow {
-    0% {
-      background-position: 0% 40%;
-    }
-    100% {
-      background-position: 100% 60%;
-    }
-  }
-
-  @keyframes hero-orb-drift {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(8%, -6%) scale(1.08);
-    }
-  }
-
-  @keyframes hero-orb-drift-alt {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(-10%, 8%) scale(1.06);
-    }
-  }
-
-  @keyframes hero-orb-pulse {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0.85;
-    }
-    50% {
-      transform: translate(-4%, -8%) scale(1.12);
-      opacity: 1;
-    }
-  }
-
-  .hero-orb-a {
-    animation: hero-orb-drift 18s ease-in-out infinite;
-  }
-  .hero-orb-b {
-    animation: hero-orb-drift-alt 22s ease-in-out infinite;
-  }
-  .hero-orb-c {
-    animation: hero-orb-pulse 12s ease-in-out infinite;
-  }
-
-  .hero-vignette {
-    background: linear-gradient(
-      to bottom,
-      rgba(46, 16, 101, 0.26) 0%,
-      rgba(10, 10, 10, 0) 34%,
-      rgba(10, 10, 10, 0.45) 68%,
-      #0a0a0a 100%
-    );
-  }
-
-  .hero-tagline-glow {
-    text-shadow:
-      0 0 24px rgba(167, 139, 250, 0.25),
-      0 0 48px rgba(34, 211, 238, 0.12);
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero-chrome {
       animation: none;
@@ -245,6 +150,5 @@ const {
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, delay: 0.7, ease: "power3.out" },
     );
-
   });
 </script>
