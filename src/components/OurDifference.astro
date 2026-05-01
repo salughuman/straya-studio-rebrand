@@ -16,9 +16,11 @@
     <header class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
       <div>
         <span class="od-el type-label text-on-background/40 block mb-3" data-delay="0">Our difference</span>
-        <h2 class="type-h2 text-on-background max-w-lg">
-          <span class="od-line block overflow-hidden"><span class="od-el inline-block" data-delay="80">Built systems.</span></span>
-          <span class="od-line block overflow-hidden"><span class="od-el inline-block" data-delay="140">Faster outcomes.</span></span>
+        <h2 class="type-h2 text-on-background max-w-lg" data-words-reveal aria-label="Built systems. Faster outcomes.">
+          <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Built</span>
+          <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">systems.</span>
+          <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">Faster</span>
+          <span class="wpu-word inline-block" style="--i:3" aria-hidden="true">outcomes.</span>
         </h2>
       </div>
     </header>
@@ -108,7 +110,7 @@
             <!-- Latency readout -->
             <div class="flex items-center gap-2 mt-1">
               <span class="text-[8px] text-on-background/20 uppercase tracking-wide">TTFB</span>
-              <span class="text-[10px] font-medium text-accent latency-counter">< 80ms</span>
+              <span class="text-[10px] font-medium text-accent latency-counter">{"< 80ms"}</span>
             </div>
           </div>
         </div>
@@ -180,11 +182,17 @@
 </section>
 
 <style>
-  /* ── Header elements ───────────────────────────────────────── */
-  .od-el { opacity: 0; transform: translateY(28px); }
-  .od-line .od-el { transform: translateY(100%); opacity: 1; }
+  /* PERMITTED: CSS variable stagger + @keyframes for mockup animations */
+  .wpu-word {
+    opacity:0; filter:blur(12px); transform:translateY(16px);
+    transition:
+      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0)*60ms),
+      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0)*60ms),
+      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0)*60ms);
+  }
+  [data-words-reveal].is-revealed .wpu-word { opacity:1; filter:blur(0); transform:translateY(0); }
 
-  /* ── diff-card — visible by default, no entrance animation ─── */
+  /* ── diff-card — visible by default ── */
 
   /* ── Card 1: Tile snap ─────────────────────────────────────── */
   @keyframes tile-snap {
@@ -247,29 +255,23 @@
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const DURATION = 900;
-  const MARGIN   = '0px 0px -80px 0px';
-
-  // ── Header entrance ─────────────────────────────────────────
-  const headerEls = document.querySelectorAll<HTMLElement>('#difference .od-el');
-  const headerObs = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    headerEls.forEach(el => {
-      const delay  = parseInt(el.dataset.delay ?? '0');
-      const isLine = el.closest('.od-line') !== null;
-      el.animate(
-        isLine
-          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
-      );
-    });
-    headerObs.disconnect();
-  }, { rootMargin: MARGIN, threshold: 0 });
+  // ── Heading — one-time entry word reveal (§8.3) ─────────────
   const diffSection = document.getElementById('difference');
-  if (diffSection) headerObs.observe(diffSection);
-
+  if (diffSection) {
+    const heading = diffSection.querySelector<HTMLElement>('[data-words-reveal]');
+    if (heading) {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) { heading.classList.add('is-revealed'); }
+      else {
+        const obs = new IntersectionObserver(entries => {
+          if (!entries[0].isIntersecting) return;
+          heading.classList.add('is-revealed');
+          obs.disconnect();
+        }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+        obs.observe(heading);
+      }
+    }
+  }
   // diff-card entrance animation removed — cards visible by default
 
   // Score counter — counts 0 → target in sync with ring animation (3.5s cycle)

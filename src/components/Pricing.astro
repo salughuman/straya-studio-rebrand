@@ -1,327 +1,281 @@
 ---
-// Pricing.astro — Straya Studio [SIMPLE]
-// Horizontal comparison table with card-per-tier on mobile.
-// GEMINI §4: project-based, no retainers, 3 tiers.
-// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+/**
+ * Pricing.astro — Straya Studio
+ * Mode: Neobrutalism (pricing/CTA sections earn the loud move)
+ * Posture: posture-stacked-offset
+ * Material: typographic device [08] + hard shadows + B5 counting numerals + C2 bridge
+ * Stack: Tailwind (token-driven) — no vanilla CSS except animations
+ */
 
 import { PRICING_TIERS, PRICING_BADGE, PRICING_TRUST_LINE, PRICING_FOOTER } from "../data/pricing";
 import { SITE_CONFIG } from "../data/site-config";
 
 const baseUrl = import.meta.env.BASE_URL;
-
-// All unique features across tiers for comparison rows
-const allFeatures = [
-  "Custom design — no templates, ever",
-  "Mobile-first responsive build",
-  "On-page SEO setup",
-  "Launch support and file handoff",
-  "Up to 10 custom-designed pages",
-  "CMS setup and content architecture",
-  "Custom interactions and animations",
-  "Performance tuning — 90+ Lighthouse",
-  "Unlimited revisions until sign-off",
-  "Discovery workshop and technical strategy",
-  "Unlimited pages and custom components",
-  "Advanced SEO and analytics integration",
-  "Graphic design — social kits, pitch decks",
-  "Dedicated Slack channel",
-  "60 days post-launch support",
-];
-
-// Explicit inclusion per tier — avoids fuzzy string matching failures
-// Starter = rows 0-3, Growth = rows 0-8, Premium = all
-const tierInclusion: boolean[][] = [
-  // Starter
-  [true,  true,  true,  true,  false, false, false, false, false, false, false, false, false, false, false],
-  // Growth (includes everything in Starter + rows 4-8)
-  [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false, false],
-  // Premium (includes everything in Growth + rows 9-14)
-  [true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true],
-];
+const priceNumbers = [2000, 4000, 9500];
 ---
 
 <section
   id="pricing"
-  aria-label="Project pricing"
-  class="section-frosted section-y relative overflow-hidden"
+  aria-label="Project pricing tiers"
+  data-mode="neobrutalism"
+  class="relative bg-inverse-surface text-on-primary-container overflow-hidden py-24 md:py-40"
 >
+  <!-- sr-only AEO summary (SEO-AEO-rules.md §7) -->
+  <p class="sr-only">
+    Straya Studio offers three project-based pricing tiers with no retainers or subscriptions.
+    Starter from $2,000 (1–2 weeks): custom design, development, mobile-first build, SEO, launch support.
+    Growth from $4,000 (2–4 weeks): everything in Starter plus up to 10 pages, CMS, interactions, brand identity, 90+ Lighthouse, unlimited revisions.
+    Premium from $9,500 (4–8 weeks): everything in Growth plus discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, 60 days post-launch support.
+  </p>
+
   <div class="main-container">
 
-    <!-- Header -->
-    <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
-      <div>
-        <span class="inline-block px-3 py-1 bg-brand-text-primary text-background font-mono text-xs uppercase tracking-widest -rotate-2 mb-6">
-          <span class="text-accent">[08]</span> / Investment
-        </span>
-        <h2 class="type-h2 text-white max-w-5xl">
-          <span class="pr-line block overflow-hidden"><span class="pr-el inline-block" data-delay="80">Transparent pricing,</span></span>
-          <span class="pr-line block overflow-hidden"><span class="pr-el inline-block" data-delay="140">no retainers required.</span></span>
+    <!-- ── HEADER — posture-stacked-offset ── -->
+    <header class="relative mb-16 md:mb-24">
+
+      <!-- Oversized index numeral — typographic device -->
+      <span
+        class="pointer-events-none select-none absolute -top-6 right-0 font-display font-black leading-none tracking-tight text-[clamp(6rem,15vw,16rem)] text-transparent [-webkit-text-stroke:1px_rgba(5,5,5,0.15)] opacity-20 hidden md:block"
+        aria-hidden="true"
+      >08</span>
+
+      <div class="relative z-10 max-w-[75%]">
+        <!-- Eyebrow -->
+        <div class="reveal-eyebrow flex items-center gap-4 mb-4">
+          <span class="block w-4 h-px bg-on-primary-container opacity-40" aria-hidden="true"></span>
+          <span class="type-label text-on-primary-container opacity-60">[08] / Investment</span>
+        </div>
+
+        <!-- H2 — word blur-to-clear reveal (micro-interactions.md §8.3) -->
+        <h2 class="type-h2 text-on-primary-container mb-5 max-w-5xl" data-words-reveal aria-label="Transparent pricing, no retainers required.">
+          <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Transparent</span>
+          <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">pricing,</span>
+          <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">no</span>
+          <span class="wpu-word inline-block" style="--i:3" aria-hidden="true">retainers required.</span>
         </h2>
-        <p class="pr-el type-body-small text-white/60 mt-3 max-w-md leading-relaxed" data-delay="240">
+
+        <p class="reveal-fade type-body text-on-primary-container opacity-60 max-w-[52ch]">
           Every engagement is scoped, priced, and delivered as a complete project.
+          We take on 2–3 at a time — that's not a limitation, it's the product.
         </p>
       </div>
-      <!-- Availability badge — FinalCTA chip -->
-      <div class="pr-el flex flex-shrink-0 items-center gap-2 rounded-lg bg-white/5 px-4 py-2 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.06)]" role="status" data-delay="300">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent availability-dot" aria-hidden="true"></span>
-        <span class="type-label text-accent">{PRICING_BADGE}</span>
+
+      <!-- Availability badge -->
+      <div
+        class="reveal-fade mt-6 md:mt-0 md:absolute md:top-0 md:right-0 inline-flex items-center gap-3 border-2 border-on-primary-container px-4 py-2"
+        role="status"
+        style="transition-delay:280ms"
+      >
+        <span class="badge-dot w-2 h-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
+        <span class="type-label text-on-primary-container">{PRICING_BADGE}</span>
       </div>
+
     </header>
 
-    <!-- ── Mobile: stacked cards ── -->
-    <div class="mb-12 flex flex-col gap-3 lg:hidden">
+    <!-- ── TIER CARDS ── -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 md:mb-24" role="list">
       {PRICING_TIERS.map((tier, i) => (
         <article
           class:list={[
-            "pricing-card flex flex-col overflow-hidden rounded-xl shadow-[0_20px_50px_-24px_rgba(0,0,0,0.55),inset_0_0_0_1px_rgba(255,255,255,0.05)]",
-            tier.popular ? "bg-white/10" : "bg-white/5"
+            "tier-card relative flex flex-col border border-on-primary-container/20 p-8 rounded-2xl transition-[transform,box-shadow] duration-[240ms]",
+            tier.popular
+              ? "bg-surface-dim text-on-surface shadow-[0_4px_24px_rgba(60,205,127,0.15),inset_0_1px_0_rgba(60,205,127,0.2)] hover:shadow-[0_8px_32px_rgba(60,205,127,0.22),inset_0_1px_0_rgba(60,205,127,0.25)] hover:-translate-y-[2px]"
+              : "bg-surface-dim text-on-surface shadow-[0_2px_12px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.06)] hover:-translate-y-[2px]"
           ]}
-          data-index={i}
+          role="listitem"
           aria-label={`${tier.name} pricing tier`}
+          data-tier={i}
         >
-          <!-- Tier header -->
-          <div class="relative p-8">
-            {tier.popular && (
-              <span class="type-label text-accent absolute top-6 right-6">Most popular</span>
-            )}
-            <h3 class="type-h3 text-white mb-1">{tier.name}</h3>
-            <p class="type-body-small text-white/60 mb-6">{tier.tagline}</p>
-            <!-- Price -->
-            <div class="flex items-baseline gap-2 mb-1">
-              <span class="type-label text-white/40">From</span>
-              <span class="font-display font-medium text-3xl text-white tracking-tight">
-                {tier.price.replace(/^From\s*\$?/i, "$")}
-              </span>
+          <!-- Popular sticker -->
+          {tier.popular && (
+            <div
+              class="sticker absolute -top-[14px] right-6 bg-accent text-on-secondary border border-on-primary-container/30 shadow-[0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] px-3 py-1 type-label -rotate-[3deg] origin-center transition-transform duration-[160ms] hover:rotate-[-1.5deg] hover:scale-[1.04] whitespace-nowrap z-10"
+              aria-label="Most popular tier"
+            >
+              MOST POPULAR
             </div>
-            <span class="type-label text-white/40">{tier.timeline}</span>
+          )}
+
+          <!-- Tier name + tagline -->
+          <div class="mb-6">
+            <h3 class="type-h3 text-on-surface mb-2">{tier.name}</h3>
+            <p class="type-body-small text-on-surface opacity-60">{tier.tagline}</p>
           </div>
+
+          <!-- Price — B5 counting numeral -->
+          <div class="mb-6 flex flex-col gap-1">
+            <span class="type-label text-on-surface opacity-50">From</span>
+            <div class="flex items-baseline gap-[0.1em] font-display font-black leading-none tracking-tight font-variant-numeric tabular-nums" aria-label={`From ${tier.price}`}>
+              <span class=" type-h3 opacity-50 text-on-surface">$</span>
+              <span
+                class="text-[clamp(4rem,3.2rem+4vw,6.5rem)] text-on-surface"
+                data-target={priceNumbers[i]}
+              >{priceNumbers[i].toLocaleString()}</span>
+            </div>
+            <span class="type-label text-on-surface opacity-50">{tier.timeline}</span>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px bg-current opacity-15 mb-6" aria-hidden="true"></div>
+
           <!-- Features -->
-          <ul class="p-8 flex flex-col gap-3" aria-label={`${tier.name} features`}>
-            {tier.included.map((feature, fi) => (
-              <li class="flex items-start gap-3 type-body-small text-white/60">
-                <svg class="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7.5L5.5 10.5L11.5 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <ul class="flex flex-col gap-3 mb-8 flex-1" aria-label={`${tier.name} includes`}>
+            {tier.included.map((feature) => (
+              <li class="flex items-start gap-3 type-body-small text-on-surface opacity-80">
+                <svg class="w-4 h-4 text-accent flex-shrink-0 mt-[0.15em]" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M3 8.5L6.5 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                {feature}
+                <span>{feature}</span>
               </li>
             ))}
           </ul>
+
           <!-- CTA -->
-          <div class="px-8 pb-8">
-            <a
-              href={i < 2
-                ? `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`
-                : SITE_CONFIG.socials.calendly}
-              target={i >= 2 ? "_blank" : undefined}
-              rel={i >= 2 ? "noopener noreferrer" : undefined}
-              class:list={[
-                tier.popular
-                  ? "btn-pill w-full justify-center magnetic-cta z-depth-2"
-                  : "magnetic-cta z-depth-2 flex w-full items-center justify-center gap-3 rounded-lg border-2 border-zinc-600/80 type-button py-4 text-white/60 transition-colors duration-300 hover:border-[#3CCD7F] hover:bg-white/5 hover:text-white"
-              ]}
-            >
-              {tier.ctaLabel}
-              {tier.popular ? (
-                <span class="btn-pill-circle">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
+          <div class="mt-auto">
+            {tier.popular ? (
+              <a
+                href={`${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
+                class="btn-magnetic flex items-center justify-between gap-4 w-full bg-accent text-on-secondary border border-on-primary-container/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_8px_rgba(60,205,127,0.2)] px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[box-shadow,opacity] duration-[160ms] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_16px_rgba(60,205,127,0.3)] active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
+                aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
+              >
+                <span>{tier.ctaLabel}</span>
+                <span class="flex items-center justify-center w-8 h-8 bg-on-primary-container text-accent flex-shrink-0 transition-transform duration-[160ms] group-hover:scale-110" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-              ) : (
+              </a>
+            ) : (
+              <a
+                href={i === 2
+                  ? SITE_CONFIG.socials.calendly
+                  : `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
+                target={i === 2 ? "_blank" : undefined}
+                rel={i === 2 ? "noopener noreferrer" : undefined}
+                class="flex items-center justify-between gap-4 w-full bg-transparent text-on-surface border-2 border-current px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[background-color,color] duration-[160ms] ease-[cubic-bezier(0.7,0,0.3,1)] hover:bg-on-surface hover:text-surface-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px] active:translate-y-[2px]"
+                aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
+              >
+                <span>{tier.ctaLabel}</span>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              )}
-            </a>
+              </a>
+            )}
           </div>
+
         </article>
       ))}
     </div>
 
-    <!-- ── Desktop: comparison grid exposed as a table for assistive tech ── -->
-    <div
-      class="hidden overflow-hidden rounded-xl shadow-[0_28px_70px_-28px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.06)] lg:block"
-      role="table"
-      aria-label="Pricing features compared across Starter, Growth, and Premium tiers"
-    >
-      <p class="sr-only">
-        Pricing comparison table across three tiers. Starter from $2,000 (1–2 weeks): custom design, development, mobile-first build, SEO, 2 revision rounds. Growth from $4,000 (2–4 weeks): everything in Starter plus up to 10 pages, CMS, interactions, brand identity, 90+ Lighthouse, unlimited revisions. Premium from $9,500 (4–8 weeks): everything in Growth plus discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, and 60 days post-launch support.
-      </p>
-      <!-- Tier headers -->
-      <div class="mb-px grid grid-cols-4 gap-px bg-zinc-800" role="row">
-        <!-- Empty label column -->
-        <div class="flex items-end bg-white/5 p-8 shadow-[inset_-1px_0_0_rgba(255,255,255,0.08)]" role="columnheader">
-          <span class="type-label text-white/40">What's included</span>
-        </div>
-        <!-- Tier columns -->
-        {PRICING_TIERS.map((tier, i) => (
-          <div
-            class:list={[
-              "pricing-card relative flex flex-col gap-4 card-pad",
-              tier.popular ? "bg-white/10" : "bg-white/5"
-            ]}
-            data-index={i}
-            role="columnheader"
-          >
-            {tier.popular && (
-              <span class="type-label text-accent absolute top-6 right-6">Most popular</span>
-            )}
-            <div>
-              <h3 class="type-h3 text-white mb-1">{tier.name}</h3>
-              <p class="type-body-small text-white/60">{tier.tagline}</p>
-            </div>
-            <!-- Price -->
-            <div>
-              <div class="flex items-baseline gap-1.5 mb-0.5">
-                <span class="type-label text-white/40">From</span>
-                <span class="font-display font-medium text-3xl text-white tracking-tight">
-                  {tier.price.replace(/^From\s*\$?/i, "$")}
-                </span>
-              </div>
-              <span class="type-label text-white/40">{tier.timeline}</span>
-            </div>
-            <!-- CTA -->
-            <a
-              href={i < 2
-                ? `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`
-                : SITE_CONFIG.socials.calendly}
-              target={i >= 2 ? "_blank" : undefined}
-              rel={i >= 2 ? "noopener noreferrer" : undefined}
-              class:list={[
-                tier.popular
-                  ? "btn-pill mt-auto justify-center magnetic-cta z-depth-2"
-                  : "magnetic-cta z-depth-2 mt-auto flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600/80 type-button py-3.5 text-white/60 transition-colors duration-300 hover:border-[#3CCD7F] hover:bg-white/5 hover:text-white"
-              ]}
-            >
-              {tier.ctaLabel}
-              {tier.popular ? (
-                <span class="btn-pill-circle">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                  </svg>
-                </span>
-              ) : (
-                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              )}
-            </a>
-          </div>
-        ))}
-      </div>
-
-      <!-- Feature rows -->
-      {allFeatures.map((feature, fi) => (
-        <div class="feature-row mb-px grid grid-cols-4 gap-px bg-zinc-800" data-row={fi} role="row">
-          <!-- Feature label -->
-          <div class="flex items-center bg-white/5 px-8 py-4 shadow-[inset_-1px_0_0_rgba(255,255,255,0.08)]" role="rowheader">
-            <span class="type-body-small text-white/80">{feature}</span>
-          </div>
-          <!-- Tier cells -->
-          {PRICING_TIERS.map((tier, ti) => {
-            const included = tierInclusion[ti]?.[fi] ?? false;
-            return (
-              <div
-                class:list={[
-                  "px-8 py-4 flex items-center justify-center",
-                  tier.popular ? "bg-white/10" : "bg-white/5"
-                ]}
-                role="cell"
-              >
-                {included ? (
-                  <svg class="w-4 h-4 text-accent" viewBox="0 0 16 16" fill="none" aria-label="Included" role="img">
-                    <path d="M3.5 8.5L6.5 11.5L12.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                ) : (
-                  <span class="inline-flex items-center justify-center" role="img" aria-label="Not included">
-                    <span class="block h-0.5 w-4 rounded-sm bg-zinc-600" aria-hidden="true"></span>
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-
-    <!-- Footer CTA strip -->
-    <div class="mt-12 flex flex-col items-start justify-between gap-6 rounded-xl bg-white/5 p-8 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.06)] md:flex-row md:items-center">
-      <div class="max-w-md">
-        <h3 class="type-h3 text-white mb-2">{PRICING_FOOTER.title}</h3>
-        <p class="type-body-small text-white/60 leading-relaxed">{PRICING_FOOTER.description}</p>
+    <!-- ── FOOTER CTA STRIP ── -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 border border-on-primary-container/20 bg-surface-dim text-on-surface p-8 md:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] mb-8">
+      <div class="max-w-4xl">
+        <h3 class="type-h3 text-on-surface mb-3">{PRICING_FOOTER.title}</h3>
+        <p class="type-body text-on-surface opacity-60 max-w-[44ch]">{PRICING_FOOTER.description}</p>
       </div>
       <a
         href={SITE_CONFIG.socials.calendly}
         target="_blank"
         rel="noopener noreferrer"
-        class="btn-pill flex-shrink-0 magnetic-cta z-depth-2"
-        aria-label="Schedule a call with Straya Studio"
+        class="flex-shrink-0 inline-flex items-center justify-between gap-4 min-w-[220px] bg-accent text-on-secondary border border-on-primary-container/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_8px_rgba(60,205,127,0.2)] px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[box-shadow] duration-[160ms] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_16px_rgba(60,205,127,0.3)] active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
+        aria-label="Schedule a scoping call with Straya Studio"
       >
-        {PRICING_FOOTER.ctaLabel}
-        <span class="btn-pill-circle">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
+        <span>{PRICING_FOOTER.ctaLabel}</span>
+        <span class="flex items-center justify-center w-8 h-8 bg-on-primary-container text-accent flex-shrink-0" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
       </a>
     </div>
 
     <!-- Trust line -->
-    <p class="mt-8 text-center type-caption text-white/40">
-      {PRICING_TRUST_LINE}
-    </p>
+    <p class="type-caption text-on-primary-container opacity-40 text-center">{PRICING_TRUST_LINE}</p>
 
   </div>
+
+  <!-- C2 color carry bridge — accent strip at bottom -->
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent" aria-hidden="true"></div>
+
 </section>
 
 <style>
-  /* ── Header elements ───────────────────────────────────────── */
-  .pr-el { opacity: 0; transform: translateY(28px); }
-  .pr-line .pr-el { transform: translateY(100%); opacity: 1; }
-
-  /* ── pricing-card — visible by default, no entrance animation  */
-  /* ── feature-row — visible by default, no entrance animation  */
-
-  /* ── Availability dot pulse ────────────────────────────────── */
-  .availability-dot {
-    animation: pulse-dot 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  /* PERMITTED: CSS variable stagger arithmetic + @keyframes */
+  .wpu-word {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(16px);
+    transition:
+      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
   }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(60,205,127,0); }
-    50%       { opacity: 0.85; box-shadow: 0 0 8px 3px rgba(60,205,127,0.3); }
+  [data-words-reveal].is-revealed .wpu-word { opacity:1; filter:blur(0); transform:translateY(0); }
+
+  .reveal-eyebrow {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .pricing-in-view .reveal-eyebrow { opacity:1; transform:translateX(0); }
+
+  .reveal-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .pricing-in-view .reveal-fade { opacity:1; transform:translateY(0); }
+
+  .badge-dot { animation: badge-pulse 2.8s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes badge-pulse {
+    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(60,205,127,0); }
+    50%     { opacity:0.85; box-shadow:0 0 8px 3px rgba(60,205,127,0.35); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .availability-dot { animation: none; }
+    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
+    .reveal-eyebrow, .reveal-fade { transition:none; }
+    .badge-dot { animation:none; }
   }
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
-  const DURATION = 900;
-  const MARGIN   = '0px 0px -80px 0px';
+  const section = document.getElementById('pricing');
+  if (section) {
+    // ── Heading word reveal — one-time entry (§8.3) ─────────────
+    const heading = section.querySelector<HTMLElement>('[data-words-reveal]');
+    if (heading) {
+      const obs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        heading.classList.add('is-revealed');
+        obs.disconnect();
+      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+      obs.observe(heading);
+    }
 
-  // ── Header entrance ─────────────────────────────────────────
-  const headerEls = document.querySelectorAll<HTMLElement>('#pricing .pr-el');
-  const headerObs = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    headerEls.forEach(el => {
-      const delay  = parseInt(el.dataset.delay ?? '0');
-      const isLine = el.closest('.pr-line') !== null;
-      el.animate(
-        isLine
-          ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-          : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-        { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
-      );
-    });
-    headerObs.disconnect();
-  }, { rootMargin: MARGIN, threshold: 0 });
-  const pricingSection = document.getElementById('pricing');
-  if (pricingSection) headerObs.observe(pricingSection);
+    // ── Eyebrow + fade elements ─────────────────────────────────
+    const sectionObs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      section.classList.add('pricing-in-view');
+      sectionObs.disconnect();
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
+    sectionObs.observe(section);
 
-  // pricing-card and feature-row entrance animations removed — visible by default
+    // ── B5 counting numerals — scroll-progress coupled ──────────
+    const countEls = section.querySelectorAll<HTMLElement>('[data-target]');
+    let raf = 0;
+    const updateCounts = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      countEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.7)));
+        const target = parseInt(el.dataset.target || '0', 10);
+        el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target).toLocaleString();
+      });
+    };
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(updateCounts); }, { passive: true });
+    updateCounts();
+
+  }
 </script>

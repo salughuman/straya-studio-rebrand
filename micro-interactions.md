@@ -1,314 +1,262 @@
-# Straya Studio — Micro-Interactions Catalog
+Straya Studio — Interaction & Motion System (v2)
 
-> **Status:** MANDATORY. Companion to `design-system.md` §10 (Component Primitives).
->
-> **Why this exists:** Premium agency sites are differentiated by the *texture of interaction*, not just composition. A button that feels good when you click it, a link whose underline draws in, a form input that visibly confirms focus — these are the details that separate $10K work from $5K work. This document specifies the eight required micro-interactions and how they bind to tokens.
+Status: MANDATORY
+Philosophy: Premium interaction is not decoration. It is feedback + continuity + depth.
 
----
+0. System Overview
 
-## 1. The Eight Required Micro-Interactions
+This system operates across four layers:
 
-Every interactive surface on the site uses one of these patterns. New patterns require justification — variety comes from sequencing, not from one-off motion.
+Layer	Responsibility
+M0	Scene choreography (how sections behave as a continuous world)
+Scroll Engine	Shared scroll-driven animation system
+M1–M8	Micro-interactions (component-level feedback)
+M9–M12	Structural interaction patterns (state, layout, realism)
+1. The Interaction Law (v2)
 
-| # | Pattern | Where it lives | Mode |
-|---|---|---|---|
-| M1 | Magnetic press | Primary CTA buttons | Neobrutalism |
-| M2 | Hard invert | Secondary buttons | Brutalism |
-| M3 | Underline draw | Inline links, nav links | Both |
-| M4 | Focus halo | All inputs, buttons, focusable elements | Both |
-| M5 | Hover lift | Cards, pricing tiles, work thumbnails | Neobrutalism |
-| M6 | Image scale-with-frame | Case study thumbnails, hero imagery | Brutalism |
-| M7 | Marquee hover-pause | Partner logos, service marquee | Both |
-| M8 | Sticker tilt | Sticker elements on hover/focus | Neobrutalism |
+The user must always feel:
 
-The rule: if you find yourself adding hover behavior that isn't one of these eight, stop. The pattern either becomes M9 (with a written justification in this doc) or it doesn't ship.
+where they are
+what just changed
+what has weight
 
----
+If motion does not communicate one of these, it does not ship.
 
-## 2. The Patterns
+2. M0 — Scene Choreography System (NEW)
+2.1 Definition
 
-### M1 — Magnetic press
+Every section is a scene, not a block.
 
-The Neobrutalist primary CTA. Already specified in `design-system.md` §10 (`<MagneticButton>`). Listed here for completeness:
+Sections do not enter/exit. They transition into each other.
 
-- **Idle:** thick border, hard shadow `--shadow-hard-md`.
-- **Hover:** label tracks cursor with strength `0.35`, shadow grows to `--shadow-hard-lg`, button lifts `translate(-2px,-2px)`.
-- **Active:** button slams to `translate(8px, 8px)`, shadow collapses to zero. The user *feels* the press.
-- **Reduced-motion:** static — no magnet, no lift. Hover changes background only.
+2.2 Scene Structure
 
-Reference: `design-system.md` §10 `.btn-magnetic`.
+Each scene has three layers:
 
-### M2 — Hard invert
+Layer	Purpose	Depth
+Background	Atmosphere	0.6
+Midground	Core content	1
+Foreground	UI / highlights	1.2
+2.3 Scroll Progress
 
-The Brutalist secondary button. Already specified in `design-system.md` §10 (`<BrutalistButton>`). Listed here for completeness:
+Each scene computes local progress:
 
-- **Idle:** transparent fill, hairline border, foreground text.
-- **Hover:** instant snap-invert. Background → `--color-fg`, text → `--color-bg`. No transition curve — `--ease-snap`.
-- **Active:** `translateY(2px)` for tactile press.
+const p = clamp01((vh - rect.top) / (vh * 0.8));
+2.4 Layered Motion
+bg: scale(1 → 1.05), blur(8px → 0)
+mid: translateY(40px → 0), opacity(0 → 1)
+fg: translateY(60px → 0), opacity(0 → 1)
+2.5 Continuity Rule
+No animation has a fixed start/end
+All motion is reversible via scroll
+Pausing scroll freezes animation exactly
+2.6 Transition Rule
 
-The point: M1 is *playful*, M2 is *decisive*. Both ship on the same page in different sections — that's the brand.
+Between scenes:
 
-Reference: `design-system.md` §10 `.btn-brutalist`.
+No fades-to-black
+No hard cuts
+Elements blend, morph, or overlap
+3. Scroll Engine (Updated)
+3.1 Global Scroll Signal
 
-### M3 — Underline draw
+Single listener + rAF:
 
-Inline links and nav items get an underline that *draws* on hover, not one that fades in.
+let raf = 0;
+const update = () => {
+  raf = 0;
+  const el = document.documentElement;
+  const p = el.scrollTop / (el.scrollHeight - el.clientHeight);
+  el.style.setProperty('--scroll-progress', Math.min(1, Math.max(0, p)).toFixed(4));
+};
+window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+update();
+3.2 Depth System (NEW)
 
-```css
-.link-draw {
-  position: relative;
-  color: var(--color-fg);
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size var(--dur-base) var(--ease-out);
-}
-.link-draw:hover,
-.link-draw:focus-visible {
-  background-size: 100% 1px;
-}
+Every animated element defines:
 
-/* Nav variant — accent-colored underline, thicker */
-.nav-link {
-  background-image: linear-gradient(var(--color-accent), var(--color-accent));
-  background-size: 0% 2px;
-}
-.nav-link[aria-current="page"] {
-  background-size: 100% 2px;
-}
-```
+--depth: 0.6 | 1 | 1.2;
 
-**Why a gradient underline, not `text-decoration`:** `text-decoration-skip-ink` is inconsistent across browsers, and you can't animate `text-decoration-thickness` reliably yet. A gradient on the background paints predictably and animates smoothly.
+Used in motion:
 
-**Reduced-motion:** instant draw (`background-size` flips with no transition).
+const d = parseFloat(getComputedStyle(el).getPropertyValue('--depth') || 1);
 
-### M4 — Focus halo
+el.style.transform = `
+  translateY(${((1 - p) * 40 * d).toFixed(1)}px)
+  scale(${(1 + (1 - p) * 0.04 * (d - 1)).toFixed(3)})
+`;
+3.3 Motion Offset Rule
+pAdjusted = clamp01(p - index * 0.05);
 
-Every focusable element gets a visible focus ring. **No exceptions.** Brutalism is loud; focus rings are loud too.
+Adjacent elements must never animate in perfect sync.
 
-```css
-:where(button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 3px;
-  border-radius: 0;            /* override any radius */
-  transition: outline-offset var(--dur-fast) var(--ease-out);
-}
+3.4 Parallax Mapping
+Element	Depth
+Background	0.6
+Base content	1
+Interactive	1.2
+4. M1–M8 (UNCHANGED — Core Micro-Interactions)
 
-/* Hover-precursor: a soft outline appears on hover, becomes the focus ring on focus */
-:where(button, a):hover {
-  outline: 1px solid color-mix(in oklch, var(--color-focus-ring), transparent 60%);
-  outline-offset: 2px;
-}
-```
+These remain exactly as defined in v1:
 
-The `outline-offset` jump on focus (3px → 5px is too aggressive; we go 2px → 3px) is the visual cue that focus *settled*. It feels like a click landing.
+M1 — Magnetic press
+M2 — Hard invert
+M3 — Underline draw
+M4 — Focus halo
+M5 — Hover lift
+M6 — Image scale-with-frame
+M7 — Marquee hover-pause
+M8 — Sticker tilt
+Extension:
 
-**Forms-specific addition** — text inputs get a 2px bottom border that color-shifts on focus:
+All patterns inherit scene depth context.
 
-```css
-.input-line {
-  border: 0;
-  border-bottom: 2px solid var(--color-hairline);
-  background: transparent;
-  padding: var(--space-3) 0;
-  font: var(--type-body);
-  transition: border-color var(--dur-fast) var(--ease-out);
-}
-.input-line:focus-visible {
-  border-bottom-color: var(--color-accent);
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 6px;     /* clear the bottom border */
-}
-```
+5. M9 — Selection Lock (NEW)
+Purpose
 
-### M5 — Hover lift
+Persistent state (active/selected)
 
-Cards, pricing tiles, and clickable thumbnails lift on hover. Specifically Neobrutalism — Brutalism mode cards do *not* lift; they invert (M2 logic on a card surface).
-
-```css
-.card-lift {
-  position: relative;
-  background: var(--color-bg-raised);
-  border: var(--hairline-thick);
-  box-shadow: var(--shadow-hard-md);
-  transition:
-    transform var(--dur-base) var(--ease-spring),
-    box-shadow var(--dur-base) var(--ease-spring);
-}
-.card-lift:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-hard-lg);
-}
-.card-lift:active {
-  transform: translate(2px, 2px);
+Behavior
+Survives hover and focus
+No looping animation
+Only transitions on state change
+Implementation
+.is-selected {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
   box-shadow: var(--shadow-hard-sm);
 }
-```
+Use Cases
+Active nav item
+Selected pricing tier
+Filters / tabs
+6. M10 — Structured Reveal (NEW)
+Purpose
 
-The shadow tracks the lift — that's what makes it feel like a physical card on a surface, not a CSS transform.
+Lists, grids, repeated content
 
-**Pricing-tier specific:** the "most popular" tier uses `--shadow-stack` instead of `--shadow-hard-md`. On hover it goes to `--shadow-stack` with both layers extended. Used **once** on the page.
+Behavior
 
-### M6 — Image scale-with-frame
+Scroll-driven stagger:
 
-Case study thumbnails and hero images scale on hover, but the *frame* (border) stays put. The image scales inside its frame; the frame doesn't.
+pItem = clamp01(p - index * 0.08);
 
-```css
-.frame-scale {
-  position: relative;
-  overflow: hidden;
-  border: 2px solid var(--color-fg);
-}
-.frame-scale > img {
-  transition: transform var(--dur-slow) var(--ease-out);
-  will-change: transform;
-}
-.frame-scale:hover > img {
-  transform: scale(1.06);
-}
+opacity = pItem;
+translateY = (1 - pItem) * 24;
+Rules
+No uniform animation
+No simultaneous reveal
+Always tied to scroll
+7. M11 — Input Feedback System (NEW)
+States
+State	Feedback
+Focus	M4 halo + accent underline
+Valid	success color
+Error	error color + motion
+Error Motion
+x: [0, -4, 4, -2, 2, 0];
+duration: 0.3;
+Rule
 
-/* Plus a meta-line that slides in from the left edge */
-.frame-scale::after {
-  content: attr(data-caption);
-  position: absolute;
-  bottom: var(--space-3);
-  left: 0;
-  background: var(--color-bg);
-  color: var(--color-fg-strong);
-  padding: var(--space-2) var(--space-4);
-  font: var(--type-meta);
-  letter-spacing: var(--tracking-allcaps);
-  text-transform: uppercase;
-  transform: translateX(-100%);
-  transition: transform var(--dur-base) var(--ease-snap);
-}
-.frame-scale:hover::after {
-  transform: translateX(0);
-}
-```
+Input must clearly communicate success or failure instantly.
 
-The slide-in caption is the editorial detail — it makes the image feel like a *plate* in a magazine, not a card on a website.
+8. M12 — Perspective Interaction (NEW)
+Purpose
 
-### M7 — Marquee hover-pause
+Adds physical realism (“cinema feel”)
 
-The marquee (partner logos, service list) pauses when the user hovers it. This is the difference between a *banner* and a *navigable list*.
+Behavior
 
-```css
-.marquee {
-  --marquee-state: running;
-}
-.marquee-track {
-  animation: marquee 30s linear infinite;
-  animation-play-state: var(--marquee-state);
-}
-.marquee:hover {
-  --marquee-state: paused;
-}
+Elements react to cursor:
 
-/* Each item gets its own underline-draw on hover (M3 reused) */
-.marquee a:hover {
-  background-size: 100% 2px;
-}
-```
+rotateX = (cursorY / height - 0.5) * -6deg;
+rotateY = (cursorX / width - 0.5) * 6deg;
+Applied To
+Cards
+Images
+Hero elements
+Constraints
+Max rotation ≤ 6°
+Smooth reset on exit
+9. Cinematic Motion Rules (Global)
+9.1 No Flat Motion
 
-The pause is what tells the user *the marquee is content, not decoration*. This single behavior repositions the entire band.
+Every animation must include at least one:
 
-### M8 — Sticker tilt
+depth (scale)
+parallax (speed difference)
+blur (entry/exit)
+9.2 No Synchronous Motion
 
-Sticker elements (`.sticker` from `design-system.md` §10) tilt and scale on hover. Already specified — listed here for completeness:
+Elements must differ in:
 
-```css
-.sticker {
-  transform: rotate(-4deg);
-  transition: transform var(--dur-fast) var(--ease-spring);
-}
-.sticker:hover {
-  transform: rotate(-2deg) scale(1.04);
-}
-```
+timing
+speed
+offset
+9.3 No Hard Cuts
 
-**Group rule:** if multiple stickers sit near each other, they tilt in alternating directions (`-4deg`, `+3deg`, `-5deg`). Never all the same way.
+Everything:
 
----
+blends
+overlaps
+or transforms
+9.4 Motion Reflects Hierarchy
+Importance	Motion
+High	fast, sharp
+Medium	balanced
+Low	slow, subtle
+9.5 Frame Rule
 
-## 3. State Combinations
+The viewport behaves like a camera, not a page.
 
-The eight patterns combine into compound states. The combinations are bounded:
+10. Reduced Motion
 
-| Element | Idle | Hover | Focus | Active |
-|---|---|---|---|---|
-| Primary CTA | M1 idle | M1 hover | M1 hover + M4 halo | M1 active |
-| Secondary CTA | M2 idle | M2 hover | M2 hover + M4 halo | M2 active |
-| Inline link | text + M3 idle | M3 drawn | M3 drawn + M4 halo | text + M3 drawn |
-| Nav link | M3 + nav variant | M3 drawn | M3 drawn + M4 halo | (visited tracked by `aria-current`) |
-| Card | M5 idle | M5 hover | M5 hover + M4 halo | M5 active |
-| Image thumbnail | M6 idle | M6 scaled + caption slide | M6 scaled + M4 halo | (links inside trigger their own active state) |
-| Form input | M4 idle (faint underline) | M4 hover | M4 focus (accent underline + halo) | n/a |
-| Sticker | M8 idle | M8 hover | M8 hover + M4 halo | (returns to idle on release) |
+Under prefers-reduced-motion: reduce:
 
-**The rule:** focus state is *always* M4 (halo) layered on top of the hover state. Focus ≠ hover, but focus *includes* hover's visual change so keyboard users get the same feedback as mouse users.
+Remove blur, scale, translate
+Disable parallax
+Keep focus states (M4)
+Keep selection states (M9)
+11. GSAP Usage (Unchanged)
 
----
+Use GSAP only for:
 
-## 4. Timing Discipline
+complex timelines
+pinned scroll sections
+multi-element choreography
 
-All eight patterns use motion tokens from `design-system.md` §8. No custom durations or eases.
+Do not use for:
 
-| Pattern | Duration | Easing |
-|---|---|---|
-| M1 magnetic press | `--dur-fast` | `--ease-spring` |
-| M2 hard invert | `--dur-fast` | `--ease-snap` |
-| M3 underline draw | `--dur-base` | `--ease-out` |
-| M4 focus halo | `--dur-fast` | `--ease-out` |
-| M5 hover lift | `--dur-base` | `--ease-spring` |
-| M6 image scale | `--dur-slow` | `--ease-out` |
-| M7 marquee pause | instant (no easing) | n/a |
-| M8 sticker tilt | `--dur-fast` | `--ease-spring` |
+hover states
+simple transitions
+scroll opacity/translate
+12. Acceptance Test (v2)
 
-**Pattern:** Brutalism interactions use `--ease-out` or `--ease-snap` (decisive). Neobrutalism interactions use `--ease-spring` (playful). M3 and M4 are mode-neutral — they use `--ease-out`.
+Before shipping any interaction:
 
----
+Core
+ Uses M1–M12 (no custom patterns without justification)
+ Has idle, hover, focus, active states
+ Focus includes M4 halo
+Cinematic
+ Element participates in scene (M0)
+ Depth (--depth) defined
+ Motion offset applied
+ Scroll reversible (no triggers)
+ No hard cuts between sections
+Structural
+ Persistent states use M9
+ Lists use M10
+ Inputs use M11
+ High-impact elements use M12 where appropriate
+Performance
+ Single scroll listener
+ No layout thrashing
+ Motion remains smooth under load
+13. Final Principle
 
-## 5. Reduced Motion Behavior
+Components create feedback.
+Scenes create feeling.
 
-Every pattern degrades gracefully under `prefers-reduced-motion: reduce`.
-
-| Pattern | Reduced-motion behavior |
-|---|---|
-| M1 magnetic press | Static. Background-color hover only. Click does nothing visual. |
-| M2 hard invert | Same. The snap is already short enough; reduced-motion doesn't change it. |
-| M3 underline draw | Instant. `background-size` flips with no transition. |
-| M4 focus halo | Same — focus ring still appears (it's accessibility, not decoration). |
-| M5 hover lift | Static. Background or border-color hover only. |
-| M6 image scale | Static. Caption still slides in (it's UI feedback, not decoration). |
-| M7 marquee pause | Marquee doesn't run at all under reduced-motion (it's a `--ease-in-out` infinite — disabled globally per §8). |
-| M8 sticker tilt | Static at idle rotation. |
-
-The global rule from `design-system.md` §8 (`* { transition-duration: 0.01ms }`) handles most of this automatically. The exceptions above are explicit.
-
----
-
-## 6. The Acceptance Test
-
-Before merging a PR that introduces a new interactive element, walk through:
-
-- [ ] Element has all four states defined (idle, hover, focus, active)
-- [ ] Hover and focus give visibly different feedback than idle
-- [ ] Focus state includes M4 halo regardless of pattern
-- [ ] Active state is *visibly* different from hover (not just an alpha shift)
-- [ ] Pattern uses one of M1–M8 (or has a written justification for M9+)
-- [ ] Duration and easing pulled from tokens (no `200ms ease-in-out` literals)
-- [ ] Behavior under `prefers-reduced-motion: reduce` matches the table in §5
-- [ ] Keyboard navigation lands focus correctly (no `outline: none` without replacement)
-
-If any item is missing, the interaction is incomplete and the element is not done.
-
----
-
-## 7. The Micro-Interaction Law
-
-> **The user must always know what just happened.** Every click registers visibly. Every hover answers "is this clickable?". Every focus says "you are here." If you can't tell from the visual feedback alone whether you just hovered, focused, or pressed — the pattern is broken.
-
-The eight patterns are tuned against this law. Don't invent a ninth without verifying it passes the test.
+This system ensures both.

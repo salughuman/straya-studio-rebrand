@@ -1,51 +1,91 @@
 ---
+/**
+ * TheStrayaMethod.astro — Straya Studio
+ * Mode: Neobrutalism
+ * Cards: sticky stack with scale + Phase-B-only blur
+ * Zoom: original animation — words slide out, + drifts to centre and scales up
+ */
+
 const steps = [
   {
     num: "01",
     title: "Discovery",
     description: "We map your objectives, market position, and technical fit before a single pixel is placed. Decisions that hold up later are made here.",
-    linkText: "How we scope ↗",
-    bgClass: "bg-surface"
+    linkText: "How we scope",
+    bg: "#E1E0CC",
+    fg: "#050505",
   },
   {
     num: "02",
     title: "Architecture",
     description: "Platform, CMS, and performance strategy locked in week one. The system is decided before the design.",
-    linkText: "Our stack ↗",
-    bgClass: "bg-sage"
+    linkText: "Our stack",
+    bg: "#3CCD7F",
+    fg: "#050505",
   },
   {
     num: "03",
     title: "Engineering",
     description: "Sprint-based builds, milestone reviews, production-grade from day one. Every component ships ready.",
-    linkText: "Our process ↗",
-    bgClass: "bg-surface"
+    linkText: "Our process",
+    bg: "#E1E0CC",
+    fg: "#050505",
+  },
+  {
+    num: "04",
+    title: "Optimisation",
+    description: "Post-launch performance audit, SEO tuning, and analytics setup. We don't hand off and disappear.",
+    linkText: "Post-launch",
+    bg: "#3CCD7F",
+    fg: "#050505",
   },
 ];
 ---
 
-<section id="method" class="method bg-background relative" data-mode="neobrutalism">
+<section id="method" class="method section-frosted bg-background relative overflow-x-clip" data-mode="neobrutalism">
 
   <div class="method__cards-container main-container pt-24">
 
-    <header class="mb-16">
-      <span class="inline-block px-3 py-1 bg-brand-text-primary text-background font-mono text-xs uppercase tracking-widest -rotate-2 mb-6">
-        <span class="text-accent">[04]</span> / The Straya Method
-      </span>
-      <h2 class="type-h2 uppercase text-on-background">
-        Four stages.<br/>Zero shortcuts.
+    <header class="method__header mb-16">
+      <div class="method__eyebrow-wrap mb-6">
+        <span class="method__eyebrow-rule" aria-hidden="true"></span>
+        <span class="type-label text-on-background opacity-60">[04] / The Straya Method</span>
+      </div>
+      <h2 class="type-h2 text-on-background">
+        <span class="block overflow-hidden">
+          <span class="method__h2-el block">Four stages.</span>
+        </span>
+        <span class="block overflow-hidden">
+          <span class="method__h2-el block" style="transition-delay:80ms">Zero shortcuts.</span>
+        </span>
       </h2>
     </header>
 
     <div class="method__stack">
       {steps.map((step) => (
-        <div class={`method__step ${step.bgClass}`} data-step>
-          <h3 class="method__step-title">{step.title}</h3>
+        <div
+          class="method__step"
+          data-step
+          style={`background:${step.bg}; color:${step.fg};`}
+        >
+          <span class="method__numeral" aria-hidden="true" data-numeral
+            style={`-webkit-text-stroke: 2px ${step.fg}18;`}
+          >{step.num}</span>
+
+          <div class="method__step-left">
+            <span class="method__step-num">{step.num}</span>
+            <h3 class="method__step-title">{step.title}</h3>
+          </div>
+
           <div class="method__step-content">
             <p class="method__step-body">{step.description}</p>
-            <a href="#" class="method__step-link">{step.linkText}</a>
+            <a href="#" class="method__step-link" style={`color:${step.fg};`}>
+              {step.linkText}
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="inline-block ml-1 align-middle">
+                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
           </div>
-          <span class="method__numeral" aria-hidden="true">{step.num}</span>
         </div>
       ))}
     </div>
@@ -53,9 +93,9 @@ const steps = [
 
   <div class="method__zoom-wrapper">
     <div class="method__zoom-sticky">
-      <h3 class="method__liquid-title">
+      <h3 class="method__liquid-title" aria-label="Clarity plus Performance">
         <span class="method__word">CLARITY</span>
-        <span class="method__plus">+</span>
+        <span class="method__plus" aria-hidden="true">+</span>
         <span class="method__word">PERFORMANCE</span>
       </h3>
     </div>
@@ -65,132 +105,170 @@ const steps = [
 
 <style>
   .method {
-    /* ── Design token aliases ─────────────────────────────────────────── */
-    --m-ink:       var(--ink-800, #0A0A0A);
-    --m-bg-raised: var(--bone-100, #FFFEF7);
-    --m-bg-sage:   #84A98C;                     /* muted sage — no exact token */
-    --m-fg:        var(--ink-800, #0A0A0A);      /* text on light + sage cards */
-    --m-accent:    var(--color-accent, #3CCD7F);
-    --method-bottom-gap: 9.5rem;                /* ~152 px gap before zoom section */
+    --m-ink:    #0A0A0A;
+    --m-accent: #3CCD7F;
   }
 
-  .bg-surface { background: var(--m-bg-raised); color: var(--m-fg); }
-  .bg-sage    { background: var(--m-bg-sage);   color: var(--m-fg); }
-
-  /* ─── Cards container — bottom gap ~150 px ───────────────────────── */
   .method__cards-container {
-    padding-bottom: var(--method-bottom-gap);
+    padding-bottom: 9.5rem;
   }
 
-  /* ─── Stack ──────────────────────────────────────────────────────── */
+  /* ── Header ───────────────────────────────────────────────── */
+  .method__eyebrow-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .method__eyebrow-rule {
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--m-accent);
+    transition: width 500ms cubic-bezier(0.16,1,0.3,1) 200ms;
+  }
+  .method__h2-el {
+    transform: translateY(100%);
+    transition: transform 720ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .method-in-view .method__eyebrow-wrap { opacity: 1; transform: translateX(0); }
+  .method-in-view .method__eyebrow-rule { width: 1rem; }
+  .method-in-view .method__h2-el        { transform: translateY(0); }
+
+  /* ── Stack ────────────────────────────────────────────────── */
   .method__stack {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6, 2rem);
-    margin-top: var(--space-8, 4rem);
+    gap: 1.5rem;
+    margin-top: 3rem;
   }
 
-  /* ─── Card — horizontal three-zone layout ────────────────────────── */
-  /* BUG FIX: the old code had `position: sticky` then `position: relative`
-     in the same rule — the second declaration overrode the first, making
-     cards never actually stick. `position: relative` removed; child elements
-     with z-index already carry their own `position: relative`. */
+  /* ── Card ─────────────────────────────────────────────────── */
   .method__step {
     position: sticky;
     top: 10vh;
-
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     align-items: center;
-
-    padding: var(--space-7, 3rem) var(--space-8, 4rem);
-    border: var(--hairline, 1px solid rgba(0,0,0,0.15));
-    min-height: 32vh;
+    border: 2px solid rgba(5,5,5,0.18);
+    min-height: 28vh;
     overflow: hidden;
-
+    padding: 0;
+    box-shadow: 6px 6px 0 rgba(5,5,5,0.22);
     --p: 0;
-
+    --p-blur: 0;
     transform-origin: top center;
-    transform: scale(calc(1 - var(--p) * 0.10));
-    filter: blur(calc(var(--p) * 8px));
-    opacity: calc(1 - var(--p) * 0.55);
+    transform: scale(calc(1 - var(--p) * 0.08));
+    filter: blur(calc(var(--p-blur) * 6px));
   }
 
-  /* Last card snaps to the very top — never blurs, fades, or scales down */
   .method__step:last-child {
     top: 0;
     transform: scale(1) !important;
     filter: blur(0) !important;
-    opacity: 1 !important;
+    box-shadow: 8px 8px 0 rgba(5,5,5,0.28);
   }
 
   .method__step[data-active="true"] {
-    will-change: transform, filter, opacity;
+    will-change: transform, filter;
   }
 
-  .method__step-title {
-    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
-    font-weight: var(--weight-black, 900);
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    text-transform: uppercase;
-    line-height: var(--leading-display, 0.92);
-    letter-spacing: var(--tracking-display, -0.04em);
-    margin: 0;
-    z-index: 2;
-    position: relative;
-  }
-
-  .method__step-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    z-index: 2;
-    position: relative;
-  }
-
-  .method__step-body {
-    font-family: var(--font-body, sans-serif);
-    font-size: var(--text-base, 0.95rem);
-    line-height: var(--leading-body, 1.55);
-    max-width: 42ch;
-    margin: 0 0 var(--space-5, 1.5rem);
-  }
-
-  .method__step-link {
-    font-family: var(--font-mono, ui-monospace, monospace);
-    font-weight: var(--weight-bold, 700);
-    text-transform: uppercase;
-    font-size: var(--text-xs, 0.75rem);
-    letter-spacing: var(--tracking-wide, 0.05em);
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* Outline numeral — right edge (see-through stroke) */
+  /* ── Outline numeral ──────────────────────────────────────── */
   .method__numeral {
     position: absolute;
     right: -1rem;
     top: 50%;
     transform: translateY(-50%);
-    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
-    font-weight: var(--weight-black, 900);
-    font-size: clamp(8rem, 22vw, 18rem);
+    font-family: var(--font-display, 'Bricolage Grotesque', sans-serif);
+    font-weight: 900;
+    font-size: clamp(10rem, 22vw, 20rem);
     line-height: 0.75;
-    letter-spacing: var(--tracking-display, -0.02em);
-    z-index: 1;
-    pointer-events: none;
+    letter-spacing: -0.02em;
     color: transparent;
-    -webkit-text-stroke: 2px rgba(0, 0, 0, 0.18);
-    text-stroke: 2px rgba(0, 0, 0, 0.18);
+    user-select: none;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  /* ─── Zoom Takeover ──────────────────────────────────────────────── */
+  /* ── Left zone ────────────────────────────────────────────── */
+  .method__step-left {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-right: 1px solid rgba(5,5,5,0.1);
+    height: 100%;
+    justify-content: center;
+  }
+
+  .method__step-num {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    display: block;
+  }
+
+  .method__step-title {
+    font-family: var(--font-display, 'Bricolage Grotesque', sans-serif);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin: 0;
+  }
+
+  /* ── Centre zone ──────────────────────────────────────────── */
+  .method__step-content {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    height: 100%;
+    justify-content: center;
+  }
+
+  .method__step-body {
+    font-family: var(--font-body, 'Instrument Sans', sans-serif);
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.14rem);
+    line-height: 1.55;
+    max-width: 38ch;
+    margin: 0;
+  }
+
+  .method__step-link {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 240ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .method__step-link:hover,
+  .method__step-link:focus-visible { background-size: 100% 1px; }
+  .method__step-link:focus-visible  { outline: 2px solid var(--m-accent); outline-offset: 3px; }
+
+  /* ── Zoom takeover — original animation ──────────────────── */
   .method__zoom-wrapper {
     height: 200vh;
     position: relative;
     background-color: var(--m-ink);
-    /* clip-x without creating a scroll container — sticky inside still works */
     overflow-x: clip;
     --z: 0;
   }
@@ -204,36 +282,30 @@ const steps = [
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 0;
   }
 
-  /* Full-width heading — layout only, individual elements animate */
   .method__liquid-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding: 0 2vw;
-
-    font-family: var(--font-display, 'Helvetica Neue', sans-serif);
-    font-weight: var(--weight-black, 900);
+    font-family: var(--font-display, 'Bricolage Grotesque', sans-serif);
+    font-weight: 900;
     font-size: clamp(2.5rem, 9vw, 11rem);
-    line-height: var(--leading-display, 0.9);
+    line-height: 0.9;
     text-transform: uppercase;
-    letter-spacing: var(--tracking-display, -0.04em);
+    letter-spacing: -0.04em;
     z-index: 10;
     margin: 0;
-    /* No transform on the container — children animate individually */
-    color: var(--bone-300, #E1E0CC);
+    color: #E1E0CC;
   }
 
-  /* Words slide outward and fade — JS drives opacity + translateX */
   .method__word {
     flex: 0 1 auto;
     will-change: transform, opacity;
   }
 
-  /* Plus is the focal point — scales up and drifts to viewport centre */
   .method__plus {
     flex: 0 0 auto;
     color: var(--m-accent);
@@ -242,44 +314,43 @@ const steps = [
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── Reduced motion ─────────────────────────────────────────────── */
+  /* ── Reduced motion ───────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
+    .method__eyebrow-wrap { transition: none; opacity: 1; transform: none; }
+    .method__eyebrow-rule { transition: none; width: 1rem; }
+    .method__h2-el        { transition: none; transform: none; }
     .method__step {
-      transition: none !important;
-      animation: none !important;
-      --p: 0 !important;
+      --p: 0 !important; --p-blur: 0 !important;
       transform: scale(1) !important;
       filter: blur(0) !important;
-      opacity: 1 !important;
+      will-change: auto !important;
     }
-    .method__plus  { transform: scale(1) !important; }
-    .method__word  { opacity: 1 !important; transform: none !important; }
+    .method__plus { transform: none !important; }
+    .method__word { opacity: 1 !important; transform: none !important; }
+    .method__step-link { transition: none; }
   }
 
-  /* ─── Mobile ─────────────────────────────────────────────────────── */
+  /* ── Mobile ───────────────────────────────────────────────── */
   @media (max-width: 768px) {
     .method__step {
       grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      gap: var(--space-5, 1.5rem);
-      padding: var(--space-6, 2rem) var(--space-5, 1.5rem);
-      min-height: 40vh;
-      text-align: left;
+      min-height: auto;
     }
-    .method__step-title {
-      font-size: clamp(2rem, 10vw, 3rem);
+    .method__step-left {
+      border-right: none;
+      border-bottom: 1px solid rgba(5,5,5,0.1);
+      padding: 2rem 1.5rem 1.5rem;
     }
     .method__step-content {
       align-items: flex-start;
       text-align: left;
+      padding: 1.5rem;
     }
-    .method__numeral {
-      font-size: 10rem;
-      right: -1.5rem;
-    }
+    .method__step-title { font-size: clamp(2rem, 10vw, 3rem); }
+    .method__numeral    { font-size: 9rem; right: -0.5rem; }
     .method__liquid-title {
       flex-direction: column;
-      gap: var(--space-4, 1rem);
+      gap: 1rem;
       font-size: clamp(2.5rem, 14vw, 6rem);
     }
   }
@@ -288,31 +359,39 @@ const steps = [
 <script>
   (() => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
 
-    const root = document.querySelector(".method");
+    const root = document.querySelector<HTMLElement>(".method");
     if (!root) return;
 
-    const cards   = Array.from(root.querySelectorAll<HTMLElement>(".method__step"));
-    const wrapper = root.querySelector<HTMLElement>(".method__zoom-wrapper");
-    const plus    = root.querySelector<HTMLElement>(".method__plus");
-    const wordEls = Array.from(root.querySelectorAll<HTMLElement>(".method__word"));
-    const lastIdx = cards.length - 1;
+    // ── Header reveal ──────────────────────────────────────────
+    const headerObs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      root.classList.add("method-in-view");
+      headerObs.disconnect();
+    }, { rootMargin: "0px 0px -80px 0px", threshold: 0 });
+    headerObs.observe(root);
 
-    if (cards.length === 0) return;
+    if (reduced) return;
+
+    const cards    = Array.from(root.querySelectorAll<HTMLElement>(".method__step"));
+    const numerals = Array.from(root.querySelectorAll<HTMLElement>("[data-numeral]"));
+    const wrapper  = root.querySelector<HTMLElement>(".method__zoom-wrapper");
+    const plus     = root.querySelector<HTMLElement>(".method__plus");
+    const wordEls  = Array.from(root.querySelectorAll<HTMLElement>(".method__word"));
+    const lastIdx  = cards.length - 1;
+
+    if (!cards.length || !wrapper || !plus) return;
 
     let vh          = window.innerHeight;
     let vw          = window.innerWidth;
     let stickyTop   = vh * 0.1;
     let raf         = 0;
-    // Offset from plus centre to viewport centre — cached so we only measure once at z=0
     let plusOffsetX = 0;
 
     const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
-    // Measure plus position with no transform applied (called on init + resize)
+    // Cache the natural offset from plus centre to viewport centre
     const cachePlusOffset = () => {
-      if (!plus) return;
       plus.style.transform = "";
       const r = plus.getBoundingClientRect();
       plusOffsetX = vw / 2 - (r.left + r.width / 2);
@@ -321,99 +400,86 @@ const steps = [
     const update = () => {
       raf = 0;
 
-      // ── CARDS ──────────────────────────────────────────────────────
-      // Two-phase progress model:
-      //   Phase A (approach):  card top crosses screen center → sticky line (0 → 0.4)
-      //   Phase B (overlap):   card pinned, next card slides over it     (0.4 → 1.0)
+      // ── CARDS — two-phase progress ─────────────────────────────
       const screenCenter   = vh / 2;
       const PHASE_A_WEIGHT = 0.4;
       const PHASE_B_WEIGHT = 0.6;
 
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
-
-        // ── Last card: always fully visible, never blurs or scales down
         if (i === lastIdx) {
           card.style.setProperty("--p", "0");
+          card.style.setProperty("--p-blur", "0");
           card.dataset.active = "false";
           continue;
         }
-
         const rect = card.getBoundingClientRect();
         let progress = 0;
-
-        if (rect.top > vh + 200 || rect.bottom < -200) {
-          progress = 0;
-        } else if (rect.top > stickyTop) {
-          // Phase A — between screen centre and sticky line
-          if (rect.top < screenCenter) {
-            const phaseA = clamp01(
-              (screenCenter - rect.top) / (screenCenter - stickyTop)
-            );
-            progress = phaseA * PHASE_A_WEIGHT;
-          } else {
-            progress = 0;
-          }
-        } else {
-          // Phase B — pinned; next card sliding over
+        if (rect.top <= stickyTop) {
           const next = cards[i + 1];
           if (next) {
-            const nextRect = next.getBoundingClientRect();
-            const span    = rect.height;
-            const traveled = stickyTop + span - nextRect.top;
-            const phaseB  = clamp01(traveled / span);
-            progress = PHASE_A_WEIGHT + phaseB * PHASE_B_WEIGHT;
+            const span     = Math.max(rect.height, 1);
+            const traveled = stickyTop + span - next.getBoundingClientRect().top;
+            progress = PHASE_A_WEIGHT + clamp01(traveled / span) * PHASE_B_WEIGHT;
           } else {
             progress = PHASE_A_WEIGHT;
           }
+        } else if (rect.top < screenCenter) {
+          progress = clamp01((screenCenter - rect.top) / Math.max(screenCenter - stickyTop, 1)) * PHASE_A_WEIGHT;
         }
-
         card.style.setProperty("--p", progress.toFixed(3));
-        card.dataset.active =
-          progress > 0.001 && progress < 0.999 ? "true" : "false";
+        const blurP = progress > PHASE_A_WEIGHT
+          ? clamp01((progress - PHASE_A_WEIGHT) / PHASE_B_WEIGHT) : 0;
+        card.style.setProperty("--p-blur", blurP.toFixed(3));
+        card.dataset.active = (progress > 0.001 && progress < 0.999) ? "true" : "false";
       }
 
-      // ── ZOOM TAKEOVER ──────────────────────────────────────────────
-      // Focus on the + sign:
-      //   1. Words fade out and slide to their respective edges (fast, z 0→0.3)
-      //   2. + drifts to viewport centre (reaches centre by z ≈ 0.35)
-      //   3. + scales explosively until it floods the screen
-      if (wrapper && plus) {
-        const wRect = wrapper.getBoundingClientRect();
-        let z = 0;
+      // ── NUMERAL PARALLAX ──────────────────────────────────────
+      numerals.forEach((num, i) => {
+        const card = cards[i];
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const p = clamp01((vh - rect.top) / (vh + rect.height));
+        num.style.transform = `translateY(calc(-50% + ${((p - 0.5) * 40).toFixed(1)}px))`;
+      });
 
-        if (wRect.top < 0) {
-          const maxScroll = wRect.height - vh;
-          z = clamp01(Math.abs(wRect.top) / maxScroll);
-        }
+      // ── ZOOM TAKEOVER — original logic ─────────────────────────
+      const wRect = wrapper.getBoundingClientRect();
 
-        wrapper.style.setProperty("--z", z.toFixed(4));
-
-        // ─ Words: fade quickly, slide outward
-        const wordOpacity = clamp01(1 - z * 4);           // gone by z ≈ 0.25
-        const slideAmount = z * vw * 0.12;                // 12 % of viewport width
-        wordEls.forEach((w, idx) => {
-          const dir = idx === 0 ? -1 : 1;                 // CLARITY → left, PERFORMANCE → right
-          w.style.opacity   = wordOpacity.toFixed(3);
-          w.style.transform = `translateX(${(dir * slideAmount).toFixed(1)}px)`;
-        });
-
-        // ─ Plus: drift to centre then explode
-        const centerProgress = clamp01(z / 0.35);         // 0→1 over first 35 % of scroll
-        const tx = plusOffsetX * centerProgress;
-        const scaleFactor = 1 + Math.pow(z, 2.2) * 220;
-        plus.style.transform = `translateX(${tx.toFixed(1)}px) scale(${scaleFactor.toFixed(2)})`;
+      if (wRect.top >= vh) {
+        wordEls.forEach(w => { w.style.opacity = "1"; w.style.transform = ""; });
+        plus.style.transform = "";
+        return;
       }
+
+      if (wRect.bottom <= 0) {
+        wordEls.forEach(w => { w.style.opacity = "0"; });
+        return;
+      }
+
+      const maxScroll = Math.max(wRect.height - vh, 1);
+      const z = clamp01(Math.abs(Math.min(wRect.top, 0)) / maxScroll);
+
+      // Words: fade out and slide to edges (gone by z ≈ 0.25)
+      const wordOpacity = clamp01(1 - z * 4);
+      const slideAmount = z * vw * 0.12;
+      wordEls.forEach((w, idx) => {
+        const dir = idx === 0 ? -1 : 1;
+        w.style.opacity   = wordOpacity.toFixed(3);
+        w.style.transform = `translateX(${(dir * slideAmount).toFixed(1)}px)`;
+      });
+
+      // +: drift to viewport centre then scale explosively
+      const centerProgress = clamp01(z / 0.35);
+      const tx = plusOffsetX * centerProgress;
+      const scaleFactor = 1 + Math.pow(z, 2.2) * 220;
+      plus.style.transform = `translateX(${tx.toFixed(1)}px) scale(${scaleFactor.toFixed(2)})`;
     };
 
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(update);
-    };
-
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     const onResize = () => {
-      vh        = window.innerHeight;
-      vw        = window.innerWidth;
+      vh = window.innerHeight;
+      vw = window.innerWidth;
       stickyTop = vh * 0.1;
       cachePlusOffset();
       update();

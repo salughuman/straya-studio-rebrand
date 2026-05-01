@@ -19,6 +19,57 @@ Pin these to the wall. If a decision violates one, the decision is wrong.
 
 ---
 
+## 0.5 Styling Law — Tailwind First, Always
+
+> **Tailwind is the only styling layer for components. In-component `<style>` blocks are banned except in two narrow cases.**
+
+### The rule
+
+All visual styling — layout, color, typography, spacing, shadows, borders, hover states, responsive breakpoints — must be expressed as Tailwind utility classes consuming token-mapped values from `tailwind.config.mjs`.
+
+**Never** write a `<style>` block in a component to express something Tailwind can already do.
+
+### The two permitted exceptions
+
+A `<style>` block is allowed **only** for:
+
+1. **CSS custom property animations and `@keyframes`** — things Tailwind cannot express: `@keyframes`, `animation-play-state` toggled via a CSS variable, `transition` on a class that is added/removed by JS (`.in-view`, `.is-filling`, etc.).
+2. **`transform-origin` on scroll-driven elements** — when a JS scroll loop sets `transform` directly on an element and the origin must be locked to a specific point that cannot be expressed as a static Tailwind class.
+
+Everything else — including pseudo-elements (`::before`, `::after`), media queries, hover/focus states, and responsive variants — has a Tailwind equivalent and must use it.
+
+### What this looks like in practice
+
+```astro
+<!-- ✅ Correct — Tailwind only -->
+<div class="bg-inverse-surface border-2 border-on-primary-container [box-shadow:6px_6px_0_#050505] hover:-translate-x-[3px] hover:-translate-y-[3px] transition-[transform,box-shadow] duration-[240ms]">
+
+<!-- ❌ Wrong — vanilla CSS for something Tailwind handles -->
+<style>
+  .card { background: #E1E0CC; border: 2px solid #050505; box-shadow: 6px 6px 0 #050505; }
+  .card:hover { transform: translate(-3px, -3px); }
+</style>
+```
+
+### Enforcement
+
+Before adding a `<style>` block, ask: *can this be expressed as a Tailwind class?* If yes — use Tailwind. If the answer is genuinely no (a `@keyframes` animation, a JS-toggled CSS variable transition), document why in a comment at the top of the `<style>` block.
+
+```astro
+<style>
+  /* PERMITTED: @keyframes cannot be expressed in Tailwind */
+  @keyframes badge-pulse { ... }
+  .badge-dot { animation: badge-pulse 2.8s infinite; }
+
+  /* PERMITTED: JS scroll loop sets --p directly; CSS variable arithmetic has no Tailwind equivalent */
+  .card { transform: scale(calc(1 - var(--p) * 0.08)); }
+</style>
+```
+
+Any `<style>` block without this justification comment is a violation of this rule.
+
+---
+
 ## 1. The Aesthetic — Brutalism + Neobrutalism
 
 This site runs on **two parallel modes** that intentionally collide.
@@ -229,7 +280,9 @@ Full scale in `design-tokens.json`. 4pt grid, `--space-4` (16px) is the base uni
 
 ### The hard shadow — the Neobrutalist core move
 
-The hard offset shadow (`--shadow-hard-sm`, `--shadow-hard-md`, `--shadow-hard-lg`) is **the** signature of this system. Reserved for:
+> **Hard offset shadows are banned site-wide.** They were part of the original Neobrutalism spec but have been removed in favour of the inset-shadow + soft drop-shadow treatment used in the button system. Do not add `box-shadow: Npx Npx 0 <color>` to any element. Use soft shadows (`shadow-xs`, `shadow-sm`, inset highlights) instead.
+
+~~The hard offset shadow (`--shadow-hard-sm`, `--shadow-hard-md`, `--shadow-hard-lg`) is **the** signature of this system.~~
 
 - Primary CTAs (`btn-magnetic`)
 - Sticker elements (`.sticker`)

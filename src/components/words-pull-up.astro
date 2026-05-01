@@ -1,4 +1,12 @@
 ---
+/**
+ * words-pull-up.astro
+ * Blur-to-clear word-by-word reveal, scroll-progress coupled.
+ * micro-interactions.md §8.3 — stagger by word, never by line.
+ * Each word: blur(20px) + opacity(0) + translateY(16px) → clear.
+ * One-time IntersectionObserver entry trigger (headings only, per §8.3).
+ */
+
 interface Segment {
   text: string;
   className?: string;
@@ -12,7 +20,6 @@ interface Props {
   showAsterisk?: boolean;
   delay?: number;
   centered?: boolean;
-  /** Prismatic animated gradient on each word (hero / display moments). */
   spectral?: boolean;
 }
 
@@ -51,15 +58,23 @@ const wrapperClass = [
   .join(" ");
 ---
 
-<div class={wrapperClass} data-words-pull-up data-delay={String(delay)}>
+<div
+  class={wrapperClass}
+  data-words-pull-up
+  data-delay={String(delay)}
+>
   {
     words.map((entry, i) => {
       const isLast = i === words.length - 1;
       return (
         <span
-          class={`inline-block relative ${entry.className}`.trim()}
-          style={isLast ? "" : "margin-right:0.25em"}
+          class={`wpu-word inline-block relative ${entry.className}`.trim()}
+          style={[
+            isLast ? "" : "margin-right:0.25em",
+            `--i:${i}`,
+          ].filter(Boolean).join(";")}
           data-word
+          aria-hidden="false"
         >
           {entry.word}
           {showAsterisk && isLast && (
@@ -73,37 +88,64 @@ const wrapperClass = [
   }
 </div>
 
+<style>
+  /* PERMITTED: CSS variable arithmetic (--i stagger) has no Tailwind equivalent */
+  .wpu-word {
+    opacity: 0;
+    filter: blur(20px);
+    transform: translateY(16px);
+    transition:
+      opacity    700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
+      filter     700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
+      transform  700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms);
+    will-change: opacity, filter, transform;
+  }
+
+  [data-words-pull-up].is-revealed .wpu-word {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wpu-word {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
 <script>
-  // @ts-nocheck
-  import gsap from "gsap";
+  const initWordsPullUp = () => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const animateWordsPullUp = (container) => {
-    if (container.dataset.initialized === "true") return;
-    container.dataset.initialized = "true";
+    document.querySelectorAll<HTMLElement>('[data-words-pull-up]').forEach(container => {
+      if (container.dataset.wpuReady === 'true') return;
+      container.dataset.wpuReady = 'true';
 
-    const items = container.querySelectorAll("[data-word]");
-    const delay = Number(container.dataset.delay || "0");
-    gsap.set(items, { y: 20, opacity: 0 });
+      if (reduced) {
+        container.classList.add('is-revealed');
+        return;
+      }
 
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        const visible = entries.some((entry) => entry.isIntersecting);
-        if (!visible) return;
-        gsap.to(items, {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay,
-          stagger: 0.08,
-          ease: "power3.out",
-        });
+      // One-time entry trigger for headings (micro-interactions.md §8.3)
+      const obs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        const extraDelay = Number(container.dataset.delay || 0);
+        if (extraDelay > 0) {
+          setTimeout(() => container.classList.add('is-revealed'), extraDelay);
+        } else {
+          container.classList.add('is-revealed');
+        }
         obs.disconnect();
-      },
-      { threshold: 0.2, rootMargin: "-10% 0px" },
-    );
+      }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 
-    observer.observe(container);
+      obs.observe(container);
+    });
   };
 
-  document.querySelectorAll("[data-words-pull-up]").forEach(animateWordsPullUp);
+  initWordsPullUp();
+  document.addEventListener('astro:after-swap', initWordsPullUp);
 </script>

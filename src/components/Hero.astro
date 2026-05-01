@@ -115,26 +115,51 @@ const {
 </section>
 
 <script>
-  // @ts-nocheck
-  import gsap from "gsap";
+  // Hero tagline + CTA — scroll-progress coupled blur reveal (micro-interactions.md §8.3)
+  // One-time entry trigger for above-fold elements
+  const initHero = () => {
+    const hero = document.querySelector<HTMLElement>('[data-prisma-hero]');
+    if (!hero || hero.dataset.initialized === 'true') return;
+    hero.dataset.initialized = 'true';
 
-  document.querySelectorAll("[data-prisma-hero]").forEach((hero) => {
-    if (hero.dataset.initialized === "true") return;
-    hero.dataset.initialized = "true";
-
-    const tagline = hero.querySelector("[data-hero-tagline]");
-    const cta = hero.querySelector("[data-hero-cta]");
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tagline = hero.querySelector<HTMLElement>('[data-hero-tagline]');
+    const cta     = hero.querySelector<HTMLElement>('[data-hero-cta]');
     if (!tagline || !cta) return;
 
-    gsap.fromTo(
-      tagline,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out" },
-    );
-    gsap.fromTo(
-      cta,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.7, ease: "power3.out" },
-    );
-  });
+    if (reduced) {
+      tagline.style.opacity = '1';
+      tagline.style.filter  = 'none';
+      tagline.style.transform = 'none';
+      cta.style.opacity = '1';
+      cta.style.filter  = 'none';
+      cta.style.transform = 'none';
+      return;
+    }
+
+    // Set initial state
+    [tagline, cta].forEach(el => {
+      el.style.opacity   = '0';
+      el.style.filter    = 'blur(12px)';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 700ms cubic-bezier(0.16,1,0.3,1), filter 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1)';
+    });
+
+    // Stagger reveal on load (hero is above fold — no scroll needed)
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        tagline.style.opacity   = '1';
+        tagline.style.filter    = 'blur(0)';
+        tagline.style.transform = 'translateY(0)';
+      }, 500);
+      setTimeout(() => {
+        cta.style.opacity   = '1';
+        cta.style.filter    = 'blur(0)';
+        cta.style.transform = 'translateY(0)';
+      }, 700);
+    });
+  };
+
+  initHero();
+  document.addEventListener('astro:after-swap', initHero);
 </script>

@@ -28,22 +28,29 @@
     <header class="col-span-12 md:col-span-9 md:col-start-2">
       <h2
         data-index="02"
-        class="reveal-clip type-h2 m-0 max-w-5xl text-on-background"
+        class="type-h2 m-0 max-w-5xl text-on-background"
         style="letter-spacing:-0.04em"
+        data-words-reveal
+        aria-label="Senior-led by design. Selective by model."
       >
-        <span>Senior-led by design. Selective by model.</span>
+        <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Senior-led</span>
+        <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">by</span>
+        <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">design.</span>
+        <span class="wpu-word inline-block" style="--i:3;margin-right:0.25em" aria-hidden="true">Selective</span>
+        <span class="wpu-word inline-block" style="--i:4;margin-right:0.25em" aria-hidden="true">by</span>
+        <span class="wpu-word inline-block" style="--i:5" aria-hidden="true">model.</span>
       </h2>
     </header>
 
     <div
       class="col-span-12 grid max-w-3xl gap-4 md:col-span-6 md:col-start-4 md:mt-5"
     >
-      <p class="type-body m-0 text-on-background/90">
+      <p class="about-body-el type-body m-0 text-on-background/90">
         Straya Studio is a boutique technical studio led by Salman Ali, taking
         on only two to three projects at a time so every decision stays close to
         the brief.
       </p>
-      <p class="type-body m-0 text-on-background/90">
+      <p class="about-body-el type-body m-0 text-on-background/90">
         We deliver web design, web development, and graphic design across
         Framer, Webflow, and Shopify for founders and teams in the US, Canada,
         UK, Europe, and Australia.
@@ -82,29 +89,34 @@
 </section>
 
 <style>
-  .reveal-clip {
-    display: inline-block;
-    overflow: hidden;
+  /* PERMITTED: CSS variable arithmetic for word stagger */
+  .wpu-word {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(16px);
+    transition:
+      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
   }
-  .reveal-clip > span {
-    display: inline-block;
-    transform: translateY(110%);
-    transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-  }
-  .reveal-clip.in-view > span {
-    transform: translateY(0);
+  [data-words-reveal].is-revealed .wpu-word {
+    opacity: 1; filter: blur(0); transform: translateY(0);
   }
 
   .a-eyebrow-rule {
     width: 0;
     transition: width 720ms cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .a-eyebrow-rule.in-view {
-    width: 32px;
+  .a-eyebrow-rule.in-view { width: 32px; }
+
+  /* Scroll-driven body paragraphs */
+  .about-body-el {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
   }
 
-  /* Ghost CTA — accent text + M3 underline-draw + M4 focus halo */
+  /* Ghost CTA — M3 underline-draw + M4 focus halo */
   .cta-accent {
     text-decoration: none;
     background: transparent;
@@ -125,91 +137,93 @@
     transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .cta-accent:hover .cta-accent__label,
-  .cta-accent:focus-visible .cta-accent__label {
-    background-size: 100% 1px;
-  }
+  .cta-accent:focus-visible .cta-accent__label { background-size: 100% 1px; }
   .cta-accent:hover .cta-accent__arrow,
-  .cta-accent:focus-visible .cta-accent__arrow {
-    transform: translateX(4px);
-  }
-  .cta-accent:focus-visible {
-    outline: 2px solid var(--color-accent, #3ccd7f);
-    outline-offset: 6px;
-  }
+  .cta-accent:focus-visible .cta-accent__arrow { transform: translateX(4px); }
+  .cta-accent:focus-visible { outline: 2px solid var(--color-accent, #3ccd7f); outline-offset: 6px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal-clip > span,
-    .a-eyebrow-rule,
-    .cta-accent,
-    .cta-accent .cta-accent__arrow {
-      transition: none !important;
-    }
+    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
+    .a-eyebrow-rule { transition: none!important; }
+    .about-body-el { opacity:1!important; filter:none!important; transform:none!important; }
+    .cta-accent, .cta-accent .cta-accent__arrow { transition: none!important; }
   }
 </style>
 
 <script>
   const setupAboutEffects = () => {
-    const root = document.querySelector<HTMLElement>("[data-about-effects]");
+    const root = document.querySelector<HTMLElement>('[data-about-effects]');
     if (!root) return;
-    if (root.dataset.aboutFxReady === "true") return;
-    root.dataset.aboutFxReady = "true";
+    if (root.dataset.aboutFxReady === 'true') return;
+    root.dataset.aboutFxReady = 'true';
 
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const clipEls = root.querySelectorAll<HTMLElement>(".reveal-clip");
-    const ruleEl = root.querySelector<HTMLElement>("[data-a-rule]");
-    const counters = root.querySelectorAll<HTMLElement>("[data-count-to]");
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const heading  = root.querySelector<HTMLElement>('[data-words-reveal]');
+    const ruleEl   = root.querySelector<HTMLElement>('[data-a-rule]');
+    const counters = root.querySelectorAll<HTMLElement>('[data-count-to]');
+    const bodyEls  = root.querySelectorAll<HTMLElement>('.about-body-el');
 
     if (reduced) {
-      clipEls.forEach((el) => el.classList.add("in-view"));
-      if (ruleEl) ruleEl.classList.add("in-view");
-      counters.forEach((el) => {
-        el.textContent = el.dataset.countTo ?? el.textContent;
-      });
+      if (heading) heading.classList.add('is-revealed');
+      if (ruleEl)  ruleEl.classList.add('in-view');
+      counters.forEach(el => { el.textContent = el.dataset.countTo ?? el.textContent; });
+      bodyEls.forEach(el => { el.style.opacity = '1'; el.style.filter = 'none'; el.style.transform = 'none'; });
       return;
     }
 
-    // A5 — scroll-triggered (headings + eyebrow rule grow only).
-    const trigIO = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          el.classList.add("in-view");
-          trigIO.unobserve(el);
-        });
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
-    );
-    clipEls.forEach((el) => trigIO.observe(el));
-    if (ruleEl) trigIO.observe(ruleEl);
+    // Heading — one-time entry trigger (§8.3)
+    if (heading) {
+      const obs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        heading.classList.add('is-revealed');
+        obs.disconnect();
+      }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+      obs.observe(heading);
+    }
 
-    // B5 — scroll-coupled counter (progress tied to scroll position 0..1).
-    const updateCounters = () => {
-      const vh = window.innerHeight;
-      counters.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        const raw = 1 - (r.top + r.height) / (vh + r.height);
-        const p = Math.max(0, Math.min(1, raw));
-        const target = parseFloat(el.dataset.countTo ?? "0");
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = String(Math.round(target * eased));
-      });
-    };
+    // Eyebrow rule — one-time entry
+    if (ruleEl) {
+      const obs = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        ruleEl.classList.add('in-view');
+        obs.disconnect();
+      }, { threshold: 0.2 });
+      obs.observe(ruleEl);
+    }
+
+    // Body paragraphs + credentials — scroll-progress coupled (§8.5)
     let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        updateCounters();
+    const vh = () => window.innerHeight;
+
+    const updateBodyEls = () => {
+      raf = 0;
+      bodyEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh() - rect.top) / (vh() * 0.6)));
+        el.style.opacity   = p.toFixed(3);
+        el.style.filter    = `blur(${((1 - p) * 4).toFixed(1)}px)`;
+        el.style.transform = `translateY(${((1 - p) * 20).toFixed(1)}px)`;
       });
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(updateBodyEls); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    updateBodyEls();
+
+    // B5 counters — scroll-progress coupled
+    const updateCounters = () => {
+      counters.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const p = Math.max(0, Math.min(1, 1 - (r.top + r.height) / (vh() + r.height)));
+        const target = parseFloat(el.dataset.countTo ?? '0');
+        el.textContent = String(Math.round((1 - Math.pow(1 - p, 3)) * target));
+      });
+    };
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(updateCounters); }, { passive: true });
     updateCounters();
   };
 
   setupAboutEffects();
-  document.addEventListener("astro:after-swap", setupAboutEffects);
+  document.addEventListener('astro:after-swap', setupAboutEffects);
 </script>

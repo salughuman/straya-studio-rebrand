@@ -1,11 +1,16 @@
 ---
+/**
+ * Testimonials.astro — Straya Studio
+ * Mode: Neobrutalism (accent green ground — design-system.md §1)
+ * Compliance: design-system.md §1,§5,§8 | production-aesthetic.md A3 | micro-interactions.md §8.1,§8.3,§8.5 M3,M4,M7
+ */
+
 const baseUrl = import.meta.env.BASE_URL;
 
 const featured = {
   name: "Sergio Apollo",
   role: "CEO, Better Match",
-  quote:
-    "From kickoff to launch, every decision felt intentional. The quality of execution and communication stayed consistent the whole way through.",
+  quote: "From kickoff to launch, every decision felt intentional. The quality of execution and communication stayed consistent the whole way through.",
   videoSrc: `${baseUrl}videos/testimonials/sergio-apollo.webm`,
 };
 
@@ -26,32 +31,28 @@ const highlightQuote = (quote: string) => {
 
 const preferredTestimonials = [
   {
-    quote:
-      "One of the best web designers and developers I have worked with. I would recommend Straya Studio to anyone serious about quality.",
+    quote: "One of the best web designers and developers I have worked with. I would recommend Straya Studio to anyone serious about quality.",
     name: "Dejan Djokovic",
     role: "Founder",
     country: "Canada",
     company: "",
   },
   {
-    quote:
-      "Helpful from the initial brief through delivery. Timelines and feedback were always respected and the final result matched the vision.",
+    quote: "Helpful from the initial brief through delivery. Timelines and feedback were always respected and the final result matched the vision.",
     name: "Luca Sartorello",
     role: "Founder",
     country: "Italy",
     company: "",
   },
   {
-    quote:
-      "Strong communication under pressure. Every revision sharpened the product instead of adding noise.",
+    quote: "Strong communication under pressure. Every revision sharpened the product instead of adding noise.",
     name: "Oliver Montgomery",
     role: "Founder",
     country: "United States",
     company: "Bluefin Studio",
   },
   {
-    quote:
-      "Patient, dependable, and committed from kickoff to launch. The process felt senior-led from day one.",
+    quote: "Patient, dependable, and committed from kickoff to launch. The process felt senior-led from day one.",
     name: "Omar Bran",
     role: "Founder",
     country: "Australia",
@@ -63,8 +64,8 @@ const preferredTestimonials = [
 <section
   id="testimonials"
   aria-labelledby="testimonials-heading"
-  class="section-y t-accent-section relative overflow-hidden"
-  data-mode="brutalism"
+  class="t-section py-16 md:py-20 relative overflow-hidden"
+  data-mode="neobrutalism"
   data-testimonials-root
 >
   <p class="sr-only">
@@ -73,27 +74,35 @@ const preferredTestimonials = [
   </p>
 
   <div class="main-container relative z-10">
+
+    <!-- Header -->
     <header class="mb-10 md:mb-14">
-      <p
-        class="m-0 type-label-small font-mono uppercase tracking-[0.08em] text-[#0A0A0A]/65"
-        aria-hidden="true"
-      >
+      <p class="m-0 type-label font-mono uppercase tracking-[0.08em] text-on-secondary/60" aria-hidden="true">
         [05] / Testimonials
       </p>
+      <!-- H2 — word blur-to-clear reveal (micro-interactions.md §8.3) -->
       <h2
         id="testimonials-heading"
-        class="type-h2 m-0 mt-3 max-w-[16ch] text-[#0A0A0A]"
+        class="type-h2 m-0 mt-3 max-w-[16ch] text-on-secondary"
+        data-words-reveal
+        aria-label="Founder proof, in motion."
       >
-        Founder proof,<br />in motion.
+        <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Founder</span>
+        <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">proof,</span>
+        <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">in</span>
+        <span class="wpu-word inline-block" style="--i:3" aria-hidden="true">motion.</span>
       </h2>
     </header>
 
+    <!-- Stage -->
     <div class="t-stage relative">
+
+      <!-- Featured video -->
       <figure
         class="t-featured-card relative z-20 m-0"
         aria-label={`Featured video testimonial from ${featured.name}, ${featured.role}`}
       >
-        <div class="t-video-frame relative overflow-hidden bg-[#070707]">
+        <div class="t-video-frame relative overflow-hidden bg-[#070707] shadow-[0_24px_48px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(225,224,204,0.12)]">
           <video
             class="absolute inset-0 h-full w-full object-cover"
             controls
@@ -108,8 +117,8 @@ const preferredTestimonials = [
             <source src={featured.videoSrc} type="video/webm" />
             Your browser does not support HTML5 video.
           </video>
-          <div class="t-video-slate" aria-hidden="true"></div>
-          <div class="t-video-vignette" aria-hidden="true"></div>
+          <!-- Hard-edge linear scrim — no radial gradients (production-aesthetic.md A3) -->
+          <div class="t-video-scrim" aria-hidden="true"></div>
           <div class="t-frame-identity" aria-hidden="true">
             <p class="m-0 t-frame-name">{featured.name}</p>
             <p class="m-0 t-frame-role">{featured.role}</p>
@@ -117,111 +126,115 @@ const preferredTestimonials = [
         </div>
       </figure>
 
+      <!-- Carousel — M7 marquee hover-pause (micro-interactions.md §2) -->
       <div class="t-carousel-shell relative z-10" aria-hidden="true">
-        <div class="t-carousel-track">
-          <div class="t-carousel-group">
-            {preferredTestimonials.map((item) => (
-              <article class="t-card">
-                <p class="m-0 t-card-quote">
-                  <span set:html={`&ldquo;${highlightQuote(item.quote)}&rdquo;`}></span>
-                </p>
-                <footer class="t-card-meta mt-5">
-                  <p class="m-0 t-card-name type-label">{item.name}</p>
-                  <div class="t-card-submeta">
-                    <p class="m-0 t-card-role type-label-small font-mono uppercase tracking-[0.08em]">
-                      {item.company ? `${item.role}, ${item.company}` : item.role}
-                    </p>
-                    <p class="m-0 t-card-country type-label-small font-mono uppercase tracking-[0.08em]">
-                      {item.country}
-                    </p>
-                  </div>
-                </footer>
-              </article>
-            ))}
-          </div>
-          <div class="t-carousel-group">
-            {preferredTestimonials.map((item) => (
-              <article class="t-card">
-                <p class="m-0 t-card-quote">
-                  <span set:html={`&ldquo;${highlightQuote(item.quote)}&rdquo;`}></span>
-                </p>
-                <footer class="t-card-meta mt-5">
-                  <p class="m-0 t-card-name type-label">{item.name}</p>
-                  <div class="t-card-submeta">
-                    <p class="m-0 t-card-role type-label-small font-mono uppercase tracking-[0.08em]">
-                      {item.company ? `${item.role}, ${item.company}` : item.role}
-                    </p>
-                    <p class="m-0 t-card-country type-label-small font-mono uppercase tracking-[0.08em]">
-                      {item.country}
-                    </p>
-                  </div>
-                </footer>
-              </article>
-            ))}
-          </div>
+        <div class="t-carousel-track" data-marquee-track>
+          {[0, 1].map(() => (
+            <div class="t-carousel-group">
+              {preferredTestimonials.map((item) => (
+                <article class="t-card">
+                  <p class="m-0 t-card-quote">
+                    <span set:html={`\u201c${highlightQuote(item.quote)}\u201d`}></span>
+                  </p>
+                  <footer class="t-card-meta mt-5">
+                    <p class="m-0 t-card-name type-label">{item.name}</p>
+                    <div class="t-card-submeta">
+                      <p class="m-0 t-card-role type-label font-mono uppercase tracking-[0.08em] opacity-60">
+                        {item.company ? `${item.role}, ${item.company}` : item.role}
+                      </p>
+                      <p class="m-0 t-card-country type-label font-mono uppercase tracking-[0.1em]">
+                        {item.country}
+                      </p>
+                    </div>
+                  </footer>
+                </article>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
+
     </div>
 
+    <!-- CTA — M3 underline draw (micro-interactions.md §2) -->
     <div class="mt-8 md:mt-10 flex justify-end">
       <a
         href={`${baseUrl}testimonials`}
-        class="t-cta inline-flex items-center gap-2 type-label-small font-mono uppercase tracking-[0.08em]"
+        class="t-cta inline-flex items-center gap-2 type-label font-mono uppercase tracking-[0.08em] text-on-secondary no-underline"
       >
         <span class="t-cta__label">View all testimonials</span>
         <span aria-hidden="true">→</span>
       </a>
     </div>
+
   </div>
 </section>
 
 <style>
-  .t-accent-section {
+  /* PERMITTED: complex pseudo-elements, :global, @keyframes — no Tailwind equivalent */
+
+  /* ── Section ground — Neobrutalism accent ─────────────────── */
+  .t-section {
     background: var(--color-accent, #3ccd7f);
     position: relative;
     z-index: 2;
   }
 
   @media (min-width: 1024px) {
-    /* C2 color carry — overlap with TheStrayaMethod's hard-edge accent takeover */
-    .t-accent-section {
-      margin-top: -6rem;
-    }
+    .t-section { margin-top: -6rem; } /* C2 bridge from TheStrayaMethod */
   }
 
-  .t-stage {
-    min-height: clamp(30rem, 56vw, 40rem);
+  /* ── H2 word reveal ───────────────────────────────────────── */
+  .wpu-word {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(16px);
+    transition:
+      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
+      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
+  }
+  [data-words-reveal].is-revealed .wpu-word {
+    opacity: 1; filter: blur(0); transform: translateY(0);
   }
 
-  .t-featured-card {
-    width: min(100%, 23rem);
-  }
+  /* ── Stage ────────────────────────────────────────────────── */
+  .t-stage { min-height: clamp(20rem, 40vw, 28rem); }
+  .t-featured-card { width: min(100%, 18rem); }
 
-  .t-video-frame {
-    aspect-ratio: 3 / 4;
-    box-shadow:
-      0 18px 42px rgba(10, 10, 10, 0.35),
-      inset 0 0 0 1px rgba(225, 224, 204, 0.2);
+  .t-video-frame { aspect-ratio: 3 / 4; }
+
+  /* Hard-edge linear scrim — no radial gradients (production-aesthetic.md A3) */
+  .t-video-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(7,7,7,0.4) 0%,
+      rgba(7,7,7,0) 35%,
+      rgba(7,7,7,0) 65%,
+      rgba(7,7,7,0.3) 100%
+    );
+    z-index: 1;
   }
 
   .t-frame-identity {
     position: absolute;
     left: 0.75rem;
     top: 0.75rem;
-    color: rgba(225, 224, 204, 0.92);
-    background: rgba(10, 10, 10, 0.58);
+    color: rgba(225,224,204,0.92);
+    background: rgba(10,10,10,0.58);
     backdrop-filter: blur(3px);
     padding: 0.45rem 0.6rem;
     z-index: 3;
   }
-
   .t-frame-name {
     font-size: 0.78rem;
     line-height: 1;
     letter-spacing: -0.01em;
     font-weight: 700;
   }
-
   .t-frame-role {
     margin-top: 0.2rem;
     font-family: var(--font-mono, ui-monospace, monospace);
@@ -229,73 +242,46 @@ const preferredTestimonials = [
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: rgba(225, 224, 204, 0.78);
+    color: rgba(225,224,204,0.78);
   }
 
-  .t-video-slate {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(120% 80% at 18% 8%, rgba(225, 224, 204, 0.08) 0%, rgba(225, 224, 204, 0) 45%),
-      linear-gradient(180deg, rgba(10, 10, 10, 0.22) 0%, rgba(10, 10, 10, 0.02) 38%, rgba(10, 10, 10, 0.22) 100%);
-    z-index: 1;
-  }
-
-  .t-video-vignette {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(180deg, rgba(7, 7, 7, 0.38) 0%, rgba(7, 7, 7, 0.05) 32%, rgba(7, 7, 7, 0.22) 100%);
-    z-index: 2;
-  }
-
+  /* ── Carousel — M7 marquee hover-pause ───────────────────── */
   .t-carousel-shell {
     margin-top: 2rem;
     position: relative;
     overflow: hidden;
+    --marquee-state: running;
   }
 
+  /* Fade edges — hard-edge linear gradients only (A3) */
   .t-carousel-shell::before,
   .t-carousel-shell::after {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: clamp(4rem, 10vw, 8rem);
+    top: 0; bottom: 0;
     pointer-events: none;
     z-index: 15;
   }
-
   .t-carousel-shell::before {
     left: 0;
-    background: linear-gradient(
-      90deg,
-      var(--color-accent, #3ccd7f) 0%,
-      rgba(60, 205, 127, 0.92) 24%,
-      rgba(60, 205, 127, 0.62) 52%,
-      rgba(60, 205, 127, 0) 100%
-    );
+    width: clamp(4rem, 10vw, 8rem);
+    background: linear-gradient(90deg, var(--color-accent, #3ccd7f) 0%, rgba(60,205,127,0) 100%);
   }
-
   .t-carousel-shell::after {
     right: 0;
-    width: clamp(1.4rem, 3.8vw, 2.6rem);
-    background: linear-gradient(
-      270deg,
-      rgba(60, 205, 127, 0.46) 0%,
-      rgba(60, 205, 127, 0.22) 34%,
-      rgba(60, 205, 127, 0.08) 62%,
-      rgba(60, 205, 127, 0) 100%
-    );
+    width: clamp(2rem, 5vw, 4rem);
+    background: linear-gradient(270deg, var(--color-accent, #3ccd7f) 0%, rgba(60,205,127,0) 100%);
   }
+
+  /* M7 — pause on hover */
+  .t-carousel-shell:hover { --marquee-state: paused; }
 
   .t-carousel-track {
     display: flex;
     width: max-content;
     align-items: stretch;
     animation: testimonials-marquee 44.2s linear infinite;
+    animation-play-state: var(--marquee-state);
     will-change: transform;
   }
 
@@ -305,16 +291,18 @@ const preferredTestimonials = [
     padding-right: 1rem;
   }
 
+  /* ── Cards — soft shadow, no hard offset ─────────────────── */
   .t-card {
     position: relative;
     width: clamp(16rem, 24vw, 21rem);
     min-height: 12.5rem;
-    background: rgba(10, 10, 10, 0.94);
+    background: rgba(10,10,10,0.92);
     color: #e1e0cc;
     padding: 1.1rem 1.15rem;
+    /* Soft shadow + inset highlight — no hard offset (design-system.md §7) */
     box-shadow:
-      0 10px 20px rgba(0, 0, 0, 0.24),
-      inset 0 0 0 1px rgba(225, 224, 204, 0.11);
+      0 8px 24px rgba(0,0,0,0.28),
+      inset 0 1px 0 rgba(225,224,204,0.08);
   }
 
   .t-card-quote {
@@ -323,128 +311,74 @@ const preferredTestimonials = [
     letter-spacing: -0.01em;
   }
 
+  /* Keyword highlight — scroll-progress coupled (§8.5) */
   :global(.t-keyword) {
     color: #e1e0cc;
     background-image: linear-gradient(
       180deg,
-      rgba(60, 205, 127, 0) 0%,
-      rgba(60, 205, 127, 0) 62%,
-      rgba(60, 205, 127, 0.35) 62%,
-      rgba(60, 205, 127, 0.35) 100%
+      rgba(60,205,127,0) 62%,
+      rgba(60,205,127,0.35) 62%
     );
     background-repeat: no-repeat;
     background-size: 0% 100%;
     text-decoration: underline;
-    text-decoration-color: rgba(60, 205, 127, 0.82);
+    text-decoration-color: rgba(60,205,127,0.82);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
-    transition:
-      background-size 560ms cubic-bezier(0.16, 1, 0.3, 1),
-      text-decoration-color 300ms ease;
+    transition: background-size 560ms cubic-bezier(0.16,1,0.3,1);
   }
-
-  .t-accent-section.is-inview :global(.t-keyword) {
+  .t-section.is-inview :global(.t-keyword) {
     background-size: 100% 100%;
-    text-decoration-color: rgba(60, 205, 127, 0.98);
   }
 
-  .t-card-meta {
-    padding-top: 0.35rem;
-    display: grid;
-    gap: 0.3rem;
-  }
-
-  .t-card-submeta {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .t-card-name {
-    color: #e1e0cc;
-  }
-
-  .t-card-role {
-    color: rgba(225, 224, 204, 0.66);
-  }
-
+  .t-card-meta { padding-top: 0.35rem; display: grid; gap: 0.3rem; }
+  .t-card-submeta { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+  .t-card-name  { color: #e1e0cc; }
+  .t-card-role  { color: rgba(225,224,204,0.66); }
   .t-card-country {
-    color: rgba(225, 224, 204, 0.92);
+    color: rgba(225,224,204,0.92);
     text-align: right;
     white-space: nowrap;
-    letter-spacing: 0.1em;
-    line-height: 1.1;
-    font-weight: 600;
     position: relative;
     padding-left: 0.55rem;
   }
-
   .t-card-country::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0.3rem;
-    height: 1px;
-    background: rgba(60, 205, 127, 0.95);
+    left: 0; top: 50%;
+    width: 0.3rem; height: 1px;
+    background: rgba(60,205,127,0.95);
     transform: translateY(-50%);
   }
 
-  .t-cta {
-    text-decoration: none;
-    color: #0a0a0a;
-    background: rgba(225, 224, 204, 0.88);
-    padding: 0.55rem 0.75rem;
-    transition: background-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
-      color 220ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
+  /* ── CTA — M3 underline draw ──────────────────────────────── */
+  .t-cta { text-decoration: none; }
   .t-cta__label {
     background-image: linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 1px;
-    transition: background-size 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background-size 240ms cubic-bezier(0.16,1,0.3,1);
     padding-bottom: 2px;
   }
-
-  .t-cta:hover,
-  .t-cta:focus-visible {
-    background: #0a0a0a;
-    color: #e1e0cc;
-  }
-
   .t-cta:hover .t-cta__label,
-  .t-cta:focus-visible .t-cta__label {
-    background-size: 100% 1px;
-  }
-
+  .t-cta:focus-visible .t-cta__label { background-size: 100% 1px; }
   .t-cta:focus-visible {
-    outline: 2px solid #0a0a0a;
+    outline: 2px solid rgba(10,10,10,0.8);
     outline-offset: 4px;
   }
 
+  /* ── Desktop layout ───────────────────────────────────────── */
   @media (min-width: 1024px) {
     .t-stage {
-      --t-featured-width: 23rem;
+      --t-featured-width: 18rem;
       --t-featured-height: calc(var(--t-featured-width) * 4 / 3);
       display: grid;
       grid-template-columns: var(--t-featured-width) 1fr;
       align-items: start;
-      gap: 0;
     }
-
-    .t-featured-card {
-      position: relative;
-      height: var(--t-featured-height);
-    }
-
-    .t-video-frame {
-      height: 100%;
-      aspect-ratio: auto;
-    }
-
+    .t-featured-card { position: relative; height: var(--t-featured-height); }
+    .t-video-frame   { height: 100%; aspect-ratio: auto; }
     .t-carousel-shell {
       margin-top: 0;
       margin-left: -5.5rem;
@@ -452,85 +386,64 @@ const preferredTestimonials = [
       height: var(--t-featured-height);
       align-self: stretch;
     }
-
     .t-carousel-track,
-    .t-carousel-group {
-      height: 100%;
-    }
-
-    .t-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    .t-carousel-group { height: 100%; }
+    .t-card { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
   }
 
   @keyframes testimonials-marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
+  /* ── Reduced motion ───────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .t-carousel-track {
-      animation: none;
-      transform: none;
-    }
-    :global(.t-keyword) {
-      transition: none !important;
-      background-size: 100% 100%;
-    }
-    .t-cta,
-    .t-cta__label {
-      transition: none !important;
-    }
+    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
+    .t-carousel-track { animation: none; transform: none; }
+    :global(.t-keyword) { transition: none!important; background-size: 100% 100%; }
+    .t-cta__label { transition: none!important; }
   }
 </style>
 
 <script>
-  const setupTestimonialsEnterFx = () => {
-    const root = document.querySelector<HTMLElement>("[data-testimonials-root]");
-    if (!root) return;
-    if (root.dataset.enterFxReady === "true") return;
-    root.dataset.enterFxReady = "true";
+  const setup = () => {
+    const root = document.querySelector<HTMLElement>('[data-testimonials-root]');
+    if (!root || root.dataset.tReady === 'true') return;
+    root.dataset.tReady = 'true';
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      root.classList.add("is-inview");
-      return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── H2 word reveal — one-time entry (§8.3) ─────────────────
+    const heading = root.querySelector<HTMLElement>('[data-words-reveal]');
+    if (heading) {
+      if (reduced) {
+        heading.classList.add('is-revealed');
+      } else {
+        const obs = new IntersectionObserver(entries => {
+          if (!entries[0].isIntersecting) return;
+          heading.classList.add('is-revealed');
+          obs.disconnect();
+        }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+        obs.observe(heading);
+      }
     }
 
-    const trigger = () => {
-      root.classList.add("is-inview");
-    };
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          trigger();
-          io.disconnect();
-        });
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
-    );
-
-    io.observe(root);
-
-    // Fallback for cases where observer timing misses initial viewport state.
-    const rect = root.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const alreadyInView = rect.top < vh * 0.82 && rect.bottom > vh * 0.2;
-    if (alreadyInView) {
-      trigger();
-      io.disconnect();
+    // ── Keyword highlight — scroll-progress coupled (§8.5) ─────
+    if (reduced) {
+      root.classList.add('is-inview');
+    } else {
+      let raf = 0;
+      const update = () => {
+        raf = 0;
+        const rect = root.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight * 0.8)));
+        if (p > 0.1) root.classList.add('is-inview');
+      };
+      window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+      update();
     }
   };
 
-  setupTestimonialsEnterFx();
-  document.addEventListener("astro:after-swap", setupTestimonialsEnterFx);
+  setup();
+  document.addEventListener('astro:after-swap', setup);
 </script>

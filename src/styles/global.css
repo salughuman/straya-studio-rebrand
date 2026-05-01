@@ -23,7 +23,6 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
-
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
@@ -110,26 +109,13 @@
 }
 
 @layer components {
-	/* Frosted-glass section surface with no section tint/fill. */
+	/* Dark section surface — solid, consistent, no separation between adjacent dark sections */
 	.section-frosted {
 		position: relative;
 		isolation: isolate;
-		background: transparent !important;
-	}
-
-	@supports (backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px)) {
-		.section-frosted {
-			-webkit-backdrop-filter: blur(28px);
-			backdrop-filter: blur(28px);
-		}
-	}
-
-	/* Performance: drop the blur on small screens to avoid mobile compositing cost. */
-	@media (max-width: 809px) {
-		.section-frosted {
-			-webkit-backdrop-filter: blur(16px);
-			backdrop-filter: blur(16px);
-		}
+		background-color: #0A0A0A !important;
+		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none !important;
 	}
 
 	/* Cinematic Depth Classes */
