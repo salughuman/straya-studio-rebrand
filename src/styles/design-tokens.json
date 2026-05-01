@@ -29,24 +29,24 @@
             "_comment": "Raw values. Never consumed directly by components.",
 
             "color": {
-                "ink900": "#050505",
-                "ink800": "#0A0A0A",
-                "ink700": "#131313",
-                "ink600": "#1C1C1C",
-                "ink500": "#2A2A2A",
-                "bone100": "#FFFEF7",
-                "bone200": "#F5F3E4",
-                "bone300": "#E1E0CC",
-                "bone400": "#B5B4A3",
-                "bone500": "#7A7A6E",
-                "accent300": "#6FE3A4",
-                "accent500": "#3CCD7F",
-                "accent700": "#1F8F55",
+                "ink900": "#000000",
+                "ink800": "#140E09",
+                "ink700": "#1F140D",
+                "ink600": "#382416",
+                "ink500": "#5A3A24",
+                "bone100": "#FFEDD7",
+                "bone200": "#FFF4EB",
+                "bone300": "#FFEDD7",
+                "bone400": "rgba(255,237,215,0.72)",
+                "bone500": "rgba(255,237,215,0.48)",
+                "accent300": "#FF7A2E",
+                "accent500": "#DC5000",
+                "accent700": "#B84300",
                 "accent2_300": "#FF8A7E",
-                "accent2_500": "#FF4F3D",
+                "accent2_500": "#E74C3C",
                 "accent2_700": "#C42B1C",
-                "signalYellow": "#FFE03A",
-                "signalBlue": "#2D5BFF"
+                "signalYellow": "#F39C12",
+                "signalBlue": "#3498DB"
             },
 
             "typography": {
@@ -425,120 +425,120 @@
         "_comment": "Flat-shape view of the palette for legacy Tailwind consumers. NEW components should consume semantic tokens via CSS variables, not these.",
 
         "primary": {
-            "DEFAULT":     "#E1E0CC",
-            "container":   "#F5F3E4",
-            "on":          "#0A0A0A",
-            "onContainer":"#050505",
-            "fixed":       "#FFFEF7",
-            "fixedDim":    "#E1E0CC"
+            "DEFAULT":     "#FFEDD7",
+            "container":   "#FFF4EB",
+            "on":          "#000000",
+            "onContainer":"#000000",
+            "fixed":       "#FFF4EB",
+            "fixedDim":    "#FFEDD7"
         },
 
         "secondary": {
-            "DEFAULT":     "#3CCD7F",
-            "container":   "#6FE3A4",
-            "on":          "#050505",
-            "onContainer":"#050505",
-            "fixed":       "#6FE3A4",
-            "fixedDim":    "#1F8F55"
+            "DEFAULT":     "#DC5000",
+            "container":   "#FF7A2E",
+            "on":          "#000000",
+            "onContainer":"#000000",
+            "fixed":       "#FF7A2E",
+            "fixedDim":    "#B84300"
         },
 
         "tertiary": {
-            "DEFAULT":     "#FF4F3D",
+            "DEFAULT":     "#E74C3C",
             "container":   "#FF8A7E",
-            "on":          "#FFFEF7",
-            "onContainer":"#FFFEF7",
+            "on":          "#000000",
+            "onContainer":"#000000",
             "fixed":       "#FF8A7E",
             "fixedDim":    "#C42B1C"
         },
 
         "signal": {
-            "yellow":      "#FFE03A",
-            "blue":        "#2D5BFF"
+            "yellow":      "#F39C12",
+            "blue":        "#3498DB"
         },
 
         "error": {
-            "DEFAULT":     "#FF4F3D",
+            "DEFAULT":     "#E74C3C",
             "container":   "#FF8A7E",
-            "on":          "#FFFEF7",
-            "onContainer":"#410002"
+            "on":          "#000000",
+            "onContainer":"#3D1600"
         },
 
         "background": {
-            "DEFAULT":            "#0A0A0A",
-            "surface":            "#0A0A0A",
-            "surfaceDim":         "#050505",
-            "surfaceBright":      "#131313",
-            "containerLowest":    "#0A0A0A",
-            "containerLow":       "#131313",
-            "container":          "#1C1C1C",
-            "containerHigh":      "#2A2A2A",
-            "containerHighest":   "#2A2A2A",
-            "inverted":           "#E1E0CC",
-            "inverseOnInverted":  "#050505"
+            "DEFAULT":            "#000000",
+            "surface":            "#000000",
+            "surfaceDim":         "#140E09",
+            "surfaceBright":      "#1F140D",
+            "containerLowest":    "#000000",
+            "containerLow":       "#140E09",
+            "container":          "#382416",
+            "containerHigh":      "#5A3A24",
+            "containerHighest":   "#5A3A24",
+            "inverted":           "#FFEDD7",
+            "inverseOnInverted":  "#000000"
         },
 
         "onBackground": {
-            "DEFAULT":  "#E1E0CC",
-            "variant":  "#B5B4A3",
-            "strong":   "#FFFEF7"
+            "DEFAULT":  "#FFEDD7",
+            "variant":  "rgba(255,237,215,0.72)",
+            "strong":   "#FFEDD7"
         },
 
         "onSurface": {
-            "DEFAULT":   "#E1E0CC",
-            "variant":   "#B5B4A3",
-            "inverse":   "#050505",
-            "disabled":  "#7A7A6E"
+            "DEFAULT":   "#FFEDD7",
+            "variant":   "rgba(255,237,215,0.72)",
+            "inverse":   "#000000",
+            "disabled":  "rgba(255,237,215,0.48)"
         },
 
         "outline": {
-            "DEFAULT":  "#2A2A2A",
-            "variant":  "#1C1C1C",
-            "strong":   "#E1E0CC",
-            "accent":   "#3CCD7F"
+            "DEFAULT":  "#5A3A24",
+            "variant":  "#382416",
+            "strong":   "#FFEDD7",
+            "accent":   "#DC5000"
         },
 
         "inverse": {
-            "surface":   "#E1E0CC",
-            "onSurface": "#050505",
-            "primary":   "#0A0A0A"
+            "surface":   "#FFEDD7",
+            "onSurface": "#000000",
+            "primary":   "#000000"
         },
 
-        "surfaceTint": "#131313",
+        "surfaceTint": "#1F140D",
 
-        "accent": "#3CCD7F",
-        "accent2": "#FF4F3D",
-        "mark":    "#FFE03A",
+        "accent": "#DC5000",
+        "accent2": "#E74C3C",
+        "mark":    "#F39C12",
 
         "status": {
-            "_comment": "Status colors mapped onto the brutalist palette — no out-of-system pastels.",
-            "success": "#3CCD7F",
-            "warning": "#FFE03A",
-            "error":   "#FF4F3D",
-            "info":    "#2D5BFF"
+            "_comment": "Status colors mapped onto the warm brown palette.",
+            "success": "#2ECC71",
+            "warning": "#F39C12",
+            "error":   "#E74C3C",
+            "info":    "#3498DB"
         },
 
         "border": {
-            "_comment": "Cream-on-dark transparency border tokens for subtle UI dividers in dark sections.",
-            "default": "rgba(225, 224, 204, 0.12)",
-            "subtle":  "rgba(225, 224, 204, 0.08)",
-            "strong":  "rgba(225, 224, 204, 0.22)",
-            "outline": "#3CCD7F"
+            "_comment": "Warm-on-dark transparency border tokens for subtle UI dividers in dark sections.",
+            "default": "rgba(255,237,215,0.16)",
+            "subtle":  "rgba(255,237,215,0.08)",
+            "strong":  "rgba(255,237,215,0.22)",
+            "outline": "#DC5000"
         },
 
         "text": {
-            "primary":   "#E1E0CC",
-            "secondary": "#B5B4A3",
-            "inverse":   "#050505",
-            "muted":     "#7A7A6E",
-            "strong":    "#FFFEF7",
-            "accent":    "#3CCD7F"
+            "primary":   "#FFEDD7",
+            "secondary": "rgba(255,237,215,0.72)",
+            "inverse":   "#000000",
+            "muted":     "rgba(255,237,215,0.48)",
+            "strong":    "#FFEDD7",
+            "accent":    "#DC5000"
         },
 
         "shadow": {
             "_comment": "Hard offset shadow colors — the Neobrutalist signature.",
-            "hard":    "#050505",
-            "accent":  "#3CCD7F",
-            "accent2": "#FF4F3D"
+            "hard":    "#000000",
+            "accent":  "#DC5000",
+            "accent2": "#E74C3C"
         }
     },
 
@@ -606,7 +606,7 @@
             "lineHeight":    "0.88",
             "letterSpacing": "-0.04em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#FFFEF7"
+            "color":         "#FFEDD7"
         },
         "h1": {
             "_comment": "Section opener (when not the hero). Display-lg + black weight.",
@@ -616,7 +616,7 @@
             "letterSpacing": "-0.04em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "h2": {
             "_comment": "Major section heading. Display-md + black weight.",
@@ -626,7 +626,7 @@
             "letterSpacing": "-0.03em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "h3": {
             "_comment": "Card and subsection heading. Display-sm + black weight.",
@@ -636,7 +636,7 @@
             "letterSpacing": "-0.03em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textWrap":      "balance",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "h4": {
             "_comment": "Minor heading — feature titles, pricing tier names. text-lg + bold.",
@@ -645,7 +645,7 @@
             "lineHeight":    "1.15",
             "letterSpacing": "-0.02em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "h5": {
             "_comment": "Small heading — sidebar titles, accordion headers. text-md + bold.",
@@ -654,7 +654,7 @@
             "lineHeight":    "1.20",
             "letterSpacing": "-0.02em",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "h6": {
             "_comment": "Micro heading — metadata labels, table headers. text-base + bold.",
@@ -663,7 +663,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0",
             "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "lead": {
             "_comment": "Hero subheading / intro paragraph. text-md + regular.",
@@ -672,7 +672,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0",
             "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "body": {
             "_comment": "Default body. Capped at 60ch line length. text-base + regular.",
@@ -683,7 +683,7 @@
             "fontFamily":    "'Instrument Sans', sans-serif",
             "maxWidth":      "60ch",
             "textWrap":      "pretty",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "bodyLarge": {
             "_comment": "Compatibility alias for existing Tailwind utility (.type-body-large). Mirrors lead scale.",
@@ -692,7 +692,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0",
             "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "bodySmall": {
             "_comment": "Small body — supporting copy, footnotes. text-sm + regular.",
@@ -701,7 +701,7 @@
             "lineHeight":    "1.55",
             "letterSpacing": "0",
             "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "caption": {
             "_comment": "Image captions, timestamps, helper text. Mono — brutalist treatment.",
@@ -710,7 +710,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "eyebrow": {
             "_comment": "Section labels, status badges, metric labels. Mono + uppercase + allcaps tracking.",
@@ -720,7 +720,7 @@
             "letterSpacing": "0.08em",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
             "textTransform": "uppercase",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "label": {
             "_comment": "Form labels, nav links. Mono + medium.",
@@ -729,7 +729,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0.04em",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "labelUppercase": {
             "_comment": "Same as eyebrow but tinted to fg (not muted). Used on active states.",
@@ -739,7 +739,7 @@
             "letterSpacing": "0.08em",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
             "textTransform": "uppercase",
-            "color":         "#E1E0CC"
+            "color":         "#FFEDD7"
         },
         "labelSmall": {
             "_comment": "Compatibility alias for tiny uppercase labels used in badges/captions.",
@@ -749,7 +749,7 @@
             "letterSpacing": "0.08em",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
             "textTransform": "uppercase",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "meta": {
             "_comment": "Brutalist annotation — coordinates, version stamps, build numbers, [01] index marks.",
@@ -758,7 +758,7 @@
             "lineHeight":    "1.25",
             "letterSpacing": "0",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "mono": {
             "_comment": "Inline code, version strings, technical metadata.",
@@ -767,7 +767,7 @@
             "lineHeight":    "1.55",
             "letterSpacing": "0",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "#B5B4A3"
+            "color":         "rgba(255,237,215,0.72)"
         },
         "button": {
             "_comment": "All button labels — uppercase, allcaps tracking, mono. Used on CTAs and nav buttons.",
@@ -780,8 +780,8 @@
         },
         "mark": {
             "_comment": "Highlighted phrase inside body copy — Neobrutalist <mark> styling.",
-            "background": "#FFE03A",
-            "color":      "#050505",
+            "background": "#F39C12",
+            "color":      "#000000",
             "fontWeight": "700",
             "padX":       "0.2em"
         },
@@ -942,14 +942,14 @@
 
         "shadowHard": {
             "_comment": "Neobrutalist hard offset shadow. NEVER on body text or section containers. Use stack ≤ 1 per page.",
-            "sm":      "4px 4px 0 #050505",
-            "md":      "8px 8px 0 #050505",
-            "lg":      "12px 12px 0 #050505",
-            "accentSm":"4px 4px 0 #3CCD7F",
-            "accentMd":"8px 8px 0 #3CCD7F",
-            "accentLg":"12px 12px 0 #3CCD7F",
-            "accent2Md":"8px 8px 0 #FF4F3D",
-            "stack":   "8px 8px 0 #E1E0CC, 16px 16px 0 #3CCD7F"
+            "sm":      "4px 4px 0 #000000",
+            "md":      "8px 8px 0 #000000",
+            "lg":      "12px 12px 0 #000000",
+            "accentSm":"4px 4px 0 #DC5000",
+            "accentMd":"8px 8px 0 #DC5000",
+            "accentLg":"12px 12px 0 #DC5000",
+            "accent2Md":"8px 8px 0 #E74C3C",
+            "stack":   "8px 8px 0 #FFEDD7, 16px 16px 0 #DC5000"
         }
     },
 
@@ -1100,12 +1100,12 @@
             "uiComponents": "3:1"
         },
         "verifiedRatios": {
-            "fgOnBg":         "9.2:1 (#E1E0CC on #0A0A0A)",
-            "accentFgOnAccent": "11.4:1 (#050505 on #3CCD7F)",
-            "accent2FgOnAccent2":"4.6:1 (#FFFEF7 on #FF4F3D)"
+            "fgOnBg":         "12.6:1 (#FFEDD7 on #000000)",
+            "accentFgOnAccent": "4.5:1 (#000000 on #DC5000)",
+            "accent2FgOnAccent2":"4.5:1 (#000000 on #E74C3C)"
         },
         "focus": {
-            "outline":       "2px solid #3CCD7F",
+            "outline":       "2px solid #DC5000",
             "offset":        "2px",
             "visibleAlways": true
         },
@@ -1123,12 +1123,12 @@
             "_comment": "Neobrutalist primary CTA. Thick border + hard shadow + spring + magnetic effect.",
             "padX":          "2rem",
             "padY":          "1rem",
-            "background":    "#3CCD7F",
-            "color":         "#050505",
-            "border":        "3px solid #E1E0CC",
+            "background":    "#DC5000",
+            "color":         "#000000",
+            "border":        "3px solid #FFEDD7",
             "borderRadius":  "0",
-            "boxShadow":     "8px 8px 0 #050505",
-            "boxShadowHover":"12px 12px 0 #050505",
+            "boxShadow":     "8px 8px 0 #000000",
+            "boxShadowHover":"12px 12px 0 #000000",
             "fontSize":      "0.79rem",
             "fontWeight":    "500",
             "letterSpacing": "0.08em",
@@ -1145,8 +1145,8 @@
             "padX":          "1.5rem",
             "padY":          "0.75rem",
             "background":    "transparent",
-            "color":         "#E1E0CC",
-            "border":        "2px solid #E1E0CC",
+            "color":         "#FFEDD7",
+            "border":        "2px solid #FFEDD7",
             "borderRadius":  "0",
             "fontSize":      "0.79rem",
             "fontWeight":    "500",
@@ -1155,8 +1155,8 @@
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
             "transitionEasing":  "cubic-bezier(0.7, 0, 0.3, 1)",
             "transitionDuration":"160ms",
-            "hoverBackground":"#E1E0CC",
-            "hoverColor":    "#0A0A0A",
+            "hoverBackground":"#FFEDD7",
+            "hoverColor":    "#000000",
             "activeTranslateY":"2px"
         },
 
@@ -1164,11 +1164,11 @@
             "_comment": "Neobrutalist accent block. -4deg default rotation. Use ≤ 2 per section.",
             "padX":          "1rem",
             "padY":          "0.5rem",
-            "background":    "#3CCD7F",
-            "color":         "#050505",
-            "border":        "3px solid #E1E0CC",
+            "background":    "#DC5000",
+            "color":         "#000000",
+            "border":        "3px solid #FFEDD7",
             "borderRadius":  "0",
-            "boxShadow":     "4px 4px 0 #050505",
+            "boxShadow":     "4px 4px 0 #000000",
             "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
             "fontSize":      "0.79rem",
             "fontWeight":    "500",
@@ -1184,18 +1184,18 @@
         "card": {
             "_comment": "Brutalist mode default. Add modifier .card-neobrutalist for the loud version.",
             "padding":       "2rem",
-            "background":    "#131313",
-            "border":        "1px solid #2A2A2A",
+            "background":    "#1F140D",
+            "border":        "1px solid #5A3A24",
             "borderRadius":  "0",
             "hoverTransform":"translateY(-2px)",
             "transitionEasing":  "cubic-bezier(0.16, 1, 0.30, 1)",
             "transitionDuration":"240ms",
             "neobrutalist": {
-                "background":   "#FFFEF7",
-                "color":        "#050505",
-                "border":       "3px solid #050505",
-                "boxShadow":    "8px 8px 0 #050505",
-                "boxShadowHover":"12px 12px 0 #050505",
+                "background":   "#FFEDD7",
+                "color":        "#000000",
+                "border":       "3px solid #000000",
+                "boxShadow":    "8px 8px 0 #000000",
+                "boxShadowHover":"12px 12px 0 #000000",
                 "hoverLift":    "translate(-2px, -2px)"
             }
         },
@@ -1204,21 +1204,21 @@
             "padX":          "1rem",
             "padY":          "0.75rem",
             "background":    "transparent",
-            "color":         "#E1E0CC",
-            "border":        "2px solid #E1E0CC",
+            "color":         "#FFEDD7",
+            "border":        "2px solid #FFEDD7",
             "borderRadius":  "0",
             "fontSize":      "1rem",
             "fontFamily":    "'Instrument Sans', sans-serif",
-            "focusBorder":   "2px solid #3CCD7F",
+            "focusBorder":   "2px solid #DC5000",
             "focusOutline":  "none",
-            "placeholder":   "#7A7A6E"
+            "placeholder":   "rgba(255,237,215,0.48)"
         },
 
         "nav": {
             "padX":         "2rem",
             "padY":         "1rem",
-            "background":   "rgba(10, 10, 10, 0.8)",
-            "borderBottom": "1px solid #2A2A2A",
+            "background":   "rgba(0,0,0,0.8)",
+            "borderBottom": "1px solid #5A3A24",
             "linkSpacing":  "2rem",
             "blur":         "backdrop-blur-xl"
         },
@@ -1226,15 +1226,15 @@
         "footer": {
             "padX":      "3rem",
             "padBlock":  "3rem",
-            "background":"#0A0A0A",
-            "borderTop": "1px solid #2A2A2A",
+            "background":"#000000",
+            "borderTop": "1px solid #5A3A24",
             "type":      "mono"
         },
 
         "eyebrow": {
             "_comment": "Section labels with leading accent rule.",
-            "color":         "#B5B4A3",
-            "ruleColor":     "#3CCD7F",
+            "color":         "rgba(255,237,215,0.72)",
+            "ruleColor":     "#DC5000",
             "ruleWidth":     "1rem",
             "ruleHeight":    "2px",
             "ruleGap":       "0.5rem",
@@ -1259,19 +1259,19 @@
             "timing":       "linear",
             "padBlock":     "1rem",
             "gap":          "3rem",
-            "borderTop":    "1px solid #2A2A2A",
-            "borderBottom": "1px solid #2A2A2A"
+            "borderTop":    "1px solid #5A3A24",
+            "borderBottom": "1px solid #5A3A24"
         },
 
         "slab": {
             "_comment": "Full-width section. Modifiers: -inverted, -accent, -accent-2.",
             "padBlock":  "8rem",
-            "borderTop": "1px solid #2A2A2A",
+            "borderTop": "1px solid #5A3A24",
             "innerMax":  "96rem",
             "padInline": "3rem",
-            "inverted":  { "background": "#E1E0CC", "color": "#050505" },
-            "accent":    { "background": "#3CCD7F", "color": "#050505" },
-            "accent2":   { "background": "#FF4F3D", "color": "#FFFEF7" }
+            "inverted":  { "background": "#FFEDD7", "color": "#000000" },
+            "accent":    { "background": "#DC5000", "color": "#000000" },
+            "accent2":   { "background": "#E74C3C", "color": "#000000" }
         }
     },
 

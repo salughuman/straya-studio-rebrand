@@ -77,13 +77,13 @@ const preferredTestimonials = [
 
     <!-- Header -->
     <header class="mb-10 md:mb-14">
-      <p class="m-0 type-label font-mono uppercase tracking-[0.08em] text-on-secondary/60" aria-hidden="true">
+      <p class="m-0 type-label font-mono uppercase tracking-[0.08em] text-on-background/60" aria-hidden="true">
         [05] / Testimonials
       </p>
       <!-- H2 — word blur-to-clear reveal (micro-interactions.md §8.3) -->
       <h2
         id="testimonials-heading"
-        class="type-h2 m-0 mt-3 max-w-[16ch] text-on-secondary"
+        class="type-h2 m-0 mt-3 max-w-[16ch] text-on-background"
         data-words-reveal
         aria-label="Founder proof, in motion."
       >
@@ -160,7 +160,7 @@ const preferredTestimonials = [
     <div class="mt-8 md:mt-10 flex justify-end">
       <a
         href={`${baseUrl}testimonials`}
-        class="t-cta inline-flex items-center gap-2 type-label font-mono uppercase tracking-[0.08em] text-on-secondary no-underline"
+        class="t-cta inline-flex items-center gap-2 type-label font-mono uppercase tracking-[0.08em] text-on-background/70 no-underline"
       >
         <span class="t-cta__label">View all testimonials</span>
         <span aria-hidden="true">→</span>
@@ -173,9 +173,9 @@ const preferredTestimonials = [
 <style>
   /* PERMITTED: complex pseudo-elements, :global, @keyframes — no Tailwind equivalent */
 
-  /* ── Section ground — Neobrutalism accent ─────────────────── */
+  /* ── Section ground — warm dark brown (#140E09) matching Straya Method stages 2 & 4 ── */
   .t-section {
-    background: var(--color-accent, #3ccd7f);
+    background: #140E09;
     position: relative;
     z-index: 2;
   }
@@ -265,12 +265,12 @@ const preferredTestimonials = [
   .t-carousel-shell::before {
     left: 0;
     width: clamp(4rem, 10vw, 8rem);
-    background: linear-gradient(90deg, var(--color-accent, #3ccd7f) 0%, rgba(60,205,127,0) 100%);
+    background: linear-gradient(90deg, #140E09 0%, rgba(20,14,9,0) 100%);
   }
   .t-carousel-shell::after {
     right: 0;
     width: clamp(2rem, 5vw, 4rem);
-    background: linear-gradient(270deg, var(--color-accent, #3ccd7f) 0%, rgba(60,205,127,0) 100%);
+    background: linear-gradient(270deg, #140E09 0%, rgba(20,14,9,0) 100%);
   }
 
   /* M7 — pause on hover */
@@ -316,13 +316,13 @@ const preferredTestimonials = [
     color: #e1e0cc;
     background-image: linear-gradient(
       180deg,
-      rgba(60,205,127,0) 62%,
-      rgba(60,205,127,0.35) 62%
+      rgba(220,80,0,0) 62%,
+      rgba(220,80,0,0.35) 62%
     );
     background-repeat: no-repeat;
     background-size: 0% 100%;
     text-decoration: underline;
-    text-decoration-color: rgba(60,205,127,0.82);
+    text-decoration-color: rgba(220,80,0,0.82);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.16em;
     transition: background-size 560ms cubic-bezier(0.16,1,0.3,1);
@@ -347,7 +347,7 @@ const preferredTestimonials = [
     position: absolute;
     left: 0; top: 50%;
     width: 0.3rem; height: 1px;
-    background: rgba(60,205,127,0.95);
+    background: rgba(220,80,0,0.95);
     transform: translateY(-50%);
   }
 
@@ -364,7 +364,7 @@ const preferredTestimonials = [
   .t-cta:hover .t-cta__label,
   .t-cta:focus-visible .t-cta__label { background-size: 100% 1px; }
   .t-cta:focus-visible {
-    outline: 2px solid rgba(10,10,10,0.8);
+    outline: 2px solid var(--color-accent, #DC5000);
     outline-offset: 4px;
   }
 

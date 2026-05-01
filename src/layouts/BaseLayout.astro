@@ -3,7 +3,6 @@ import GlobalSchema from "../components/GlobalSchema.astro";
 import Meta from "../components/Meta.astro";
 import Navbar from "../components/Navbar.astro";
 import GlobalSpatialEffect from "../components/design-effects/GlobalSpatialEffect.astro";
-import PremiumSnake from "../components/design-effects/PremiumSnake.astro";
 import CustomCursor from "../components/design-effects/CustomCursor.astro";
 import ScrollPrimitive from "../components/design-effects/ScrollPrimitive.astro";
 import "../styles/global.css";
@@ -50,13 +49,12 @@ const baseUrl = import.meta.env.BASE_URL;
 	</head>
 	<body class="bg-[#0A0A0A] text-[#E1E0CC] selection:bg-fuchsia-500/35 selection:text-[#E1E0CC] perspective-[1000px]">
 		<GlobalSpatialEffect />
-		<PremiumSnake />
 		<CustomCursor />
 		<ScrollPrimitive />
 		<!-- GEMINI §5.O — first focusable element -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:bg-secondary focus:text-on-secondary focus:outline-none focus:ring-2 focus:ring-[#3CCD7F]/70 focus:ring-offset-2 focus:ring-offset-background transition-none"
+			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:bg-secondary focus:text-on-secondary focus:outline-none focus:ring-2 focus:ring-[#DC5000]/70 focus:ring-offset-2 focus:ring-offset-background transition-none"
 		>
 			Skip to main content
 		</a>
@@ -66,3 +64,47 @@ const baseUrl = import.meta.env.BASE_URL;
 		</main>
 	</body>
 </html>
+
+<script>
+  // Color the last punctuation character in h1–h4 with accent color
+  const PUNCT = /[.!?]$/;
+  const colorHeadingPunct = () => {
+    document.querySelectorAll<HTMLElement>('h1, h2, h3, h4').forEach(h => {
+      // Skip if already processed or has no text
+      if (h.dataset.punctDone) return;
+      h.dataset.punctDone = '1';
+
+      // Walk to the last text node
+      const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      let lastText: Text | null = null;
+      let node: Node | null;
+      while ((node = walker.nextNode())) lastText = node as Text;
+      if (!lastText) return;
+
+      const text = lastText.textContent ?? '';
+      if (!PUNCT.test(text.trimEnd())) return;
+
+      // Find the last punctuation character position
+      const trimmed = text.trimEnd();
+      const lastIdx = trimmed.length - 1;
+      const before  = text.slice(0, lastIdx);
+      const punct   = text.slice(lastIdx, lastIdx + 1);
+      const after   = text.slice(lastIdx + 1); // trailing whitespace if any
+
+      // Replace text node with: text + <span class="heading-punct">.</span> + whitespace
+      const span = document.createElement('span');
+      span.className = 'heading-punct';
+      span.textContent = punct;
+
+      const parent = lastText.parentNode;
+      if (!parent) return;
+      parent.insertBefore(document.createTextNode(before), lastText);
+      parent.insertBefore(span, lastText);
+      if (after) parent.insertBefore(document.createTextNode(after), lastText);
+      parent.removeChild(lastText);
+    });
+  };
+
+  colorHeadingPunct();
+  document.addEventListener('astro:after-swap', colorHeadingPunct);
+</script>

@@ -3,17 +3,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import AEOHeader from "../components/AEOHeader.astro";
 import Hero from "../components/Hero.astro";
 import ServicesMarquee from "../components/ServicesMarquee.astro";
-import TheStrayaMethod from "../components/TheStrayaMethod.astro";
 import AboutSection from "../components/AboutSection.astro";
+import WhyStraya2 from "../components/WhyStraya2.astro";
 import WhyStraya from "../components/WhyStraya.astro";
-import Pricing from "../components/Pricing.astro";
 import Testimonials from "../components/Testimonials.astro";
 import SelectedWork from "../components/SelectedWork.astro";
 import FAQ from "../components/FAQ.astro";
-import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_CONFIG } from "../data/site-config";
-// SEO Metadata: Aligned with Straya Studio hybrid model
+
 const title = "Straya Studio — Framer, Webflow & Shopify Partner";
 const description =
 	"Premium technical partner for Framer, Webflow, Shopify & WordPress builds. Fast, conversion-led platforms for tech founders and ecommerce teams.";
@@ -34,38 +32,33 @@ const pageSchema = {
 ---
 
 <BaseLayout title={title} description={description} image={image}>
-	<!-- AEO preface for crawlers and assistants -->
 	<AEOHeader />
-	<!-- 01: Hero (qualify) -->
+
+	<!-- 01: Hero -->
 	<Hero />
-<!-- 08: About section (context) -->
+
+	<!-- 02: About -->
 	<AboutSection />
-	<!-- 02: Selected Work (showcase) -->
+
+	<!-- 03: Selected Work -->
 	<SelectedWork />
 
-	<!-- 03: Our process (trust) -->
-	<TheStrayaMethod />
+	<!-- 04: The Straya Method — cinematic horizontal scroll -->
+	<WhyStraya2 />
 
-	<!-- 04: Social Proof & Trust Signals (validate) -->
+	<!-- 05: Social Proof -->
 	<Testimonials />
 
-	<!-- 05: What we do (scope) -->
+	<!-- 06: Services -->
 	<ServicesMarquee />
 
-	<!-- 06: Why Straya Studio (differentiate) -->
-
+	<!-- 07: The Straya Offer -->
 	<WhyStraya />
 
-	<!-- 07: Pricing (commit) -->
-	<Pricing />
-
-	
-	<!-- 09: FAQ (reassure) -->
+	<!-- 08: FAQ -->
 	<FAQ />
 
-	<!-- 10: Final CTA (convert) -->
-	<FinalCTA />
-	<!-- Footer -->
 	<Footer />
-	<script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+	<script type="application/ld+json" is:inline set:html={JSON.stringify(pageSchema)} />
 </BaseLayout>

@@ -24,7 +24,7 @@ const {
 <section
   id="hero"
   aria-label="Straya Studio hero"
-  class="relative h-screen w-full overflow-visible bg-[#0A0A0A] z-[999] px-2 pt-2 pb-0 sm:px-3 sm:pt-3 sm:pb-0 md:p-4"
+  class="relative h-screen w-full overflow-hidden bg-surface-dim z-[999]"
   data-prisma-hero
 >
   <p class="sr-only">
@@ -32,86 +32,104 @@ const {
     supporting positioning statement, and a direct call to start a project.
   </p>
 
-  <!-- Animated gradient frame -->
+  <!-- Layer 1: Video background -->
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+    src={videoSrc}
+  ></video>
+
+  <!-- Layer 2: Noise overlay — SVG fractal noise, mix-blend-mode overlay -->
   <div
-    class="relative h-full w-full overflow-hidden rounded-2xl p-[2px] md:rounded-[2rem] md:p-[3px]"
-    data-hero-chrome
-  >
-    <div
-      class="relative h-full w-full overflow-hidden rounded-[14px] bg-[#030304] md:rounded-[1.9rem]"
-    >
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
-        src={videoSrc}></video>
+    class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"
+  ></div>
 
-      <div
-        class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"
-      >
+  <!-- Layer 3: Gradient scrim — hard-edge linear gradient, top transparent → bottom #140E09 (bg-surface-dim) -->
+  <!-- inline style required: rgba/hex values not expressible as Tailwind token classes -->
+  <div
+    class="pointer-events-none absolute inset-0 z-[2]"
+    style="background: linear-gradient(to bottom, transparent 0%, transparent 35%, #140E09 100%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Layer 4: UI content layer -->
+
+  <!-- Index mark [01] — top-left, brutalist section numbering -->
+  <div class="absolute top-4 left-4 z-[10] sm:top-6 sm:left-6 md:top-8 md:left-10">
+    <span class="font-mono text-xs uppercase tracking-[0.08em] text-on-surface-variant opacity-50 select-none">
+      [01]
+    </span>
+  </div>
+
+  <!-- Coordinate annotation — bottom-right corner, Lahore coordinates -->
+  <div class="absolute bottom-4 right-4 z-[10] sm:bottom-6 sm:right-6 md:bottom-8 md:right-10">
+    <span class="font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant opacity-40 select-none leading-relaxed">
+      LAT 31.5204° N<br />LNG 74.3587° E
+    </span>
+  </div>
+
+  <!-- Main content grid — anchored to bottom -->
+  <div class="absolute bottom-0 left-0 right-0 z-[5] px-4 pb-2 sm:px-6 md:px-10">
+    <div class="grid grid-cols-12 items-end gap-4">
+
+      <!-- Heading — cols 1–8 desktop, full width mobile -->
+      <div class="col-span-12 lg:col-span-8">
+        <h1
+          class="font-display font-black leading-[0.92] tracking-[-0.04em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-[40%]"
+          style="color:rgba(255,237,215,0.92)"
+        >
+          <WordsPullUp text={headline} />
+        </h1>
       </div>
 
-      <!-- Top-right wash first, then vignette so the bottom dark reads true → #0A0A0A -->
+      <!-- Tagline + CTA — cols 9–12 desktop, full width mobile -->
+      <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
 
-      <div
-        class="absolute bottom-0 left-0 right-0 z-[3] px-4 pb-2 sm:px-6 md:px-10"
-      >
-        <div class="grid grid-cols-12 items-end gap-4">
-          <div class="col-span-12 lg:col-span-8">
-            <h1
-              class="font-display font-extrabold leading-[0.92] tracking-[-0.04em] text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-60"
-              style="color:rgba(245,244,232,0.92)"
-            >
-              <WordsPullUp text={headline} />
-            </h1>
-          </div>
+        <!-- Build version stamp — mono, muted, brutalist metadata -->
+        <span class="font-mono text-[10px] uppercase tracking-[0.08em] text-on-surface-variant opacity-40 select-none">
+          v2.1.0 / 2026
+        </span>
 
-          <div
-            class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10"
+        <p
+          data-hero-tagline
+          class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
+          style="line-height:1.35;color:rgba(255,237,215,0.72)"
+        >
+          {tagline}
+        </p>
+
+        <Button
+          href={`${baseUrl}contact`}
+          label={ctaLabel}
+          variant="hero-pill"
+          iconCircle={true}
+          data-hero-cta
+          class="self-start"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4"
+            style="color:#FFEDD7;"
+            aria-hidden="true"
           >
-            <p
-              data-hero-tagline
-              class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
-              style="line-height:1.35;color:rgba(245,244,232,0.92)"
-            >
-              {tagline}
-            </p>
-
-            <Button
-              href={`${baseUrl}contact`}
-              label={ctaLabel}
-              variant="hero-pill"
-              iconCircle={true}
-              data-hero-cta
-              class="self-start shadow-[0_0_40px_-8px_rgba(236,72,153,0.45)] transition-shadow duration-500 hover:shadow-[0_0_48px_-6px_rgba(34,211,238,0.55)]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-4 w-4 text-cyan-200"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </Button>
-          </div>
-        </div>
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </Button>
       </div>
-    </div>
-    <div
-      class="pointer-events-none absolute -bottom-20 left-0 right-0 z-[2] h-20 bg-gradient-to-b from-[#0A0A0A] to-transparent"
-      aria-hidden="true"
-    >
+
     </div>
   </div>
+
 </section>
 
 <script>

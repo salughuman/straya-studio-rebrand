@@ -1,13 +1,15 @@
 ---
 /**
  * Button.astro — Straya Studio
- * Visual style: inset-shadow highlight, border, shadow-xs, active press-down.
- * Extracted from base-ui button pattern — adapted to Astro + Tailwind, no new deps.
+ * Single source of truth for all CTAs.
+ * Variants: hero-pill | hero-pill-inverted | text-link | primary | secondary | outline | ghost
+ * hero-pill        — cream pill on dark bg (hero, FinalCTA)
+ * hero-pill-inverted — dark pill on light bg (pricing, light sections)
  */
 interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
   href: string;
   label: string;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'hero-pill' | 'text-link';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'hero-pill' | 'hero-pill-inverted' | 'text-link';
   size?: 'sm' | 'md' | 'lg';
   iconCircle?: boolean;
 }
@@ -21,30 +23,38 @@ const {
   class: className,
   ...rest
 } = Astro.props;
+
+const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
+const isInverted = variant === 'hero-pill-inverted';
 ---
 
-{variant === 'hero-pill' ? (
+{isPill ? (
   <a
     href={href}
     {...rest}
     class:list={[
       "group inline-flex items-center gap-2 self-start rounded-full py-1 pl-5 pr-1 text-sm font-medium no-underline select-none",
-      "bg-[#E1E0CC] text-[#0A0A0A]",
-      // Inset highlight + outer shadow — the base-ui treatment
-      "shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_2px_8px_rgba(0,0,0,0.28)]",
-      "transition-[gap,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-      "hover:gap-3 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.36)]",
-      // Active press — shadow collapses inward
-      "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)]",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]",
+      // Slower spring — not snappy. Forward motion on hover via translateX
+      "transition-[gap,box-shadow,transform] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+      "hover:gap-3 hover:translate-x-1",
+      "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] active:translate-x-0",
       "disabled:pointer-events-none disabled:opacity-[0.64]",
       "sm:text-base",
+      // Cream pill (dark bg) — hero, FinalCTA
+      !isInverted && "bg-[#E1E0CC] text-[#0A0A0A] shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_2px_8px_rgba(0,0,0,0.28)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.36)] focus-visible:ring-offset-[#0A0A0A]",
+      // Accent pill (bone bg) — pricing, light sections
+      isInverted && "bg-accent text-[#000000] shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_2px_8px_rgba(220,80,0,0.25)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_4px_16px_rgba(220,80,0,0.35)] focus-visible:ring-offset-[#FFEDD7]",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
       className,
     ]}
   >
     {label}
     {iconCircle ? (
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-black shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 sm:h-10 sm:w-10">
+      <span class:list={[
+        "flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 sm:h-10 sm:w-10",
+        !isInverted && "bg-[#0A0A0A] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+        isInverted && "bg-[#E1E0CC] shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
+      ]}>
         <slot />
       </span>
     ) : (
@@ -59,9 +69,8 @@ const {
       "group inline-flex items-center gap-2 px-0 pb-px",
       "font-medium text-sm tracking-[0.04em] uppercase no-underline select-none",
       "text-on-background/60",
-      // M3 underline draw — grows from 0 to 100% on hover
       "bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-[position:0_100%]",
-      "transition-[color,background-size] duration-240 ease-[cubic-bezier(0.16,1,0.3,1)]",
+      "transition-[color,background-size] duration-[240ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
       "hover:text-on-background hover:bg-[length:100%_1px]",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       "disabled:pointer-events-none disabled:opacity-[0.64]",
@@ -78,53 +87,37 @@ const {
     href={href}
     {...rest}
     class:list={[
-      // Base — shared across all non-pill, non-link variants
       "btn-base group relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg border font-medium no-underline select-none",
       "transition-shadow duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-      // Focus ring
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-      // Disabled
       "disabled:pointer-events-none disabled:opacity-[0.64]",
-      // Before pseudo — inset highlight layer
       "before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(0.5rem-1px)]",
-
-      // ── Variant styles ──────────────────────────────────────
       variant === 'primary' && [
         "border-primary bg-primary text-on-primary",
-        // Inset top highlight + outer shadow
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_1px_3px_rgba(0,0,0,0.24)]",
-        // Hover
         "hover:bg-primary/90",
-        // Active — inset flips, outer shadow drops
         "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
       ],
-
       variant === 'secondary' && [
         "border-secondary bg-secondary text-on-secondary",
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_1px_3px_rgba(0,0,0,0.24)]",
         "hover:bg-secondary/90",
         "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
       ],
-
       variant === 'outline' && [
         "border-on-background/12 bg-background text-on-background",
-        // Subtle outer shadow + inner highlight via before
         "shadow-[0_1px_2px_rgba(0,0,0,0.06)] before:shadow-[inset_0_1px_0_rgba(0,0,0,0.06)]",
         "hover:bg-on-background/5 hover:border-on-background/20",
         "active:shadow-none",
       ],
-
       variant === 'ghost' && [
         "border-transparent bg-transparent text-on-background",
         "hover:bg-on-background/8",
         "active:bg-on-background/12",
       ],
-
-      // ── Size styles ─────────────────────────────────────────
       size === 'sm' && "h-8 gap-1.5 px-[calc(0.625rem-1px)] text-xs tracking-[0.04em] uppercase",
       size === 'md' && "h-9 px-[calc(0.75rem-1px)] text-sm tracking-[0.04em] uppercase sm:h-8",
       size === 'lg' && "h-10 px-[calc(0.875rem-1px)] text-base tracking-[0.03em] uppercase sm:h-9",
-
       className,
     ]}
   >

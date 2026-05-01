@@ -9,6 +9,7 @@
 
 import { PRICING_TIERS, PRICING_BADGE, PRICING_TRUST_LINE, PRICING_FOOTER } from "../data/pricing";
 import { SITE_CONFIG } from "../data/site-config";
+import Button from "./ui/buttons/Button.astro";
 
 const baseUrl = import.meta.env.BASE_URL;
 const priceNumbers = [2000, 4000, 9500];
@@ -79,7 +80,7 @@ const priceNumbers = [2000, 4000, 9500];
           class:list={[
             "tier-card relative flex flex-col border border-on-primary-container/20 p-8 rounded-2xl transition-[transform,box-shadow] duration-[240ms]",
             tier.popular
-              ? "bg-surface-dim text-on-surface shadow-[0_4px_24px_rgba(60,205,127,0.15),inset_0_1px_0_rgba(60,205,127,0.2)] hover:shadow-[0_8px_32px_rgba(60,205,127,0.22),inset_0_1px_0_rgba(60,205,127,0.25)] hover:-translate-y-[2px]"
+              ? "bg-surface-dim text-on-surface shadow-[0_4px_24px_rgba(220,80,0,0.15),inset_0_1px_0_rgba(220,80,0,0.2)] hover:shadow-[0_8px_32px_rgba(220,80,0,0.22),inset_0_1px_0_rgba(220,80,0,0.25)] hover:-translate-y-[2px]"
               : "bg-surface-dim text-on-surface shadow-[0_2px_12px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.06)] hover:-translate-y-[2px]"
           ]}
           role="listitem"
@@ -133,33 +134,36 @@ const priceNumbers = [2000, 4000, 9500];
           <!-- CTA -->
           <div class="mt-auto">
             {tier.popular ? (
-              <a
+              <Button
                 href={`${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
-                class="btn-magnetic flex items-center justify-between gap-4 w-full bg-accent text-on-secondary border border-on-primary-container/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_8px_rgba(60,205,127,0.2)] px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[box-shadow,opacity] duration-[160ms] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_16px_rgba(60,205,127,0.3)] active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
+                label={tier.ctaLabel}
+                variant="hero-pill-inverted"
+                iconCircle={true}
+                class="w-full justify-between"
                 aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
               >
-                <span>{tier.ctaLabel}</span>
-                <span class="flex items-center justify-center w-8 h-8 bg-on-primary-container text-accent flex-shrink-0 transition-transform duration-[160ms] group-hover:scale-110" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-              </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#0A0A0A;" aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </Button>
             ) : (
-              <a
+              <Button
                 href={i === 2
                   ? SITE_CONFIG.socials.calendly
                   : `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
+                label={tier.ctaLabel}
+                variant="hero-pill-inverted"
+                iconCircle={true}
                 target={i === 2 ? "_blank" : undefined}
                 rel={i === 2 ? "noopener noreferrer" : undefined}
-                class="flex items-center justify-between gap-4 w-full bg-transparent text-on-surface border-2 border-current px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[background-color,color] duration-[160ms] ease-[cubic-bezier(0.7,0,0.3,1)] hover:bg-on-surface hover:text-surface-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px] active:translate-y-[2px]"
                 aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
               >
-                <span>{tier.ctaLabel}</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#E1E0CC;" aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
                 </svg>
-              </a>
+              </Button>
             )}
           </div>
 
@@ -173,20 +177,21 @@ const priceNumbers = [2000, 4000, 9500];
         <h3 class="type-h3 text-on-surface mb-3">{PRICING_FOOTER.title}</h3>
         <p class="type-body text-on-surface opacity-60 max-w-[44ch]">{PRICING_FOOTER.description}</p>
       </div>
-      <a
+      <Button
         href={SITE_CONFIG.socials.calendly}
+        label={PRICING_FOOTER.ctaLabel}
+        variant="hero-pill-inverted"
+        iconCircle={true}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex-shrink-0 inline-flex items-center justify-between gap-4 min-w-[220px] bg-accent text-on-secondary border border-on-primary-container/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_8px_rgba(60,205,127,0.2)] px-5 py-4 type-label uppercase tracking-[0.08em] no-underline transition-[box-shadow] duration-[160ms] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_16px_rgba(60,205,127,0.3)] active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px]"
+        class="flex-shrink-0"
         aria-label="Schedule a scoping call with Straya Studio"
       >
-        <span>{PRICING_FOOTER.ctaLabel}</span>
-        <span class="flex items-center justify-center w-8 h-8 bg-on-primary-container text-accent flex-shrink-0" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </a>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#0A0A0A;" aria-hidden="true">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </Button>
     </div>
 
     <!-- Trust line -->
@@ -228,8 +233,8 @@ const priceNumbers = [2000, 4000, 9500];
 
   .badge-dot { animation: badge-pulse 2.8s cubic-bezier(0.4,0,0.6,1) infinite; }
   @keyframes badge-pulse {
-    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(60,205,127,0); }
-    50%     { opacity:0.85; box-shadow:0 0 8px 3px rgba(60,205,127,0.35); }
+    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(220,80,0,0); }
+    50%     { opacity:0.85; box-shadow:0 0 8px 3px rgba(220,80,0,0.35); }
   }
 
   @media (prefers-reduced-motion: reduce) {
