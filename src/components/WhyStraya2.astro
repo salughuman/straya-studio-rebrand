@@ -173,6 +173,7 @@ const offers = [
   /* ── Sticky container ─────────────────────────────────────── */
   .why2-sticky {
     position: relative;
+    z-index: 10;
     height: 100vh;
     overflow: hidden;
   }
@@ -459,7 +460,7 @@ const offers = [
       end: `+=${panelCount * 100}%`,
       pin: sticky,
       anticipatePin: 1,
-      scrub: 1.2,
+      scrub: 0.6,
       onUpdate: (self) => {
         // Progress bar
         if (progress) progress.style.width = `${self.progress * 100}%`;
