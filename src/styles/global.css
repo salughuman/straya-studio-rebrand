@@ -23,6 +23,7 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
+
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
@@ -45,10 +46,12 @@
 	/* Custom cursor (CustomCursor.astro) — hide system cursor only after first mouse move on capable devices */
 	@media (hover: hover) and (pointer: fine) {
 		@media (prefers-reduced-motion: no-preference) {
+
 			html.straya-cursor-active body,
 			html.straya-cursor-active body * {
 				cursor: none !important;
 			}
+
 			html.straya-cursor-active :focus-visible {
 				cursor: auto !important;
 			}
@@ -70,6 +73,7 @@
 	:focus:not(:focus-visible) {
 		outline: none;
 	}
+
 	:focus-visible {
 		outline: 2px solid var(--color-secondary, theme('colors.secondary'));
 		outline-offset: 2px;
@@ -85,14 +89,15 @@
 		html {
 			scroll-padding-top: 3.5rem;
 		}
+
 		body {
 			background-color: #080605;
 		}
-		section[id], footer[id], main [id] {
+
+		section[id],
+		footer[id],
+		main [id] {
 			scroll-margin-top: 3.5rem;
-		}
-		.type-h2 {
-			font-size: clamp(1.68rem, 1.92rem + 2.4vw, 3.9rem);
 		}
 	}
 
@@ -104,10 +109,13 @@
 	h5,
 	h6 {
 		font-family: var(--font-display, 'Bricolage Grotesque', 'Helvetica Neue', sans-serif);
-		font-weight: 800; /* Bricolage Grotesque max weight */
+		font-weight: 800;
+		/* Bricolage Grotesque max weight */
 		font-optical-sizing: auto;
-		text-wrap: balance;       /* even line-breaking, prevents a lone word on line 3 */
-		overflow-wrap: break-word; /* hard safety — no heading ever overflows its container */
+		text-wrap: balance;
+		/* even line-breaking, prevents a lone word on line 3 */
+		overflow-wrap: break-word;
+		/* hard safety — no heading ever overflows its container */
 	}
 
 	/* Accent dot — colors the last punctuation character in h1–h4 */
@@ -117,32 +125,41 @@
 }
 
 @layer components {
+
 	/* Dark section surface — solid, consistent, no separation between adjacent dark sections */
 	.section-frosted {
 		position: relative;
 		isolation: isolate;
-		background-color: rgba(8,6,5,0.82) !important;
+		background-color: rgba(8, 6, 5, 0.82) !important;
 		-webkit-backdrop-filter: none !important;
 		backdrop-filter: none !important;
 	}
 
 	/* Cinematic Depth Classes */
-	.z-depth-1 { transform: var(--depth-1, translateZ(10px)); }
-	.z-depth-2 { transform: var(--depth-2, translateZ(20px)); }
-	.z-depth-3 { transform: var(--depth-3, translateZ(30px)); }
-	
+	.z-depth-1 {
+		transform: var(--depth-1, translateZ(10px));
+	}
+
+	.z-depth-2 {
+		transform: var(--depth-2, translateZ(20px));
+	}
+
+	.z-depth-3 {
+		transform: var(--depth-3, translateZ(30px));
+	}
+
 	.custom-bezier {
 		transition-timing-function: var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
 	}
-	
+
 	.luxury-bezier {
 		transition-timing-function: var(--transition-luxury, cubic-bezier(0.16, 1, 0.3, 1));
 	}
-	
+
 	.magnetic-cta {
 		transition: transform var(--transition-duration, 300ms) var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
 	}
-	
+
 	.magnetic-cta:hover {
 		transform: var(--magnetic-cta, translateZ(20px) scale(1.02));
 	}
@@ -153,13 +170,13 @@
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: var(--grid-gutter, 8px);
 	}
-	
+
 	.grid-12 {
 		display: grid;
 		grid-template-columns: repeat(12, minmax(0, 1fr));
 		gap: var(--grid-gutter, 8px);
 	}
-	
+
 	/* Container Utilities */
 	.main-container {
 		max-width: var(--spacing-container-max, 1400px);
@@ -188,27 +205,33 @@
 			padding-left: 2rem;
 			padding-right: 2rem;
 		}
-	}	
+	}
+
 	/* Section Spacing — minimum 200px gutter between sections */
 	.section-y {
-		padding-top: 6rem; /* 96px mobile */
-		padding-bottom: 6rem;
+		padding-top: 3rem;
+		/* 96px mobile */
+		padding-bottom: 3rem;
 	}
 
 	@media (min-width: 810px) {
 		.section-y {
-			padding-top: 12.5rem; /* 200px desktop */
+			padding-top: 12.5rem;
+			/* 200px desktop */
 			padding-bottom: 12.5rem;
 		}
 	}
-	
+
 	/* Card padding — consistent across all card components */
 	.card-pad {
-		padding: 1rem; /* 20px mobile */
+		padding: 1rem;
+		/* 20px mobile */
 	}
+
 	@media (min-width: 810px) {
 		.card-pad {
-			padding: 2rem; /* 32px desktop */
+			padding: 2rem;
+			/* 32px desktop */
 		}
 	}
 
@@ -221,7 +244,7 @@
 			0 1px 0 rgba(255, 255, 255, 0.04) inset,
 			0 18px 40px -24px rgba(0, 0, 0, 0.35);
 	}
-	
+
 	.card-elevated {
 		background-color: var(--color-surface-container, theme('colors.surface-container'));
 		border: none;
@@ -230,7 +253,7 @@
 			0 1px 0 rgba(255, 255, 255, 0.05) inset,
 			0 24px 50px -20px rgba(0, 0, 0, 0.4);
 	}
-	
+
 	.card-elevated:hover {
 		transform: translateY(-4px);
 		transition: all var(--transition-duration, 500ms) var(--transition-base, cubic-bezier(0.19, 1, 0.22, 1));
@@ -238,43 +261,55 @@
 }
 
 /* Pill CTA — matches hero button style */
-	.btn-pill {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		border-radius: 9999px;
-		background: #FFEDD7;
-		padding: 0.25rem 0.25rem 0.25rem 1.25rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: #000000;
-		text-decoration: none;
-		transition: gap 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-		white-space: nowrap;
-	}
-	.btn-pill:hover { gap: 0.75rem; }
-	.btn-pill-circle {
-		display: flex;
-		width: 2.25rem;
-		height: 2.25rem;
-		align-items: center;
-		justify-content: center;
-		border-radius: 9999px;
-		background: #000000;
-		flex-shrink: 0;
-		transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-	}
-	.btn-pill:hover .btn-pill-circle { transform: scale(1.1); }
+.btn-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border-radius: 9999px;
+	background: #FFEDD7;
+	padding: 0.25rem 0.25rem 0.25rem 1.25rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #000000;
+	text-decoration: none;
+	transition: gap 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+	white-space: nowrap;
+}
 
-	/* Inverted pill — for dark section backgrounds */
-	.btn-pill-inverted {
-		background: #000000;
-		color: #FFEDD7;
-	}
-	.btn-pill-inverted .btn-pill-circle {
-		background: #FFEDD7;
-	}
-	.btn-pill-inverted .btn-pill-circle svg { color: #000000 !important; }
+.btn-pill:hover {
+	gap: 0.75rem;
+}
+
+.btn-pill-circle {
+	display: flex;
+	width: 2.25rem;
+	height: 2.25rem;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9999px;
+	background: #000000;
+	flex-shrink: 0;
+	transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-pill:hover .btn-pill-circle {
+	transform: scale(1.1);
+}
+
+/* Inverted pill — for dark section backgrounds */
+.btn-pill-inverted {
+	background: #000000;
+	color: #FFEDD7;
+}
+
+.btn-pill-inverted .btn-pill-circle {
+	background: #FFEDD7;
+}
+
+.btn-pill-inverted .btn-pill-circle svg {
+	color: #000000 !important;
+}
+
 input:-webkit-autofill,
 textarea:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0 1000px var(--color-surface-container-lowest, theme('colors.surface-container-lowest')) inset !important;
@@ -284,8 +319,13 @@ textarea:-webkit-autofill {
 
 /* Animations */
 @keyframes marquee {
-	0% { transform: translateX(0); }
-	100% { transform: translateX(-50%); }
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-50%);
+	}
 }
 
 .animate-marquee {
@@ -302,16 +342,14 @@ textarea:-webkit-autofill {
 /* Prismatic hero words (Hero only — .words-pull-up--spectral) */
 .words-pull-up--spectral [data-word] {
 	/* Slightly transparent stops so more of the video reads through the type */
-	background-image: linear-gradient(
-		105deg,
-		rgba(245, 244, 232, 0.82) 0%,
-		rgba(165, 243, 252, 0.78) 14%,
-		rgba(232, 121, 249, 0.78) 32%,
-		rgba(253, 224, 71, 0.8) 50%,
-		rgba(52, 211, 153, 0.78) 68%,
-		rgba(147, 197, 253, 0.78) 84%,
-		rgba(245, 244, 232, 0.82) 100%
-	);
+	background-image: linear-gradient(105deg,
+			rgba(245, 244, 232, 0.82) 0%,
+			rgba(165, 243, 252, 0.78) 14%,
+			rgba(232, 121, 249, 0.78) 32%,
+			rgba(253, 224, 71, 0.8) 50%,
+			rgba(52, 211, 153, 0.78) 68%,
+			rgba(147, 197, 253, 0.78) 84%,
+			rgba(245, 244, 232, 0.82) 100%);
 	background-size: 240% 100%;
 	-webkit-background-clip: text;
 	background-clip: text;
@@ -323,6 +361,7 @@ textarea:-webkit-autofill {
 	0% {
 		background-position: 0% 50%;
 	}
+
 	100% {
 		background-position: 240% 50%;
 	}
@@ -332,5 +371,20 @@ textarea:-webkit-autofill {
 	.words-pull-up--spectral [data-word] {
 		animation: none;
 		background-position: 35% 50%;
+	}
+}
+
+/* Mobile heading overrides — outside @layer so they beat addComponents */
+@media (max-width: 809px) {
+	.type-h1 {
+		font-size: clamp(5.25rem, 7.5rem + 11.25vw, 15.75rem) !important;
+	}
+
+	.type-h2 {
+		font-size: clamp(1.82rem, 2.08rem + 2.6vw, 4.225rem) !important;
+	}
+
+	.type-h3 {
+		font-size: clamp(1.25rem, 1.64rem + 1.56vw, 3.12rem) !important;
 	}
 }

@@ -25,7 +25,6 @@ const {
 } = Astro.props;
 
 const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
-const isInverted = variant === 'hero-pill-inverted';
 ---
 
 {isPill ? (
@@ -37,7 +36,7 @@ const isInverted = variant === 'hero-pill-inverted';
       "active:scale-[0.98]",
       "disabled:pointer-events-none disabled:opacity-[0.64]",
       "sm:text-base sm:py-4 sm:px-10",
-      "bg-[#1C1008] text-[#FFEDD7]",
+      "bg-[#5A3A24] text-[#FFEDD7]",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC5000] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1008]",
       className,
     ]}

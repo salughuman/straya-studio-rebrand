@@ -89,22 +89,12 @@ const wrapperClass = [
 </div>
 
 <style>
-  /* PERMITTED: CSS variable arithmetic (--i stagger) has no Tailwind equivalent */
+  /* PERMITTED: initial hidden state — scroll engine drives reveals, not transitions */
   .wpu-word {
     opacity: 0;
     filter: blur(20px);
     transform: translateY(16px);
-    transition:
-      opacity    700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      filter     700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      transform  700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms);
     will-change: opacity, filter, transform;
-  }
-
-  [data-words-pull-up].is-revealed .wpu-word {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -112,38 +102,52 @@ const wrapperClass = [
       opacity: 1 !important;
       filter: none !important;
       transform: none !important;
-      transition: none !important;
     }
   }
 </style>
 
 <script>
+  // micro-interactions.md §2.5, §3, M10
+  // Scroll-driven reveal: all motion tied to scroll position, reversible, scrub-coupled.
+  // No IntersectionObserver triggers — progress is computed every rAF from getBoundingClientRect.
+
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+  let rafId = 0;
+
+  const tick = () => {
+    const vh = window.innerHeight;
+    document.querySelectorAll<HTMLElement>('[data-words-pull-up]').forEach(container => {
+      const rect = container.getBoundingClientRect();
+      // p=0 when element is below fold, p=1 when well in view.
+      // +0.2 offset ensures above-fold elements start at p=1 immediately.
+      const p = clamp01((vh * 1.2 - rect.top) / (vh * 0.8));
+
+      container.querySelectorAll<HTMLElement>('[data-word]').forEach((word, i) => {
+        // M10 stagger: pItem = clamp01(p - index * 0.08)
+        const wp = clamp01(p - i * 0.08);
+        word.style.opacity      = String(wp);
+        word.style.filter       = wp >= 1 ? '' : `blur(${((1 - wp) * 20).toFixed(1)}px)`;
+        word.style.transform    = wp >= 1 ? '' : `translateY(${((1 - wp) * 16).toFixed(1)}px)`;
+      });
+    });
+
+    rafId = requestAnimationFrame(tick);
+  };
+
   const initWordsPullUp = () => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      document.querySelectorAll<HTMLElement>('[data-word]').forEach(w => {
+        w.style.opacity = '1';
+        w.style.filter = 'none';
+        w.style.transform = 'none';
+      });
+      return;
+    }
 
-    document.querySelectorAll<HTMLElement>('[data-words-pull-up]').forEach(container => {
-      if (container.dataset.wpuReady === 'true') return;
-      container.dataset.wpuReady = 'true';
-
-      if (reduced) {
-        container.classList.add('is-revealed');
-        return;
-      }
-
-      // One-time entry trigger for headings (micro-interactions.md §8.3)
-      const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        const extraDelay = Number(container.dataset.delay || 0);
-        if (extraDelay > 0) {
-          setTimeout(() => container.classList.add('is-revealed'), extraDelay);
-        } else {
-          container.classList.add('is-revealed');
-        }
-        obs.disconnect();
-      }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
-
-      obs.observe(container);
-    });
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
   };
 
   initWordsPullUp();
