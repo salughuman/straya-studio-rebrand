@@ -30,7 +30,7 @@ const navLinks = [
       <a
         href={link.href}
         data-nav-link
-        class="global-nav-link text-[10px] transition-colors duration-200 sm:text-xs md:text-sm"
+        class="global-nav-link hidden font-mono text-xs tracking-[0.06em] uppercase transition-colors duration-200 md:block md:text-sm"
         style="color: rgba(255,237,215,0.7);"
       >
         {link.label}
@@ -160,8 +160,7 @@ const navLinks = [
   .global-nav-link:hover { color: rgba(255,237,215,0.95) !important; }
   .global-nav-link.is-active {
     color: #FFEDD7 !important;
-    border-bottom: 2px solid rgba(220, 80, 0, 0.7);
-    padding-bottom: 0;
+    box-shadow: inset 0 -2px 0 rgba(220, 80, 0, 0.7);
   }
 
   /* ── Hamburger toggle faces ────────────────────────────────── */
@@ -225,57 +224,62 @@ const navLinks = [
 </style>
 
 <script>
-  const toggle   = document.getElementById('nav-toggle');
-  const menu     = document.getElementById('mobile-menu');
-  const closeBtn = document.getElementById('nav-close');
-  const mobileLinks = document.querySelectorAll('.mobile-link');
+  const initNavbar = () => {
+    const toggle      = document.getElementById('nav-toggle');
+    const menu        = document.getElementById('mobile-menu');
+    const closeBtn    = document.getElementById('nav-close');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
 
-  const open = () => {
-    menu?.classList.add('is-open');
-    menu?.setAttribute('aria-hidden', 'false');
-    menu?.setAttribute('aria-modal', 'true');
-    toggle?.classList.add('is-open');
-    toggle?.setAttribute('aria-expanded', 'true');
-    toggle?.setAttribute('aria-label', 'Close menu');
-    document.body.style.overflow = 'hidden';
-  };
+    const open = () => {
+      menu?.classList.add('is-open');
+      menu?.setAttribute('aria-hidden', 'false');
+      menu?.setAttribute('aria-modal', 'true');
+      toggle?.classList.add('is-open');
+      toggle?.setAttribute('aria-expanded', 'true');
+      toggle?.setAttribute('aria-label', 'Close menu');
+      document.body.style.overflow = 'hidden';
+    };
 
-  const close = () => {
-    menu?.classList.remove('is-open');
-    menu?.setAttribute('aria-hidden', 'true');
-    menu?.setAttribute('aria-modal', 'false');
-    toggle?.classList.remove('is-open');
-    toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Open menu');
-    document.body.style.overflow = '';
-  };
+    const close = () => {
+      menu?.classList.remove('is-open');
+      menu?.setAttribute('aria-hidden', 'true');
+      menu?.setAttribute('aria-modal', 'false');
+      toggle?.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-label', 'Open menu');
+      document.body.style.overflow = '';
+    };
 
-  toggle?.addEventListener('click', () => menu?.classList.contains('is-open') ? close() : open());
-  closeBtn?.addEventListener('click', close);
-  mobileLinks.forEach(l => l.addEventListener('click', close));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    toggle?.addEventListener('click', () => menu?.classList.contains('is-open') ? close() : open());
+    closeBtn?.addEventListener('click', close);
+    mobileLinks.forEach(l => l.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-  // ── Active section tracking ─────────────────────────────────
-  const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
-  const sectionIds  = Array.from(allNavLinks)
-    .map(l => l.getAttribute('href')?.split('#')[1])
-    .filter(Boolean) as string[];
+    // ── Active section tracking ───────────────────────────────
+    const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+    const sectionIds  = Array.from(allNavLinks)
+      .map(l => l.getAttribute('href')?.split('#')[1])
+      .filter(Boolean) as string[];
 
-  const setActive = (id: string) => {
-    allNavLinks.forEach(link => {
-      link.classList.toggle('is-active', (link.getAttribute('href') ?? '').endsWith(`#${id}`));
+    const setActive = (id: string) => {
+      allNavLinks.forEach(link => {
+        link.classList.toggle('is-active', (link.getAttribute('href') ?? '').endsWith(`#${id}`));
+      });
+    };
+
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
+    }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) sectionObserver.observe(el);
     });
+
+    const hash = window.location.hash.slice(1);
+    if (hash) setActive(hash);
   };
 
-  const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
-  }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
-
-  sectionIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) sectionObserver.observe(el);
-  });
-
-  const hash = window.location.hash.slice(1);
-  if (hash) setActive(hash);
+  initNavbar();
+  document.addEventListener('astro:after-swap', initNavbar);
 </script>

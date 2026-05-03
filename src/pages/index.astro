@@ -4,8 +4,8 @@ import AEOHeader from "../components/AEOHeader.astro";
 import Hero from "../components/Hero.astro";
 import ServicesMarquee from "../components/ServicesMarquee.astro";
 import AboutSection from "../components/AboutSection.astro";
-import WhyStraya2 from "../components/WhyStraya2.astro";
 import WhyStraya from "../components/WhyStraya.astro";
+import StrayaOffer from "../components/StrayaOffer.astro";
 import Testimonials from "../components/Testimonials.astro";
 import SelectedWork from "../components/SelectedWork.astro";
 import FAQ from "../components/FAQ.astro";
@@ -44,7 +44,7 @@ const pageSchema = {
 	<SelectedWork />
 
 	<!-- 04: The Straya Method — cinematic horizontal scroll -->
-	<WhyStraya2 />
+	<WhyStraya />
 
 	<!-- 05: Social Proof -->
 	<Testimonials />
@@ -52,13 +52,17 @@ const pageSchema = {
 	<!-- 06: Services -->
 	<ServicesMarquee />
 
-	<!-- 07: The Straya Offer -->
-	<WhyStraya />
+	<!-- 07: The Straya Offer — bento grid -->
+	<StrayaOffer />
 
 	<!-- 08: FAQ -->
 	<FAQ />
 
 	<Footer />
 
-	<script type="application/ld+json" is:inline set:html={JSON.stringify(pageSchema)} />
+	<script
+		type="application/ld+json"
+		is:inline
+		set:html={JSON.stringify(pageSchema)}
+	/>
 </BaseLayout>
