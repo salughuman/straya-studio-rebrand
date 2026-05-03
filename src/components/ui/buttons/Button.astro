@@ -33,33 +33,17 @@ const isInverted = variant === 'hero-pill-inverted';
     href={href}
     {...rest}
     class:list={[
-      "group inline-flex items-center gap-2 self-start rounded-full py-1 pl-5 pr-1 text-sm font-medium no-underline select-none",
-      // Slower spring — not snappy. Forward motion on hover via translateX
-      "transition-[gap,box-shadow,transform] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-      "hover:gap-3 hover:translate-x-1",
-      "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.2)] active:translate-x-0",
+      "btn-pill-lusion group inline-flex items-center justify-center self-start rounded-full py-3.5 px-8 text-sm font-medium no-underline select-none tracking-[0.04em]",
+      "active:scale-[0.98]",
       "disabled:pointer-events-none disabled:opacity-[0.64]",
-      "sm:text-base",
-      // Cream pill (dark bg) — hero, FinalCTA
-      !isInverted && "bg-[#E1E0CC] text-[#0A0A0A] shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_2px_8px_rgba(0,0,0,0.28)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.36)] focus-visible:ring-offset-[#0A0A0A]",
-      // Accent pill (bone bg) — pricing, light sections
-      isInverted && "bg-accent text-[#000000] shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_2px_8px_rgba(220,80,0,0.25)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_4px_16px_rgba(220,80,0,0.35)] focus-visible:ring-offset-[#FFEDD7]",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+      "sm:text-base sm:py-4 sm:px-10",
+      "bg-[#1C1008] text-[#FFEDD7]",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC5000] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1008]",
       className,
     ]}
   >
     {label}
-    {iconCircle ? (
-      <span class:list={[
-        "flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 sm:h-10 sm:w-10",
-        !isInverted && "bg-[#0A0A0A] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
-        isInverted && "bg-[#E1E0CC] shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
-      ]}>
-        <slot />
-      </span>
-    ) : (
-      <slot />
-    )}
+    <slot />
   </a>
 ) : variant === 'text-link' ? (
   <a
@@ -130,4 +114,28 @@ const isInverted = variant === 'hero-pill-inverted';
 
 <style>
   a { -webkit-tap-highlight-color: transparent; }
+
+  /* Pill button — inset glow expands from zero on hover */
+  .btn-pill-lusion {
+    box-shadow:
+      0 0 0 1px rgba(255, 237, 215, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.5),
+      0 0 0 0 rgba(220, 80, 0, 0),
+      inset 0 0 0 0 rgba(220, 80, 0, 0),
+      inset 0 0 0 0 rgba(220, 80, 0, 0);
+    transition: box-shadow 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-pill-lusion:hover {
+    box-shadow:
+      0 0 0 1px rgba(255, 237, 215, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.5),
+      0 0 0 1.5px #DC5000,
+      inset 0 0 20px 6px rgba(220, 80, 0, 0.30),
+      inset 0 0 48px 16px rgba(220, 80, 0, 0.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-pill-lusion { transition: none; }
+  }
 </style>

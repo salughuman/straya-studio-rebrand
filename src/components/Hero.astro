@@ -106,26 +106,9 @@ const {
           href={`${baseUrl}contact`}
           label={ctaLabel}
           variant="hero-pill"
-          iconCircle={true}
           data-hero-cta
           class="self-start"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-4 w-4"
-            style="color:#FFEDD7;"
-            aria-hidden="true"
-          >
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </Button>
+        />
       </div>
 
     </div>
@@ -175,6 +158,10 @@ const {
         cta.style.opacity   = '1';
         cta.style.filter    = 'blur(0)';
         cta.style.transform = 'translateY(0)';
+        // Clear inline transition after entry so CSS class handles hover
+        setTimeout(() => {
+          cta.style.transition = '';
+        }, 700);
       }, 700);
     });
   };

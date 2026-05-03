@@ -15,7 +15,7 @@
 		width: 100%;
 		max-width: 100%;
 		font-family: var(--font-body, theme('fontFamily.sans'));
-		background-color: #000000;
+		background-color: #080605;
 		color: #FFEDD7;
 		scroll-behavior: smooth;
 		scroll-padding-top: 4.5rem;
@@ -34,7 +34,7 @@
 		width: 100%;
 		max-width: 100%;
 		min-height: 100vh;
-		background-color: #000000;
+		background-color: #080605;
 		color: #FFEDD7;
 		overflow-x: clip;
 		cursor: var(--cursor, crosshair);
@@ -86,7 +86,7 @@
 			scroll-padding-top: 3.5rem;
 		}
 		body {
-			background-color: #000000;
+			background-color: #080605;
 		}
 		section[id], footer[id], main [id] {
 			scroll-margin-top: 3.5rem;
@@ -121,7 +121,7 @@
 	.section-frosted {
 		position: relative;
 		isolation: isolate;
-		background-color: rgba(0,0,0,0.82) !important;
+		background-color: rgba(8,6,5,0.82) !important;
 		-webkit-backdrop-filter: none !important;
 		backdrop-filter: none !important;
 	}

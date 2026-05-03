@@ -1,8 +1,7 @@
 ---
 /**
  * Footer.astro — Straya Studio
- * Mode: Brutalism — closes the document with weight
- * Design: Full-bleed display type + asymmetric grid + hairlines
+ * Cream background, full-width STRAYA wordmark with hover light sweep
  */
 import { SITE_CONFIG } from "../data/site-config";
 import Button from "./ui/buttons/Button.astro";
@@ -23,26 +22,23 @@ const socialLinks = [
 ];
 ---
 
-<footer aria-label="Site footer" class="section-frosted relative overflow-hidden">
+<footer aria-label="Site footer" class="footer-root relative">
 
-  <!-- Top hairline -->
-  <div class="h-px bg-on-background/8 w-full"></div>
-
-  <!-- ── UPPER BLOCK — CTA + nav ── -->
+  <!-- ── UPPER BLOCK ── -->
   <div class="main-container pt-20 pb-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
 
-      <!-- Left: closing statement + CTA -->
+      <!-- Left: CTA -->
       <div class="lg:col-span-7 flex flex-col gap-8">
         <div class="flex items-center gap-3">
           <span class="w-4 h-px bg-accent"></span>
-          <span class="font-mono text-xs uppercase tracking-[0.1em] text-on-background/40">Let's build something</span>
+          <span class="font-mono text-xs uppercase tracking-[0.1em]" style="color: rgba(5,5,5,0.4);">Let's build something</span>
         </div>
 
-        <h2 class="font-display font-black leading-[0.92] tracking-[-0.04em] text-on-background"
-            style="font-size: clamp(3rem, 7vw, 6.5rem);">
+        <h2 class="font-display font-black leading-[0.92] tracking-[-0.04em]"
+            style="font-size: clamp(3rem, 7vw, 6.5rem); color: #050505;">
           Ready when<br/>
-          <span class="text-accent">you are.</span>
+          <span style="color: #DC5000;">you are.</span>
         </h2>
 
         <div class="flex flex-wrap items-center gap-4 pt-2">
@@ -50,30 +46,27 @@ const socialLinks = [
             href="/contact"
             label="Start a project"
             variant="hero-pill"
-            iconCircle={true}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#E1E0CC;" aria-hidden="true">
-              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-            </svg>
-          </Button>
+            class="footer-btn"
+          />
           <a
             href={`mailto:${SITE_CONFIG.email}`}
-            class="footer-link font-mono text-xs uppercase tracking-[0.08em] text-on-background/50"
+            class="footer-link font-mono text-xs uppercase tracking-[0.08em]"
+            style="color: rgba(5,5,5,0.45);"
           >
             {SITE_CONFIG.email}
           </a>
         </div>
       </div>
 
-      <!-- Right: nav + social stacked -->
+      <!-- Right: nav + social -->
       <div class="lg:col-span-5 grid grid-cols-2 gap-10 lg:pt-4">
 
         <nav aria-label="Footer navigation">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-on-background/25 block mb-5">Pages</span>
-          <ul class="flex flex-col gap-3.5 list-none p-0">
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(5,5,5,0.25);">Pages</span>
+          <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
             {navLinks.map(link => (
               <li>
-                <a href={link.href} class="footer-link font-mono text-xs uppercase tracking-[0.06em] text-on-background/50">
+                <a href={link.href} class="footer-link font-mono text-xs uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.5);">
                   {link.label}
                 </a>
               </li>
@@ -82,15 +75,16 @@ const socialLinks = [
         </nav>
 
         <nav aria-label="Social links">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-on-background/25 block mb-5">Connect</span>
-          <ul class="flex flex-col gap-3.5 list-none p-0">
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(5,5,5,0.25);">Connect</span>
+          <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
             {socialLinks.map(link => (
               <li>
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="footer-link font-mono text-xs uppercase tracking-[0.06em] text-on-background/50 inline-flex items-center gap-1.5 group"
+                  class="footer-link font-mono text-xs uppercase tracking-[0.06em] inline-flex items-center gap-1.5 group"
+                  style="color: rgba(5,5,5,0.5);"
                 >
                   {link.label}
                   <svg class="w-2 h-2 opacity-30 group-hover:opacity-60 transition-opacity" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -106,31 +100,35 @@ const socialLinks = [
     </div>
   </div>
 
-  <!-- ── LOWER BLOCK — full-bleed wordmark ── -->
-  <div class="border-t border-on-background/8 overflow-hidden" aria-hidden="true">
-    <p
-      class="font-display font-black leading-none tracking-[-0.04em] text-on-background/[0.035] whitespace-nowrap select-none pointer-events-none"
-      style="font-size: clamp(6rem, 22vw, 20rem); padding: 0 0.05em; margin-bottom: -0.12em;"
-    >
-      STRAYA
-    </p>
-  </div>
+  <!-- ── STRAYA WORDMARK — hover light sweep ── -->
+  <!-- Blurred glow layer -->
+  <p class="footer-wordmark footer-wordmark-glow font-display font-black leading-none whitespace-nowrap select-none"
+     style="display: block; margin: 0; padding: 0; letter-spacing: -0.04em; line-height: 0.85; position: absolute; left: 0;"
+     aria-hidden="true">
+    STRAYA
+  </p>
+  <!-- Sharp text layer -->
+  <p class="footer-wordmark font-display font-black leading-none whitespace-nowrap select-none"
+     style="display: block; margin: 0; padding: 0; letter-spacing: -0.04em; line-height: 0.85; text-align: left;"
+     aria-hidden="true">
+    STRAYA
+  </p>
 
   <!-- ── BOTTOM BAR ── -->
-  <div class="border-t border-on-background/8">
+  <div style="border-top: 1px solid rgba(5,5,5,0.08);">
     <div class="main-container py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
       <div class="flex items-center gap-3">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent footer-dot flex-shrink-0" aria-hidden="true"></span>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-accent">Accepting new briefs</span>
+        <span class="w-1.5 h-1.5 rounded-full footer-dot flex-shrink-0" style="background: #DC5000;" aria-hidden="true"></span>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.08em]" style="color: #DC5000;">Accepting new briefs</span>
       </div>
 
       <div class="flex flex-wrap items-center gap-5">
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em] text-on-background/20">©{year} Straya Studio</span>
-        <a href="/privacy"      class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em] text-on-background/25">Privacy</a>
-        <a href="/terms"        class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em] text-on-background/25">Terms</a>
-        <a href="/sitemap-page" class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em] text-on-background/25">Sitemap</a>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em] text-on-background/15">Lahore, Pakistan</span>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.2);">©{year} Straya Studio</span>
+        <a href="/privacy"      class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Privacy</a>
+        <a href="/terms"        class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Terms</a>
+        <a href="/sitemap-page" class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Sitemap</a>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.15);">Lahore, Pakistan</span>
       </div>
 
     </div>
@@ -139,7 +137,12 @@ const socialLinks = [
 </footer>
 
 <style>
-  /* PERMITTED: M3 underline draw + @keyframes */
+  /* ── Footer background ────────────────────────────────────── */
+  .footer-root {
+    background: #FFEDD7;
+  }
+
+  /* ── Links ────────────────────────────────────────────────── */
   .footer-link {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
@@ -150,14 +153,75 @@ const socialLinks = [
   }
   .footer-link:hover,
   .footer-link:focus-visible {
-    color: var(--color-on-background, #E1E0CC);
+    color: #050505 !important;
     background-size: 100% 1px;
   }
   .footer-link:focus-visible {
-    outline: 2px solid var(--color-accent, #DC5000);
+    outline: 2px solid #DC5000;
     outline-offset: 3px;
   }
 
+  /* ── STRAYA shine sweep ───────────────────────────────────── */
+  /* Shared gradient for both layers */
+  .footer-wordmark {
+    background-image: linear-gradient(
+      105deg,
+      #050505 0%,
+      #050505 28%,
+      rgba(180, 90, 20, 0.25) 36%,
+      rgba(255, 210, 140, 0.55) 43%,
+      rgba(255, 245, 220, 0.92) 50%,
+      #ffffff 50.5%,
+      rgba(255, 245, 220, 0.92) 51%,
+      rgba(255, 210, 140, 0.55) 57%,
+      rgba(180, 90, 20, 0.25) 64%,
+      #050505 72%,
+      #050505 100%
+    );
+    background-size: 400% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0s;
+  }
+
+  /* Blurred duplicate — only emits warm light, no dark spread */
+  .footer-wordmark-glow {
+    background-image: linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(220, 130, 40, 0.3) 38%,
+      rgba(255, 210, 130, 0.7) 44%,
+      rgba(255, 240, 200, 1) 50%,
+      rgba(255, 255, 255, 1) 50.5%,
+      rgba(255, 240, 200, 1) 51%,
+      rgba(255, 210, 130, 0.7) 56%,
+      rgba(220, 130, 40, 0.3) 62%,
+      transparent 70%,
+      transparent 100%
+    ) !important;
+    filter: blur(40px);
+    opacity: 0;
+    top: -60px;
+    bottom: -20px;
+    transition: background-position 0s, opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .footer-root:hover .footer-wordmark {
+    background-position: 0% 0;
+    transition: background-position 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .footer-root:hover .footer-wordmark-glow {
+    background-position: 0% 0;
+    opacity: 0.75;
+    transition: background-position 2.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  /* ── Status dot pulse ─────────────────────────────────────── */
   .footer-dot {
     animation: footer-dot-pulse 3s cubic-bezier(0.4,0,0.6,1) infinite;
   }
@@ -167,7 +231,35 @@ const socialLinks = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .footer-link { transition: none; }
-    .footer-dot  { animation: none; }
+    .footer-link     { transition: none; }
+    .footer-dot      { animation: none; }
+    .footer-wordmark { transition: none; }
+    .footer-wordmark-wrap:hover .footer-wordmark { transition: none; }
   }
 </style>
+
+<script>
+  const fitWordmark = () => {
+    const footer = document.querySelector<HTMLElement>('.footer-root');
+    const els    = document.querySelectorAll<HTMLElement>('.footer-wordmark');
+    if (!footer || !els.length) return;
+
+    const sharp = document.querySelector<HTMLElement>('.footer-wordmark:not(.footer-wordmark-glow)');
+    if (!sharp) return;
+    sharp.style.fontSize = '200px';
+    sharp.style.width    = 'max-content';
+    const naturalWidth   = sharp.offsetWidth;
+    sharp.style.width    = '';
+
+    const size = (footer.clientWidth * 0.965 / naturalWidth * 200) + 'px';
+    els.forEach(el => el.style.fontSize = size);
+  };
+
+  // Wait for fonts before first measurement
+  document.fonts.ready.then(fitWordmark);
+  window.addEventListener('resize', fitWordmark);
+  document.addEventListener('astro:after-swap', () => {
+    document.fonts.ready.then(fitWordmark);
+    window.addEventListener('resize', fitWordmark);
+  });
+</script>

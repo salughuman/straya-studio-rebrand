@@ -138,15 +138,9 @@ const priceNumbers = [2000, 4000, 9500];
                 href={`${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
                 label={tier.ctaLabel}
                 variant="hero-pill-inverted"
-                iconCircle={true}
                 class="w-full justify-between"
                 aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#0A0A0A;" aria-hidden="true">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
-              </Button>
+              />
             ) : (
               <Button
                 href={i === 2
@@ -154,16 +148,10 @@ const priceNumbers = [2000, 4000, 9500];
                   : `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
                 label={tier.ctaLabel}
                 variant="hero-pill-inverted"
-                iconCircle={true}
                 target={i === 2 ? "_blank" : undefined}
                 rel={i === 2 ? "noopener noreferrer" : undefined}
                 aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#E1E0CC;" aria-hidden="true">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
-              </Button>
+              />
             )}
           </div>
 
@@ -181,17 +169,11 @@ const priceNumbers = [2000, 4000, 9500];
         href={SITE_CONFIG.socials.calendly}
         label={PRICING_FOOTER.ctaLabel}
         variant="hero-pill-inverted"
-        iconCircle={true}
         target="_blank"
         rel="noopener noreferrer"
         class="flex-shrink-0"
         aria-label="Schedule a scoping call with Straya Studio"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#0A0A0A;" aria-hidden="true">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </Button>
+      />
     </div>
 
     <!-- Trust line -->
