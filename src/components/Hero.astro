@@ -52,7 +52,7 @@ const {
   <!-- inline style required: rgba/hex values not expressible as Tailwind token classes -->
   <div
     class="pointer-events-none absolute inset-0 z-[2]"
-    style="background: linear-gradient(to bottom, transparent 0%, transparent 35%, #140E09 100%);"
+    style="background: linear-gradient(to bottom, transparent 0%, transparent 35%, var(--color-bg-dim) 100%);"
     aria-hidden="true"
   >
   </div>
@@ -70,7 +70,7 @@ const {
       <div class="col-span-12 lg:col-span-8">
         <h1
           class="font-display font-black leading-[0.92] tracking-[-0.04em] text-[36vw] sm:text-[30vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-[40%]"
-          style="color:rgba(255,237,215,0.92)"
+          style="color:rgba(var(--fg-rgb),0.92)"
         >
           <WordsPullUp text={headline} />
         </h1>
@@ -81,7 +81,7 @@ const {
         <p
           data-hero-tagline
           class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
-          style="line-height:1.35;color:rgba(255,237,215,0.72)"
+          style="line-height:1.35;color:rgba(var(--fg-rgb),0.72)"
         >
           {tagline}
         </p>

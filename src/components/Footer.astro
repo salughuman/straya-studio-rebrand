@@ -32,13 +32,13 @@ const socialLinks = [
       <div class="lg:col-span-7 flex flex-col gap-8">
         <div class="flex items-center gap-3">
           <span class="w-4 h-px bg-accent"></span>
-          <span class="font-mono text-xs uppercase tracking-[0.1em]" style="color: rgba(5,5,5,0.4);">Let's build something</span>
+          <span class="font-mono text-xs uppercase tracking-[0.1em]" style="color: rgba(var(--fg-inverted-rgb), 0.4);">Let's build something</span>
         </div>
 
         <h2 class="font-display font-black leading-[0.92] tracking-[-0.04em]"
-            style="font-size: clamp(3rem, 7vw, 6.5rem); color: #050505;">
+            style="font-size: clamp(3rem, 7vw, 6.5rem); color: var(--color-fg-inverted);">
           Ready when<br/>
-          <span style="color: #DC5000;">you are.</span>
+          <span style="color: var(--color-accent);">you are.</span>
         </h2>
 
         <div class="flex flex-wrap items-center gap-4 pt-2">
@@ -51,7 +51,7 @@ const socialLinks = [
           <a
             href={`mailto:${SITE_CONFIG.email}`}
             class="footer-link font-mono text-xs uppercase tracking-[0.08em]"
-            style="color: rgba(5,5,5,0.45);"
+            style="color: rgba(var(--fg-inverted-rgb), 0.45);"
           >
             {SITE_CONFIG.email}
           </a>
@@ -62,11 +62,11 @@ const socialLinks = [
       <div class="lg:col-span-5 grid grid-cols-2 gap-10 lg:pt-4">
 
         <nav aria-label="Footer navigation">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(5,5,5,0.25);">Pages</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(var(--fg-inverted-rgb), 0.25);">Pages</span>
           <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
             {navLinks.map(link => (
               <li>
-                <a href={link.href} class="footer-link font-mono text-xs uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.5);">
+                <a href={link.href} class="footer-link font-mono text-xs uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.5);">
                   {link.label}
                 </a>
               </li>
@@ -75,7 +75,7 @@ const socialLinks = [
         </nav>
 
         <nav aria-label="Social links">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(5,5,5,0.25);">Connect</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(var(--fg-inverted-rgb), 0.25);">Connect</span>
           <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
             {socialLinks.map(link => (
               <li>
@@ -84,7 +84,7 @@ const socialLinks = [
                   target="_blank"
                   rel="noopener noreferrer"
                   class="footer-link font-mono text-xs uppercase tracking-[0.06em] inline-flex items-center gap-1.5 group"
-                  style="color: rgba(5,5,5,0.5);"
+                  style="color: rgba(var(--fg-inverted-rgb), 0.5);"
                 >
                   {link.label}
                   <svg class="w-2 h-2 opacity-30 group-hover:opacity-60 transition-opacity" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -115,20 +115,20 @@ const socialLinks = [
   </p>
 
   <!-- ── BOTTOM BAR ── -->
-  <div style="border-top: 1px solid rgba(5,5,5,0.08);">
+  <div style="border-top: 1px solid rgba(var(--fg-inverted-rgb), 0.08);">
     <div class="main-container py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
       <div class="flex items-center gap-3">
-        <span class="w-1.5 h-1.5 rounded-full footer-dot flex-shrink-0" style="background: #DC5000;" aria-hidden="true"></span>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.08em]" style="color: #DC5000;">Accepting new briefs</span>
+        <span class="w-1.5 h-1.5 rounded-full footer-dot flex-shrink-0" style="background: var(--color-accent);" aria-hidden="true"></span>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.08em]" style="color: var(--color-accent);">Accepting new briefs</span>
       </div>
 
       <div class="flex flex-wrap items-center gap-5">
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.2);">©{year} Straya Studio</span>
-        <a href="/privacy"      class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Privacy</a>
-        <a href="/terms"        class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Terms</a>
-        <a href="/sitemap-page" class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.3);">Sitemap</a>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(5,5,5,0.15);">Lahore, Pakistan</span>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.2);">©{year} Straya Studio</span>
+        <a href="/privacy"      class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Privacy</a>
+        <a href="/terms"        class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Terms</a>
+        <a href="/sitemap-page" class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Sitemap</a>
+        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.15);">Lahore, Pakistan</span>
       </div>
 
     </div>
@@ -139,7 +139,7 @@ const socialLinks = [
 <style>
   /* ── Footer background ────────────────────────────────────── */
   .footer-root {
-    background: #FFEDD7;
+    background: var(--color-bg-inverted);
   }
 
   /* ── Links ────────────────────────────────────────────────── */
@@ -153,11 +153,11 @@ const socialLinks = [
   }
   .footer-link:hover,
   .footer-link:focus-visible {
-    color: #050505 !important;
+    color: var(--color-fg-inverted) !important;
     background-size: 100% 1px;
   }
   .footer-link:focus-visible {
-    outline: 2px solid #DC5000;
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 
@@ -166,8 +166,8 @@ const socialLinks = [
   .footer-wordmark {
     background-image: linear-gradient(
       105deg,
-      #050505 0%,
-      #050505 28%,
+      var(--color-fg-inverted) 0%,
+      var(--color-fg-inverted) 28%,
       rgba(180, 90, 20, 0.25) 36%,
       rgba(255, 210, 140, 0.55) 43%,
       rgba(255, 245, 220, 0.92) 50%,
@@ -175,8 +175,8 @@ const socialLinks = [
       rgba(255, 245, 220, 0.92) 51%,
       rgba(255, 210, 140, 0.55) 57%,
       rgba(180, 90, 20, 0.25) 64%,
-      #050505 72%,
-      #050505 100%
+      var(--color-fg-inverted) 72%,
+      var(--color-fg-inverted) 100%
     );
     background-size: 400% 100%;
     background-position: 100% 0;
@@ -226,8 +226,8 @@ const socialLinks = [
     animation: footer-dot-pulse 3s cubic-bezier(0.4,0,0.6,1) infinite;
   }
   @keyframes footer-dot-pulse {
-    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(220,80,0,0); }
-    50%     { opacity:0.8; box-shadow:0 0 6px 2px rgba(220,80,0,0.25); }
+    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); }
+    50%     { opacity:0.8; box-shadow:0 0 6px 2px rgba(var(--accent-rgb),0.25); }
   }
 
   @media (prefers-reduced-motion: reduce) {

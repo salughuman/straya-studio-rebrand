@@ -1,0 +1,418 @@
+{
+    "version": "2.1.0",
+    "name": "Straya Studio Design Tokens — Active Set",
+    "description": "Lean token set. Every entry here is consumed somewhere on the live site — either via CSS custom property in :root (global.css), a Tailwind theme key in tailwind.config.mjs, or a Tailwind class name in a component. Nothing speculative.",
+
+    "_sources": {
+        "cssVars":   "global.css :root block",
+        "tailwind":  "tailwind.config.mjs theme.extend + plugin(addBase/addComponents)",
+        "components":"src/components/**/*.astro"
+    },
+
+    "media": {
+        "_usedBy": "tailwind.config.mjs theme.screens",
+        "breakpoints": {
+            "sm": "390px",
+            "md": "810px",
+            "lg": "1200px"
+        }
+    },
+
+    "color": {
+        "_usedBy": "tailwind.config.mjs theme.extend.colors → Tailwind classes used in components",
+        "_comment": "Only tokens whose Tailwind class (bg-*, text-*, border-*) appears in at least one component.",
+
+        "primary": {
+            "_classes": ["bg-primary", "text-primary", "border-primary", "text-on-primary", "text-on-primary-container", "border-on-primary-container/*"],
+            "DEFAULT":     "#FFEDD7",
+            "on":          "#000000",
+            "onContainer": "#000000"
+        },
+
+        "secondary": {
+            "_classes": ["bg-secondary", "text-on-secondary", "focus-visible:ring-secondary"],
+            "DEFAULT":  "#DC5000",
+            "on":       "#000000"
+        },
+
+        "background": {
+            "_classes": ["bg-background", "ring-offset-background", "bg-surface-dim", "bg-surface-container-lowest", "bg-surface-container-low", "bg-surface-container"],
+            "DEFAULT":           "#080605",
+            "surface":           "#080605",
+            "surfaceDim":        "#140E09",
+            "surfaceBright":     "#1F140D",
+            "containerLowest":   "#080605",
+            "containerLow":      "#140E09",
+            "container":         "#382416"
+        },
+
+        "onBackground": {
+            "_classes": ["text-on-background", "border-on-background/*"],
+            "DEFAULT":  "#FFEDD7",
+            "variant":  "rgba(255,237,215,0.72)"
+        },
+
+        "onSurface": {
+            "_classes": ["text-on-surface", "text-on-surface-variant"],
+            "DEFAULT":  "#FFEDD7",
+            "variant":  "rgba(255,237,215,0.72)"
+        },
+
+        "inverse": {
+            "_classes": ["bg-inverse-surface"],
+            "surface": "#FFEDD7"
+        },
+
+        "outline": {
+            "_classes": ["border-outline", "border-outline-variant"],
+            "DEFAULT": "#5A3A24",
+            "variant": "#382416"
+        },
+
+        "accent": {
+            "_classes": ["bg-accent", "text-accent", "ring-accent"],
+            "DEFAULT": "#DC5000"
+        },
+
+        "border": {
+            "_classes": ["border-border-default", "border-border-subtle", "border-border-strong"],
+            "default": "rgba(255,237,215,0.16)",
+            "subtle":  "rgba(255,237,215,0.08)",
+            "strong":  "rgba(255,237,215,0.22)"
+        },
+
+        "text": {
+            "_classes": ["text-text-primary", "text-text-secondary"],
+            "primary":   "#FFEDD7",
+            "secondary": "rgba(255,237,215,0.72)"
+        }
+    },
+
+    "typography": {
+        "_usedBy": "tailwind.config.mjs plugin(addComponents) → .type-* classes + font-family theme keys",
+
+        "fontFamily": {
+            "display":  "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
+            "body":     "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
+            "mono":     "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "fallback": {
+                "display": "'Helvetica Neue', Arial, sans-serif",
+                "body":    "system-ui, -apple-system, sans-serif",
+                "mono":    "ui-monospace, monospace"
+            }
+        },
+
+        "style": {
+            "_usedBy": "tailwind.config.mjs theme.extend.letterSpacing",
+            "tightTracking":    "-0.04em",
+            "blueprintTracking": "0.05em",
+            "normalTracking":   "0"
+        },
+
+        "h2": {
+            "_classes": [".type-h2"],
+            "fontSize":      "clamp(2.8rem, 3.2rem + 4.0vw, 6.5rem)",
+            "fontWeight":    "800",
+            "lineHeight":    "1.00",
+            "letterSpacing": "-0.03em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color":         "#FFEDD7"
+        },
+
+        "h3": {
+            "_classes": [".type-h3"],
+            "fontSize":      "clamp(1.6rem, 2.1rem + 2.0vw, 4.0rem)",
+            "fontWeight":    "800",
+            "lineHeight":    "1.05",
+            "letterSpacing": "-0.03em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color":         "#FFEDD7"
+        },
+
+        "h4": {
+            "_classes": [".type-h4"],
+            "fontSize":      "clamp(1.6rem, 1.4rem + 0.8vw, 2.0rem)",
+            "fontWeight":    "700",
+            "lineHeight":    "1.15",
+            "letterSpacing": "-0.02em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color":         "#FFEDD7"
+        },
+
+        "h5": {
+            "_classes": [".type-h5"],
+            "fontSize":      "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)",
+            "fontWeight":    "700",
+            "lineHeight":    "1.20",
+            "letterSpacing": "-0.02em",
+            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color":         "#FFEDD7"
+        },
+
+        "body": {
+            "_classes": [".type-body"],
+            "fontSize":   "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color":      "#FFEDD7"
+        },
+
+        "bodyLarge": {
+            "_classes": [".type-body-large"],
+            "fontSize":   "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.25",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color":      "#FFEDD7"
+        },
+
+        "bodySmall": {
+            "_classes": [".type-body-small"],
+            "fontSize":   "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color":      "rgba(255,237,215,0.72)"
+        },
+
+        "caption": {
+            "_classes": [".type-caption"],
+            "fontSize":   "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.25",
+            "letterSpacing": "0",
+            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "color":      "rgba(255,237,215,0.72)"
+        },
+
+        "label": {
+            "_classes": [".type-label"],
+            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight":    "500",
+            "lineHeight":    "1.25",
+            "letterSpacing": "0.04em",
+            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
+            "color":         "#FFEDD7"
+        },
+
+        "labelUppercase": {
+            "_classes": [".type-label-uppercase"],
+            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight":    "500",
+            "lineHeight":    "1.25",
+            "letterSpacing": "0.08em",
+            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
+            "color":         "#FFEDD7"
+        },
+
+        "labelSmall": {
+            "_classes": [".type-label-small"],
+            "fontSize":      "clamp(0.625rem, 0.60rem + 0.12vw, 0.72rem)",
+            "fontWeight":    "500",
+            "lineHeight":    "1.25",
+            "letterSpacing": "0.08em",
+            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
+            "color":         "rgba(255,237,215,0.72)"
+        },
+
+        "mono": {
+            "_classes": [".type-mono"],
+            "_usedBy2": "tailwind.config.mjs theme.extend.fontFamily.mono reads tokens.typography.mono.fontFamily",
+            "fontFamily": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "fontSize":   "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "color":      "rgba(255,237,215,0.72)"
+        },
+
+        "button": {
+            "_classes": [".type-button"],
+            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight":    "500",
+            "lineHeight":    "1.25",
+            "letterSpacing": "0.08em",
+            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
+            "textTransform": "uppercase"
+        }
+    },
+
+    "spacing": {
+        "_usedBy": "tailwind.config.mjs theme.extend.spacing + maxWidth + .main-container / .section-y / .card-pad classes",
+        "containerMax":            "96rem",
+        "containerPaddingMobile":  "1.25rem",
+        "containerPaddingTablet":  "1.5rem",
+        "containerPaddingDesktop": "3rem",
+        "sectionMobile":           "3rem",
+        "sectionDesktop":          "12.5rem",
+        "cardPadding":             "2rem"
+    },
+
+    "effects": {
+        "_usedBy": "tailwind.config.mjs theme.extend.transitionTimingFunction + plugin(addComponents) for .custom-bezier, .luxury-bezier, .z-depth-*, .magnetic-cta",
+
+        "transition": {
+            "base":    "cubic-bezier(0.16, 1, 0.30, 1)",
+            "elastic": "cubic-bezier(0.16, 1, 0.30, 1)",
+            "smooth":  "cubic-bezier(0.4, 0, 0.2, 1)",
+            "bouncy":  "cubic-bezier(0.34, 1.56, 0.64, 1)"
+        },
+
+        "duration": {
+            "entrance": "720ms",
+            "normal":   "240ms",
+            "slow":     "420ms"
+        },
+
+        "depth": {
+            "_usedBy": ".z-depth-1 / .z-depth-2 / .z-depth-3 utility classes",
+            "1": "translateZ(10px)",
+            "2": "translateZ(20px)",
+            "3": "translateZ(30px)"
+        },
+
+        "magnetic": {
+            "_usedBy": ".magnetic-cta:hover transform",
+            "cta": "translate(-2px, -2px)"
+        }
+    },
+
+    "animation": {
+        "_usedBy": "tailwind.config.mjs theme.extend.keyframes + animation → animate-marquee class",
+        "marquee": {
+            "duration":  "30s",
+            "timing":    "linear",
+            "iteration": "infinite"
+        }
+    },
+
+    "border": {
+        "_usedBy": "tailwind.config.mjs theme.extend.borderRadius + plugin card styles",
+        "radius": {
+            "DEFAULT": "0",
+            "lg":      "12px",
+            "xl":      "0",
+            "full":    "9999px"
+        },
+        "width": {
+            "DEFAULT": "1px"
+        },
+        "style": "solid"
+    },
+
+    "grid": {
+        "_usedBy": "tailwind.config.mjs plugin(addBase) :root --grid-columns / --grid-gutter",
+        "columns": 12,
+        "gutter":  "1.5rem"
+    },
+
+    "cursor": {
+        "_usedBy": "global.css :root --cursor fallback + tailwind.config.mjs :root",
+        "DEFAULT": "crosshair"
+    },
+
+    "cssVariables": {
+        "_comment": "Documents every CSS custom property emitted in global.css :root. Source of truth for what components may consume via var().",
+
+        "colors": {
+            "--color-bg":          "#080605",
+            "--color-bg-dim":      "#140E09",
+            "--color-bg-raised":   "#1F140D",
+            "--color-bg-elevated": "#382416",
+            "--color-bg-inverted": "#FFEDD7",
+            "--color-fg":          "#FFEDD7",
+            "--color-fg-muted":    "rgba(255,237,215,0.72)",
+            "--color-fg-inverted": "#000000",
+            "--color-accent":      "#DC5000",
+            "--color-accent-fg":   "#000000",
+            "--color-hairline":    "#5A3A24",
+            "--color-focus-ring":  "#DC5000",
+            "--color-shadow-hard": "#000000"
+        },
+
+        "rgbChannels": {
+            "_comment": "Bare RGB triplets for rgba() composition: rgba(var(--accent-rgb), 0.5)",
+            "--accent-rgb":      "220, 80, 0",
+            "--fg-rgb":          "255, 237, 215",
+            "--fg-inverted-rgb": "0, 0, 0",
+            "--black-rgb":       "0, 0, 0",
+            "--bg-rgb":          "8, 6, 5",
+            "--bg-dim-rgb":      "20, 14, 9"
+        },
+
+        "shadows": {
+            "--shadow-hard-sm":   "4px 4px 0 var(--color-shadow-hard)",
+            "--shadow-hard-md":   "8px 8px 0 var(--color-shadow-hard)",
+            "--shadow-hard-lg":   "12px 12px 0 var(--color-shadow-hard)",
+            "--shadow-accent-sm": "4px 4px 0 var(--color-accent)",
+            "--shadow-accent-md": "8px 8px 0 var(--color-accent)",
+            "--shadow-accent-lg": "12px 12px 0 var(--color-accent)",
+            "--shadow-stack":     "8px 8px 0 var(--color-fg), 16px 16px 0 var(--color-accent)"
+        },
+
+        "borders": {
+            "--border-hairline":        "1px solid var(--color-hairline)",
+            "--border-hairline-strong": "2px solid var(--color-fg)",
+            "--border-hairline-accent": "2px solid var(--color-accent)",
+            "--border-hairline-thick":  "3px solid var(--color-fg)"
+        },
+
+        "motion": {
+            "--ease-out":    "cubic-bezier(0.16, 1, 0.30, 1)",
+            "--ease-in":     "cubic-bezier(0.50, 0, 0.95, 0.30)",
+            "--ease-inout":  "cubic-bezier(0.65, 0, 0.35, 1)",
+            "--ease-spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+            "--ease-snap":   "cubic-bezier(0.7, 0, 0.3, 1)",
+            "--dur-instant":   "80ms",
+            "--dur-fast":      "160ms",
+            "--dur-base":      "240ms",
+            "--dur-slow":      "420ms",
+            "--dur-cinematic": "720ms"
+        },
+
+        "spacing": {
+            "--space-1":  "0.25rem",
+            "--space-2":  "0.5rem",
+            "--space-3":  "0.75rem",
+            "--space-4":  "1rem",
+            "--space-5":  "1.5rem",
+            "--space-6":  "2rem",
+            "--space-7":  "3rem",
+            "--space-8":  "4rem",
+            "--space-9":  "6rem",
+            "--space-10": "8rem",
+            "--space-11": "12rem"
+        },
+
+        "layout": {
+            "--container-base": "80rem",
+            "--container-wide": "96rem"
+        },
+
+        "radius": {
+            "--radius-sm":   "2px",
+            "--radius-md":   "6px",
+            "--radius-lg":   "12px",
+            "--radius-pill": "9999px"
+        },
+
+        "typography": {
+            "--font-display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
+            "--font-body":    "'Instrument Sans', Inter, system-ui, sans-serif",
+            "--font-mono":    "'JetBrains Mono', ui-monospace, Menlo, Monaco, monospace",
+            "--text-xs":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "--text-sm":      "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "--text-base":    "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
+            "--text-md":      "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
+            "--text-lg":      "clamp(1.440rem, 1.37rem + 0.36vw, 1.64rem)",
+            "--display-sm":   "clamp(2.5rem, 2.1rem + 2.00vw, 4.0rem)",
+            "--display-md":   "clamp(4.0rem, 3.2rem + 4.00vw, 6.5rem)",
+            "--display-lg":   "clamp(6.5rem, 5.0rem + 7.50vw, 10.5rem)",
+            "--display-xl":   "clamp(10.5rem, 7.5rem + 13.0vw, 17.0rem)"
+        }
+    }
+}

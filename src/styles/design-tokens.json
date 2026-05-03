@@ -1,1367 +1,320 @@
 {
     "version": "2.1.0",
     "name": "Straya Studio Design Tokens",
-    "description": "Centralized design system for Straya Studio — Brutalist Canvas Edition. Single source of truth for tokens.css.",
-    "theme": {
-        "mode": "dark",
-        "brand": "Straya Studio",
-        "style": "Brutalism + Neobrutalism / Asymmetric / Canvas-first",
-        "foundation": "Token-first, three-layer (primitive → semantic → component)"
-    },
-
-    "_doc": {
-        "philosophy": "The page is a canvas, not a document. Sections alternate between Brutalism mode (raw, structural, dark) and Neobrutalism mode (color-shocked, hard-shadowed, slightly playful). Each section runs in exactly one mode — never both.",
-        "laws": [
-            "I. Tokens or it didn't happen. No magic numbers in components.",
-            "II. CSS until proven otherwise. Total JS budget for design effects: 15KB gz.",
-            "III. The page is a canvas. Asymmetric by default. Symmetry is a fallback we don't fall back to."
-        ],
-        "modes": {
-            "brutalism": "Heavy, raw, structural. Ink + Bone palette. Accent ≤ 5% of pixels. Hairline borders. No shadows. Snap easing. Index marks ([01], [02]). Used for: hero, manifesto, case studies, footer.",
-            "neobrutalism": "Color-shocked, three-dimensional through hard offsets. Bone + Accent + 1 secondary. Accent ≥ 30% of pixels. Thick borders (2–3px). Hard offset shadows mandatory. Spring easing allowed. Stickers, rotation 4–8°. Used for: services, process, pricing, CTA."
-        }
-    },
-
-    "tokenArchitecture": {
-        "_comment": "Three-layer token model. Components consume SEMANTIC tokens. Semantic tokens reference PRIMITIVES. Never bypass layers.",
-
-        "primitive": {
-            "_comment": "Raw values. Never consumed directly by components.",
-
-            "color": {
-                "ink900": "#000000",
-                "ink800": "#140E09",
-                "ink700": "#1F140D",
-                "ink600": "#382416",
-                "ink500": "#5A3A24",
-                "bone100": "#FFEDD7",
-                "bone200": "#FFF4EB",
-                "bone300": "#FFEDD7",
-                "bone400": "rgba(255,237,215,0.72)",
-                "bone500": "rgba(255,237,215,0.48)",
-                "accent300": "#FF7A2E",
-                "accent500": "#DC5000",
-                "accent700": "#B84300",
-                "accent2_300": "#FF8A7E",
-                "accent2_500": "#E74C3C",
-                "accent2_700": "#C42B1C",
-                "signalYellow": "#F39C12",
-                "signalBlue": "#3498DB"
-            },
-
-            "typography": {
-                "_comment": "Font stacks. Mono is a first-class face — used for metadata, captions, code, brutalist annotations.",
-                "display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
-                "body": "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
-                "mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-            },
-
-            "fluidSize": {
-                "_comment": "Fluid clamp() values. Min viewport 320px, max 1440px. Body scale = Minor Third (1.200). Display scale = Golden (1.618).",
-
-                "textXs":   "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-                "textSm":   "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
-                "textBase": "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
-                "textMd":   "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
-                "textLg":   "clamp(1.440rem, 1.37rem + 0.36vw, 1.64rem)",
-
-                "displaySm": "clamp(2.5rem,  2.1rem  + 2.00vw,  4.0rem)",
-                "displayMd": "clamp(4.0rem,  3.2rem  + 4.00vw,  6.5rem)",
-                "displayLg": "clamp(6.5rem,  5.0rem  + 7.50vw, 10.5rem)",
-                "displayXl": "clamp(10.5rem, 7.5rem  + 13.0vw, 17.0rem)"
-            },
-
-            "leading": {
-                "display": "0.92",
-                "tight":   "1.10",
-                "snug":    "1.25",
-                "body":    "1.55",
-                "loose":   "1.80"
-            },
-
-            "tracking": {
-                "display": "-0.04em",
-                "tight":   "-0.02em",
-                "normal":  "0",
-                "wide":    "0.04em",
-                "allcaps": "0.08em"
-            },
-
-            "weight": {
-                "regular": "400",
-                "medium":  "500",
-                "bold":    "700",
-                "black":   "900"
-            },
-
-            "spacing": {
-                "_comment": "4pt grid. space-4 (16px) is the base unit. Section block padding = space-10 minimum. Hero block padding = space-11.",
-                "0":  "0",
-                "1":  "0.25rem",
-                "2":  "0.5rem",
-                "3":  "0.75rem",
-                "4":  "1rem",
-                "5":  "1.5rem",
-                "6":  "2rem",
-                "7":  "3rem",
-                "8":  "4rem",
-                "9":  "6rem",
-                "10": "8rem",
-                "11": "12rem"
-            },
-
-            "radius": {
-                "_comment": "Brutalism prefers 0. Neobrutalism allows sm/md. No xl — blob corners are banned.",
-                "none": "0",
-                "sm":   "2px",
-                "md":   "6px",
-                "lg":   "12px",
-                "pill": "9999px"
-            },
-
-            "motion": {
-                "easing": {
-                    "out":    "cubic-bezier(0.16, 1, 0.30, 1)",
-                    "in":     "cubic-bezier(0.50, 0, 0.95, 0.30)",
-                    "inOut":  "cubic-bezier(0.65, 0, 0.35, 1)",
-                    "spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
-                    "snap":   "cubic-bezier(0.7, 0, 0.3, 1)"
-                },
-                "duration": {
-                    "instant":   "80ms",
-                    "fast":     "160ms",
-                    "base":     "240ms",
-                    "slow":     "420ms",
-                    "cinematic": "720ms"
-                },
-                "stagger": {
-                    "tight":  "60ms",
-                    "base":  "120ms",
-                    "loose": "220ms",
-                    "wide":  "400ms"
-                }
-            }
-        },
-
-        "semantic": {
-            "_comment": "Intent layer. Components consume these. Reference primitives only.",
-
-            "color": {
-                "bg":          "{primitive.color.ink800}",
-                "bgRaised":    "{primitive.color.ink700}",
-                "bgElevated":  "{primitive.color.ink600}",
-                "bgInverted":  "{primitive.color.bone300}",
-
-                "fg":          "{primitive.color.bone300}",
-                "fgStrong":    "{primitive.color.bone100}",
-                "fgMuted":     "{primitive.color.bone400}",
-                "fgInverted":  "{primitive.color.ink900}",
-
-                "accent":      "{primitive.color.accent500}",
-                "accentFg":    "{primitive.color.ink900}",
-                "accent2":     "{primitive.color.accent2_500}",
-                "accent2Fg":   "{primitive.color.bone100}",
-
-                "mark":        "{primitive.color.signalYellow}",
-                "markFg":      "{primitive.color.ink900}",
-
-                "hairline":    "{primitive.color.ink500}",
-                "focusRing":   "{primitive.color.accent500}",
-                "shadowHard":  "{primitive.color.ink900}",
-                "shadowAccent": "{primitive.color.accent500}",
-                "shadowAccent2": "{primitive.color.accent2_500}"
-            },
-
-            "type": {
-                "_comment": "Semantic shorthand combining family + size + weight + leading. Consumed via CSS `font` shorthand.",
-                "hero":    { "weight": "{primitive.weight.black}",   "size": "{primitive.fluidSize.displayXl}", "leading": "{primitive.leading.display}", "family": "{primitive.typography.display}", "tracking": "{primitive.tracking.display}" },
-                "h1":      { "weight": "{primitive.weight.black}",   "size": "{primitive.fluidSize.displayLg}", "leading": "{primitive.leading.display}", "family": "{primitive.typography.display}", "tracking": "{primitive.tracking.display}" },
-                "h2":      { "weight": "{primitive.weight.bold}",    "size": "{primitive.fluidSize.displayMd}", "leading": "{primitive.leading.tight}",   "family": "{primitive.typography.display}", "tracking": "{primitive.tracking.tight}" },
-                "h3":      { "weight": "{primitive.weight.bold}",    "size": "{primitive.fluidSize.displaySm}", "leading": "{primitive.leading.tight}",   "family": "{primitive.typography.display}", "tracking": "{primitive.tracking.tight}" },
-                "lead":    { "weight": "{primitive.weight.regular}", "size": "{primitive.fluidSize.textMd}",    "leading": "{primitive.leading.snug}",    "family": "{primitive.typography.body}",    "tracking": "{primitive.tracking.normal}" },
-                "body":    { "weight": "{primitive.weight.regular}", "size": "{primitive.fluidSize.textBase}",  "leading": "{primitive.leading.body}",    "family": "{primitive.typography.body}",    "tracking": "{primitive.tracking.normal}" },
-                "caption": { "weight": "{primitive.weight.regular}", "size": "{primitive.fluidSize.textSm}",    "leading": "{primitive.leading.snug}",    "family": "{primitive.typography.mono}",    "tracking": "{primitive.tracking.normal}" },
-                "eyebrow": { "weight": "{primitive.weight.medium}",  "size": "{primitive.fluidSize.textXs}",    "leading": "{primitive.leading.snug}",    "family": "{primitive.typography.mono}",    "tracking": "{primitive.tracking.allcaps}", "transform": "uppercase" },
-                "meta":    { "weight": "{primitive.weight.regular}", "size": "{primitive.fluidSize.textXs}",    "leading": "{primitive.leading.snug}",    "family": "{primitive.typography.mono}",    "tracking": "{primitive.tracking.normal}" }
-            },
-
-            "motion": {
-                "_comment": "Each easing has one job. Modes restrict which easings are allowed.",
-                "easeOut":    "{primitive.motion.easing.out}",
-                "easeIn":     "{primitive.motion.easing.in}",
-                "easeInOut":  "{primitive.motion.easing.inOut}",
-                "easeSpring": "{primitive.motion.easing.spring}",
-                "easeSnap":   "{primitive.motion.easing.snap}",
-
-                "durInstant":   "{primitive.motion.duration.instant}",
-                "durFast":      "{primitive.motion.duration.fast}",
-                "durBase":      "{primitive.motion.duration.base}",
-                "durSlow":      "{primitive.motion.duration.slow}",
-                "durCinematic": "{primitive.motion.duration.cinematic}",
-
-                "staggerTight": "{primitive.motion.stagger.tight}",
-                "staggerBase":  "{primitive.motion.stagger.base}",
-                "staggerLoose": "{primitive.motion.stagger.loose}",
-                "staggerWide":  "{primitive.motion.stagger.wide}",
-
-                "delay1": "calc({primitive.motion.stagger.base} * 1)",
-                "delay2": "calc({primitive.motion.stagger.base} * 2)",
-                "delay3": "calc({primitive.motion.stagger.base} * 3)",
-                "delay4": "calc({primitive.motion.stagger.base} * 4)",
-                "delay5": "calc({primitive.motion.stagger.base} * 5)"
-            },
-
-            "border": {
-                "_comment": "Hairline = 1px Brutalism default. Strong = 2px. Thick = 3px Neobrutalist chunk. Accent = colored.",
-                "hairline":       "1px solid {semantic.color.hairline}",
-                "hairlineStrong": "2px solid {primitive.color.bone300}",
-                "hairlineAccent": "2px solid {semantic.color.accent}",
-                "hairlineThick":  "3px solid {semantic.color.fg}"
-            },
-
-            "shadow": {
-                "_comment": "Hard offset shadows are the Neobrutalism signature. NEVER apply to body text or section containers. Stack is loudest — once per page max.",
-                "hardSm":     "4px 4px 0 {semantic.color.shadowHard}",
-                "hardMd":     "8px 8px 0 {semantic.color.shadowHard}",
-                "hardLg":     "12px 12px 0 {semantic.color.shadowHard}",
-                "accentSm":   "4px 4px 0 {semantic.color.shadowAccent}",
-                "accentMd":   "8px 8px 0 {semantic.color.shadowAccent}",
-                "accentLg":   "12px 12px 0 {semantic.color.shadowAccent}",
-                "accent2Md":  "8px 8px 0 {semantic.color.shadowAccent2}",
-                "stack":      "8px 8px 0 {semantic.color.fg}, 16px 16px 0 {semantic.color.accent}"
-            },
-
-            "radius": {
-                "panel": "{primitive.radius.none}",
-                "chip":  "{primitive.radius.sm}",
-                "hard":  "{primitive.radius.none}",
-                "pill":  "{primitive.radius.pill}"
-            },
-
-            "layout": {
-                "containerNarrow":  "64rem",
-                "containerBase":    "80rem",
-                "containerWide":    "96rem",
-                "containerBleed":   "100vw",
-                "gutter":           "{primitive.spacing.5}",
-                "gutterLg":         "{primitive.spacing.7}",
-                "sectionPadBlock":  "{primitive.spacing.10}",
-                "heroPadBlock":     "{primitive.spacing.11}"
-            }
-        },
-
-        "component": {
-            "_comment": "Component-local aliases. Used by individual primitives in src/components/primitives/.",
-
-            "hero": {
-                "headlineColor": "{semantic.color.fgStrong}",
-                "surface":       "{semantic.color.bg}",
-                "padBlock":      "{semantic.layout.heroPadBlock}"
-            },
-
-            "slab": {
-                "padBlock":  "{semantic.layout.sectionPadBlock}",
-                "border":    "{semantic.border.hairline}",
-                "innerMax":  "{semantic.layout.containerWide}",
-                "padInline": "{semantic.layout.gutterLg}"
-            },
-
-            "magneticButton": {
-                "_comment": "Neobrutalist primary CTA — thick border, hard shadow, spring on hover, depress on active.",
-                "bg":         "{semantic.color.accent}",
-                "fg":         "{semantic.color.accentFg}",
-                "border":     "{semantic.border.hairlineThick}",
-                "shadow":     "{semantic.shadow.hardMd}",
-                "shadowHover":"{semantic.shadow.hardLg}",
-                "easing":     "{semantic.motion.easeSpring}",
-                "duration":   "{semantic.motion.durFast}",
-                "padX":       "{primitive.spacing.6}",
-                "padY":       "{primitive.spacing.4}",
-                "type":       "{semantic.type.eyebrow}"
-            },
-
-            "brutalistButton": {
-                "_comment": "Brutalist secondary — hairline border, hard inversion on hover, snap easing.",
-                "bg":          "transparent",
-                "fg":          "{semantic.color.fg}",
-                "bgHover":     "{semantic.color.fg}",
-                "fgHover":     "{semantic.color.bg}",
-                "border":      "{semantic.border.hairlineStrong}",
-                "easing":      "{semantic.motion.easeSnap}",
-                "duration":    "{semantic.motion.durFast}",
-                "padX":        "{primitive.spacing.5}",
-                "padY":        "{primitive.spacing.3}",
-                "type":        "{semantic.type.eyebrow}"
-            },
-
-            "sticker": {
-                "_comment": "Neobrutalist accent block. Rotates -4deg by default. Use ≤ 2 per section.",
-                "bg":          "{semantic.color.accent}",
-                "fg":          "{semantic.color.accentFg}",
-                "border":      "{semantic.border.hairlineThick}",
-                "shadow":      "{semantic.shadow.hardSm}",
-                "rotation":    "-4deg",
-                "rotationHover": "-2deg",
-                "scaleHover":  "1.04",
-                "padX":        "{primitive.spacing.4}",
-                "padY":        "{primitive.spacing.2}",
-                "type":        "{semantic.type.eyebrow}"
-            },
-
-            "eyebrow": {
-                "_comment": "Section labels with leading accent rule.",
-                "color":     "{semantic.color.fgMuted}",
-                "rule":      "{semantic.color.accent}",
-                "ruleWidth": "{primitive.spacing.4}",
-                "type":      "{semantic.type.eyebrow}"
-            },
-
-            "frame": {
-                "_comment": "Aspect-locked media container. Hover scales image 1.06.",
-                "transitionEasing":   "{semantic.motion.easeOut}",
-                "transitionDuration": "{semantic.motion.durSlow}",
-                "hoverScale":         "1.06"
-            },
-
-            "marquee": {
-                "duration":     "30s",
-                "easing":       "linear",
-                "padBlock":     "{primitive.spacing.4}",
-                "gap":          "{primitive.spacing.7}",
-                "borderTop":    "{semantic.border.hairline}",
-                "borderBottom": "{semantic.border.hairline}"
-            },
-
-            "card": {
-                "_comment": "Cards are mode-aware. Default is Brutalism (hairline only). Add .card-neobrutalist for the loud version.",
-                "padding":           "{primitive.spacing.6}",
-                "border":            "{semantic.border.hairline}",
-                "borderRadius":      "{semantic.radius.panel}",
-                "neobrutalistShadow":"{semantic.shadow.hardMd}",
-                "neobrutalistBorder":"{semantic.border.hairlineThick}",
-                "hoverLift":         "translate(-2px, -2px)"
-            },
-
-            "input": {
-                "padX":         "{primitive.spacing.4}",
-                "padY":         "{primitive.spacing.3}",
-                "border":       "{semantic.border.hairlineStrong}",
-                "borderRadius": "{semantic.radius.hard}",
-                "type":         "{semantic.type.body}",
-                "focusRing":    "{semantic.color.focusRing}"
-            },
-
-            "nav": {
-                "padX":     "{primitive.spacing.6}",
-                "padY":     "{primitive.spacing.4}",
-                "linkGap":  "{primitive.spacing.6}",
-                "border":   "{semantic.border.hairline}",
-                "type":     "{semantic.type.eyebrow}"
-            },
-
-            "footer": {
-                "padBlock": "{primitive.spacing.7}",
-                "padX":     "{semantic.layout.gutterLg}",
-                "border":   "{semantic.border.hairline}"
-            },
-
-            "snake": {
-                "_comment": "PremiumSnake background effect. Consumes motion tokens, never defines.",
-                "easing":          "{semantic.motion.easeOut}",
-                "segmentCount":    180,
-                "disableBelowPx":  768,
-                "disableReducedMotion": true,
-                "pointerEvents":   "none",
-                "zIndex":          "var(--z-effects)"
-            }
-        }
-    },
-
-    "modeRules": {
-        "_comment": "Per-mode constraints. The decision matrix from design-system.md §1. Use these to gate which tokens a section may consume.",
-
-        "brutalism": {
-            "background":     ["semantic.color.bg"],
-            "displayWeight":  ["primitive.weight.black"],
-            "tracking":       ["primitive.tracking.display"],
-            "border":         ["semantic.border.hairline"],
-            "shadows":        [],
-            "accentBudget":   "≤ 5% of pixels",
-            "colorCount":     "Ink + Bone + (optional) Accent",
-            "easings":        ["semantic.motion.easeOut", "semantic.motion.easeSnap"],
-            "rotation":       "0deg",
-            "radius":         ["primitive.radius.none"],
-            "usedFor":        ["hero", "manifesto", "case-studies", "footer"]
-        },
-
-        "neobrutalism": {
-            "background":     ["semantic.color.bgInverted", "semantic.color.accent", "semantic.color.accent2"],
-            "displayWeight":  ["primitive.weight.bold"],
-            "tracking":       ["primitive.tracking.tight"],
-            "border":         ["semantic.border.hairlineStrong", "semantic.border.hairlineAccent", "semantic.border.hairlineThick"],
-            "shadows":        ["semantic.shadow.hardMd", "semantic.shadow.accentMd"],
-            "accentBudget":   "≥ 30% of pixels",
-            "colorCount":     "Bone + Accent + 1 secondary (max 3 saturated colors)",
-            "easings":        ["semantic.motion.easeOut", "semantic.motion.easeSpring"],
-            "rotation":       "0–8deg on stickers; 0deg on sections",
-            "radius":         ["primitive.radius.none", "primitive.radius.sm", "primitive.radius.md"],
-            "usedFor":        ["services", "process", "pricing", "cta"]
-        }
-    },
-
-    "asymmetricPostures": {
-        "_comment": "8 named layout postures. Every section uses one — no improvisation. Sequencing rule: never repeat a posture twice in a row.",
-        "leftHeavy":      { "heading": "1/7",  "body": "9/12",  "image": "1/5 bleed-left",  "effect": "Anchor weight on left, paragraph hangs right" },
-        "rightHeavy":     { "heading": "6/12", "body": "1/4",   "image": "8/12 bleed-right","effect": "Mirror of leftHeavy" },
-        "stackedOffset":  { "heading": "1/9",  "body": "4/9",   "image": "7/12 hangs-down", "effect": "Title stretches wide, body indents" },
-        "marginNote":     { "heading": "3/10", "body": "11/12 vertical", "image": "1/2 square", "effect": "Body becomes sidebar annotation" },
-        "overlap":        { "heading": "1/8 z2","body": "7/12 z1","image": "5/11 z0",         "effect": "Layered overlap, intentional collision (mix-blend-mode: difference)" },
-        "bleedLeft":      { "heading": "4/10", "body": "4/8",   "image": "1/6 -10vw",        "effect": "Image escapes left container edge" },
-        "bleedRight":     { "heading": "2/8",  "body": "2/6",   "image": "7/12 +10vw",       "effect": "Image escapes right container edge" },
-        "verticalAxis":   { "heading": "col1 rotate-90", "body": "3/10", "image": "8/12",    "effect": "Heading runs vertically up the gutter" }
-    },
-
-    "color": {
-        "_comment": "Flat-shape view of the palette for legacy Tailwind consumers. NEW components should consume semantic tokens via CSS variables, not these.",
-
-        "primary": {
-            "DEFAULT":     "#FFEDD7",
-            "container":   "#FFF4EB",
-            "on":          "#000000",
-            "onContainer":"#000000",
-            "fixed":       "#FFF4EB",
-            "fixedDim":    "#FFEDD7"
-        },
-
-        "secondary": {
-            "DEFAULT":     "#DC5000",
-            "container":   "#FF7A2E",
-            "on":          "#000000",
-            "onContainer":"#000000",
-            "fixed":       "#FF7A2E",
-            "fixedDim":    "#B84300"
-        },
-
-        "tertiary": {
-            "DEFAULT":     "#E74C3C",
-            "container":   "#FF8A7E",
-            "on":          "#000000",
-            "onContainer":"#000000",
-            "fixed":       "#FF8A7E",
-            "fixedDim":    "#C42B1C"
-        },
-
-        "signal": {
-            "yellow":      "#F39C12",
-            "blue":        "#3498DB"
-        },
-
-        "error": {
-            "DEFAULT":     "#E74C3C",
-            "container":   "#FF8A7E",
-            "on":          "#000000",
-            "onContainer":"#3D1600"
-        },
-
-        "background": {
-            "DEFAULT":            "#080605",
-            "surface":            "#080605",
-            "surfaceDim":         "#140E09",
-            "surfaceBright":      "#1F140D",
-            "containerLowest":    "#080605",
-            "containerLow":       "#140E09",
-            "container":          "#382416",
-            "containerHigh":      "#5A3A24",
-            "containerHighest":   "#5A3A24",
-            "inverted":           "#FFEDD7",
-            "inverseOnInverted":  "#000000"
-        },
-
-        "onBackground": {
-            "DEFAULT":  "#FFEDD7",
-            "variant":  "rgba(255,237,215,0.72)",
-            "strong":   "#FFEDD7"
-        },
-
-        "onSurface": {
-            "DEFAULT":   "#FFEDD7",
-            "variant":   "rgba(255,237,215,0.72)",
-            "inverse":   "#000000",
-            "disabled":  "rgba(255,237,215,0.48)"
-        },
-
-        "outline": {
-            "DEFAULT":  "#5A3A24",
-            "variant":  "#382416",
-            "strong":   "#FFEDD7",
-            "accent":   "#DC5000"
-        },
-
-        "inverse": {
-            "surface":   "#FFEDD7",
-            "onSurface": "#000000",
-            "primary":   "#000000"
-        },
-
-        "surfaceTint": "#1F140D",
-
-        "accent": "#DC5000",
-        "accent2": "#E74C3C",
-        "mark":    "#F39C12",
-
-        "status": {
-            "_comment": "Status colors mapped onto the warm brown palette.",
-            "success": "#2ECC71",
-            "warning": "#F39C12",
-            "error":   "#E74C3C",
-            "info":    "#3498DB"
-        },
-
-        "border": {
-            "_comment": "Warm-on-dark transparency border tokens for subtle UI dividers in dark sections.",
-            "default": "rgba(255,237,215,0.16)",
-            "subtle":  "rgba(255,237,215,0.08)",
-            "strong":  "rgba(255,237,215,0.22)",
-            "outline": "#DC5000"
-        },
-
-        "text": {
-            "primary":   "#FFEDD7",
-            "secondary": "rgba(255,237,215,0.72)",
-            "inverse":   "#000000",
-            "muted":     "rgba(255,237,215,0.48)",
-            "strong":    "#FFEDD7",
-            "accent":    "#DC5000"
-        },
-
-        "shadow": {
-            "_comment": "Hard offset shadow colors — the Neobrutalist signature.",
-            "hard":    "#000000",
-            "accent":  "#DC5000",
-            "accent2": "#E74C3C"
-        }
-    },
-
-    "typography": {
-        "_comment": "Fluid type system. Body scale = Minor Third (1.200). Display scale = Golden (1.618). Mono is first-class — used for metadata, captions, brutalist annotations.",
-
-        "fontFamily": {
-            "display":  "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
-            "body":     "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
-            "mono":     "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
-            "fallback": {
-                "display": "'Helvetica Neue', Arial, sans-serif",
-                "body":    "system-ui, -apple-system, sans-serif",
-                "mono":    "ui-monospace, monospace"
-            }
-        },
-
-        "scale": {
-            "_comment": "Fluid clamp() values, generated from min 320px → max 1440px viewport.",
-            "textXs":    "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "textSm":    "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
-            "textBase":  "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
-            "textMd":    "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
-            "textLg":    "clamp(1.440rem, 1.37rem + 0.36vw, 1.64rem)",
-            "displaySm": "clamp(2.000rem, 1.70rem + 1.50vw, 3.000rem)",
-            "displayMd": "clamp(3.236rem, 2.60rem + 3.18vw, 4.854rem)",
-            "displayLg": "clamp(5.236rem, 4.10rem + 5.68vw, 7.854rem)",
-            "displayXl": "clamp(8.472rem, 6.40rem + 10.36vw, 12.71rem)"
-        },
-
-        "leading": {
-            "display": "0.92",
-            "tight":   "1.10",
-            "snug":    "1.25",
-            "body":    "1.55",
-            "loose":   "1.80"
-        },
-
-        "tracking": {
-            "display": "-0.04em",
-            "tight":   "-0.02em",
-            "normal":  "0",
-            "wide":    "0.04em",
-            "allcaps": "0.08em"
-        },
-
-        "style": {
-            "_comment": "Compatibility aliases consumed by tailwind.config.mjs",
-            "tightTracking": "-0.04em",
-            "blueprintTracking": "0.05em",
-            "normalTracking": "0"
-        },
-
-        "weight": {
-            "regular": "400",
-            "medium":  "500",
-            "bold":    "700",
-            "black":   "900"
-        },
-
-        "hero": {
-            "_comment": "Once per page. Display-xl + black weight + display tracking.",
-            "fontSize":      "clamp(10.5rem, 7.5rem + 13.0vw, 17.0rem)",
-            "fontWeight":    "800",
-            "lineHeight":    "0.88",
-            "letterSpacing": "-0.04em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "h1": {
-            "_comment": "Section opener (when not the hero). Display-lg + black weight.",
-            "fontSize":      "clamp(3.5rem, 5.0rem + 7.5vw, 10.5rem)",
-            "fontWeight":    "800",
-            "lineHeight":    "0.92",
-            "letterSpacing": "-0.04em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "textWrap":      "balance",
-            "color":         "#FFEDD7"
-        },
-        "h2": {
-            "_comment": "Major section heading. Display-md + black weight.",
-            "fontSize":      "clamp(2.8rem, 3.2rem + 4.0vw, 6.5rem)",
-            "fontWeight":    "800",
-            "lineHeight":    "1.00",
-            "letterSpacing": "-0.03em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "textWrap":      "balance",
-            "color":         "#FFEDD7"
-        },
-        "h3": {
-            "_comment": "Card and subsection heading. Display-sm + black weight.",
-            "fontSize":      "clamp(1.6rem, 2.1rem + 2.0vw, 4.0rem)",
-            "fontWeight":    "800",
-            "lineHeight":    "1.05",
-            "letterSpacing": "-0.03em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "textWrap":      "balance",
-            "color":         "#FFEDD7"
-        },
-        "h4": {
-            "_comment": "Minor heading — feature titles, pricing tier names. text-lg + bold.",
-            "fontSize":      "clamp(1.6rem, 1.4rem + 0.8vw, 2.0rem)",
-            "fontWeight":    "700",
-            "lineHeight":    "1.15",
-            "letterSpacing": "-0.02em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "h5": {
-            "_comment": "Small heading — sidebar titles, accordion headers. text-md + bold.",
-            "fontSize":      "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)",
-            "fontWeight":    "700",
-            "lineHeight":    "1.20",
-            "letterSpacing": "-0.02em",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "h6": {
-            "_comment": "Micro heading — metadata labels, table headers. text-base + bold.",
-            "fontSize":      "clamp(1.000rem, 0.95rem + 0.25vw, 1.2rem)",
-            "fontWeight":    "700",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0",
-            "fontFamily":    "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "lead": {
-            "_comment": "Hero subheading / intro paragraph. text-md + regular.",
-            "fontSize":      "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0",
-            "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "body": {
-            "_comment": "Default body. Capped at 60ch line length. text-base + regular.",
-            "fontSize":      "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.55",
-            "letterSpacing": "0",
-            "fontFamily":    "'Instrument Sans', sans-serif",
-            "maxWidth":      "60ch",
-            "textWrap":      "pretty",
-            "color":         "#FFEDD7"
-        },
-        "bodyLarge": {
-            "_comment": "Compatibility alias for existing Tailwind utility (.type-body-large). Mirrors lead scale.",
-            "fontSize":      "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0",
-            "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "#FFEDD7"
-        },
-        "bodySmall": {
-            "_comment": "Small body — supporting copy, footnotes. text-sm + regular.",
-            "fontSize":      "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.55",
-            "letterSpacing": "0",
-            "fontFamily":    "'Instrument Sans', sans-serif",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "caption": {
-            "_comment": "Image captions, timestamps, helper text. Mono — brutalist treatment.",
-            "fontSize":      "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "eyebrow": {
-            "_comment": "Section labels, status badges, metric labels. Mono + uppercase + allcaps tracking.",
-            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0.08em",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "textTransform": "uppercase",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "label": {
-            "_comment": "Form labels, nav links. Mono + medium.",
-            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0.04em",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "#FFEDD7"
-        },
-        "labelUppercase": {
-            "_comment": "Same as eyebrow but tinted to fg (not muted). Used on active states.",
-            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0.08em",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "textTransform": "uppercase",
-            "color":         "#FFEDD7"
-        },
-        "labelSmall": {
-            "_comment": "Compatibility alias for tiny uppercase labels used in badges/captions.",
-            "fontSize":      "clamp(0.625rem, 0.60rem + 0.12vw, 0.72rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0.08em",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "textTransform": "uppercase",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "meta": {
-            "_comment": "Brutalist annotation — coordinates, version stamps, build numbers, [01] index marks.",
-            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "mono": {
-            "_comment": "Inline code, version strings, technical metadata.",
-            "fontSize":      "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
-            "fontWeight":    "400",
-            "lineHeight":    "1.55",
-            "letterSpacing": "0",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "color":         "rgba(255,237,215,0.72)"
-        },
-        "button": {
-            "_comment": "All button labels — uppercase, allcaps tracking, mono. Used on CTAs and nav buttons.",
-            "fontSize":      "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight":    "500",
-            "lineHeight":    "1.25",
-            "letterSpacing": "0.08em",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "textTransform": "uppercase"
-        },
-        "mark": {
-            "_comment": "Highlighted phrase inside body copy — Neobrutalist <mark> styling.",
-            "background": "#F39C12",
-            "color":      "#000000",
-            "fontWeight": "700",
-            "padX":       "0.2em"
-        },
-        "rules": {
-            "_comment": "Universal typography rules applied via base.css.",
-            "lineLengthCap":     "60ch",
-            "tabularNumerals":   "font-variant-numeric: tabular-nums on [data-numeric]",
-            "openTypeFeatures":  "font-feature-settings: 'kern', 'liga', 'ss01' on body",
-            "noJustify":         true,
-            "balanceHeadings":   "text-wrap: balance on h1–h3",
-            "prettyParagraphs":  "text-wrap: pretty on p",
-            "indexSections":     "[data-index] prefixes major sections with [01], [02], …"
-        }
-    },
-
-    "spacing": {
-        "_comment": "4pt grid (NOT 8pt). space-4 (16px) is base unit. Section block padding = space-10 (128px) minimum. Hero block padding = space-11 (192px). No half-tokens — if 1.25rem feels right, the answer is space-5 or space-6.",
-        "base":   "4px",
-        "scale": {
-            "0":  "0",
-            "1":  "0.25rem",
-            "2":  "0.5rem",
-            "3":  "0.75rem",
-            "4":  "1rem",
-            "5":  "1.5rem",
-            "6":  "2rem",
-            "7":  "3rem",
-            "8":  "4rem",
-            "9":  "6rem",
-            "10": "8rem",
-            "11": "12rem"
-        },
-        "containerMax":           "96rem",
-        "containerNarrow":        "64rem",
-        "containerBase":          "80rem",
-        "containerWide":          "96rem",
-        "containerPaddingMobile": "1rem",
-        "containerPaddingTablet": "1.5rem",
-        "containerPaddingDesktop":"3rem",
-        "sectionPadMobile":       "4rem",
-        "sectionPadDesktop":      "8rem",
-        "heroPadDesktop":         "12rem",
-        "cardPadding":            "2rem",
-        "gridColumns":            12,
-        "gridGutter":             "1.5rem",
-        "gridGutterLg":           "3rem",
-        "gridOpacity":            0.06,
-        "borderOpacity": {
-            "_comment": "Tailwind opacity modifier scale for cream-on-dark borders.",
-            "subtle":  0.05,
-            "default": 0.10,
-            "strong":  0.20,
-            "muted":   0.40,
-            "visible": 0.50,
-            "high":    0.60,
-            "dark":    0.80
-        }
-    },
-
-    "effects": {
-        "_comment": "Motion tokens — 5 durations, 5 easings, stagger ramp. Each easing has one job. See modeRules for which easings each mode permits.",
-
-        "transition": {
-            "_comment": "Map of named transitions for backwards-compatible Tailwind consumers. New code consumes via semantic.motion.* tokens.",
-            "entrance":  "cubic-bezier(0.16, 1, 0.30, 1)",
-            "out":       "cubic-bezier(0.16, 1, 0.30, 1)",
-            "in":        "cubic-bezier(0.50, 0, 0.95, 0.30)",
-            "inOut":     "cubic-bezier(0.65, 0, 0.35, 1)",
-            "spring":    "cubic-bezier(0.34, 1.56, 0.64, 1)",
-            "snap":      "cubic-bezier(0.7, 0, 0.3, 1)",
-            "base":      "cubic-bezier(0.16, 1, 0.30, 1)",
-            "smooth":    "cubic-bezier(0.4, 0, 0.2, 1)",
-            "elastic":   "cubic-bezier(0.16, 1, 0.30, 1)",
-            "bouncy":    "cubic-bezier(0.34, 1.56, 0.64, 1)"
-        },
-
-        "duration": {
-            "_comment": "5 tiers, no in-betweens. cinematic = hero/section reveals. base = state changes. fast = hover/focus. instant = button press. slow = panel reveals.",
-            "instant":   "80ms",
-            "fast":     "160ms",
-            "base":     "240ms",
-            "slow":     "420ms",
-            "cinematic":"720ms",
-            "entrance": "720ms",
-            "normal":   "240ms",
-            "verySlow": "1000ms"
-        },
-
-        "stagger": {
-            "_comment": "Stagger delays for sequential elements. Use in .reveal-stagger > * via nth-child.",
-            "tight":  60,
-            "base":  120,
-            "loose": 220,
-            "wide":  400,
-            "label":   0,
-            "heading": 80,
-            "headingLine": 60,
-            "body":   240,
-            "card":   360,
-            "cardStep": 60,
-            "cta":     80
-        },
-
-        "delay": {
-            "_comment": "Compound delays for staggered entrance children.",
-            "1": "120ms",
-            "2": "240ms",
-            "3": "360ms",
-            "4": "480ms",
-            "5": "600ms"
-        },
-
-        "enterFrom": {
-            "_comment": "Standard entrance state. .reveal applies opacity:0 + translateY(24px), animates to identity.",
-            "opacity":           0,
-            "translateY":        "24px",
-            "headlineTranslateY":"100%"
-        },
-
-        "depth": {
-            "_comment": "Z-axis depth for 3D layering. Requires perspective-1k on parent.",
-            "1": "translateZ(10px)",
-            "2": "translateZ(20px)",
-            "3": "translateZ(30px)"
-        },
-
-        "magnetic": {
-            "_comment": "Magnetic CTA — pointer-tracking translate on label. Desktop + fine pointer + non-reduced-motion only.",
-            "strength":   0.35,
-            "radius":     "140px",
-            "easing":     "cubic-bezier(0.34, 1.56, 0.64, 1)",
-            "duration":   "160ms",
-            "hoverScale": "1.02",
-            "hoverLift":  "translate(-2px, -2px)",
-            "activePress":"translate(8px, 8px)"
-        },
-
-        "parallax": {
-            "_comment": "CSS-driven parallax via custom properties (--px, --py). Background slowest, foreground fastest.",
-            "background": 0.3,
-            "midground":  0.6,
-            "foreground": 1.0,
-            "cursorTrack":"12px"
-        },
-
-        "grain": {
-            "_comment": "SVG fractal noise overlay — fixed, pointer-events:none, mix-blend-mode:overlay, on hero only.",
-            "opacity":   0.7,
-            "frequency": "0.65",
-            "octaves":   3,
-            "blendMode": "overlay"
-        },
-
-        "blur": {
-            "backdrop":   "backdrop-blur-xl",
-            "surface":    "backdrop-blur-md"
-        },
-
-        "shadowHard": {
-            "_comment": "Neobrutalist hard offset shadow. NEVER on body text or section containers. Use stack ≤ 1 per page.",
-            "sm":      "4px 4px 0 #000000",
-            "md":      "8px 8px 0 #000000",
-            "lg":      "12px 12px 0 #000000",
-            "accentSm":"4px 4px 0 #DC5000",
-            "accentMd":"8px 8px 0 #DC5000",
-            "accentLg":"12px 12px 0 #DC5000",
-            "accent2Md":"8px 8px 0 #E74C3C",
-            "stack":   "8px 8px 0 #FFEDD7, 16px 16px 0 #DC5000"
-        }
-    },
-
-    "border": {
-        "_comment": "Brutalism uses 1px hairline default. Neobrutalism uses 2–3px chunky borders. Radius is 0 by default; sm/md only allowed in Neobrutalism mode.",
-        "radius": {
-            "DEFAULT": "0",
-            "none":    "0",
-            "sm":      "2px",
-            "md":      "6px",
-            "lg":      "12px",
-            "xl":      "0",
-            "full":    "9999px",
-            "pill":    "9999px"
-        },
-        "width": {
-            "thin":    "1px",
-            "DEFAULT": "1px",
-            "strong":  "2px",
-            "thick":   "3px"
-        },
-        "style": "solid"
-    },
-
-    "cursor": {
-        "_comment": "Crosshair fallback for non-fine pointers. CustomCursor.astro replaces it on (hover: hover) and (pointer: fine).",
-        "DEFAULT":     "crosshair",
-        "interactive": "pointer",
-        "grab":        "grab",
-        "grabbing":    "grabbing"
-    },
-
-    "grid": {
-        "_comment": "12-column canvas grid. 4-column overlay (0.06 opacity) is a visual debug aid only — not the layout grid.",
-        "canvasColumns":  12,
-        "overlayColumns": 4,
-        "gutter":         "1.5rem",
-        "gutterLg":       "3rem",
-        "baseline":       "8px",
-        "overlayOpacity": 0.06
-    },
-
-    "animation": {
-        "_comment": "Named animations. Marquee = 30s linear infinite. Reveal = .reveal class + IntersectionObserver pattern.",
-        "marquee": {
-            "duration":  "30s",
-            "timing":    "linear",
-            "iteration": "infinite"
-        },
-        "reveal": {
-            "_comment": "Section/hero entrance. opacity 0 → 1, translateY 24px → 0.",
-            "duration":      "720ms",
-            "timing":        "cubic-bezier(0.16, 1, 0.30, 1)",
-            "fillMode":      "forwards",
-            "trigger":       "IntersectionObserver, threshold 0.15, rootMargin 0px 0px -10% 0px, once",
-            "staggerStep":   "120ms"
-        },
-        "fade": {
-            "duration":  "240ms",
-            "timing":    "cubic-bezier(0.16, 1, 0.30, 1)"
-        },
-        "slide": {
-            "duration":  "240ms",
-            "timing":    "cubic-bezier(0.16, 1, 0.30, 1)"
-        },
-        "scale": {
-            "duration":  "240ms",
-            "timing":    "cubic-bezier(0.16, 1, 0.30, 1)"
-        },
-        "stickerBounce": {
-            "_comment": "Neobrutalist sticker entrance — rotation + spring scale.",
-            "duration": "420ms",
-            "timing":   "cubic-bezier(0.34, 1.56, 0.64, 1)"
-        },
-        "pressDown": {
-            "_comment": "Active state on all clickable elements. Mandatory tactility.",
-            "duration": "80ms",
-            "timing":   "cubic-bezier(0.7, 0, 0.3, 1)"
-        }
-    },
-
-    "zIndex": {
-        "_comment": "Strict z-index scale. Components must never use a value outside this scale. If you need a number between two tiers, the design is wrong.",
-        "base":     0,
-        "effects":  1,
-        "content":  10,
-        "overlap":  20,
-        "sticky":   30,
-        "overlay":  40,
-        "modal":    50,
-        "toast":    60,
-        "cursor":   70,
-        "_legacyAliases": {
-            "_comment": "Tailwind-compatible aliases for backwards compatibility. New code uses the named scale above.",
-            "dropdown":      1000,
-            "stickyLegacy":  1020,
-            "fixed":         1030,
-            "modalBackdrop": 1040,
-            "modalLegacy":   1050,
-            "popover":       1060,
-            "tooltip":       1070,
-            "grain":         9999
-        }
-    },
-
+    "description": "Active token set. Every key here is consumed by tailwind.config.mjs, global.css :root, or a component. Sections removed: tokenArchitecture, modeRules, asymmetricPostures, zIndex, performance.",
     "media": {
-        "_comment": "Three breakpoints (preserved from v1 spec). sm=mobile, md=tablet, lg=desktop. Fluid type means most things adapt without media queries.",
+        "_usedBy": "tailwind.config.mjs theme.screens",
         "breakpoints": {
             "sm": "390px",
             "md": "810px",
             "lg": "1200px"
-        },
-        "container": {
-            "sm": "390px",
-            "md": "750px",
-            "lg": "1140px"
-        },
-        "rules": {
-            "snakeDisableBelow":     "768px",
-            "customCursorRequires":  "(hover: hover) and (pointer: fine)",
-            "magneticRequires":      "(hover: hover) and (pointer: fine) and not (prefers-reduced-motion: reduce)"
         }
     },
-
-    "performance": {
-        "_comment": "Performance budget — enforced via build-time check.",
-        "budgets": {
-            "lcp":        "< 2.0s",
-            "cls":        "< 0.05",
-            "inp":        "< 100ms",
-            "designJsGz": "< 15KB",
-            "totalCssGz": "< 30KB",
-            "heroVideo":  "< 1.5MB AV1/WebM"
+    "color": {
+        "_usedBy": "tailwind.config.mjs theme.extend.colors — keys map 1:1 to Tailwind class names",
+        "primary": {
+            "DEFAULT": "#FFEDD7",
+            "container": "#FFF4EB",
+            "on": "#000000",
+            "onContainer": "#000000",
+            "fixed": "#FFF4EB",
+            "fixedDim": "#FFEDD7"
         },
-        "rules": {
-            "fontDisplay":      "swap",
-            "imageFormat":      "AVIF with WebP fallback",
-            "lazyLoadBelowFold":true,
-            "fetchPriorityHero":"high"
+        "secondary": {
+            "DEFAULT": "#DC5000",
+            "container": "#FF7A2E",
+            "on": "#000000",
+            "onContainer": "#000000",
+            "fixed": "#FF7A2E",
+            "fixedDim": "#B84300"
+        },
+        "tertiary": {
+            "DEFAULT": "#E74C3C",
+            "container": "#FF8A7E",
+            "on": "#000000",
+            "onContainer": "#000000",
+            "fixed": "#FF8A7E",
+            "fixedDim": "#C42B1C"
+        },
+        "error": {
+            "DEFAULT": "#E74C3C",
+            "container": "#FF8A7E",
+            "on": "#000000",
+            "onContainer": "#3D1600"
+        },
+        "background": {
+            "DEFAULT": "#080605",
+            "surface": "#080605",
+            "surfaceDim": "#140E09",
+            "surfaceBright": "#1F140D",
+            "containerLowest": "#080605",
+            "containerLow": "#140E09",
+            "container": "#382416",
+            "containerHigh": "#5A3A24",
+            "containerHighest": "#5A3A24"
+        },
+        "onBackground": {
+            "DEFAULT": "#FFEDD7"
+        },
+        "onSurface": {
+            "DEFAULT": "#FFEDD7",
+            "variant": "rgba(255,237,215,0.72)"
+        },
+        "outline": {
+            "DEFAULT": "#5A3A24",
+            "variant": "#382416"
+        },
+        "inverse": {
+            "surface": "#FFEDD7",
+            "onSurface": "#000000",
+            "primary": "#000000"
+        },
+        "accent": "#DC5000",
+        "status": {
+            "success": "#2ECC71",
+            "warning": "#F39C12",
+            "info": "#3498DB"
+        },
+        "border": {
+            "default": "rgba(255,237,215,0.16)",
+            "subtle": "rgba(255,237,215,0.08)",
+            "strong": "rgba(255,237,215,0.22)"
+        },
+        "text": {
+            "primary": "#FFEDD7",
+            "secondary": "rgba(255,237,215,0.72)",
+            "inverse": "#000000"
         }
     },
-
-    "accessibility": {
-        "_comment": "WCAG 2.1 AA minimum. Brutalism is not an excuse to skip a11y.",
-        "contrast": {
-            "normalText":   "4.5:1",
-            "largeText":    "3:1",
-            "uiComponents": "3:1"
-        },
-        "verifiedRatios": {
-            "fgOnBg":         "12.6:1 (#FFEDD7 on #000000)",
-            "accentFgOnAccent": "4.5:1 (#000000 on #DC5000)",
-            "accent2FgOnAccent2":"4.5:1 (#000000 on #E74C3C)"
-        },
-        "focus": {
-            "outline":       "2px solid #DC5000",
-            "offset":        "2px",
-            "visibleAlways": true
-        },
-        "reducedMotion":  "prefers-reduced-motion: reduce — all animations 0.01ms",
-        "reducedContrast":"prefers-contrast: more — hairlines bumped to bone-300",
-        "skipLink":       "First focusable in BaseLayout",
-        "headingHierarchy":"One h1 per page, no skipped levels",
-        "rotationIsAesthetic":"Sticker rotation does not affect DOM order or screen-reader output"
-    },
-
-    "components": {
-        "_comment": "Component-level defaults. These are starting points — primitives in src/components/primitives/ may override via tokens.",
-
-        "magneticButton": {
-            "_comment": "Neobrutalist primary CTA. Thick border + hard shadow + spring + magnetic effect.",
-            "padX":          "2rem",
-            "padY":          "1rem",
-            "background":    "#DC5000",
-            "color":         "#000000",
-            "border":        "3px solid #FFEDD7",
-            "borderRadius":  "0",
-            "boxShadow":     "8px 8px 0 #000000",
-            "boxShadowHover":"12px 12px 0 #000000",
-            "fontSize":      "0.79rem",
-            "fontWeight":    "500",
-            "letterSpacing": "0.08em",
-            "textTransform": "uppercase",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "transitionEasing":  "cubic-bezier(0.34, 1.56, 0.64, 1)",
-            "transitionDuration":"160ms",
-            "hoverLift":     "translate(-2px, -2px)",
-            "activePress":   "translate(8px, 8px)"
-        },
-
-        "brutalistButton": {
-            "_comment": "Brutalist secondary. Hairline + hard color inversion on hover. Snap easing.",
-            "padX":          "1.5rem",
-            "padY":          "0.75rem",
-            "background":    "transparent",
-            "color":         "#FFEDD7",
-            "border":        "2px solid #FFEDD7",
-            "borderRadius":  "0",
-            "fontSize":      "0.79rem",
-            "fontWeight":    "500",
-            "letterSpacing": "0.08em",
-            "textTransform": "uppercase",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "transitionEasing":  "cubic-bezier(0.7, 0, 0.3, 1)",
-            "transitionDuration":"160ms",
-            "hoverBackground":"#FFEDD7",
-            "hoverColor":    "#000000",
-            "activeTranslateY":"2px"
-        },
-
-        "sticker": {
-            "_comment": "Neobrutalist accent block. -4deg default rotation. Use ≤ 2 per section.",
-            "padX":          "1rem",
-            "padY":          "0.5rem",
-            "background":    "#DC5000",
-            "color":         "#000000",
-            "border":        "3px solid #FFEDD7",
-            "borderRadius":  "0",
-            "boxShadow":     "4px 4px 0 #000000",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "fontSize":      "0.79rem",
-            "fontWeight":    "500",
-            "letterSpacing": "0.08em",
-            "textTransform": "uppercase",
-            "rotation":      "-4deg",
-            "rotationHover": "-2deg",
-            "scaleHover":    "1.04",
-            "transitionEasing":  "cubic-bezier(0.34, 1.56, 0.64, 1)",
-            "transitionDuration":"160ms"
-        },
-
-        "card": {
-            "_comment": "Brutalist mode default. Add modifier .card-neobrutalist for the loud version.",
-            "padding":       "2rem",
-            "background":    "#1F140D",
-            "border":        "1px solid #5A3A24",
-            "borderRadius":  "0",
-            "hoverTransform":"translateY(-2px)",
-            "transitionEasing":  "cubic-bezier(0.16, 1, 0.30, 1)",
-            "transitionDuration":"240ms",
-            "neobrutalist": {
-                "background":   "#FFEDD7",
-                "color":        "#000000",
-                "border":       "3px solid #000000",
-                "boxShadow":    "8px 8px 0 #000000",
-                "boxShadowHover":"12px 12px 0 #000000",
-                "hoverLift":    "translate(-2px, -2px)"
+    "typography": {
+        "_usedBy": "tailwind.config.mjs plugin(addComponents) → .type-* classes; theme.extend.fontFamily; theme.extend.letterSpacing",
+        "fontFamily": {
+            "display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
+            "body": "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
+            "mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "fallback": {
+                "display": "'Helvetica Neue', Arial, sans-serif",
+                "body": "system-ui, -apple-system, sans-serif",
+                "mono": "ui-monospace, monospace"
             }
         },
-
-        "input": {
-            "padX":          "1rem",
-            "padY":          "0.75rem",
-            "background":    "transparent",
-            "color":         "#FFEDD7",
-            "border":        "2px solid #FFEDD7",
-            "borderRadius":  "0",
-            "fontSize":      "1rem",
-            "fontFamily":    "'Instrument Sans', sans-serif",
-            "focusBorder":   "2px solid #DC5000",
-            "focusOutline":  "none",
-            "placeholder":   "rgba(255,237,215,0.48)"
+        "style": {
+            "_usedBy": "theme.extend.letterSpacing",
+            "tightTracking": "-0.04em",
+            "blueprintTracking": "0.05em",
+            "normalTracking": "0"
         },
-
-        "nav": {
-            "padX":         "2rem",
-            "padY":         "1rem",
-            "background":   "rgba(0,0,0,0.8)",
-            "borderBottom": "1px solid #5A3A24",
-            "linkSpacing":  "2rem",
-            "blur":         "backdrop-blur-xl"
+        "mono": {
+            "_usedBy": "theme.extend.fontFamily.mono reads tokens.typography.mono.fontFamily; plugin generates .type-mono",
+            "fontFamily": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "fontSize": "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "color": "rgba(255,237,215,0.72)"
         },
-
-        "footer": {
-            "padX":      "3rem",
-            "padBlock":  "3rem",
-            "background":"#000000",
-            "borderTop": "1px solid #5A3A24",
-            "type":      "mono"
+        "h1": {
+            "fontSize": "clamp(3.5rem, 5.0rem + 7.5vw, 10.5rem)",
+            "fontSizeMobile": "clamp(5.25rem, 7.5rem + 11.25vw, 15.75rem)",
+            "fontWeight": "800",
+            "lineHeight": "0.92",
+            "letterSpacing": "-0.04em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color": "#FFEDD7"
         },
-
-        "eyebrow": {
-            "_comment": "Section labels with leading accent rule.",
-            "color":         "rgba(255,237,215,0.72)",
-            "ruleColor":     "#DC5000",
-            "ruleWidth":     "1rem",
-            "ruleHeight":    "2px",
-            "ruleGap":       "0.5rem",
-            "fontFamily":    "'JetBrains Mono', ui-monospace, monospace",
-            "fontSize":      "0.79rem",
+        "h2": {
+            "fontSize": "clamp(2.8rem, 3.2rem + 4.0vw, 6.5rem)",
+            "fontSizeMobile": "clamp(1.82rem, 2.08rem + 2.6vw, 4.225rem)",
+            "fontWeight": "800",
+            "lineHeight": "1.00",
+            "letterSpacing": "-0.03em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "h3": {
+            "fontSize": "clamp(1.6rem, 2.1rem + 2.0vw, 4.0rem)",
+            "fontSizeMobile": "clamp(1.25rem, 1.64rem + 1.56vw, 3.12rem)",
+            "fontWeight": "800",
+            "lineHeight": "1.05",
+            "letterSpacing": "-0.03em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "h4": {
+            "fontSize": "clamp(2.08rem, 1.82rem + 1.04vw, 2.6rem)",
+            "fontWeight": "700",
+            "lineHeight": "1.15",
+            "letterSpacing": "-0.02em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "h5": {
+            "fontSize": "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)",
+            "fontWeight": "700",
+            "lineHeight": "1.20",
+            "letterSpacing": "-0.02em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "body": {
+            "fontSize": "clamp(1.000rem, 0.95rem + 0.25vw, 1.14rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "bodyLarge": {
+            "fontSize": "clamp(1.200rem, 1.14rem + 0.30vw, 1.37rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.25",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "#FFEDD7"
+        },
+        "bodySmall": {
+            "fontSize": "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.55",
+            "letterSpacing": "0",
+            "fontFamily": "'Instrument Sans', sans-serif",
+            "color": "rgba(255,237,215,0.72)"
+        },
+        "caption": {
+            "fontSize": "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
+            "fontWeight": "400",
+            "lineHeight": "1.25",
+            "letterSpacing": "0",
+            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "color": "rgba(255,237,215,0.72)"
+        },
+        "label": {
+            "fontSize": "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight": "500",
+            "lineHeight": "1.25",
+            "letterSpacing": "0.04em",
+            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "color": "#FFEDD7"
+        },
+        "labelUppercase": {
+            "fontSize": "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight": "500",
+            "lineHeight": "1.25",
             "letterSpacing": "0.08em",
+            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "color": "#FFEDD7"
+        },
+        "labelSmall": {
+            "fontSize": "clamp(0.625rem, 0.60rem + 0.12vw, 0.72rem)",
+            "fontWeight": "500",
+            "lineHeight": "1.25",
+            "letterSpacing": "0.08em",
+            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "color": "rgba(255,237,215,0.72)"
+        },
+        "button": {
+            "fontSize": "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontWeight": "500",
+            "lineHeight": "1.25",
+            "letterSpacing": "0.08em",
+            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
             "textTransform": "uppercase"
+        }
+    },
+    "spacing": {
+        "_usedBy": "tailwind.config.mjs theme.extend.spacing + maxWidth.container",
+        "_fix": "Key names corrected to match what tailwind.config.mjs actually reads (e.g. sectionMobile not sectionPadMobile)",
+        "containerMax": "96rem",
+        "containerPaddingMobile": "1.25rem",
+        "containerPaddingTablet": "1.5rem",
+        "containerPaddingDesktop": "3rem",
+        "sectionMobile": "3rem",
+        "sectionDesktop": "12.5rem",
+        "cardPadding": "2rem",
+        "cardPaddingMobile": "1rem",
+        "containerPaddingWide": "2rem"
+    },
+    "effects": {
+        "_usedBy": "tailwind.config.mjs theme.extend.transitionTimingFunction + plugin(addComponents) for .custom-bezier, .luxury-bezier, .z-depth-*, .magnetic-cta",
+        "transition": {
+            "base": "cubic-bezier(0.16, 1, 0.30, 1)",
+            "elastic": "cubic-bezier(0.16, 1, 0.30, 1)",
+            "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "bouncy": "cubic-bezier(0.34, 1.56, 0.64, 1)"
         },
-
-        "frame": {
-            "_comment": "Aspect-locked media container with hover scale.",
-            "overflow":          "hidden",
-            "transitionEasing":  "cubic-bezier(0.16, 1, 0.30, 1)",
-            "transitionDuration":"420ms",
-            "hoverScale":        "1.06",
-            "ditheredFilter":    "contrast(1.2) saturate(0.7)",
-            "ditheredRendering": "pixelated"
+        "duration": {
+            "entrance": "720ms",
+            "normal": "240ms",
+            "slow": "420ms"
         },
-
+        "depth": {
+            "_usedBy": ".z-depth-1 / .z-depth-2 / .z-depth-3",
+            "1": "translateZ(10px)",
+            "2": "translateZ(20px)",
+            "3": "translateZ(30px)"
+        },
+        "magnetic": {
+            "_usedBy": "tailwind.config.mjs :root --magnetic-cta + .magnetic-cta:hover",
+            "_fix": "Key renamed from hoverLift to cta to match what tailwind.config.mjs reads",
+            "cta": "translate(-2px, -2px)"
+        }
+    },
+    "animation": {
+        "_usedBy": "tailwind.config.mjs theme.extend.keyframes + animation → animate-marquee",
         "marquee": {
-            "duration":     "30s",
-            "timing":       "linear",
-            "padBlock":     "1rem",
-            "gap":          "3rem",
-            "borderTop":    "1px solid #5A3A24",
-            "borderBottom": "1px solid #5A3A24"
+            "duration": "30s",
+            "timing": "linear",
+            "iteration": "infinite"
+        }
+    },
+    "border": {
+        "_usedBy": "tailwind.config.mjs theme.extend.borderRadius + plugin card styles",
+        "radius": {
+            "DEFAULT": "0",
+            "lg": "12px",
+            "xl": "0",
+            "full": "9999px"
         },
-
-        "slab": {
-            "_comment": "Full-width section. Modifiers: -inverted, -accent, -accent-2.",
-            "padBlock":  "8rem",
-            "borderTop": "1px solid #5A3A24",
-            "innerMax":  "96rem",
-            "padInline": "3rem",
-            "inverted":  { "background": "#FFEDD7", "color": "#000000" },
-            "accent":    { "background": "#DC5000", "color": "#000000" },
-            "accent2":   { "background": "#E74C3C", "color": "#000000" }
+        "width": {
+            "DEFAULT": "1px"
+        },
+        "style": "solid"
+    },
+    "grid": {
+        "_usedBy": "tailwind.config.mjs plugin(addBase) :root --grid-columns / --grid-gutter",
+        "columns": 12,
+        "gutter": "1.5rem"
+    },
+    "cursor": {
+        "_usedBy": "tailwind.config.mjs :root --cursor; global.css cursor fallback",
+        "DEFAULT": "crosshair"
+    },
+    "cssVariables": {
+        "_comment": "CSS custom properties in global.css :root actually consumed by components. Documentation only — not read by tailwind.config.mjs.",
+        "colors": {
+            "--color-bg": "#080605",
+            "--color-bg-dim": "#140E09",
+            "--color-bg-raised": "#1F140D",
+            "--color-bg-elevated": "#382416",
+            "--color-bg-inverted": "#FFEDD7",
+            "--color-fg": "#FFEDD7",
+            "--color-fg-inverted": "#000000",
+            "--color-accent": "#DC5000",
+            "--color-focus-ring": "#DC5000"
+        },
+        "rgbChannels": {
+            "_comment": "Bare RGB triplets for rgba() opacity composition: rgba(var(--accent-rgb), 0.5)",
+            "--accent-rgb": "220, 80, 0",
+            "--fg-rgb": "255, 237, 215",
+            "--fg-inverted-rgb": "0, 0, 0",
+            "--black-rgb": "0, 0, 0",
+            "--bg-rgb": "8, 6, 5",
+            "--bg-dim-rgb": "20, 14, 9"
+        },
+        "fonts": {
+            "--font-display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
+            "--font-body": "'Instrument Sans', Inter, system-ui, sans-serif",
+            "--font-mono": "'JetBrains Mono', ui-monospace, Menlo, Monaco, monospace"
         }
-    },
-
-    "layout": {
-        "_comment": "Global layout constraints. Container widths align to spec §6.",
-        "maxWidth":          "96rem",
-        "center":            true,
-        "gridColumns":       12,
-        "gutter":            "1.5rem",
-        "gutterLg":          "3rem",
-        "padding": {
-            "mobile":  "1rem",
-            "tablet":  "1.5rem",
-            "desktop": "3rem"
-        }
-    },
-
-    "tailwindIntegration": {
-        "_comment": "How Tailwind should consume these tokens. Tailwind reads from CSS variables — never the other way around. This block documents the mapping.",
-        "approach": "theme.extend reads var(--token-name) from tokens.css",
-        "example": {
-            "colors": {
-                "bg":        "var(--color-bg)",
-                "fg":        "var(--color-fg)",
-                "fgStrong":  "var(--color-fg-strong)",
-                "fgMuted":   "var(--color-fg-muted)",
-                "accent":    "var(--color-accent)",
-                "accent2":   "var(--color-accent-2)",
-                "mark":      "var(--color-mark)",
-                "hairline":  "var(--color-hairline)"
-            },
-            "spacing": {
-                "1":  "var(--space-1)",
-                "2":  "var(--space-2)",
-                "10": "var(--space-10)",
-                "11": "var(--space-11)"
-            },
-            "boxShadow": {
-                "hardSm":  "var(--shadow-hard-sm)",
-                "hardMd":  "var(--shadow-hard-md)",
-                "accentMd":"var(--shadow-accent-md)",
-                "stack":   "var(--shadow-stack)"
-            },
-            "transitionTimingFunction": {
-                "out":    "var(--ease-out)",
-                "spring": "var(--ease-spring)",
-                "snap":   "var(--ease-snap)"
-            }
-        }
-    },
-
-    "deprecated": {
-        "_comment": "Tokens removed in v2.1 with migration notes.",
-        "containerMax_1400": "Replaced by containerWide (96rem / 1536px). Update components.",
-        "spacingBase_8px":   "Replaced by 4pt grid (space-4 = 16px is base unit).",
-        "borderRadius_zeroEverywhere":"Brutalism still defaults to 0; Neobrutalism allows sm (2px) and md (6px). Decided per mode.",
-        "transitionBase_19_22":"Replaced by easeOut (0.16, 1, 0.30, 1). Single signature curve.",
-        "duration_300ms":    "Replaced by base (240ms). Five named tiers only — no in-betweens.",
-        "stagger_8ms":       "Too tight to read. Replaced by stagger ramp (60/120/220/400ms).",
-        "defaultCardBorder_blackOpacity":"Dark-first system uses cream-on-dark. Use --color-hairline (ink-500) instead."
-    },
-
-    "changeLog": {
-        "v2.1.0_BrutalistCanvas": [
-            "Added _doc block describing philosophy, three laws, and dual-mode identity.",
-            "Added modeRules (Brutalism vs Neobrutalism) — gates which tokens each mode may consume.",
-            "Added asymmetricPostures — 8 named layout postures with grid placements.",
-            "Expanded primitive.color with accent2_*, signalYellow, signalBlue.",
-            "Added semantic.color.accent2, accent2Fg, mark, markFg, shadowAccent, shadowAccent2.",
-            "Replaced fixed-size type tokens with fluid clamp() scale (Minor Third body + Golden display).",
-            "Added semantic.type.* shorthand combining family + size + weight + leading + tracking.",
-            "Added primitive.motion with easing (5 curves), duration (5 tiers), stagger (4 widths).",
-            "Added easeSnap for Brutalist hard cuts.",
-            "Added shadow.hardSm/Md/Lg + accentSm/Md/Lg + accent2Md + stack (Neobrutalist signatures).",
-            "Added border.hairlineThick (3px) for Neobrutalist chunky borders.",
-            "Switched spacing base from 8px to 4px (4pt grid).",
-            "Container max changed from 1400px to 96rem (1536px).",
-            "Added z-index named scale (effects/content/overlap/sticky/overlay/modal/toast/cursor).",
-            "Added semantic.shadow tokens (hardSm/Md/Lg + accentSm/Md/Lg + stack).",
-            "Added component primitives: magneticButton, brutalistButton, sticker, eyebrow, frame, marquee, slab.",
-            "Added typography.mark for <mark> Neobrutalist highlight.",
-            "Added typography.meta for brutalist annotations ([01], coordinates, build versions).",
-            "Added performance budgets (LCP, CLS, INP, JS budget, CSS budget).",
-            "Added tailwindIntegration block documenting Tailwind ↔ tokens.css contract.",
-            "Added deprecated block listing v1 tokens removed and their migrations."
-        ],
-        "v1.0.0_CanvasEdition": [
-            "Initial dark-first canvas system.",
-            "Three-layer architecture (primitive / semantic / component).",
-            "Ink + Bone + Accent palette."
-        ]
     }
 }

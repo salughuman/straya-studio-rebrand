@@ -124,11 +124,15 @@ export default {
             // ─── CSS Variables ────────────────────────────────────────────────
             addBase({
                 ':root': {
-                    // Colors
+                    // ── Semantic vars consumed by components (sourced from cssVariables) ──
+                    ...tokens.cssVariables.colors,       // --color-bg, --color-fg, --color-accent, etc.
+                    ...tokens.cssVariables.rgbChannels,  // --accent-rgb, --fg-rgb, --black-rgb, etc.
+                    ...tokens.cssVariables.fonts,        // --font-display, --font-body, --font-mono
+
+                    // ── Extended role aliases ──
                     '--color-primary':          tokens.color.primary.DEFAULT,
                     '--color-secondary':        tokens.color.secondary.DEFAULT,
                     '--color-tertiary':         tokens.color.tertiary.DEFAULT,
-                    '--color-accent':           tokens.color.accent,
                     '--color-background':       tokens.color.background.DEFAULT,
                     '--color-surface':          tokens.color.background.surface,
                     '--color-on-surface':       tokens.color.onSurface.DEFAULT,
@@ -139,13 +143,10 @@ export default {
                     '--color-success':          tokens.color.status.success,
                     '--color-border-default':   tokens.color.border.default,
                     // Typography
-                    '--font-display':           tokens.typography.fontFamily.display,
-                    '--font-body':              tokens.typography.fontFamily.body,
                     '--tracking-tight':         tokens.typography.style.tightTracking,
                     '--tracking-blueprint':     tokens.typography.style.blueprintTracking,
                     // Effects
                     '--transition-base':        tokens.effects.transition.base,
-                    '--transition-entrance':    tokens.effects.transition.entrance,
                     '--transition-luxury':      tokens.effects.transition.elastic,
                     '--duration-entrance':      tokens.effects.duration.entrance,
                     '--depth-1':                tokens.effects.depth['1'],
@@ -153,7 +154,6 @@ export default {
                     '--depth-3':                tokens.effects.depth['3'],
                     '--magnetic-cta':           tokens.effects.magnetic.cta,
                     // Spacing
-                    '--spacing-base':               tokens.spacing.base,
                     '--spacing-container-max':      tokens.spacing.containerMax,
                     '--spacing-container-mobile':   tokens.spacing.containerPaddingMobile,
                     '--spacing-container-tablet':   tokens.spacing.containerPaddingTablet,
@@ -165,7 +165,6 @@ export default {
                     '--animation-marquee-duration':  tokens.animation.marquee.duration,
                     '--animation-marquee-timing':    tokens.animation.marquee.timing,
                     '--animation-marquee-iteration': tokens.animation.marquee.iteration,
-                    '--animation-stagger':           tokens.animation.stagger,
                     // Border
                     '--border-radius': tokens.border.radius.DEFAULT,
                     '--border-width':  tokens.border.width.DEFAULT,
@@ -299,15 +298,38 @@ export default {
                     paddingLeft:  tokens.spacing.containerPaddingMobile,
                     paddingRight: tokens.spacing.containerPaddingMobile,
                 },
+                '.section-y': {
+                    paddingTop:    tokens.spacing.sectionMobile,
+                    paddingBottom: tokens.spacing.sectionMobile,
+                },
+                '.card-pad': {
+                    padding: tokens.spacing.cardPaddingMobile,
+                },
                 '@media (min-width: 810px)': {
                     '.main-container': {
                         paddingLeft:  tokens.spacing.containerPaddingDesktop,
                         paddingRight: tokens.spacing.containerPaddingDesktop,
                     },
+                    '.section-y': {
+                        paddingTop:    tokens.spacing.sectionDesktop,
+                        paddingBottom: tokens.spacing.sectionDesktop,
+                    },
+                    '.card-pad': {
+                        padding: tokens.spacing.cardPadding,
+                    },
                 },
-                '.section-y': {
-                    paddingTop:    tokens.spacing.sectionMobile,
-                    paddingBottom: tokens.spacing.sectionMobile,
+                '@media (min-width: 1200px)': {
+                    '.main-container': {
+                        paddingLeft:  tokens.spacing.containerPaddingWide,
+                        paddingRight: tokens.spacing.containerPaddingWide,
+                    },
+                },
+
+                // ─── Heading mobile overrides ────────────────────────────────
+                '@media (max-width: 809px)': {
+                    '.type-h1': { fontSize: tokens.typography.h1.fontSizeMobile },
+                    '.type-h2': { fontSize: tokens.typography.h2.fontSizeMobile },
+                    '.type-h3': { fontSize: tokens.typography.h3.fontSizeMobile },
                 },
 
                 // ─── Depth & Motion ───────────────────────────────────────────
@@ -327,22 +349,25 @@ export default {
                     transitionTimingFunction: tokens.effects.transition.elastic,
                 },
 
-                // ─── Cards ────────────────────────────────────────────────────
+                // ─── Cards — no borders; depth via shadow only ────────────────
                 '.card-surface': {
                     backgroundColor: tokens.color.background.surface,
-                    border:          `${tokens.border.width.DEFAULT} ${tokens.border.style} ${tokens.color.border.default}`,
+                    border:          'none',
                     padding:         tokens.spacing.cardPadding,
                     borderRadius:    tokens.border.radius.DEFAULT,
+                    boxShadow:       '0 1px 0 rgba(255,255,255,0.04) inset, 0 18px 40px -24px rgba(0,0,0,0.35)',
                 },
                 '.card-elevated': {
                     backgroundColor: tokens.color.background.container,
-                    border:          `${tokens.border.width.DEFAULT} ${tokens.border.style} ${tokens.color.border.default}`,
+                    border:          'none',
                     padding:         tokens.spacing.cardPadding,
                     borderRadius:    tokens.border.radius.DEFAULT,
+                    boxShadow:       '0 1px 0 rgba(255,255,255,0.05) inset, 0 24px 50px -20px rgba(0,0,0,0.4)',
                     transition:      `all ${tokens.effects.duration.slow} ${tokens.effects.transition.base}`,
                 },
                 '.card-elevated:hover': {
-                    transform: 'translateY(-4px)',
+                    transform:  'translateY(-4px)',
+                    transition: `all ${tokens.effects.duration.slow} ${tokens.effects.transition.base}`,
                 },
             });
 
