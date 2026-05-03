@@ -91,6 +91,9 @@
 		section[id], footer[id], main [id] {
 			scroll-margin-top: 3.5rem;
 		}
+		.type-h2 {
+			font-size: clamp(1.68rem, 1.92rem + 2.4vw, 3.9rem);
+		}
 	}
 
 	/* All semantic headings use display type — Bricolage Grotesque */
