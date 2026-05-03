@@ -1,45 +1,47 @@
 ---
+/**
+ * Navbar.astro — Straya Studio
+ * Mode: Brutalism (fixed, hairline border, mono labels)
+ * Responsive: pill nav on desktop, full-screen slide-down on mobile
+ * Compliance: design-system.md §10 nav tokens | micro-interactions.md M3, M4
+ */
 import { SITE_CONFIG } from "../data/site-config";
-import NavButton from "./ui/buttons/NavButton.astro";
+import Button from "./ui/buttons/Button.astro";
 const baseUrl = import.meta.env.BASE_URL;
 
 const navLinks = [
   { label: "Work",     href: `${baseUrl}#work` },
-  { label: "Services", href: `${baseUrl}#services` },
   { label: "Process",  href: `${baseUrl}#method` },
-  { label: "Pricing",  href: `${baseUrl}#pricing` },
-  { label: "About",    href: `${baseUrl}#about` },
+  { label: "Services", href: `${baseUrl}#services` },
   { label: "FAQ",      href: `${baseUrl}#faq` },
 ];
 ---
 
-<!-- Navbar — always visible, centered pill style matching hero -->
+<!-- Desktop / tablet navbar — centered pill (original structure) -->
 <nav
   id="navbar"
   aria-label="Main navigation"
   class="fixed top-0 w-full z-50 flex justify-center"
 >
   <div
-    class="flex items-center gap-3 rounded-b-2xl border-2 border-zinc-800 bg-black/80 px-4 py-2 shadow-[0_0_50px_-12px_rgba(99,102,241,0.45),0_12px_40px_-16px_rgba(236,72,153,0.2)] backdrop-blur-xl sm:gap-6 md:gap-6 md:rounded-b-3xl md:px-8 lg:gap-7"
+    class="flex items-center gap-3 rounded-b-2xl border border-on-background/10 bg-surface-dim/80 px-4 py-2 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,237,215,0.06)] backdrop-blur-xl sm:gap-5 md:gap-6 md:rounded-b-3xl md:px-8"
   >
     {navLinks.map(link => (
       <a
         href={link.href}
         data-nav-link
-        class="global-nav-link text-[10px] transition-colors sm:text-xs md:text-sm"
-        style="color: rgba(225,224,204,0.8);"
+        class="global-nav-link text-[10px] transition-colors duration-200 sm:text-xs md:text-sm"
+        style="color: rgba(255,237,215,0.7);"
       >
         {link.label}
       </a>
     ))}
     <a
-      href={SITE_CONFIG.socials.calendly}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-[10px] font-medium transition-colors sm:text-xs md:text-sm hidden md:block"
-      style="color: #E1E0CC;"
+      href={`${baseUrl}contact`}
+      class="text-[10px] font-medium transition-colors duration-200 hover:text-on-background hidden md:block sm:text-xs md:text-sm"
+      style="color: rgba(255,237,215,0.9);"
     >
-      Initiate Project
+      Start a project
     </a>
     <!-- Mobile hamburger -->
     <button
@@ -49,7 +51,7 @@ const navLinks = [
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
-      style="color: #E1E0CC;"
+      style="color: rgba(255,237,215,0.8);"
     >
       <span class="nav-toggle-face nav-toggle-face--menu" aria-hidden="true">
         <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
@@ -65,51 +67,50 @@ const navLinks = [
   </div>
 </nav>
 
-<!-- Mobile menu — full screen, slides down from top -->
+<!-- Mobile menu — full screen, slides down -->
 <div
   id="mobile-menu"
   role="dialog"
   aria-modal="false"
   aria-hidden="true"
   aria-labelledby="mobile-menu-title"
-  class="fixed inset-x-0 top-0 z-40 bg-background flex flex-col md:hidden"
+  class="fixed inset-x-0 top-0 z-40 bg-surface-dim flex flex-col md:hidden"
   style="height: 100dvh;"
 >
   <h2 id="mobile-menu-title" class="sr-only">Site menu</h2>
-  <!-- Header row (mirrors navbar) -->
-  <div class="main-container flex flex-shrink-0 items-center justify-between border-b-2 border-zinc-800 py-4">
+
+  <!-- Header row -->
+  <div class="main-container flex flex-shrink-0 items-center justify-between border-b border-on-background/10 py-4">
     <img
       src={`${baseUrl}logo.svg`}
       alt="Straya Studio"
-      class="h-[22px] w-auto"
+      class="h-[20px] w-auto"
       loading="eager"
       decoding="async"
     />
     <button
       id="nav-close"
       type="button"
-      class="nav-icon-btn w-10 h-10 text-on-background"
+      class="inline-flex items-center justify-center w-10 h-10 text-on-background/70 hover:text-on-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       aria-label="Close menu"
     >
-      <span class="nav-toggle-face nav-toggle-face--solo" aria-hidden="true">
-        <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
-          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
     </button>
   </div>
 
-  <!-- Links — top-left aligned -->
-  <nav class="flex-1 flex flex-col justify-start items-start gap-0 pt-5 pb-3 overflow-y-auto px-5 md:px-12" aria-label="Mobile navigation">
+  <!-- Links -->
+  <nav class="flex-1 flex flex-col justify-start gap-0 pt-4 pb-3 overflow-y-auto px-5 md:px-12" aria-label="Mobile navigation">
     {navLinks.map((link, i) => (
       <a
         href={link.href}
-        class="mobile-link nav-link block w-full border-b-2 border-zinc-800/90 last:border-0 py-4"
+        class="mobile-link block w-full border-b border-on-background/8 last:border-0 py-5"
         data-nav-link
         data-i={i}
       >
         <div class="flex items-center justify-between">
-          <span class="font-display font-medium text-on-background" style="font-size: clamp(1.6rem, 6.5vw, 2.25rem); letter-spacing: -0.03em;">
+          <span class="font-display font-black text-on-background" style="font-size: clamp(1.8rem, 7vw, 2.5rem); letter-spacing: -0.04em;">
             {link.label}
           </span>
           <svg class="w-4 h-4 text-on-background/20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -120,26 +121,22 @@ const navLinks = [
     ))}
   </nav>
 
-  <!-- Footer -->
-  <div class="px-5 md:px-12 pb-8 flex-shrink-0 flex flex-col gap-3">
-    <a
-      href={SITE_CONFIG.socials.calendly}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="btn-pill w-full justify-center"
-      aria-label="Initiate a project with Straya Studio"
+  <!-- Footer CTA -->
+  <div class="px-5 md:px-12 pb-10 flex-shrink-0 flex flex-col gap-3">
+    <Button
+      href={`${baseUrl}contact`}
+      label="Start a project"
+      variant="hero-pill"
+      iconCircle={true}
+      class="w-full justify-center"
     >
-      Initiate Project
-      <span class="btn-pill-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </span>
-    </a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color:#FFEDD7;" aria-hidden="true">
+        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+      </svg>
+    </Button>
     <a
       href={`mailto:${SITE_CONFIG.email}`}
-      class="type-label text-on-background/30 text-center hover:text-on-background transition-colors duration-300"
+      class="font-mono text-xs uppercase tracking-[0.08em] text-on-background/30 text-center hover:text-on-background transition-colors duration-300"
     >
       {SITE_CONFIG.email}
     </a>
@@ -147,18 +144,27 @@ const navLinks = [
 </div>
 
 <style>
-  /* Navbar backdrop */
-  #navbar { -webkit-backdrop-filter: blur(24px); }
+  /* PERMITTED: backdrop-filter, clip-path animation, @keyframes */
 
-  /* Global nav link style — matches hero nav */
-  .global-nav-link:hover { color: #E1E0CC !important; }
+  /* ── Pill container ────────────────────────────────────────── */
+  .nav-pill {
+    background: rgba(20, 14, 9, 0.85);
+    border: 1px solid rgba(255, 237, 215, 0.1);
+    border-radius: 9999px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,237,215,0.06);
+  }
+
+  /* Global nav link style */
+  .global-nav-link:hover { color: rgba(255,237,215,0.95) !important; }
   .global-nav-link.is-active {
     color: #FFEDD7 !important;
     border-bottom: 2px solid rgba(220, 80, 0, 0.7);
     padding-bottom: 0;
   }
 
-  /* Mobile icons — square tap targets, crisp vector icons */
+  /* ── Hamburger toggle faces ────────────────────────────────── */
   #nav-toggle,
   #nav-close {
     -webkit-tap-highlight-color: transparent;
@@ -169,11 +175,7 @@ const navLinks = [
     background: transparent;
     cursor: pointer;
   }
-  /* #nav-toggle uses Tailwind inline-flex + md:hidden — do not set display here or it overrides md:hidden */
-  #nav-close {
-    display: inline-flex;
-  }
-
+  #nav-close { display: inline-flex; }
   .nav-toggle-face {
     position: absolute;
     inset: 0;
@@ -182,30 +184,14 @@ const navLinks = [
     justify-content: center;
     pointer-events: none;
   }
-  .nav-toggle-face--solo {
-    position: relative;
-    inset: auto;
-  }
-  #nav-toggle .nav-toggle-face--close {
-    display: none;
-  }
-  #nav-toggle.is-open .nav-toggle-face--menu {
-    display: none;
-  }
-  #nav-toggle.is-open .nav-toggle-face--close {
-    display: flex;
-  }
+  #nav-toggle .nav-toggle-face--close { display: none; }
+  #nav-toggle.is-open .nav-toggle-face--menu { display: none; }
+  #nav-toggle.is-open .nav-toggle-face--close { display: flex; }
 
-  .nav-toggle-svg {
-    display: block;
-    vertical-align: middle;
-    shape-rendering: geometricPrecision;
-  }
-
-  /* Mobile menu — hidden by default via clip-path */
+  /* ── Mobile menu slide ─────────────────────────────────────── */
   #mobile-menu {
     clip-path: inset(0 0 100% 0);
-    transition: clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
   }
   #mobile-menu.is-open {
@@ -213,36 +199,25 @@ const navLinks = [
     pointer-events: auto;
   }
 
-  /* Link stagger */
+  /* ── Mobile link stagger ───────────────────────────────────── */
   .mobile-link {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
     transition:
       opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       color 0.2s ease;
+    text-decoration: none;
+    color: var(--color-on-background, #FFEDD7);
   }
-  #mobile-menu.is-open .mobile-link {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #mobile-menu.is-open .mobile-link[data-i="0"] { transition-delay: 0.12s; }
-  #mobile-menu.is-open .mobile-link[data-i="1"] { transition-delay: 0.17s; }
-  #mobile-menu.is-open .mobile-link[data-i="2"] { transition-delay: 0.22s; }
-  #mobile-menu.is-open .mobile-link[data-i="3"] { transition-delay: 0.27s; }
-  #mobile-menu.is-open .mobile-link[data-i="4"] { transition-delay: 0.32s; }
-  #mobile-menu.is-open .mobile-link[data-i="5"] { transition-delay: 0.37s; }
+  #mobile-menu.is-open .mobile-link { opacity: 1; transform: translateY(0); }
+  #mobile-menu.is-open .mobile-link[data-i="0"] { transition-delay: 0.10s; }
+  #mobile-menu.is-open .mobile-link[data-i="1"] { transition-delay: 0.15s; }
+  #mobile-menu.is-open .mobile-link[data-i="2"] { transition-delay: 0.20s; }
+  #mobile-menu.is-open .mobile-link[data-i="3"] { transition-delay: 0.25s; }
 
-  /* Active nav link */
-  .nav-link.is-active {
-    color: theme('colors.on-background') !important;
-    border-bottom: 2px solid theme('colors.accent');
-    padding-bottom: 0;
-  }
-  /* Mobile active — accent color on the label */
-  .mobile-link.is-active span {
-    color: theme('colors.accent');
-  }
+  .mobile-link.is-active span { color: var(--color-accent, #DC5000); }
+
   @media (prefers-reduced-motion: reduce) {
     #mobile-menu { transition: none; }
     .mobile-link { transition: none; opacity: 1; transform: none; }
@@ -250,12 +225,12 @@ const navLinks = [
 </style>
 
 <script>
-  const toggle  = document.getElementById('nav-toggle');
-  const menu    = document.getElementById('mobile-menu');
-  const closeBtn= document.getElementById('nav-close');
-  const links   = document.querySelectorAll('.mobile-link');
+  const toggle   = document.getElementById('nav-toggle');
+  const menu     = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('nav-close');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
 
-  function open() {
+  const open = () => {
     menu?.classList.add('is-open');
     menu?.setAttribute('aria-hidden', 'false');
     menu?.setAttribute('aria-modal', 'true');
@@ -263,9 +238,9 @@ const navLinks = [
     toggle?.setAttribute('aria-expanded', 'true');
     toggle?.setAttribute('aria-label', 'Close menu');
     document.body.style.overflow = 'hidden';
-  }
+  };
 
-  function close() {
+  const close = () => {
     menu?.classList.remove('is-open');
     menu?.setAttribute('aria-hidden', 'true');
     menu?.setAttribute('aria-modal', 'false');
@@ -273,48 +248,34 @@ const navLinks = [
     toggle?.setAttribute('aria-expanded', 'false');
     toggle?.setAttribute('aria-label', 'Open menu');
     document.body.style.overflow = '';
-  }
+  };
 
-  toggle?.addEventListener('click', () =>
-    menu?.classList.contains('is-open') ? close() : open()
-  );
+  toggle?.addEventListener('click', () => menu?.classList.contains('is-open') ? close() : open());
   closeBtn?.addEventListener('click', close);
-  links.forEach(l => l.addEventListener('click', close));
+  mobileLinks.forEach(l => l.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
   // ── Active section tracking ─────────────────────────────────
-  const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
-
-  const sectionIds = Array.from(navLinks)
+  const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+  const sectionIds  = Array.from(allNavLinks)
     .map(l => l.getAttribute('href')?.split('#')[1])
     .filter(Boolean) as string[];
 
-  function setActive(id: string) {
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href') ?? '';
-      const isActive = href.endsWith(`#${id}`);
-      link.classList.toggle('is-active', isActive);
+  const setActive = (id: string) => {
+    allNavLinks.forEach(link => {
+      link.classList.toggle('is-active', (link.getAttribute('href') ?? '').endsWith(`#${id}`));
     });
-  }
+  };
 
-  // Use IntersectionObserver — activate when section is ≥20% in view
   const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setActive(entry.target.id);
-      }
-    });
-  }, {
-    rootMargin: '-10% 0px -60% 0px',
-    threshold: 0,
-  });
+    entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
+  }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
 
   sectionIds.forEach(id => {
     const el = document.getElementById(id);
     if (el) sectionObserver.observe(el);
   });
 
-  // Set active on page load based on hash
   const hash = window.location.hash.slice(1);
   if (hash) setActive(hash);
 </script>
