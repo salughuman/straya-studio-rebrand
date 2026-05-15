@@ -1,21 +1,20 @@
 ---
-import WordsPullUp from "./words-pull-up.astro";
+/**
+ * Hero.astro — full-bleed home hero
+ * Title: semantic `h1` + `.type-h1` (`typography.h1` via Tailwind).
+ * Scrims → `hero.imageScrimTransparentUntil` + global.css classes.
+ */
 import Button from "./ui/buttons/Button.astro";
 
 interface Props {
-  videoSrc?: string;
   headline?: string;
   tagline?: string;
   ctaLabel?: string;
 }
 
-const DEFAULT_VIDEO =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4";
-
 const baseUrl = import.meta.env.BASE_URL;
 const {
-  videoSrc = DEFAULT_VIDEO,
-  headline = "Straya",
+  headline = `Build\nabove\nthe noise`,
   tagline = "Straya is a digital studio building brand-defining websites and product experiences for ambitious teams. We design, build and ship - end to end.",
   ctaLabel = "Start a project",
 } = Astro.props as Props;
@@ -24,133 +23,101 @@ const {
 <section
   id="hero"
   aria-label="Straya Studio hero"
-  class="relative w-full overflow-hidden bg-surface-dim z-[999]"
+  class="relative isolate z-10 box-border w-full"
   style="height: 100svh;"
-  data-prisma-hero
 >
+  <div class="relative isolate h-full overflow-hidden bg-surface-dim">
   <p class="sr-only">
-    Straya Studio hero section with cinematic background video, headline,
+    Straya Studio hero section with background image, headline,
     supporting positioning statement, and a direct call to start a project.
   </p>
 
-  <!-- Layer 1: Video background -->
-  <video
-    autoplay
-    loop
-    muted
-    playsinline
-    class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
-    src={videoSrc}></video>
-
-  <!-- Layer 2: Noise overlay — SVG fractal noise, mix-blend-mode overlay -->
-  <div
-    class="noise-overlay pointer-events-none absolute inset-0 z-[1] opacity-[0.45] mix-blend-overlay"
-  >
-  </div>
-
-  <!-- Layer 3: Gradient scrim — hard-edge linear gradient, top transparent → bottom #140E09 (bg-surface-dim) -->
-  <!-- inline style required: rgba/hex values not expressible as Tailwind token classes -->
-  <div
-    class="pointer-events-none absolute inset-0 z-[2]"
-    style="background: linear-gradient(to bottom, transparent 0%, transparent 35%, var(--color-bg-dim) 100%);"
+  <img
+    src="/images/Hero/straya-hero-image.webp"
+    alt=""
     aria-hidden="true"
-  >
-  </div>
+    width="2880"
+    height="1620"
+    class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+    loading="eager"
+    decoding="async"
+    fetchpriority="high"
+  />
 
-  <!-- Layer 4: UI content layer -->
-
-  <!-- Coordinate annotation — bottom-right corner, Lahore coordinates -->
-
-  <!-- Main content grid — anchored to bottom -->
   <div
-    class="absolute bottom-0 left-0 right-0 z-[5] px-4 pb-2 sm:px-6 md:px-10"
+    class="hero-image-grain pointer-events-none absolute inset-0 z-10"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="hero-image-scrim pointer-events-none absolute inset-0 z-20"
+    aria-hidden="true"
+  ></div>
+
+
+  <div
+    class="absolute bottom-0 left-0 right-0 z-30 pb-card-padding lg:pb-2"
   >
-    <div class="grid grid-cols-12 items-end gap-4">
-      <!-- Heading — cols 1–8 desktop, full width mobile -->
-      <div class="col-span-12 lg:col-span-8">
-        <h1
-          class="font-display font-black leading-[0.92] tracking-[-0.04em] text-[36vw] sm:text-[30vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] opacity-[40%]"
-          style="color:rgba(var(--fg-rgb),0.92)"
-        >
-          <WordsPullUp text={headline} />
-        </h1>
-      </div>
+    <div class="main-container w-full pb-2 sm:pb-4 lg:pb-10">
+      <div class="grid grid-cols-12 items-end gap-4 lg:gap-6">
+        <div class="col-span-12 lg:col-span-8">
+          <h1 class="hero-headline type-h1 whitespace-pre-line text-on-background">
+            {headline}
+          </h1>
+        </div>
 
-      <!-- Tagline + CTA — cols 9–12 desktop, full width mobile -->
-      <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
-        <p
-          data-hero-tagline
-          class="hero-tagline-glow max-w-md text-xs sm:text-sm md:text-base"
-          style="line-height:1.35;color:rgba(var(--fg-rgb),0.72)"
+        <div
+          class="col-span-12 flex flex-col gap-5 lg:col-span-4"
         >
-          {tagline}
-        </p>
+          <p class="type-body max-w-md text-pretty text-on-surface-variant">
+            {tagline}
+          </p>
 
-        <Button
-          href={`${baseUrl}contact`}
-          label={ctaLabel}
-          variant="hero-pill"
-          data-hero-cta
-          class="self-start"
-        />
+          <Button
+            href={`${baseUrl}contact`}
+            label={ctaLabel}
+            variant="hero-pill"
+            class="self-start"
+          />
+        </div>
       </div>
     </div>
   </div>
+  </div>
+  </div>
 </section>
 
-<script>
-  // Hero tagline + CTA — scroll-progress coupled blur reveal (micro-interactions.md §8.3)
-  // One-time entry trigger for above-fold elements
-  const initHero = () => {
-    const hero = document.querySelector<HTMLElement>("[data-prisma-hero]");
-    if (!hero || hero.dataset.initialized === "true") return;
-    hero.dataset.initialized = "true";
+<style>
+  /* Subtle vertical fade — softer toward the top, full strength at the baseline (over hero scrim) */
+  .hero-headline {
+    background-image: linear-gradient(
+      180deg,
+      rgba(var(--fg-rgb), 0.48) 0%,
+      rgba(var(--fg-rgb), 0.78) 32%,
+      rgba(var(--fg-rgb), 0.96) 68%,
+      rgb(var(--fg-rgb)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
 
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const tagline = hero.querySelector<HTMLElement>("[data-hero-tagline]");
-    const cta = hero.querySelector<HTMLElement>("[data-hero-cta]");
-    if (!tagline || !cta) return;
-
-    if (reduced) {
-      tagline.style.opacity = "1";
-      tagline.style.filter = "none";
-      tagline.style.transform = "none";
-      cta.style.opacity = "1";
-      cta.style.filter = "none";
-      cta.style.transform = "none";
-      return;
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .hero-headline {
+      color: var(--color-on-background);
+      background: none;
     }
+  }
 
-    // Set initial state
-    [tagline, cta].forEach((el) => {
-      el.style.opacity = "0";
-      el.style.filter = "blur(12px)";
-      el.style.transform = "translateY(16px)";
-      el.style.transition =
-        "opacity 700ms cubic-bezier(0.16,1,0.3,1), filter 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1)";
-    });
-
-    // Stagger reveal on load (hero is above fold — no scroll needed)
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        tagline.style.opacity = "1";
-        tagline.style.filter = "blur(0)";
-        tagline.style.transform = "translateY(0)";
-      }, 500);
-      setTimeout(() => {
-        cta.style.opacity = "1";
-        cta.style.filter = "blur(0)";
-        cta.style.transform = "translateY(0)";
-        // Clear inline transition after entry so CSS class handles hover
-        setTimeout(() => {
-          cta.style.transition = "";
-        }, 700);
-      }, 700);
-    });
-  };
-
-  initHero();
-  document.addEventListener("astro:after-swap", initHero);
-</script>
+  @media (prefers-reduced-motion: reduce) {
+    .hero-headline {
+      background-image: linear-gradient(
+        180deg,
+        rgba(var(--fg-rgb), 0.82) 0%,
+        rgb(var(--fg-rgb)) 100%
+      );
+    }
+  }
+</style>

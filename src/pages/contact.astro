@@ -5,68 +5,72 @@ import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
 import Button from "../components/ui/buttons/Button.astro";
 
-const title       = "Start a Project | Straya Studio";
-const description = "Share your project brief with Straya Studio. We review every submission and reply with a clear fixed quote — no surprises.";
-const image       = "/og-contact.png";
-const pageUrl     = `${SITE_CONFIG.url}/contact/`;
+const title = "Start a Project | Straya Studio";
+const description =
+  "Share your project brief with Straya Studio. We review every submission and reply with a clear fixed quote — no surprises.";
+const image = "/og-contact.png";
+const pageUrl = `${SITE_CONFIG.url}/contact/`;
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: title, description, url: pageUrl,
+  name: title,
+  description,
+  url: pageUrl,
   isPartOf: { "@type": "WebSite", name: SITE_CONFIG.name, url: `${SITE_CONFIG.url}/` },
 };
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",    item: `${SITE_CONFIG.url}/` },
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_CONFIG.url}/` },
     { "@type": "ListItem", position: 2, name: "Contact", item: pageUrl },
   ],
 };
 ---
 
 <BaseLayout title={title} description={description} image={image}>
-
   <section
     id="contact"
     aria-label="Start a project"
-    class="relative bg-background overflow-hidden"
+    class="section-frosted relative overflow-hidden pt-28 pb-16 md:pt-32 md:pb-20"
   >
-    <div class="main-container pt-36 pb-24 relative z-10">
-
-      <!-- Page header -->
-      <header class="mb-16 pb-10">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <span class="cp-el type-label text-on-background/40 block mb-3" data-delay="0">Start a project</span>
-            <h1 class="type-h2 text-on-background max-w-lg">
-              <span class="cp-line block overflow-hidden"><span class="cp-el inline-block" data-delay="80">Send your brief and</span></span>
-              <span class="cp-line block overflow-hidden"><span class="cp-el inline-block" data-delay="140">get a fixed quote.</span></span>
+    <div class="main-container relative z-10">
+      <header class="mb-12 md:mb-14">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-2xl">
+            <h1 class="type-h2 m-0 font-medium leading-[1.06] tracking-tight text-on-background">
+              <span class="cp-line block overflow-hidden">
+                <span class="cp-el inline-block" data-delay="80">Send your brief,</span>
+              </span>
+              <span class="cp-line block overflow-hidden">
+                <span class="cp-el inline-block" data-delay="140">get a fixed quote.</span>
+              </span>
             </h1>
-            <p class="cp-el type-body-small text-on-surface-variant mt-3 max-w-md leading-relaxed" data-delay="240">
-              Tell us what you're building, what success looks like, and any constraints. We review every brief directly and reply with the next best step.
+            <p class="cp-el type-body m-0 mt-6 max-w-[46ch] leading-relaxed text-on-background/70" data-delay="220">
+              Tell us what you&apos;re building, what success looks like, and any constraints. We read every brief
+              directly and reply with the next best step — usually within one business day.
             </p>
           </div>
-          <!-- Calendly alternative -->
-          <div class="cp-el flex-shrink-0 flex flex-col gap-3 md:text-right" data-delay="320">
-            <span class="type-label text-on-background/40">Prefer a call?</span>
+          <div class="cp-el flex flex-shrink-0 flex-col gap-3 lg:items-end" data-delay="300">
+            <span class="type-label-small font-mono uppercase tracking-[0.12em] text-on-background/45">Prefer a call?</span>
             <Button
               href={SITE_CONFIG.socials.calendly}
               label="Book 30-min scoping call"
               variant="hero-pill"
               target="_blank"
               rel="noopener noreferrer"
+              class="w-full justify-center lg:w-auto"
             />
           </div>
         </div>
       </header>
 
-      <!-- Two-column layout: form left, info right -->
-      <div class="cp-el grid grid-cols-1 lg:grid-cols-12 gap-px bg-black/5" data-delay="440">
-
+      <div class="cp-el grid grid-cols-1 gap-[var(--grid-gutter)] lg:grid-cols-12" data-delay="400">
         <!-- Form -->
-        <div class="lg:col-span-8 bg-background card-pad">
+        <div
+          class="contact-panel lg:col-span-7 bg-inverse-panel px-[var(--spacing-card-padding)] py-8 md:px-10 md:py-10 text-inverse-on-surface"
+        >
           <form
             action={`https://formsubmit.co/${SITE_CONFIG.contactEmail}`}
             method="POST"
@@ -74,43 +78,50 @@ const breadcrumbSchema = {
             data-calendly={SITE_CONFIG.socials.calendly}
             class="flex flex-col gap-6"
           >
-            <!-- Hidden fields -->
-            <input type="hidden" name="_subject"  value="New Project Brief — Straya Studio"/>
-            <input type="hidden" name="_captcha"  value="false"/>
-            <input type="hidden" name="_template" value="table"/>
-            <input type="hidden" name="_next"     value={`${SITE_CONFIG.url}/contact`}/>
-            <input type="hidden" name="leadSource" value="contact-page"/>
-            <input type="hidden" name="cta_source" id="cta-source" value="direct"/>
-            <input type="hidden" name="cta_tier"   id="cta-tier"   value="unknown"/>
-            <input type="hidden" name="tier"        id="tier-hidden" value="unknown"/>
-            <input type="text"   name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true"/>
+            <input type="hidden" name="_subject" value="New Project Brief — Straya Studio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value={`${SITE_CONFIG.url}/contact`} />
+            <input type="hidden" name="leadSource" value="contact-page" />
+            <input type="hidden" name="cta_source" id="cta-source" value="direct" />
+            <input type="hidden" name="cta_tier" id="cta-tier" value="unknown" />
+            <input type="hidden" name="tier" id="tier-hidden" value="unknown" />
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
-            <!-- Name + Email row -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <label class="flex flex-col gap-2" for="contact-name">
-                <span class="type-label text-on-background/60">Full name <span class="text-accent" aria-hidden="true">*</span></span>
+                <span class="type-label-small font-mono uppercase tracking-[0.08em] text-inverse-on-surface">
+                  Full name <span class="text-accent" aria-hidden="true">*</span>
+                </span>
                 <input
                   id="contact-name"
-                  required name="name" type="text" autocomplete="name"
+                  required
+                  name="name"
+                  type="text"
+                  autocomplete="name"
                   placeholder="Alex Morgan"
                   class="contact-input"
                 />
               </label>
               <label class="flex flex-col gap-2" for="contact-email">
-                <span class="type-label text-on-background/60">Email <span class="text-accent" aria-hidden="true">*</span></span>
+                <span class="type-label-small font-mono uppercase tracking-[0.08em] text-inverse-on-surface">
+                  Email <span class="text-accent" aria-hidden="true">*</span>
+                </span>
                 <input
                   id="contact-email"
-                  required name="email" type="email" autocomplete="email"
+                  required
+                  name="email"
+                  type="email"
+                  autocomplete="email"
                   placeholder="you@example.com"
                   class="contact-input"
                 />
               </label>
             </div>
 
-            <!-- Platform -->
             <label class="flex flex-col gap-2" for="contact-platform">
-              <span class="type-label text-on-background/60">Platform preference</span>
-              <select id="contact-platform" name="platform" class="contact-input">
+              <span class="type-label-small font-mono uppercase tracking-[0.08em] text-inverse-on-surface/92">Platform</span>
+              <select id="contact-platform" name="platform" class="contact-input contact-select">
                 <option value="">Not sure yet</option>
                 <option value="Framer">Framer</option>
                 <option value="Webflow">Webflow</option>
@@ -120,10 +131,9 @@ const breadcrumbSchema = {
               </select>
             </label>
 
-            <!-- Budget -->
             <label class="flex flex-col gap-2" for="contact-budget">
-              <span class="type-label text-on-background/60">Budget range</span>
-              <select id="contact-budget" name="budget" class="contact-input">
+              <span class="type-label-small font-mono uppercase tracking-[0.08em] text-inverse-on-surface/92">Budget range</span>
+              <select id="contact-budget" name="budget" class="contact-input contact-select">
                 <option value="">Select a range</option>
                 <option value="$1,500–$2,000">$1,500 – $2,000 (Starter)</option>
                 <option value="$3,500–$4,500">$3,500 – $4,500 (Growth)</option>
@@ -132,85 +142,84 @@ const breadcrumbSchema = {
               </select>
             </label>
 
-            <!-- Brief -->
             <label class="flex flex-col gap-2" for="contact-brief">
-              <span class="type-label text-on-background/60">Project brief <span class="text-accent" aria-hidden="true">*</span></span>
+              <span class="type-label-small font-mono uppercase tracking-[0.08em] text-inverse-on-surface">
+                Project brief <span class="text-accent" aria-hidden="true">*</span>
+              </span>
               <textarea
                 id="contact-brief"
-                required name="brief" rows={6} autocomplete="off"
-                placeholder="Share your goals, scope, platform preference, and any deadline constraints."
+                required
+                name="brief"
+                rows={6}
+                autocomplete="off"
+                placeholder="Goals, scope, timeline, links to references — anything that helps us quote accurately."
                 class="contact-input resize-none"
               ></textarea>
             </label>
 
-            <!-- Submit -->
             <div class="flex flex-col gap-3">
-              <button
-                type="submit"
-                id="submit-btn"
-                class="btn-pill w-full justify-center magnetic-cta"
-              >
+              <button type="submit" id="submit-btn" class="btn-pill w-full justify-center magnetic-cta">
                 <span id="submit-label">Send project brief</span>
-                <span class="btn-pill-circle" id="submit-arrow">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" style="color: #E1E0CC;" aria-hidden="true">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                  </svg>
-                </span>
               </button>
-              <p id="form-status" class="type-label text-center hidden" role="status" aria-live="polite"></p>
+              <p id="form-status" class="type-label-small hidden text-center" role="status" aria-live="polite"></p>
             </div>
           </form>
         </div>
 
-        <!-- Info sidebar -->
-        <div class="lg:col-span-4 bg-surface-container-low flex flex-col gap-0">
-
-          <!-- What happens next -->
-          <div class="p-8">
-            <span class="type-label text-on-background/40 block mb-5">What happens next</span>
-            <ol class="flex flex-col gap-5 list-none p-0">
-              {[
-                { n: "01", text: "We review your brief within 24 hours." },
-                { n: "02", text: "We confirm scope fit and platform recommendation." },
-                { n: "03", text: "You receive a fixed quote — no surprises." },
-                { n: "04", text: "Kickoff call scheduled within 48 hours of acceptance." },
-              ].map(step => (
-                <li class="flex items-start gap-4">
-                  <span class="type-label text-on-background/20 flex-shrink-0 w-6 tabular-nums">{step.n}</span>
-                  <span class="type-body-small text-on-surface-variant leading-relaxed">{step.text}</span>
-                </li>
-              ))}
+        <!-- Sidebar -->
+        <aside class="flex flex-col gap-[var(--grid-gutter)] lg:col-span-5">
+          <div class="contact-panel bg-inverse-panel px-[var(--spacing-card-padding)] py-8 md:px-8 md:py-8 text-inverse-on-surface">
+            <span class="type-label-small mb-5 block font-mono uppercase tracking-[0.12em] text-inverse-on-surface/82">What happens next</span>
+            <ol class="m-0 flex list-none flex-col gap-5 p-0">
+              {
+                [
+                  { n: "01", text: "We review your brief within 24 hours." },
+                  { n: "02", text: "We confirm scope fit and platform fit." },
+                  { n: "03", text: "You receive a fixed quote — no surprises." },
+                  { n: "04", text: "Kickoff call within 48 hours of acceptance." },
+                ].map((step) => (
+                  <li class="flex items-start gap-4">
+                    <span class="type-label-small w-7 shrink-0 tabular-nums text-inverse-on-surface/58">{step.n}</span>
+                    <span class="type-body-small leading-relaxed text-inverse-on-surface">{step.text}</span>
+                  </li>
+                ))
+              }
             </ol>
           </div>
 
-          <!-- Trust signals -->
-          <div class="p-8">
-            <span class="type-label text-on-background/40 block mb-5">Why Straya Studio</span>
-            <ul class="flex flex-col gap-3 list-none p-0">
-              {[
-                "Fixed quotes — no hourly billing",
-                "Direct line to the founder",
-                "2–3 projects at a time",
-                "100+ five-star deployments",
-                "Certified Framer Expert",
-              ].map(item => (
-                <li class="flex items-center gap-3">
-                  <svg class="w-3 h-3 text-accent flex-shrink-0" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M2 6.5L4.5 9L10 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="type-body-small text-on-surface-variant">{item}</span>
-                </li>
-              ))}
+          <div class="contact-panel bg-inverse-panel px-[var(--spacing-card-padding)] py-8 md:px-8 md:py-8 text-inverse-on-surface">
+            <span class="type-label-small mb-5 block font-mono uppercase tracking-[0.12em] text-inverse-on-surface/82">Why Straya</span>
+            <ul class="m-0 flex list-none flex-col gap-3 p-0">
+              {
+                [
+                  "Fixed quotes — no hourly billing",
+                  "Direct line to the founder",
+                  "2–3 projects at a time",
+                  "100+ five-star deployments",
+                  "Certified Framer Expert",
+                ].map((item) => (
+                  <li class="flex items-center gap-3">
+                    <svg class="h-3 w-3 shrink-0 text-accent" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path
+                        d="M2 6.5L4.5 9L10 3.5"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span class="type-body-small text-inverse-on-surface">{item}</span>
+                  </li>
+                ))
+              }
             </ul>
           </div>
 
-          <!-- Contact direct -->
-          <div class="p-8">
-            <span class="type-label text-on-background/40 block mb-4">Or reach out directly</span>
+          <div class="contact-panel bg-inverse-panel px-[var(--spacing-card-padding)] py-8 md:px-8 md:py-8 text-inverse-on-surface">
+            <span class="type-label-small mb-4 block font-mono uppercase tracking-[0.12em] text-inverse-on-surface/82">Direct</span>
             <a
               href={`mailto:${SITE_CONFIG.email}`}
-              class="type-label text-on-background hover:text-accent transition-colors duration-300 block mb-2"
+              class="type-label-small mb-3 block font-semibold text-inverse-on-surface underline decoration-black/18 underline-offset-2 transition-colors duration-200 hover:text-accent hover:decoration-accent/45"
             >
               {SITE_CONFIG.email}
             </a>
@@ -218,13 +227,12 @@ const breadcrumbSchema = {
               href={SITE_CONFIG.socials.calendly}
               target="_blank"
               rel="noopener noreferrer"
-              class="type-label text-on-background/40 hover:text-on-background transition-colors duration-300 block"
+              class="type-label-small font-medium text-inverse-on-surface/88 underline decoration-transparent underline-offset-2 transition-colors duration-200 hover:text-inverse-on-surface hover:decoration-black/22"
             >
               Book a 30-min call →
             </a>
           </div>
-
-        </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -237,70 +245,64 @@ const breadcrumbSchema = {
 
   <script is:inline>
     (() => {
-      // Pre-fill from URL params
-      const params   = new URLSearchParams(window.location.search);
-      const source   = params.get('source');
-      const tier     = params.get('tier');
-      const srcField = document.getElementById('cta-source');
-      const tierField= document.getElementById('cta-tier');
-      const tierHid  = document.getElementById('tier-hidden');
+      const params = new URLSearchParams(window.location.search);
+      const source = params.get("source");
+      const tier = params.get("tier");
+      const srcField = document.getElementById("cta-source");
+      const tierField = document.getElementById("cta-tier");
+      const tierHid = document.getElementById("tier-hidden");
 
-      if (source && srcField)  srcField.value  = source;
-      if (tier   && tierField) {
+      if (source && srcField) srcField.value = source;
+      if (tier && tierField) {
         const n = tier.toLowerCase();
         tierField.value = n;
         if (tierHid) {
-          if (n === 'starter') tierHid.value = 'Starter';
-          if (n === 'growth')  tierHid.value = 'Growth';
-          if (n === 'premium') tierHid.value = 'Premium';
+          if (n === "starter") tierHid.value = "Starter";
+          if (n === "growth") tierHid.value = "Growth";
+          if (n === "premium") tierHid.value = "Premium";
         }
-        // Pre-select budget
         const budgetSelect = document.querySelector('select[name="budget"]');
-        if (budgetSelect) {
-          if (n === 'starter') budgetSelect.value = '$1,500–$2,000';
-          if (n === 'growth')  budgetSelect.value = '$3,500–$4,500';
-          if (n === 'premium') budgetSelect.value = '$9,000+';
+        if (budgetSelect instanceof HTMLSelectElement) {
+          if (n === "starter") budgetSelect.value = "$1,500–$2,000";
+          if (n === "growth") budgetSelect.value = "$3,500–$4,500";
+          if (n === "premium") budgetSelect.value = "$9,000+";
         }
       }
 
-      // Form submission
-      const form   = document.getElementById('project-brief-form');
-      const btn    = document.getElementById('submit-btn');
-      const label  = document.getElementById('submit-label');
-      const arrow  = document.getElementById('submit-arrow');
-      const status = document.getElementById('form-status');
+      const form = document.getElementById("project-brief-form");
+      const btn = document.getElementById("submit-btn");
+      const label = document.getElementById("submit-label");
+      const status = document.getElementById("form-status");
 
       if (!(form instanceof HTMLFormElement)) return;
 
-      form.addEventListener('submit', async (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (btn instanceof HTMLButtonElement) btn.disabled = true;
-        if (label) label.textContent = 'Sending…';
-        if (arrow) arrow.style.display = 'none';
+        if (label) label.textContent = "Sending…";
 
         try {
           const res = await fetch(form.action, {
-            method: 'POST',
+            method: "POST",
             body: new FormData(form),
-            headers: { Accept: 'application/json' },
+            headers: { Accept: "application/json" },
           });
           if (!res.ok) throw new Error();
 
-          if (label) label.textContent = 'Brief sent ✓';
+          if (label) label.textContent = "Brief sent ✓";
           if (status) {
-            status.textContent = 'Thank you — we\'ll review your brief and reply within 24 hours.';
-            status.style.color = '#DC5000';
-            status.classList.remove('hidden');
+            status.textContent = "Thank you — we'll review your brief and reply within 24 hours.";
+            status.className = "type-label-small text-center text-accent";
+            status.classList.remove("hidden");
           }
           form.reset();
         } catch {
-          if (label) label.textContent = 'Send project brief';
-          if (arrow) arrow.style.display = '';
+          if (label) label.textContent = "Send project brief";
           if (btn instanceof HTMLButtonElement) btn.disabled = false;
           if (status) {
-            status.textContent = 'Something went wrong. Please email us directly.';
-            status.style.color = '#BA1A1A';
-            status.classList.remove('hidden');
+            status.textContent = "Something went wrong. Please email us directly.";
+            status.className = "type-label-small text-center text-error";
+            status.classList.remove("hidden");
           }
         }
       });
@@ -309,57 +311,152 @@ const breadcrumbSchema = {
 </BaseLayout>
 
 <style>
-  /* ── Contact page entrance ─────────────────────────────────── */
-  .cp-el { opacity: 0; transform: translateY(28px); }
-  .cp-line .cp-el { transform: translateY(100%); opacity: 1; }
+  .cp-el {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  .cp-line .cp-el {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+
+  .contact-panel {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.06),
+      0 2px 0 rgba(var(--outline-variant-rgb), 0.05),
+      0 10px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  }
 
   .contact-input {
     width: 100%;
-    background: theme('colors.surface-container-lowest');
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    font-family: 'Instrument Sans', sans-serif;
-    color: theme('colors.on-background');
-    outline: none;
-    transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
     border-radius: 0;
     appearance: none;
+    min-height: 2.75rem;
+    padding: 0.8125rem 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    font-family: var(--font-body, system-ui, sans-serif);
+    color: var(--color-fg-inverted);
+    color-scheme: only light;
+    caret-color: var(--color-accent);
+    background-color: var(--color-primary-container);
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--fg-inverted-rgb), 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    outline: none;
+    transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .contact-input::placeholder { color: rgba(0, 0, 0, 0.25); }
+  .contact-input::placeholder {
+    color: rgba(var(--fg-inverted-rgb), 0.48);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-input:hover:not(:focus):not(:disabled) {
+      background-color: #ffffff;
+      box-shadow:
+        inset 0 0 0 1px rgba(var(--fg-inverted-rgb), 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+  }
   .contact-input:focus {
-    border-color: #DC5000;
-    box-shadow: 0 0 0 3px rgba(220, 80, 0, 0.12);
+    background-color: #ffffff;
+    box-shadow:
+      inset 0 0 0 1px rgba(220, 80, 0, 0.55),
+      0 0 0 3px rgba(var(--accent-rgb), 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
   }
-  select.contact-input {
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23777777' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  /* Override global dark autofill (global.css) on this light form */
+  .contact-input:-webkit-autofill,
+  .contact-input:-webkit-autofill:hover {
+    -webkit-text-fill-color: rgb(8, 6, 5) !important;
+    caret-color: var(--color-accent);
+    box-shadow:
+      0 0 0 1000px var(--color-primary-container) inset,
+      inset 0 0 0 1px rgba(var(--fg-inverted-rgb), 0.16) !important;
+    transition: background-color 99999s ease-out 0s;
+  }
+  .contact-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: rgb(8, 6, 5) !important;
+    box-shadow:
+      0 0 0 1000px #ffffff inset,
+      inset 0 0 0 1px rgba(220, 80, 0, 0.55),
+      0 0 0 3px rgba(var(--accent-rgb), 0.28) !important;
+    transition: background-color 99999s ease-out 0s;
+  }
+
+  .contact-input:autofill,
+  .contact-input:autofill:hover,
+  .contact-input:autofill:focus {
+    color: rgb(8, 6, 5);
+    box-shadow:
+      0 0 0 1000px var(--color-primary-container) inset,
+      inset 0 0 0 1px rgba(var(--fg-inverted-rgb), 0.16);
+    transition: background-color 99999s ease-out 0s;
+  }
+  .contact-input:autofill:focus {
+    box-shadow:
+      0 0 0 1000px #ffffff inset,
+      inset 0 0 0 1px rgba(220, 80, 0, 0.55),
+      0 0 0 3px rgba(var(--accent-rgb), 0.28);
+  }
+
+  .contact-select {
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 8l5 5 5-5' stroke='%23080605' stroke-opacity='0.72' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 2.5rem;
+    background-position: right 0.65rem center;
+    background-size: 1.25rem 1.25rem;
+    padding-right: 2.75rem;
     cursor: pointer;
+  }
+  .contact-select option {
+    font-weight: 400;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: rgb(8, 6, 5);
+    background-color: #fffefb;
+    padding: 0.5rem 0.75rem;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .contact-select:hover:not(:focus):not(:disabled) {
+      background-color: #ffffff;
+    }
+  }
+
+  textarea.contact-input {
+    min-height: 7.5rem;
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cp-el { opacity: 1 !important; transform: none !important; }
+    .cp-el {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
   const DURATION = 900;
 
-  // Above-the-fold — double rAF like hero
-  const cpEls = document.querySelectorAll<HTMLElement>('.cp-el');
+  const cpEls = document.querySelectorAll<HTMLElement>(".cp-el");
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      cpEls.forEach(el => {
-        const delay  = parseInt(el.dataset.delay ?? '0');
-        const isLine = el.closest('.cp-line') !== null;
+      cpEls.forEach((el) => {
+        const delay = parseInt(el.dataset.delay ?? "0", 10);
+        const isLine = el.closest(".cp-line") !== null;
         el.animate(
           isLine
-            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-            : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-          { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+            ? [{ transform: "translateY(100%)" }, { transform: "translateY(0%)" }]
+            : [{ opacity: 0, transform: "translateY(22px)" }, { opacity: 1, transform: "translateY(0px)" }],
+          { duration: DURATION, delay, easing: EASE, fill: "forwards" },
         );
       });
     });

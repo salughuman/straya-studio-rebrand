@@ -1,265 +1,232 @@
 ---
 /**
  * Footer.astro — Straya Studio
- * Cream background, full-width STRAYA wordmark with hover light sweep
+ * Light band (primary cream): brown typography, soft inverse-panel depth, no outline borders on panels.
  */
 import { SITE_CONFIG } from "../data/site-config";
 import Button from "./ui/buttons/Button.astro";
 
+const baseUrl = import.meta.env.BASE_URL;
 const year = new Date().getFullYear();
 
-const navLinks = [
-  { label: "Work",     href: "/#work" },
-  { label: "Services", href: "/#services" },
-  { label: "Pricing",  href: "/#pricing" },
-  { label: "FAQ",      href: "/#faq" },
+/** Same scroll order as homepage + Navbar */
+const exploreLinks = [
+  { label: "About", href: `${baseUrl}#about` },
+  { label: "Work", href: `${baseUrl}#work` },
+  { label: "Testimonials", href: `${baseUrl}#testimonials` },
+  { label: "Services", href: `${baseUrl}#services` },
+  { label: "Offer", href: `${baseUrl}#why` },
+  { label: "FAQ", href: `${baseUrl}#faq` },
 ];
 
 const socialLinks = [
   { label: "LinkedIn", href: SITE_CONFIG.socials.agency_linkedin },
-  { label: "Framer",   href: SITE_CONFIG.socials.framer },
-  { label: "Contra",   href: SITE_CONFIG.socials.contra },
+  { label: "Framer", href: SITE_CONFIG.socials.framer },
+  { label: "Contra", href: SITE_CONFIG.socials.contra },
+  { label: "GitHub", href: SITE_CONFIG.socials.github },
+];
+
+const legalLinks = [
+  { label: "Privacy", href: `${baseUrl}privacy` },
+  { label: "Terms", href: `${baseUrl}terms` },
+  { label: "Sitemap", href: `${baseUrl}sitemap-page` },
 ];
 ---
 
-<footer aria-label="Site footer" class="footer-root relative">
+<footer
+  aria-label="Site footer"
+  class="footer-root relative overflow-hidden bg-primary text-inverse-on-surface"
+>
+  <!-- Warm light washes -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_110%_70%_at_100%_-10%,rgba(var(--accent-rgb),0.09),transparent_52%)]"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_0%_100%,rgba(var(--outline-variant-rgb),0.07),transparent_50%)]"
+    aria-hidden="true"
+  ></div>
 
-  <!-- ── UPPER BLOCK ── -->
-  <div class="main-container pt-20 pb-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
+  <div class="main-container relative z-10 pt-16 pb-12 md:pt-20 md:pb-14">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
+      <!-- Brand + story -->
+      <div class="flex max-w-xl flex-col gap-7 lg:col-span-5">
+        <a
+          href={baseUrl}
+          class="inline-flex w-fit items-baseline gap-0 rounded-sm outline-none transition-opacity hover:opacity-85 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+          aria-label={SITE_CONFIG.name}
+        >
+          <span class="font-display text-5xl font-semibold leading-[0.82] tracking-tight md:text-6xl" aria-hidden="true">S</span>
+          <span
+            class="font-display text-3xl font-bold leading-none text-accent translate-y-[0.22em] md:text-4xl"
+            aria-hidden="true">.</span>
+        </a>
 
-      <!-- Left: CTA -->
-      <div class="lg:col-span-7 flex flex-col gap-8">
-        <div class="flex items-center gap-3">
-          <span class="w-4 h-px bg-accent"></span>
-          <span class="font-mono text-xs uppercase tracking-[0.1em]" style="color: rgba(var(--fg-inverted-rgb), 0.4);">Let's build something</span>
-        </div>
+        <p class="type-body m-0 max-w-[40ch] leading-relaxed text-inverse-on-surface/82 md:text-[1.05rem]">
+          {SITE_CONFIG.tagline} Founder-led Framer, Webflow, and Shopify work — tight scopes, fast cycles, and
+          performance you can measure.
+        </p>
 
-        <h2 class="font-display font-black leading-[0.92] tracking-[-0.04em]"
-            style="font-size: clamp(3rem, 7vw, 6.5rem); color: var(--color-fg-inverted);">
-          Ready when<br/>
-          <span style="color: var(--color-accent);">you are.</span>
+        <h2 class="type-h2 m-0 max-w-[16ch] font-medium leading-[1.06] tracking-tight">
+          Ready for a launch that feels inevitable?
         </h2>
 
-        <div class="flex flex-wrap items-center gap-4 pt-2">
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <Button
-            href="/contact"
+            href={`${baseUrl}contact`}
             label="Start a project"
-            variant="hero-pill"
-            class="footer-btn"
+            variant="hero-pill-inverted"
+            class="w-full justify-center focus-visible:ring-offset-primary sm:w-auto"
           />
           <a
-            href={`mailto:${SITE_CONFIG.email}`}
-            class="footer-link font-mono text-xs uppercase tracking-[0.08em]"
-            style="color: rgba(var(--fg-inverted-rgb), 0.45);"
+            href={SITE_CONFIG.socials.calendly}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="type-label-small inline-flex w-full items-center justify-center rounded-full bg-inverse-panel px-6 py-3.5 font-mono uppercase tracking-[0.1em] text-inverse-on-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-[transform,box-shadow,background-color] duration-200 motion-safe:hover:-translate-y-px hover:bg-inverse-panel/95 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:w-auto"
           >
-            {SITE_CONFIG.email}
+            Book a 30-min call
           </a>
         </div>
       </div>
 
-      <!-- Right: nav + social -->
-      <div class="lg:col-span-5 grid grid-cols-2 gap-10 lg:pt-4">
-
-        <nav aria-label="Footer navigation">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(var(--fg-inverted-rgb), 0.25);">Pages</span>
-          <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
-            {navLinks.map(link => (
-              <li>
-                <a href={link.href} class="footer-link font-mono text-xs uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.5);">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <nav aria-label="Social links">
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] block mb-5" style="color: rgba(var(--fg-inverted-rgb), 0.25);">Connect</span>
-          <ul class="flex flex-col gap-3.5 list-none p-0 m-0">
-            {socialLinks.map(link => (
+      <!-- Nav cluster + contact -->
+      <div class="flex flex-col gap-10 lg:col-span-7 lg:pl-2">
+        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-12 lg:gap-x-16">
+          <nav aria-label="Footer page links" class="flex flex-col gap-4">
+            <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/62">Explore</span>
+            <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+              {
+                exploreLinks.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              }
               <li>
                 <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="footer-link font-mono text-xs uppercase tracking-[0.06em] inline-flex items-center gap-1.5 group"
-                  style="color: rgba(var(--fg-inverted-rgb), 0.5);"
+                  href={`${baseUrl}contact`}
+                  class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
                 >
-                  {link.label}
-                  <svg class="w-2 h-2 opacity-30 group-hover:opacity-60 transition-opacity" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  Contact
                 </a>
               </li>
-            ))}
-          </ul>
-        </nav>
+            </ul>
+          </nav>
 
+          <nav aria-label="Social media" class="flex flex-col gap-4">
+            <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/62">Connect</span>
+            <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+              {
+                socialLinks.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="footer-link type-label-small group inline-flex items-center gap-2 font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
+                    >
+                      {link.label}
+                      <svg
+                        class="h-2.5 w-2.5 text-inverse-on-surface/45 transition-opacity group-hover:opacity-100"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M2 8L8 2M8 2H4M8 2V6"
+                          stroke="currentColor"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+        </div>
+
+        <div
+          class="flex flex-col gap-4 bg-inverse-panel px-6 py-6 text-inverse-on-surface shadow-[0_10px_36px_rgba(0,0,0,0.1),0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.78)] sm:px-8 sm:py-7"
+        >
+          <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/72">Direct</span>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            class="footer-link break-words font-mono text-base font-semibold tracking-tight text-inverse-on-surface md:text-lg"
+          >
+            {SITE_CONFIG.email}
+          </a>
+          <p class="type-caption m-0 max-w-[42ch] leading-relaxed text-inverse-on-surface/82">
+            Email is the fastest line — we reply within one business day. Calendly works too if you prefer a live
+            walkthrough.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meta strip -->
+    <div
+      class="mt-14 flex flex-col gap-6 pt-10 shadow-[inset_0_1px_0_0_rgba(var(--outline-variant-rgb),0.14)] md:mt-16 md:flex-row md:items-center md:justify-between md:gap-8"
+    >
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="h-2 w-2 shrink-0 rounded-full bg-accent shadow-[0_0_0_3px_rgba(var(--accent-rgb),0.2)]" aria-hidden="true"></span>
+        <span class="type-label-small font-mono uppercase tracking-[0.12em] text-inverse-on-surface/72">
+          Accepting new briefs
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 md:justify-end">
+        <span class="type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/58">
+          © {year} Straya Studio
+        </span>
+        {
+          legalLinks.map((link) => (
+            <a
+              href={link.href}
+              class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/68"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        <span class="type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/52">Lahore, Pakistan</span>
       </div>
     </div>
   </div>
-
-  <!-- ── STRAYA WORDMARK — hover light sweep ── -->
-  <!-- Blurred glow layer -->
-  <p class="footer-wordmark footer-wordmark-glow font-display font-black leading-none whitespace-nowrap select-none"
-     style="display: block; margin: 0; padding: 0; letter-spacing: -0.04em; line-height: 0.85; position: absolute; left: 0;"
-     aria-hidden="true">
-    STRAYA
-  </p>
-  <!-- Sharp text layer -->
-  <p class="footer-wordmark font-display font-black leading-none whitespace-nowrap select-none"
-     style="display: block; margin: 0; padding: 0; letter-spacing: -0.04em; line-height: 0.85; text-align: left;"
-     aria-hidden="true">
-    STRAYA
-  </p>
-
-  <!-- ── BOTTOM BAR ── -->
-  <div style="border-top: 1px solid rgba(var(--fg-inverted-rgb), 0.08);">
-    <div class="main-container py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
-      <div class="flex items-center gap-3">
-        <span class="w-1.5 h-1.5 rounded-full footer-dot flex-shrink-0" style="background: var(--color-accent);" aria-hidden="true"></span>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.08em]" style="color: var(--color-accent);">Accepting new briefs</span>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-5">
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.2);">©{year} Straya Studio</span>
-        <a href="/privacy"      class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Privacy</a>
-        <a href="/terms"        class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Terms</a>
-        <a href="/sitemap-page" class="footer-link font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.3);">Sitemap</a>
-        <span class="font-mono text-[0.65rem] uppercase tracking-[0.06em]" style="color: rgba(var(--fg-inverted-rgb), 0.15);">Lahore, Pakistan</span>
-      </div>
-
-    </div>
-  </div>
-
 </footer>
 
 <style>
-  /* ── Footer background ────────────────────────────────────── */
-  .footer-root {
-    background: var(--color-bg-inverted);
-  }
-
-  /* ── Links ────────────────────────────────────────────────── */
   .footer-link {
     text-decoration: none;
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: color 240ms cubic-bezier(0.16,1,0.3,1), background-size 240ms cubic-bezier(0.16,1,0.3,1);
+    transition:
+      color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-size 220ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .footer-link:hover,
   .footer-link:focus-visible {
-    color: var(--color-fg-inverted) !important;
+    color: var(--color-outline-variant);
     background-size: 100% 1px;
   }
   .footer-link:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid rgb(var(--accent-rgb));
     outline-offset: 3px;
-  }
-
-  /* ── STRAYA shine sweep ───────────────────────────────────── */
-  /* Shared gradient for both layers */
-  .footer-wordmark {
-    background-image: linear-gradient(
-      105deg,
-      var(--color-fg-inverted) 0%,
-      var(--color-fg-inverted) 28%,
-      rgba(180, 90, 20, 0.25) 36%,
-      rgba(255, 210, 140, 0.55) 43%,
-      rgba(255, 245, 220, 0.92) 50%,
-      #ffffff 50.5%,
-      rgba(255, 245, 220, 0.92) 51%,
-      rgba(255, 210, 140, 0.55) 57%,
-      rgba(180, 90, 20, 0.25) 64%,
-      var(--color-fg-inverted) 72%,
-      var(--color-fg-inverted) 100%
-    );
-    background-size: 400% 100%;
-    background-position: 100% 0;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-position 0s;
-  }
-
-  /* Blurred duplicate — only emits warm light, no dark spread */
-  .footer-wordmark-glow {
-    background-image: linear-gradient(
-      105deg,
-      transparent 0%,
-      transparent 30%,
-      rgba(220, 130, 40, 0.3) 38%,
-      rgba(255, 210, 130, 0.7) 44%,
-      rgba(255, 240, 200, 1) 50%,
-      rgba(255, 255, 255, 1) 50.5%,
-      rgba(255, 240, 200, 1) 51%,
-      rgba(255, 210, 130, 0.7) 56%,
-      rgba(220, 130, 40, 0.3) 62%,
-      transparent 70%,
-      transparent 100%
-    ) !important;
-    filter: blur(40px);
-    opacity: 0;
-    top: -60px;
-    bottom: -20px;
-    transition: background-position 0s, opacity 0.6s ease;
-    pointer-events: none;
-  }
-
-  .footer-root:hover .footer-wordmark {
-    background-position: 0% 0;
-    transition: background-position 2.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .footer-root:hover .footer-wordmark-glow {
-    background-position: 0% 0;
-    opacity: 0.75;
-    transition: background-position 2.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
-  }
-
-  /* ── Status dot pulse ─────────────────────────────────────── */
-  .footer-dot {
-    animation: footer-dot-pulse 3s cubic-bezier(0.4,0,0.6,1) infinite;
-  }
-  @keyframes footer-dot-pulse {
-    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); }
-    50%     { opacity:0.8; box-shadow:0 0 6px 2px rgba(var(--accent-rgb),0.25); }
+    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .footer-link     { transition: none; }
-    .footer-dot      { animation: none; }
-    .footer-wordmark { transition: none; }
-    .footer-wordmark-wrap:hover .footer-wordmark { transition: none; }
+    .footer-link {
+      transition: none;
+    }
   }
 </style>
-
-<script>
-  const fitWordmark = () => {
-    const footer = document.querySelector<HTMLElement>('.footer-root');
-    const els    = document.querySelectorAll<HTMLElement>('.footer-wordmark');
-    if (!footer || !els.length) return;
-
-    const sharp = document.querySelector<HTMLElement>('.footer-wordmark:not(.footer-wordmark-glow)');
-    if (!sharp) return;
-    sharp.style.fontSize = '200px';
-    sharp.style.width    = 'max-content';
-    const naturalWidth   = sharp.offsetWidth;
-    sharp.style.width    = '';
-
-    const size = (footer.clientWidth * 0.965 / naturalWidth * 200) + 'px';
-    els.forEach(el => el.style.fontSize = size);
-  };
-
-  // Wait for fonts before first measurement
-  document.fonts.ready.then(fitWordmark);
-  window.addEventListener('resize', fitWordmark);
-  document.addEventListener('astro:after-swap', () => {
-    document.fonts.ready.then(fitWordmark);
-    window.addEventListener('resize', fitWordmark);
-  });
-</script>

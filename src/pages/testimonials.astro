@@ -1,22 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQ from "../components/FAQ.astro";
-import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
-import Navbar from "../components/Navbar.astro";
 import { SITE_CONFIG } from "../data/site-config";
 import { testimonialsPageTestimonials, type TestimonialsPageTestimonial } from "../data/testimonials-page";
 
-const title       = "Client Testimonials | Straya Studio";
-const description = "Client testimonials from founders and teams across Framer, Webflow, Shopify, and WordPress builds.";
-const image       = "/og-testimonials.png";
-const pageUrl     = `${SITE_CONFIG.url}/testimonials/`;
-const baseUrl     = import.meta.env.BASE_URL;
+const title = "Client Testimonials | Straya Studio";
+const description =
+  "Client testimonials from founders and teams across Framer, Webflow, Shopify, and WordPress builds.";
+const image = "/og-testimonials.png";
+const pageUrl = `${SITE_CONFIG.url}/testimonials/`;
+const baseUrl = import.meta.env.BASE_URL;
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: title, description, url: pageUrl,
+  name: title,
+  description,
+  url: pageUrl,
   isPartOf: { "@type": "WebSite", name: SITE_CONFIG.name, url: `${SITE_CONFIG.url}/` },
 };
 
@@ -24,7 +25,7 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",         item: `${SITE_CONFIG.url}/` },
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_CONFIG.url}/` },
     { "@type": "ListItem", position: 2, name: "Testimonials", item: pageUrl },
   ],
 };
@@ -41,106 +42,113 @@ const getFallback = (t: TestimonialsPageTestimonial) =>
     : `${baseUrl}images/avatars/fallback-male.svg`;
 
 const total = testimonialsPageTestimonials.length;
-// Simple alternating layout — every 7th tile is wide (col-span-8),
-// rest are col-span-4. Rows always sum to 12, no gaps.
-const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
-  i % 7 === 0 ? "md:col-span-8" : "md:col-span-4";
+const getSpan = (_t: TestimonialsPageTestimonial, i: number) => (i % 7 === 0 ? "md:col-span-8" : "md:col-span-4");
 ---
 
 <BaseLayout title={title} description={description} image={image}>
-
-  <!-- Page hero -->
   <section
-    class="relative bg-background overflow-hidden"
-    aria-label="Testimonials page header"
+    class="section-frosted relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16"
+    aria-label="Testimonials page introduction"
   >
-    <div class="main-container pt-36 pb-20 relative z-10">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
-        <div>
-          <span class="tp-el type-label text-on-background/40 block mb-4" data-delay="0">Testimonials</span>
-          <h1 class="type-h2 text-on-background uppercase max-w-2xl">
-            <span class="tp-line block overflow-hidden"><span class="tp-el inline-block" data-delay="80">Client proof across</span></span>
-            <span class="tp-line block overflow-hidden"><span class="tp-el inline-block" data-delay="140">real delivery.</span></span>
+    <div class="main-container relative z-10">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <header class="max-w-3xl">
+          <h1 class="type-h2 m-0 font-medium leading-[1.06] tracking-tight text-on-background">
+            <span class="tp-line block overflow-hidden">
+              <span class="tp-el inline-block" data-delay="80">Proof from founders</span>
+            </span>
+            <span class="tp-line block overflow-hidden">
+              <span class="tp-el inline-block" data-delay="140">who shipped.</span>
+            </span>
           </h1>
-        </div>
-        <div class="tp-el flex flex-col gap-3 flex-shrink-0 md:text-right" data-delay="240">
-          <div class="type-h2 text-on-background">{total}</div>
-          <div class="type-label text-on-background/40">Verified reviews</div>
-          <div class="flex items-center gap-2 md:justify-end mt-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent" aria-hidden="true"></span>
-            <span class="type-label text-accent">5.0★ average</span>
+          <p class="tp-el type-body m-0 mt-6 max-w-[46ch] leading-relaxed text-on-background/70" data-delay="220">
+            Real reviews from real builds — Framer, Webflow, Shopify, and WordPress — collected in one place so you
+            can see how we work before you reach out.
+          </p>
+        </header>
+
+        <div
+          class="tp-el flex flex-shrink-0 flex-col gap-2 border-0 sm:flex-row sm:items-center sm:gap-8 lg:flex-col lg:items-end lg:gap-3"
+          data-delay="300"
+        >
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-4xl font-medium tabular-nums leading-none text-on-background md:text-5xl">{total}</span>
+            <span class="type-label-small font-mono uppercase tracking-[0.12em] text-on-background/45">reviews</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+            <span class="type-label-small font-mono uppercase tracking-[0.1em] text-on-background/60">5.0 average</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials grid -->
   <section
-    class="section-y bg-background"
+    class="section-frosted relative overflow-hidden pb-16 pt-4 md:pb-20 md:pt-6"
     aria-label="All client testimonials"
   >
     <p class="sr-only">
       Full grid of client testimonials from founders and teams across Framer, Webflow, Shopify, and WordPress builds.
     </p>
 
-    <div class="main-container">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
-        {testimonialsPageTestimonials.map((t, i) => {
-          const span = getSpan(t, i);
-          const meta = [t.role, t.company].filter(Boolean).join(", ");
-          return (
-            <article
-              class:list={[
-                "testimonial-tile bg-background flex flex-col card-pad group",
-                span,
-              ]}
-              data-index={i}
-              aria-label={`Testimonial from ${t.name}`}
-            >
-              <!-- Stars -->
-              <div class="flex gap-1 mb-5" role="img" aria-label={`${t.stars ?? 5} out of 5 stars`}>
-                {Array.from({ length: t.stars ?? 5 }).map((_, si) => (
-                  <svg class="w-3 h-3 text-accent" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
-                    <path d="M6 0L7.35 4.18H11.71L8.18 6.77L9.53 10.95L6 8.36L2.47 10.95L3.82 6.77L0.29 4.18H4.65L6 0Z"/>
-                  </svg>
-                ))}
-              </div>
-
-              <!-- Quote -->
-              <blockquote class="flex-1 m-0">
-                <p class="type-body text-on-surface-variant leading-relaxed">"{t.quote}"</p>
-              </blockquote>
-
-              <!-- Attribution -->
-              <footer class="mt-6 pt-5">
-                <cite class="not-italic flex items-center gap-3">
-                  <img
-                    src={getAvatarSrc(t)}
-                    alt={`${t.name} profile photo`}
-                    width="36"
-                    height="36"
-                    loading="lazy"
-                    decoding="async"
-                    class="w-9 h-9 object-cover bg-surface-container flex-shrink-0"
-                    onerror={`this.onerror=null;this.src='${getFallback(t)}';`}
-                  />
-                  <div>
-                    <span class="type-label text-on-background block">{t.name}</span>
-                    {meta && <span class="type-label text-on-background/40 block mt-0.5">{meta}</span>}
-                    {t.country && <span class="type-label text-on-background/30 block mt-0.5">{t.country}</span>}
+    <div class="main-container relative z-10">
+      <div class="grid grid-cols-1 gap-[var(--grid-gutter)] md:grid-cols-12">
+        {
+          testimonialsPageTestimonials.map((t, i) => {
+            const span = getSpan(t, i);
+            const meta = [t.role, t.company].filter(Boolean).join(", ");
+            return (
+              <article
+                class:list={[
+                  "testimonial-tile group relative flex flex-col overflow-hidden bg-inverse-panel text-inverse-on-surface",
+                  span,
+                ]}
+                data-index={i}
+                aria-label={`Testimonial from ${t.name}`}
+              >
+                <div class="flex flex-1 flex-col px-[var(--spacing-card-padding)] pb-6 pt-6 md:px-8 md:pb-8 md:pt-8">
+                  <div class="mb-5 flex gap-1" role="img" aria-label={`${t.stars ?? 5} out of 5 stars`}>
+                    {Array.from({ length: t.stars ?? 5 }).map(() => (
+                      <svg class="h-3 w-3 text-accent" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+                        <path d="M6 0L7.35 4.18H11.71L8.18 6.77L9.53 10.95L6 8.36L2.47 10.95L3.82 6.77L0.29 4.18H4.65L6 0Z" />
+                      </svg>
+                    ))}
                   </div>
-                </cite>
-              </footer>
-            </article>
-          );
-        })}
+
+                  <blockquote class="m-0 flex-1">
+                    <p class="type-body m-0 leading-relaxed text-inverse-on-surface/95">"{t.quote}"</p>
+                  </blockquote>
+
+                  <footer class="mt-8 shadow-[inset_0_1px_0_0_rgba(var(--fg-inverted-rgb),0.1)] pt-6">
+                    <cite class="not-italic flex items-center gap-3">
+                      <img
+                        src={getAvatarSrc(t)}
+                        alt={`${t.name} profile photo`}
+                        width="40"
+                        height="40"
+                        loading="lazy"
+                        decoding="async"
+                        class="h-10 w-10 shrink-0 rounded-full object-cover bg-primary ring-1 ring-black/12"
+                        onerror={`this.onerror=null;this.src='${getFallback(t)}';`}
+                      />
+                      <div>
+                        <span class="type-label-small font-semibold text-inverse-on-surface">{t.name}</span>
+                        {meta && <span class="type-label-small mt-0.5 block text-inverse-on-surface/78">{meta}</span>}
+                        {t.country && <span class="type-label-small mt-0.5 block text-inverse-on-surface/68">{t.country}</span>}
+                      </div>
+                    </cite>
+                  </footer>
+                </div>
+              </article>
+            );
+          })
+        }
       </div>
     </div>
   </section>
 
   <FAQ />
-  <FinalCTA />
   <Footer />
 
   <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
@@ -148,38 +156,64 @@ const getSpan = (_t: TestimonialsPageTestimonial, i: number) =>
 </BaseLayout>
 
 <style>
-  /* ── Page hero entrance ────────────────────────────────────── */
-  .tp-el { opacity: 0; transform: translateY(28px); }
-  .tp-line .tp-el { transform: translateY(100%); opacity: 1; }
+  .tp-el {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  .tp-line .tp-el {
+    transform: translateY(100%);
+    opacity: 1;
+  }
 
-  /* ── Tile — visible by default, no entrance animation ─────── */
+  .testimonial-tile {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.06),
+      0 2px 0 rgba(var(--outline-variant-rgb), 0.04),
+      0 10px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    transition: box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1), transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .testimonial-tile:hover {
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.07),
+        0 14px 42px rgba(0, 0, 0, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92);
+      transform: translateY(-2px);
+    }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .tp-el { opacity: 1 !important; transform: none !important; }
+    .tp-el {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .testimonial-tile {
+      transition: none !important;
+    }
+    .testimonial-tile:hover {
+      transform: none !important;
+    }
   }
 </style>
 
 <script>
-  const EASE     = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
   const DURATION = 900;
-  const MARGIN   = '0px 0px -80px 0px';
 
-  // ── Hero header — above fold, double rAF ─────────────────────
-  const heroEls = document.querySelectorAll<HTMLElement>('.tp-el');
+  const heroEls = document.querySelectorAll<HTMLElement>(".tp-el");
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      heroEls.forEach(el => {
-        const delay  = parseInt(el.dataset.delay ?? '0');
-        const isLine = el.closest('.tp-line') !== null;
+      heroEls.forEach((el) => {
+        const delay = parseInt(el.dataset.delay ?? "0", 10);
+        const isLine = el.closest(".tp-line") !== null;
         el.animate(
           isLine
-            ? [{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }]
-            : [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'translateY(0px)' }],
-          { duration: DURATION, delay, easing: EASE, fill: 'forwards' }
+            ? [{ transform: "translateY(100%)" }, { transform: "translateY(0%)" }]
+            : [{ opacity: 0, transform: "translateY(22px)" }, { opacity: 1, transform: "translateY(0px)" }],
+          { duration: DURATION, delay, easing: EASE, fill: "forwards" },
         );
       });
     });
   });
-
-  // testimonial-tile entrance animation removed — tiles visible by default
 </script>

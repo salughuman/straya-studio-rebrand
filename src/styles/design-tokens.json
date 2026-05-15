@@ -1,46 +1,30 @@
 {
-    "version": "2.1.0",
+    "version": "2.2.0",
     "name": "Straya Studio Design Tokens",
-    "description": "Active token set. Every key here is consumed by tailwind.config.mjs, global.css :root, or a component. Sections removed: tokenArchitecture, modeRules, asymmetricPostures, zIndex, performance.",
+    "description": "Single source for Straya Studio. Consumed only by tailwind.config.mjs (theme + addBase/addComponents); global.css must not redefine these values.",
     "media": {
         "_usedBy": "tailwind.config.mjs theme.screens",
         "breakpoints": {
             "sm": "390px",
             "md": "810px",
-            "lg": "1200px"
+            "lg": "1200px",
+            "xl": "1280px",
+            "2xl": "1536px"
         }
     },
     "color": {
-        "_usedBy": "tailwind.config.mjs theme.extend.colors — keys map 1:1 to Tailwind class names",
+        "_usedBy": "tailwind.config.mjs theme.extend.colors — keys map to Tailwind class names; semantic --color-* in addBase derives from same object (no duplicates)",
         "primary": {
             "DEFAULT": "#FFEDD7",
             "container": "#FFF4EB",
             "on": "#000000",
-            "onContainer": "#000000",
-            "fixed": "#FFF4EB",
-            "fixedDim": "#FFEDD7"
+            "onContainer": "#000000"
         },
         "secondary": {
             "DEFAULT": "#DC5000",
             "container": "#FF7A2E",
             "on": "#000000",
-            "onContainer": "#000000",
-            "fixed": "#FF7A2E",
-            "fixedDim": "#B84300"
-        },
-        "tertiary": {
-            "DEFAULT": "#E74C3C",
-            "container": "#FF8A7E",
-            "on": "#000000",
-            "onContainer": "#000000",
-            "fixed": "#FF8A7E",
-            "fixedDim": "#C42B1C"
-        },
-        "error": {
-            "DEFAULT": "#E74C3C",
-            "container": "#FF8A7E",
-            "on": "#000000",
-            "onContainer": "#3D1600"
+            "onContainer": "#000000"
         },
         "background": {
             "DEFAULT": "#080605",
@@ -67,13 +51,12 @@
         "inverse": {
             "surface": "#FFEDD7",
             "onSurface": "#000000",
-            "primary": "#000000"
+            "panel": "#F6E0C6"
         },
         "accent": "#DC5000",
         "status": {
             "success": "#2ECC71",
-            "warning": "#F39C12",
-            "info": "#3498DB"
+            "error": "#E74C3C"
         },
         "border": {
             "default": "rgba(255,237,215,0.16)",
@@ -87,73 +70,68 @@
         }
     },
     "typography": {
-        "_usedBy": "tailwind.config.mjs plugin(addComponents) → .type-* classes; theme.extend.fontFamily; theme.extend.letterSpacing",
+        "_usedBy": "tailwind.config.mjs plugin(addComponents); theme.extend.fontFamily; theme.extend.letterSpacing",
         "fontFamily": {
-            "display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
-            "body": "'Instrument Sans', Inter, system-ui, -apple-system, sans-serif",
-            "mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "display": "'Spline Sans', 'Helvetica Neue', Arial, sans-serif",
+            "body": "'Satoshi', system-ui, -apple-system, sans-serif",
+            "mono": "'Satoshi', system-ui, -apple-system, sans-serif",
             "fallback": {
                 "display": "'Helvetica Neue', Arial, sans-serif",
                 "body": "system-ui, -apple-system, sans-serif",
-                "mono": "ui-monospace, monospace"
+                "mono": "system-ui, -apple-system, sans-serif"
             }
         },
         "style": {
             "_usedBy": "theme.extend.letterSpacing",
-            "tightTracking": "-0.04em",
+            "tightTracking": "-0.045em",
             "blueprintTracking": "0.05em",
             "normalTracking": "0"
         },
         "mono": {
-            "_usedBy": "theme.extend.fontFamily.mono reads tokens.typography.mono.fontFamily; plugin generates .type-mono",
-            "fontFamily": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+            "_usedBy": "theme.extend.fontFamily.mono + `.type-mono`; --font-body equivalent for eyebrows / UI chrome",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "fontSize": "clamp(0.833rem, 0.79rem + 0.21vw, 0.95rem)",
             "fontWeight": "400",
             "lineHeight": "1.55",
             "letterSpacing": "0",
             "color": "rgba(255,237,215,0.72)"
         },
-        "h1": {
-            "fontSize": "clamp(3.5rem, 5.0rem + 7.5vw, 10.5rem)",
-            "fontSizeMobile": "clamp(5.25rem, 7.5rem + 11.25vw, 15.75rem)",
-            "fontWeight": "800",
-            "lineHeight": "0.92",
-            "letterSpacing": "-0.04em",
-            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
-            "color": "#FFEDD7"
-        },
+       "h1": {
+  "fontSize": "clamp(3.5rem, 1.2rem + 8vw, 10rem)",
+  "fontWeight": "800",
+  "lineHeight": "0.9",
+  "letterSpacing": "-0.06em",
+  "fontFamily": "'Spline Sans', 'Helvetica Neue', sans-serif"},
         "h2": {
-            "fontSize": "clamp(2.8rem, 3.2rem + 4.0vw, 6.5rem)",
-            "fontSizeMobile": "clamp(1.82rem, 2.08rem + 2.6vw, 4.225rem)",
-            "fontWeight": "800",
-            "lineHeight": "1.00",
-            "letterSpacing": "-0.03em",
-            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "fontSize": "clamp(1.75rem, 1rem + 2.65vw, 3.625rem)",
+            "fontWeight": "600",
+            "lineHeight": "1.04",
+            "letterSpacing": "-0.018em",
+            "fontFamily": "'Spline Sans', 'Helvetica Neue', Arial, sans-serif",
             "color": "#FFEDD7"
         },
         "h3": {
-            "fontSize": "clamp(1.6rem, 2.1rem + 2.0vw, 4.0rem)",
-            "fontSizeMobile": "clamp(1.25rem, 1.64rem + 1.56vw, 3.12rem)",
-            "fontWeight": "800",
-            "lineHeight": "1.05",
-            "letterSpacing": "-0.03em",
-            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "fontSize": "clamp(1.375rem, 1.025rem + 1.35vw, 2.4375rem)",
+            "fontWeight": "600",
+            "lineHeight": "1.08",
+            "letterSpacing": "-0.011em",
+            "fontFamily": "'Spline Sans', 'Helvetica Neue', Arial, sans-serif",
             "color": "#FFEDD7"
         },
         "h4": {
-            "fontSize": "clamp(2.08rem, 1.82rem + 1.04vw, 2.6rem)",
-            "fontWeight": "700",
-            "lineHeight": "1.15",
-            "letterSpacing": "-0.02em",
-            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "fontSize": "clamp(1.15625rem, 1rem + 0.75vw, 1.6875rem)",
+            "fontWeight": "600",
+            "lineHeight": "1.16",
+            "letterSpacing": "-0.006em",
+            "fontFamily": "'Spline Sans', 'Helvetica Neue', Arial, sans-serif",
             "color": "#FFEDD7"
         },
         "h5": {
-            "fontSize": "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)",
-            "fontWeight": "700",
-            "lineHeight": "1.20",
-            "letterSpacing": "-0.02em",
-            "fontFamily": "'Bricolage Grotesque', 'Helvetica Neue', sans-serif",
+            "fontSize": "clamp(1.0625rem, 1rem + 0.38vw, 1.4375rem)",
+            "fontWeight": "500",
+            "lineHeight": "1.28",
+            "letterSpacing": "0.008em",
+            "fontFamily": "'Spline Sans', 'Helvetica Neue', Arial, sans-serif",
             "color": "#FFEDD7"
         },
         "body": {
@@ -161,7 +139,7 @@
             "fontWeight": "400",
             "lineHeight": "1.55",
             "letterSpacing": "0",
-            "fontFamily": "'Instrument Sans', sans-serif",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "#FFEDD7"
         },
         "bodyLarge": {
@@ -169,7 +147,7 @@
             "fontWeight": "400",
             "lineHeight": "1.25",
             "letterSpacing": "0",
-            "fontFamily": "'Instrument Sans', sans-serif",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "#FFEDD7"
         },
         "bodySmall": {
@@ -177,7 +155,7 @@
             "fontWeight": "400",
             "lineHeight": "1.55",
             "letterSpacing": "0",
-            "fontFamily": "'Instrument Sans', sans-serif",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "rgba(255,237,215,0.72)"
         },
         "caption": {
@@ -185,7 +163,7 @@
             "fontWeight": "400",
             "lineHeight": "1.25",
             "letterSpacing": "0",
-            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "rgba(255,237,215,0.72)"
         },
         "label": {
@@ -193,15 +171,7 @@
             "fontWeight": "500",
             "lineHeight": "1.25",
             "letterSpacing": "0.04em",
-            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
-            "color": "#FFEDD7"
-        },
-        "labelUppercase": {
-            "fontSize": "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
-            "fontWeight": "500",
-            "lineHeight": "1.25",
-            "letterSpacing": "0.08em",
-            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "#FFEDD7"
         },
         "labelSmall": {
@@ -209,11 +179,15 @@
             "fontWeight": "500",
             "lineHeight": "1.25",
             "letterSpacing": "0.08em",
-            "fontFamily": "'JetBrains Mono', ui-monospace, monospace",
+            "fontFamily": "'Satoshi', system-ui, -apple-system, sans-serif",
             "color": "rgba(255,237,215,0.72)"
         },
+        "hero": {
+            "_usedBy": "Hero scrim (--hero-scrim-via-stop in addBase). Hero title uses native `h1` + `.type-h1` → typography.h1.",
+            "imageScrimTransparentUntil": "35%"
+        },
         "button": {
-            "fontSize": "clamp(0.694rem, 0.66rem + 0.17vw, 0.79rem)",
+            "fontSize": "clamp(0.625rem, 0.58rem + 0.14vw, 0.72rem)",
             "fontWeight": "500",
             "lineHeight": "1.25",
             "letterSpacing": "0.08em",
@@ -222,11 +196,9 @@
         }
     },
     "spacing": {
-        "_usedBy": "tailwind.config.mjs theme.extend.spacing + maxWidth.container",
-        "_fix": "Key names corrected to match what tailwind.config.mjs actually reads (e.g. sectionMobile not sectionPadMobile)",
+        "_usedBy": "tailwind.config.mjs theme.extend.spacing + maxWidth.container + plugin components",
         "containerMax": "96rem",
         "containerPaddingMobile": "1.25rem",
-        "containerPaddingTablet": "1.5rem",
         "containerPaddingDesktop": "3rem",
         "sectionMobile": "3rem",
         "sectionDesktop": "12.5rem",
@@ -235,40 +207,22 @@
         "containerPaddingWide": "2rem"
     },
     "effects": {
-        "_usedBy": "tailwind.config.mjs theme.extend.transitionTimingFunction + plugin(addComponents) for .custom-bezier, .luxury-bezier, .z-depth-*, .magnetic-cta",
+        "_usedBy": "tailwind theme.extend.transitionTimingFunction + `.custom-bezier`, `.luxury-bezier`, `.magnetic-cta`",
         "transition": {
-            "base": "cubic-bezier(0.16, 1, 0.30, 1)",
-            "elastic": "cubic-bezier(0.16, 1, 0.30, 1)",
-            "smooth": "cubic-bezier(0.4, 0, 0.2, 1)",
-            "bouncy": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+            "base": "cubic-bezier(0.16, 1, 0.30, 1)"
         },
         "duration": {
             "entrance": "720ms",
             "normal": "240ms",
             "slow": "420ms"
         },
-        "depth": {
-            "_usedBy": ".z-depth-1 / .z-depth-2 / .z-depth-3",
-            "1": "translateZ(10px)",
-            "2": "translateZ(20px)",
-            "3": "translateZ(30px)"
-        },
         "magnetic": {
-            "_usedBy": "tailwind.config.mjs :root --magnetic-cta + .magnetic-cta:hover",
-            "_fix": "Key renamed from hoverLift to cta to match what tailwind.config.mjs reads",
+            "_usedBy": "addBase `--magnetic-cta` + `.magnetic-cta:hover`",
             "cta": "translate(-2px, -2px)"
         }
     },
-    "animation": {
-        "_usedBy": "tailwind.config.mjs theme.extend.keyframes + animation → animate-marquee",
-        "marquee": {
-            "duration": "30s",
-            "timing": "linear",
-            "iteration": "infinite"
-        }
-    },
     "border": {
-        "_usedBy": "tailwind.config.mjs theme.extend.borderRadius + plugin card styles",
+        "_usedBy": "tailwind theme.extend.borderRadius + plugin layouts",
         "radius": {
             "DEFAULT": "0",
             "lg": "12px",
@@ -281,40 +235,7 @@
         "style": "solid"
     },
     "grid": {
-        "_usedBy": "tailwind.config.mjs plugin(addBase) :root --grid-columns / --grid-gutter",
-        "columns": 12,
+        "_usedBy": "addBase `--grid-gutter` + global.css `.grid-*` gap fallback",
         "gutter": "1.5rem"
-    },
-    "cursor": {
-        "_usedBy": "tailwind.config.mjs :root --cursor; global.css cursor fallback",
-        "DEFAULT": "crosshair"
-    },
-    "cssVariables": {
-        "_comment": "CSS custom properties in global.css :root actually consumed by components. Documentation only — not read by tailwind.config.mjs.",
-        "colors": {
-            "--color-bg": "#080605",
-            "--color-bg-dim": "#140E09",
-            "--color-bg-raised": "#1F140D",
-            "--color-bg-elevated": "#382416",
-            "--color-bg-inverted": "#FFEDD7",
-            "--color-fg": "#FFEDD7",
-            "--color-fg-inverted": "#000000",
-            "--color-accent": "#DC5000",
-            "--color-focus-ring": "#DC5000"
-        },
-        "rgbChannels": {
-            "_comment": "Bare RGB triplets for rgba() opacity composition: rgba(var(--accent-rgb), 0.5)",
-            "--accent-rgb": "220, 80, 0",
-            "--fg-rgb": "255, 237, 215",
-            "--fg-inverted-rgb": "0, 0, 0",
-            "--black-rgb": "0, 0, 0",
-            "--bg-rgb": "8, 6, 5",
-            "--bg-dim-rgb": "20, 14, 9"
-        },
-        "fonts": {
-            "--font-display": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif",
-            "--font-body": "'Instrument Sans', Inter, system-ui, sans-serif",
-            "--font-mono": "'JetBrains Mono', ui-monospace, Menlo, Monaco, monospace"
-        }
     }
 }

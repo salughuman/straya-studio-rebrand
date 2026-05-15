@@ -1,16 +1,22 @@
 <section
   id="about"
-  class="section-y relative overflow-hidden"
+  class="section-y relative overflow-hidden bg-background"
   aria-label="About Straya Studio"
   data-about-effects
   data-mode="brutalism"
-  style="background: var(--color-bg);"
 >
-  <!-- Warm radial glow — behind content, z-0 so frosted layer sits above -->
-  <div
-    class="pointer-events-none absolute top-0 left-0 right-0 h-[48rem] z-0"
+  <img
+    src="/images/about/about-bg.webp"
+    alt=""
     aria-hidden="true"
-    style="background: radial-gradient(ellipse 110% 130% at 50% -25%, rgba(var(--accent-rgb),0.042) 0%, rgba(var(--accent-rgb),0.032) 18%, rgba(var(--accent-rgb),0.020) 35%, rgba(var(--accent-rgb),0.010) 52%, rgba(var(--accent-rgb),0.004) 68%, rgba(var(--accent-rgb),0.001) 82%, transparent 100%); filter: blur(48px);"
+    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+    loading="lazy"
+    decoding="async"
+  />
+  <!-- Readability wash — keeps type legible over photo -->
+  <div
+    class="pointer-events-none absolute inset-0 z-[1] bg-background/60"
+    aria-hidden="true"
   ></div>
   <p class="sr-only">
     About Straya Studio section summarising who we are and how we work: a
@@ -22,30 +28,9 @@
   <div
     class="main-container relative z-10 grid grid-cols-12 items-start gap-4 md:gap-6"
   >
-    <div class="col-span-12 md:col-span-2" aria-hidden="true">
-      <span
-        class="a-eyebrow type-label-small font-mono uppercase tracking-[0.08em] text-on-background/60"
-      >
-        [02] About
-      </span>
-      <span class="a-eyebrow-rule mt-2 block h-[2px] bg-accent" data-a-rule
-      ></span>
-    </div>
-
     <header class="col-span-12 md:col-span-9 md:col-start-2">
-      <h2
-        data-index="02"
-        class="type-h2 m-0 max-w-5xl text-on-background"
-        style="letter-spacing:-0.04em;word-spacing:-0.3em"
-        data-words-reveal
-        aria-label="Senior-led by design. Selective by model."
-      >
-        <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Senior-led</span>
-        <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">by</span>
-        <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">design.</span>
-        <span class="wpu-word inline-block" style="--i:3;margin-right:0.25em" aria-hidden="true">Selective</span>
-        <span class="wpu-word inline-block" style="--i:4;margin-right:0.25em" aria-hidden="true">by</span>
-        <span class="wpu-word inline-block" style="--i:5" aria-hidden="true">model.</span>
+      <h2 class="type-h2 max-w-5xl text-on-background mb-4 md:mb-6 leading-tight">
+        Senior-led by design. Selective by model.
       </h2>
     </header>
 
@@ -68,7 +53,6 @@
         class="cta-accent mt-6 inline-flex items-center gap-3 type-label uppercase tracking-[0.08em] self-start"
       >
         <span class="cta-accent__label">Explore the method</span>
-        <span class="cta-accent__arrow" aria-hidden="true">→</span>
       </a>
     </div>
 
@@ -96,20 +80,6 @@
 </section>
 
 <style>
-  /* PERMITTED: CSS variable arithmetic for word stagger */
-  .wpu-word {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(16px);
-    transition:
-      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
-  }
-  [data-words-reveal].is-revealed .wpu-word {
-    opacity: 1; filter: blur(0); transform: translateY(0);
-  }
-
   .a-eyebrow-rule {
     width: 0;
     transition: width 720ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -124,10 +94,11 @@
   }
 
   /* Ghost CTA — M3 underline-draw + M4 focus halo */
+  /* Ghost CTA — M3 underline-draw + M4 focus halo — accent from theme via @apply */
   .cta-accent {
     text-decoration: none;
     background: transparent;
-    color: var(--color-accent, #DC5000);
+    @apply text-accent;
     line-height: 1;
     padding-bottom: 2px;
     transition: color 240ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -140,20 +111,14 @@
     transition: background-size 240ms cubic-bezier(0.16, 1, 0.3, 1);
     padding-bottom: 2px;
   }
-  .cta-accent .cta-accent__arrow {
-    transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
   .cta-accent:hover .cta-accent__label,
   .cta-accent:focus-visible .cta-accent__label { background-size: 100% 1px; }
-  .cta-accent:hover .cta-accent__arrow,
-  .cta-accent:focus-visible .cta-accent__arrow { transform: translateX(4px); }
-  .cta-accent:focus-visible { outline: 2px solid var(--color-accent, #DC5000); outline-offset: 6px; }
+  .cta-accent:focus-visible { @apply outline outline-2 outline-offset-[6px] outline-accent; }
 
   @media (prefers-reduced-motion: reduce) {
-    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
     .a-eyebrow-rule { transition: none!important; }
     .about-body-el { opacity:1!important; filter:none!important; transform:none!important; }
-    .cta-accent, .cta-accent .cta-accent__arrow { transition: none!important; }
+    .cta-accent { transition: none!important; }
   }
 </style>
 
@@ -165,27 +130,15 @@
     root.dataset.aboutFxReady = 'true';
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const heading  = root.querySelector<HTMLElement>('[data-words-reveal]');
     const ruleEl   = root.querySelector<HTMLElement>('[data-a-rule]');
     const counters = root.querySelectorAll<HTMLElement>('[data-count-to]');
     const bodyEls  = root.querySelectorAll<HTMLElement>('.about-body-el');
 
     if (reduced) {
-      if (heading) heading.classList.add('is-revealed');
       if (ruleEl)  ruleEl.classList.add('in-view');
       counters.forEach(el => { el.textContent = el.dataset.countTo ?? el.textContent; });
       bodyEls.forEach(el => { el.style.opacity = '1'; el.style.filter = 'none'; el.style.transform = 'none'; });
       return;
-    }
-
-    // Heading — one-time entry trigger (§8.3)
-    if (heading) {
-      const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        heading.classList.add('is-revealed');
-        obs.disconnect();
-      }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
-      obs.observe(heading);
     }
 
     // Eyebrow rule — one-time entry

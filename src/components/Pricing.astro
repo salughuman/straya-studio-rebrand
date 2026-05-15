@@ -1,268 +1,230 @@
 ---
 /**
- * Pricing.astro — Straya Studio
- * Mode: Neobrutalism (pricing/CTA sections earn the loud move)
- * Posture: posture-stacked-offset
- * Material: typographic device [08] + hard shadows + B5 counting numerals + C2 bridge
- * Stack: Tailwind (token-driven) — no vanilla CSS except animations
+ * Pricing.astro — project tiers on primary cream band (aligned with StrayaOffer).
+ * Light / dark card tones, gutter grid, static depth — no scroll-driven motion.
  */
-
-import { PRICING_TIERS, PRICING_BADGE, PRICING_TRUST_LINE, PRICING_FOOTER } from "../data/pricing";
+import {
+  PRICING_TIERS,
+  PRICING_BADGE,
+  PRICING_HEADLINE,
+  PRICING_SUBTITLE,
+  PRICING_TRUST_LINE,
+} from "../data/pricing";
 import { SITE_CONFIG } from "../data/site-config";
 import Button from "./ui/buttons/Button.astro";
 
 const baseUrl = import.meta.env.BASE_URL;
-const priceNumbers = [2000, 4000, 9500];
+
+const tierSlug = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+const tierCtaHref = (tierName: string, index: number) => {
+  if (index === 2) return SITE_CONFIG.socials.calendly;
+  return `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tierSlug(tierName))}`;
+};
 ---
 
 <section
   id="pricing"
   aria-label="Project pricing tiers"
-  data-mode="neobrutalism"
-  class="relative bg-inverse-surface text-on-primary-container overflow-hidden py-24 md:py-40"
+  class="relative overflow-hidden bg-primary text-inverse-on-surface pt-16 pb-16 md:pt-20 md:pb-20"
 >
-  <!-- sr-only AEO summary (SEO-AEO-rules.md §7) -->
   <p class="sr-only">
     Straya Studio offers three project-based pricing tiers with no retainers or subscriptions.
-    Starter from $2,000 (1–2 weeks): custom design, development, mobile-first build, SEO, launch support.
-    Growth from $4,000 (2–4 weeks): everything in Starter plus up to 10 pages, CMS, interactions, brand identity, 90+ Lighthouse, unlimited revisions.
-    Premium from $9,500 (4–8 weeks): everything in Growth plus discovery workshop, unlimited pages, advanced SEO, graphic design, dedicated Slack, 60 days post-launch support.
+    Landing Page from $2,500 (1–2 weeks). Growth Website from $5,000 (2–5 weeks), most popular.
+    Digital Product System is a custom engagement (4–8+ weeks) for complex platforms.
   </p>
 
   <div class="main-container">
-
-    <!-- ── HEADER — posture-stacked-offset ── -->
-    <header class="relative mb-16 md:mb-24">
-
-      <!-- Oversized index numeral — typographic device -->
-      <span
-        class="pointer-events-none select-none absolute -top-6 right-0 font-display font-black leading-none tracking-tight text-[clamp(6rem,15vw,16rem)] text-transparent [-webkit-text-stroke:1px_rgba(5,5,5,0.15)] opacity-20 hidden md:block"
-        aria-hidden="true"
-      >08</span>
-
-      <div class="relative z-10 max-w-[75%]">
-        <!-- Eyebrow -->
-        <div class="reveal-eyebrow flex items-center gap-4 mb-4">
-          <span class="block w-4 h-px bg-on-primary-container opacity-40" aria-hidden="true"></span>
-          <span class="type-label text-on-primary-container opacity-60">[08] / Investment</span>
-        </div>
-
-        <!-- H2 — word blur-to-clear reveal (micro-interactions.md §8.3) -->
-        <h2 class="type-h2 text-on-primary-container mb-5 max-w-5xl" data-words-reveal aria-label="Transparent pricing, no retainers required.">
-          <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Transparent</span>
-          <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">pricing,</span>
-          <span class="wpu-word inline-block" style="--i:2;margin-right:0.25em" aria-hidden="true">no</span>
-          <span class="wpu-word inline-block" style="--i:3" aria-hidden="true">retainers required.</span>
+    <header class="mb-12 flex flex-col gap-8 md:mb-14 md:flex-row md:items-end md:justify-between md:gap-10">
+      <div class="max-w-3xl">
+        <h2 class="type-h2 m-0 max-w-5xl tracking-tight">
+          {PRICING_HEADLINE}
         </h2>
-
-        <p class="reveal-fade type-body text-on-primary-container opacity-60 max-w-[52ch]">
-          Every engagement is scoped, priced, and delivered as a complete project.
-          We take on 2–3 at a time — that's not a limitation, it's the product.
+        <p
+          class="type-label-small mt-5 inline-flex items-center gap-2 font-mono uppercase tracking-[0.1em] text-inverse-on-surface/62"
+          role="status"
+        >
+          <span class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+          {PRICING_BADGE}
         </p>
       </div>
-
-      <!-- Availability badge -->
-      <div
-        class="reveal-fade mt-6 md:mt-0 md:absolute md:top-0 md:right-0 inline-flex items-center gap-3 border-2 border-on-primary-container px-4 py-2"
-        role="status"
-        style="transition-delay:280ms"
-      >
-        <span class="badge-dot w-2 h-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
-        <span class="type-label text-on-primary-container">{PRICING_BADGE}</span>
+      <div class="flex flex-col gap-5 md:max-w-md md:items-end md:text-right lg:max-w-lg">
+        <p class="type-body text-left max-w-[52ch] leading-relaxed text-inverse-on-surface/78">
+          {PRICING_SUBTITLE}
+        </p>
       </div>
-
     </header>
 
-    <!-- ── TIER CARDS ── -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 md:mb-24" role="list">
-      {PRICING_TIERS.map((tier, i) => (
-        <article
-          class:list={[
-            "tier-card relative flex flex-col border border-on-primary-container/20 p-8 rounded-2xl transition-[transform,box-shadow] duration-[240ms]",
-            tier.popular
-              ? "bg-surface-dim text-on-surface shadow-[0_4px_24px_rgba(220,80,0,0.15),inset_0_1px_0_rgba(220,80,0,0.2)] hover:shadow-[0_8px_32px_rgba(220,80,0,0.22),inset_0_1px_0_rgba(220,80,0,0.25)] hover:-translate-y-[2px]"
-              : "bg-surface-dim text-on-surface shadow-[0_2px_12px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.06)] hover:-translate-y-[2px]"
-          ]}
-          role="listitem"
-          aria-label={`${tier.name} pricing tier`}
-          data-tier={i}
-        >
-          <!-- Popular sticker -->
-          {tier.popular && (
-            <div
-              class="sticker absolute -top-[14px] right-6 bg-accent text-on-secondary border border-on-primary-container/30 shadow-[0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] px-3 py-1 type-label -rotate-[3deg] origin-center transition-transform duration-[160ms] hover:rotate-[-1.5deg] hover:scale-[1.04] whitespace-nowrap z-10"
-              aria-label="Most popular tier"
+    <div class="grid grid-cols-1 gap-[var(--grid-gutter)] md:grid-cols-3" role="list">
+      {
+        PRICING_TIERS.map((tier, i) => {
+          const dark = Boolean(tier.popular);
+          const href = tierCtaHref(tier.name, i);
+          const external = i === 2;
+          return (
+            <article
+              class:list={[
+                "pricing-card group relative flex min-h-0 flex-col overflow-hidden",
+                dark ? "bg-surface-container text-on-background" : "bg-inverse-panel text-inverse-on-surface",
+              ]}
+              data-pricing-tone={dark ? "dark" : "light"}
+              role="listitem"
+              aria-label={`${tier.name} — ${tier.price}`}
             >
-              MOST POPULAR
-            </div>
-          )}
+              <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-0 pt-5 md:pt-6">
+                
+              </div>
 
-          <!-- Tier name + tagline -->
-          <div class="mb-6">
-            <h3 class="type-h3 text-on-surface mb-2">{tier.name}</h3>
-            <p class="type-body-small text-on-surface opacity-60">{tier.tagline}</p>
-          </div>
+              <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pt-3 md:pt-4">
+                <h3
+                  class:list={[
+                    "font-display line-clamp-2 font-semibold leading-[1.12] tracking-tight",
+                    "text-[clamp(1.35rem,2vw,1.85rem)]",
+                    dark ? "text-on-background" : "text-inverse-on-surface",
+                  ]}
+                >
+                  {tier.name}
+                </h3>
+                <p
+                  class:list={[
+                    "type-body-small m-0 mt-2 leading-relaxed",
+                    dark ? "text-on-background/65" : "text-inverse-on-surface/72",
+                  ]}
+                >
+                  {tier.tagline}
+                </p>
+              </div>
 
-          <!-- Price — B5 counting numeral -->
-          <div class="mb-6 flex flex-col gap-1">
-            <span class="type-label text-on-surface opacity-50">From</span>
-            <div class="flex items-baseline gap-[0.1em] font-display font-black leading-none tracking-tight font-variant-numeric tabular-nums" aria-label={`From ${tier.price}`}>
-              <span class=" type-h3 opacity-50 text-on-surface">$</span>
-              <span
-                class="text-[clamp(4rem,3.2rem+4vw,6.5rem)] text-on-surface"
-                data-target={priceNumbers[i]}
-              >{priceNumbers[i].toLocaleString()}</span>
-            </div>
-            <span class="type-label text-on-surface opacity-50">{tier.timeline}</span>
-          </div>
+              <div
+                class="pricing-vis relative flex min-h-[7.5rem] flex-shrink-0 flex-col justify-center px-[var(--spacing-card-padding)] py-5 md:min-h-[8.5rem] md:py-6"
+                aria-hidden="true"
+              >
+                <span
+                  class:list={[
+                    "type-label-small mb-2 block font-mono uppercase tracking-[0.1em]",
+                    dark ? "text-on-background/45" : "text-inverse-on-surface/50",
+                  ]}
+                >
+                  From
+                </span>
+                <p
+                  class:list={[
+                    "pricing-price m-0 font-display font-medium leading-[0.95] tracking-tight",
+                    dark ? "text-on-background" : "text-inverse-on-surface",
+                  ]}
+                >
+                  {tier.price}
+                </p>
+                <p
+                  class:list={[
+                    "type-label-small m-0 mt-3 font-mono uppercase tracking-[0.08em]",
+                    dark ? "text-on-background/50" : "text-inverse-on-surface/55",
+                  ]}
+                >
+                  {tier.timeline}
+                </p>
+                <div class="pricing-vis-rule mt-4" aria-hidden="true"></div>
+              </div>
 
-          <!-- Divider -->
-          <div class="h-px bg-current opacity-15 mb-6" aria-hidden="true"></div>
+              <div class="flex flex-1 flex-col px-[var(--spacing-card-padding)] pb-5 pt-1 md:pb-6">
+                <p
+                  class:list={[
+                    "type-body-small m-0 mb-5 leading-relaxed",
+                    dark ? "text-on-background/70" : "text-inverse-on-surface/78",
+                  ]}
+                >
+                  {tier.bestFor}
+                </p>
+                <ul class="m-0 flex flex-1 list-none flex-col gap-2.5 p-0" aria-label={`${tier.name} includes`}>
+                  {
+                    tier.included.map((feature) => (
+                      <li class="flex items-start gap-2.5">
+                        <svg
+                          class="mt-0.5 h-3 w-3 shrink-0 text-accent"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M2 6.5L4.5 9L10 3.5"
+                            stroke="currentColor"
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <span
+                          class:list={[
+                            "type-body-small leading-snug",
+                            dark ? "text-on-background/85" : "text-inverse-on-surface/88",
+                          ]}
+                        >
+                          {feature}
+                        </span>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
 
-          <!-- Features -->
-          <ul class="flex flex-col gap-3 mb-8 flex-1" aria-label={`${tier.name} includes`}>
-            {tier.included.map((feature) => (
-              <li class="flex items-start gap-3 type-body-small text-on-surface opacity-80">
-                <svg class="w-4 h-4 text-accent flex-shrink-0 mt-[0.15em]" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-                  <path d="M3 8.5L6.5 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-
-          <!-- CTA -->
-          <div class="mt-auto">
-            {tier.popular ? (
-              <Button
-                href={`${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
-                label={tier.ctaLabel}
-                variant="hero-pill-inverted"
-                class="w-full justify-between"
-                aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
-              />
-            ) : (
-              <Button
-                href={i === 2
-                  ? SITE_CONFIG.socials.calendly
-                  : `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tier.name.toLowerCase())}`}
-                label={tier.ctaLabel}
-                variant="hero-pill-inverted"
-                target={i === 2 ? "_blank" : undefined}
-                rel={i === 2 ? "noopener noreferrer" : undefined}
-                aria-label={`${tier.ctaLabel} — ${tier.name} tier`}
-              />
-            )}
-          </div>
-
-        </article>
-      ))}
+              <div class="mt-auto flex-shrink-0 px-[var(--spacing-card-padding)] pb-5 md:pb-6">
+                <Button
+                  href={href}
+                  label={tier.ctaLabel}
+                  variant={dark ? "hero-pill" : "hero-pill-inverted"}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                  class="w-full justify-center"
+                  aria-label={`${tier.ctaLabel} — ${tier.name}`}
+                />
+              </div>
+            </article>
+          );
+        })
+      }
     </div>
 
-    <!-- ── FOOTER CTA STRIP ── -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 border border-on-primary-container/20 bg-surface-dim text-on-surface p-8 md:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)] mb-8">
-      <div class="max-w-4xl">
-        <h3 class="type-h3 text-on-surface mb-3">{PRICING_FOOTER.title}</h3>
-        <p class="type-body text-on-surface opacity-60 max-w-[44ch]">{PRICING_FOOTER.description}</p>
-      </div>
-      <Button
-        href={SITE_CONFIG.socials.calendly}
-        label={PRICING_FOOTER.ctaLabel}
-        variant="hero-pill-inverted"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex-shrink-0"
-        aria-label="Schedule a scoping call with Straya Studio"
-      />
-    </div>
-
-    <!-- Trust line -->
-    <p class="type-caption text-on-primary-container opacity-40 text-center">{PRICING_TRUST_LINE}</p>
-
+    <p class="type-caption m-0 mt-8 text-center text-inverse-on-surface/55">{PRICING_TRUST_LINE}</p>
   </div>
-
-  <!-- C2 color carry bridge — accent strip at bottom -->
-  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent" aria-hidden="true"></div>
-
 </section>
 
 <style>
-  /* PERMITTED: CSS variable stagger arithmetic + @keyframes */
-  .wpu-word {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(16px);
-    transition:
-      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
-  }
-  [data-words-reveal].is-revealed .wpu-word { opacity:1; filter:blur(0); transform:translateY(0); }
-
-  .reveal-eyebrow {
-    opacity: 0;
-    transform: translateX(-12px);
-    transition: opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1);
-  }
-  .pricing-in-view .reveal-eyebrow { opacity:1; transform:translateX(0); }
-
-  .reveal-fade {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1);
-  }
-  .pricing-in-view .reveal-fade { opacity:1; transform:translateY(0); }
-
-  .badge-dot { animation: badge-pulse 2.8s cubic-bezier(0.4,0,0.6,1) infinite; }
-  @keyframes badge-pulse {
-    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); }
-    50%     { opacity:0.85; box-shadow:0 0 8px 3px rgba(var(--accent-rgb),0.35); }
+  .pricing-card {
+    box-shadow:
+      0 1px 0 rgba(var(--outline-variant-rgb), 0.06),
+      0 6px 20px rgba(var(--outline-variant-rgb), 0.06),
+      inset 0 1px 0 rgba(var(--fg-rgb), 0.04);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
-    .reveal-eyebrow, .reveal-fade { transition:none; }
-    .badge-dot { animation:none; }
+  [data-pricing-tone="light"].pricing-card {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      0 8px 26px rgba(0, 0, 0, 0.09),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
   }
+
+  .pricing-price {
+    font-size: clamp(1.65rem, 2.4vw, 2.35rem);
+  }
+
+  .pricing-vis-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(var(--accent-rgb), 0.55) 0%,
+      rgba(var(--accent-rgb), 0.08) 55%,
+      transparent 100%
+    );
+  }
+
+  [data-pricing-tone="dark"] .pricing-vis-rule {
+    background: linear-gradient(
+      90deg,
+      rgba(var(--accent-rgb), 0.75) 0%,
+      rgba(255, 237, 215, 0.12) 55%,
+      transparent 100%
+    );
+  }
+
 </style>
-
-<script>
-  const section = document.getElementById('pricing');
-  if (section) {
-    // ── Heading word reveal — one-time entry (§8.3) ─────────────
-    const heading = section.querySelector<HTMLElement>('[data-words-reveal]');
-    if (heading) {
-      const obs = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        heading.classList.add('is-revealed');
-        obs.disconnect();
-      }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-      obs.observe(heading);
-    }
-
-    // ── Eyebrow + fade elements ─────────────────────────────────
-    const sectionObs = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) return;
-      section.classList.add('pricing-in-view');
-      sectionObs.disconnect();
-    }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-    sectionObs.observe(section);
-
-    // ── B5 counting numerals — scroll-progress coupled ──────────
-    const countEls = section.querySelectorAll<HTMLElement>('[data-target]');
-    let raf = 0;
-    const updateCounts = () => {
-      raf = 0;
-      const vh = window.innerHeight;
-      countEls.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.7)));
-        const target = parseInt(el.dataset.target || '0', 10);
-        el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target).toLocaleString();
-      });
-    };
-    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(updateCounts); }, { passive: true });
-    updateCounts();
-
-  }
-</script>

@@ -7,7 +7,7 @@ import Button from "./ui/buttons/Button.astro";
 <section
   id="faq"
   aria-label="Frequently asked questions"
-  class="section-frosted section-y relative"
+  class="section-frosted relative pt-16 pb-16 md:pt-20 md:pb-20"
   data-faq-root
 >
   <p class="sr-only">
@@ -17,25 +17,10 @@ import Button from "./ui/buttons/Button.astro";
 
   <div class="main-container relative z-10 grid grid-cols-12 items-start gap-4 md:gap-6">
 
-    <!-- Eyebrow col -->
-    <div class="col-span-12 md:col-span-2" aria-hidden="true">
-      <span class="type-label-small font-mono uppercase tracking-[0.08em] text-on-background/60">
-        [09] FAQ
-      </span>
-      <span class="faq-eyebrow-rule mt-2 block h-[2px] bg-accent" data-faq-rule></span>
-    </div>
-
     <!-- Heading -->
     <header class="col-span-12 md:col-span-9 md:col-start-2">
-      <h2
-        class="type-h2 m-0 max-w-5xl text-on-background"
-        style="letter-spacing:-0.04em;word-spacing:-0.3em"
-        data-words-reveal
-        aria-label="Questions we hear most."
-      >
-        <span class="wpu-word inline-block" style="--i:0;margin-right:0.25em" aria-hidden="true">Questions</span>
-        <span class="wpu-word inline-block" style="--i:1;margin-right:0.25em" aria-hidden="true">we</span>
-        <span class="wpu-word inline-block" style="--i:2" aria-hidden="true">hear most.</span>
+      <h2 class="type-h2 max-w-5xl text-on-background mb-4 md:mb-6 leading-tight">
+        Questions we hear most.
       </h2>
     </header>
 
@@ -120,16 +105,6 @@ import Button from "./ui/buttons/Button.astro";
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
 
-  /* PERMITTED: CSS variable stagger + @keyframes */
-  .wpu-word {
-    opacity: 0; filter: blur(12px); transform: translateY(16px);
-    transition:
-      opacity    700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      filter     700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms),
-      transform  700ms cubic-bezier(0.16,1,0.3,1) calc(var(--i,0) * 60ms);
-  }
-  [data-words-reveal].is-revealed .wpu-word { opacity:1; filter:blur(0); transform:translateY(0); }
-
   .faq-eyebrow-rule {
     width: 0;
     transition: width 720ms cubic-bezier(0.16,1,0.3,1);
@@ -151,7 +126,6 @@ import Button from "./ui/buttons/Button.astro";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .wpu-word { opacity:1!important; filter:none!important; transform:none!important; transition:none!important; }
     .faq-eyebrow-rule { transition:none!important; }
     .faq-body-el { opacity:1!important; filter:none!important; transform:none!important; }
     .faq-content { will-change: auto; }
@@ -198,23 +172,13 @@ import Button from "./ui/buttons/Button.astro";
   // ── Section reveals ─────────────────────────────────────────
   const faqSection = document.getElementById('faq');
   if (faqSection) {
-    const heading = faqSection.querySelector<HTMLElement>('[data-words-reveal]');
     const ruleEl  = faqSection.querySelector<HTMLElement>('[data-faq-rule]');
     const bodyEl  = faqSection.querySelector<HTMLElement>('.faq-body-el');
 
     if (reduced) {
-      if (heading) heading.classList.add('is-revealed');
       if (ruleEl)  ruleEl.classList.add('in-view');
       if (bodyEl)  { bodyEl.style.opacity = '1'; bodyEl.style.filter = 'none'; bodyEl.style.transform = 'none'; }
     } else {
-      if (heading) {
-        const obs = new IntersectionObserver(entries => {
-          if (!entries[0].isIntersecting) return;
-          heading.classList.add('is-revealed');
-          obs.disconnect();
-        }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
-        obs.observe(heading);
-      }
       if (ruleEl) {
         const obs = new IntersectionObserver(entries => {
           if (!entries[0].isIntersecting) return;

@@ -81,38 +81,11 @@ const preferredTestimonials = [
   <div class="main-container relative z-10">
     <!-- Header -->
     <header class="mb-10 md:mb-14">
-      <p
-        class="m-0 type-label font-mono uppercase tracking-[0.08em] text-on-background/60"
-        aria-hidden="true"
-      >
-        [05] / Testimonials
-      </p>
-      <!-- H2 — word blur-to-clear reveal (micro-interactions.md §8.3) -->
       <h2
         id="testimonials-heading"
-        class="type-h2 m-0 mt-3 max-w-[16ch] text-on-background"
-        style="word-spacing:-0.3em"
-        data-words-reveal
-        aria-label="Founder proof, in motion."
+        class="type-h2 m-0 max-w-[16ch] text-on-background leading-tight"
       >
-        <span
-          class="wpu-word inline-block"
-          style="--i:0;margin-right:0.25em"
-          aria-hidden="true">Founder</span
-        >
-        <span
-          class="wpu-word inline-block"
-          style="--i:1;margin-right:0.25em"
-          aria-hidden="true">proof,</span
-        >
-        <span
-          class="wpu-word inline-block"
-          style="--i:2;margin-right:0.25em"
-          aria-hidden="true">in</span
-        >
-        <span class="wpu-word inline-block" style="--i:3" aria-hidden="true"
-          >motion.</span
-        >
+        Founder proof, in motion.
       </h2>
     </header>
 
@@ -191,7 +164,6 @@ const preferredTestimonials = [
         class="t-cta inline-flex items-center gap-2 type-label font-mono uppercase tracking-[0.08em] text-on-background/70 no-underline"
       >
         <span class="t-cta__label">View all testimonials</span>
-        <span aria-hidden="true">→</span>
       </a>
     </div>
   </div>
@@ -211,22 +183,6 @@ const preferredTestimonials = [
     .t-section {
       margin-top: 0;
     }
-  }
-
-  /* ── H2 word reveal ───────────────────────────────────────── */
-  .wpu-word {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(16px);
-    transition:
-      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      filter 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms);
-  }
-  [data-words-reveal].is-revealed .wpu-word {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
   }
 
   /* ── Stage ────────────────────────────────────────────────── */
@@ -274,7 +230,7 @@ const preferredTestimonials = [
   }
   .t-frame-role {
     margin-top: 0.2rem;
-    font-family: var(--font-mono, ui-monospace, monospace);
+    font-family: var(--font-mono);
     font-size: 0.62rem;
     line-height: 1;
     text-transform: uppercase;
@@ -474,12 +430,6 @@ const preferredTestimonials = [
 
   /* ── Reduced motion ───────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .wpu-word {
-      opacity: 1 !important;
-      filter: none !important;
-      transform: none !important;
-      transition: none !important;
-    }
     .t-carousel-track {
       animation: none;
       transform: none;
@@ -505,24 +455,6 @@ const preferredTestimonials = [
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-
-    // ── H2 word reveal — one-time entry (§8.3) ─────────────────
-    const heading = root.querySelector<HTMLElement>("[data-words-reveal]");
-    if (heading) {
-      if (reduced) {
-        heading.classList.add("is-revealed");
-      } else {
-        const obs = new IntersectionObserver(
-          (entries) => {
-            if (!entries[0].isIntersecting) return;
-            heading.classList.add("is-revealed");
-            obs.disconnect();
-          },
-          { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
-        );
-        obs.observe(heading);
-      }
-    }
 
     // ── Keyword highlight — scroll-progress coupled (§8.5) ─────
     if (reduced) {

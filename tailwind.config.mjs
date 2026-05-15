@@ -2,6 +2,91 @@
 import tokens from './src/styles/design-tokens.json';
 import plugin from 'tailwindcss/plugin';
 
+/**
+ * Bare `r, g, b` for opacity composition: `rgba(var(--accent-rgb), 0.5)`.
+ * @param {string} hex `#RRGGBB` or `#RGB`
+ */
+function hexToRgbTriplet(hex) {
+    const h = hex.replace(/^#/, '');
+    const full =
+        h.length === 3
+            ? [...h].map((c) => c + c).join('')
+            : h;
+    const n = Number.parseInt(full, 16);
+    const r = (n >> 16) & 255;
+    const g = (n >> 8) & 255;
+    const b = n & 255;
+    return `${r}, ${g}, ${b}`;
+}
+
+const {
+    typography: typo,
+    color: C,
+    effects: Fx,
+    spacing: Sp,
+    border: Br,
+    grid: Grid,
+} = tokens;
+
+/** `:root` custom properties derived from structured tokens only (design-system §1 — no duplicated literals). */
+const rootCssVars = {
+    '--color-bg':              C.background.DEFAULT,
+    '--color-bg-dim':          C.background.surfaceDim,
+    '--color-bg-raised':       C.background.surfaceBright,
+    '--color-bg-elevated':     C.background.container,
+    '--color-bg-inverted':     C.inverse.surface,
+    '--color-fg':              C.text.primary,
+    '--color-fg-inverted':     C.text.inverse,
+    '--color-accent':          C.accent,
+    '--color-focus-ring':      C.accent,
+
+    '--outline-variant-rgb':   hexToRgbTriplet(C.outline.variant),
+
+    '--accent-rgb':            hexToRgbTriplet(C.accent),
+    '--fg-rgb':                hexToRgbTriplet(C.text.primary),
+    '--fg-inverted-rgb':       hexToRgbTriplet(C.text.inverse),
+    '--black-rgb':             '0, 0, 0',
+    '--bg-rgb':                hexToRgbTriplet(C.background.DEFAULT),
+    '--bg-dim-rgb':            hexToRgbTriplet(C.background.surfaceDim),
+
+    '--font-display':       typo.fontFamily.display,
+    '--font-body':          typo.fontFamily.body,
+    '--font-mono':          typo.fontFamily.mono,
+
+    '--color-primary':         C.primary.DEFAULT,
+    '--color-secondary':       C.secondary.DEFAULT,
+    '--color-background':      C.background.DEFAULT,
+    '--color-surface':         C.background.surface,
+    '--color-on-surface':      C.onSurface.DEFAULT,
+    '--color-on-background':   C.onBackground.DEFAULT,
+    '--color-outline':         C.outline.DEFAULT,
+    '--color-outline-variant': C.outline.variant,
+    '--color-error':           C.status.error,
+    '--color-success':         C.status.success,
+    '--color-border-default':  C.border.default,
+
+    '--tracking-tight':     typo.style.tightTracking,
+    '--tracking-blueprint': typo.style.blueprintTracking,
+
+    '--transition-base':   Fx.transition.base,
+    '--transition-luxury': Fx.transition.base,
+    '--duration-entrance': Fx.duration.entrance,
+    '--magnetic-cta':      Fx.magnetic.cta,
+
+    '--spacing-container-max':     Sp.containerMax,
+    '--spacing-container-mobile':  Sp.containerPaddingMobile,
+    '--spacing-container-desktop': Sp.containerPaddingDesktop,
+    '--spacing-section-mobile':    Sp.sectionMobile,
+    '--spacing-section-desktop':   Sp.sectionDesktop,
+    '--spacing-card-padding':        Sp.cardPadding,
+
+    '--border-radius': Br.radius.DEFAULT,
+    '--border-width':  Br.width.DEFAULT,
+
+    '--grid-gutter': Grid.gutter,
+    '--hero-scrim-via-stop': typo.hero.imageScrimTransparentUntil,
+};
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -14,369 +99,243 @@ export default {
         extend: {
             colors: {
                 // Primary
-                'primary':                      tokens.color.primary.DEFAULT,
-                'on-primary':                   tokens.color.primary.on,
-                'primary-container':            tokens.color.primary.container,
-                'on-primary-container':         tokens.color.primary.onContainer,
-                'primary-fixed':                tokens.color.primary.fixed,
-                'primary-fixed-dim':            tokens.color.primary.fixedDim,
+                primary:                       C.primary.DEFAULT,
+                'on-primary':                  C.primary.on,
+                'primary-container':           C.primary.container,
+                'on-primary-container':        C.primary.onContainer,
                 // Secondary
-                'secondary':                    tokens.color.secondary.DEFAULT,
-                'on-secondary':                 tokens.color.secondary.on,
-                'secondary-container':          tokens.color.secondary.container,
-                'on-secondary-container':       tokens.color.secondary.onContainer,
-                'secondary-fixed':              tokens.color.secondary.fixed,
-                'secondary-fixed-dim':          tokens.color.secondary.fixedDim,
-                // Tertiary
-                'tertiary':                     tokens.color.tertiary.DEFAULT,
-                'on-tertiary':                  tokens.color.tertiary.on,
-                'tertiary-container':           tokens.color.tertiary.container,
-                'on-tertiary-container':        tokens.color.tertiary.onContainer,
-                'tertiary-fixed':               tokens.color.tertiary.fixed,
-                'tertiary-fixed-dim':           tokens.color.tertiary.fixedDim,
-                // Error
-                'error':                        tokens.color.error.DEFAULT,
-                'on-error':                     tokens.color.error.on,
-                'error-container':              tokens.color.error.container,
-                'on-error-container':           tokens.color.error.onContainer,
+                secondary:                     C.secondary.DEFAULT,
+                'on-secondary':                C.secondary.on,
+                'secondary-container':         C.secondary.container,
+                'on-secondary-container':      C.secondary.onContainer,
                 // Backgrounds
-                'background':                   tokens.color.background.DEFAULT,
-                'surface':                      tokens.color.background.surface,
-                'surface-dim':                  tokens.color.background.surfaceDim,
-                'surface-bright':               tokens.color.background.surfaceBright,
-                'surface-container-lowest':     tokens.color.background.containerLowest,
-                'surface-container-low':        tokens.color.background.containerLow,
-                'surface-container':            tokens.color.background.container,
-                'surface-container-high':       tokens.color.background.containerHigh,
-                'surface-container-highest':    tokens.color.background.containerHighest,
+                background:                    C.background.DEFAULT,
+                surface:                       C.background.surface,
+                'surface-dim':                 C.background.surfaceDim,
+                'surface-container-lowest':    C.background.containerLowest,
+                'surface-container-low':       C.background.containerLow,
+                'surface-container':           C.background.container,
+                'surface-container-high':      C.background.containerHigh,
+                'surface-container-highest':   C.background.containerHighest,
                 // On-surface
-                'on-background':                tokens.color.onBackground.DEFAULT,
-                'on-surface':                   tokens.color.onSurface.DEFAULT,
-                'on-surface-variant':           tokens.color.onSurface.variant,
+                'on-background':               C.onBackground.DEFAULT,
+                'on-surface':                  C.onSurface.DEFAULT,
+                'on-surface-variant':          C.onSurface.variant,
                 // Outline
-                'outline':                      tokens.color.outline.DEFAULT,
-                'outline-variant':              tokens.color.outline.variant,
+                outline:                       C.outline.DEFAULT,
+                'outline-variant':             C.outline.variant,
                 // Inverse
-                'inverse-surface':              tokens.color.inverse.surface,
-                'inverse-on-surface':           tokens.color.inverse.onSurface,
-                'inverse-primary':              tokens.color.inverse.primary,
-                // Accent & Status
-                'accent':                       tokens.color.accent,
-                'success':                      tokens.color.status.success,
-                'warning':                      tokens.color.status.warning,
-                'info':                         tokens.color.status.info,
+                'inverse-surface':             C.inverse.surface,
+                'inverse-on-surface':          C.inverse.onSurface,
+                'inverse-panel':               C.inverse.panel,
+                // Accent & status
+                accent:                        C.accent,
+                success:                       C.status.success,
+                error:                         C.status.error,
                 // Semantic aliases
-                'brand-accent':                 tokens.color.accent,
-                'brand-text-primary':           tokens.color.text.primary,
-                'brand-text-secondary':         tokens.color.text.secondary,
-                'text-inverted':                tokens.color.text.inverse,
-                'border-default':               tokens.color.border.default,
-                'border-subtle':                tokens.color.border.subtle,
-                'border-strong':                tokens.color.border.strong,
+                'brand-accent':                C.accent,
+                'brand-text-primary':          C.text.primary,
+                'brand-text-secondary':        C.text.secondary,
+                'text-inverted':               C.text.inverse,
+                'border-default':              C.border.default,
+                'border-subtle':               C.border.subtle,
+                'border-strong':               C.border.strong,
             },
             transitionTimingFunction: {
-                luxury:  tokens.effects.transition.elastic,
-                custom:  tokens.effects.transition.base,
-                smooth:  tokens.effects.transition.smooth,
-                elastic: tokens.effects.transition.elastic,
-                bouncy:  tokens.effects.transition.bouncy,
-            },
-            keyframes: {
-                marquee: {
-                    '0%':   { transform: 'translateX(0)' },
-                    '100%': { transform: 'translateX(-50%)' },
-                },
-            },
-            animation: {
-                marquee: `marquee ${tokens.animation.marquee.duration} ${tokens.animation.marquee.timing} ${tokens.animation.marquee.iteration}`,
+                luxury: Fx.transition.base,
+                custom: Fx.transition.base,
             },
             borderRadius: {
-                DEFAULT: tokens.border.radius.DEFAULT,
-                lg:      tokens.border.radius.lg,
-                xl:      tokens.border.radius.xl,
-                full:    tokens.border.radius.full,
+                DEFAULT: Br.radius.DEFAULT,
+                lg:      Br.radius.lg,
+                xl:      Br.radius.xl,
+                full:    Br.radius.full,
             },
             letterSpacing: {
-                tight:     tokens.typography.style.tightTracking,
-                blueprint: tokens.typography.style.blueprintTracking,
-                normal:    tokens.typography.style.normalTracking,
+                tight:     typo.style.tightTracking,
+                blueprint: typo.style.blueprintTracking,
+                normal:    typo.style.normalTracking,
+                h1:        typo.h1.letterSpacing,
+                h2:        typo.h2.letterSpacing,
+                h3:        typo.h3.letterSpacing,
+                h4:        typo.h4.letterSpacing,
+                h5:        typo.h5.letterSpacing,
             },
             fontFamily: {
-                sans:    [tokens.typography.fontFamily.body,    tokens.typography.fontFamily.fallback.body],
-                display: [tokens.typography.fontFamily.display, tokens.typography.fontFamily.fallback.display],
-                mono:    [tokens.typography.mono.fontFamily],
+                sans:    [typo.fontFamily.body, typo.fontFamily.fallback.body],
+                display: [typo.fontFamily.display, typo.fontFamily.fallback.display],
+                mono:    [typo.mono.fontFamily],
             },
             maxWidth: {
-                container: tokens.spacing.containerMax,
+                container: Sp.containerMax,
             },
             spacing: {
-                'section-mobile':    tokens.spacing.sectionMobile,
-                'section-desktop':   tokens.spacing.sectionDesktop,
-                'container-mobile':  tokens.spacing.containerPaddingMobile,
-                'container-desktop': tokens.spacing.containerPaddingDesktop,
-                'card-padding':      tokens.spacing.cardPadding,
+                'section-mobile':    Sp.sectionMobile,
+                'section-desktop':   Sp.sectionDesktop,
+                'container-mobile':  Sp.containerPaddingMobile,
+                'container-desktop': Sp.containerPaddingDesktop,
+                'card-padding':      Sp.cardPadding,
             },
         },
     },
     plugins: [
-        plugin(function ({ addComponents, addBase, addUtilities }) {
+        plugin(function ({ addComponents, addBase }) {
 
-            // ─── CSS Variables ────────────────────────────────────────────────
             addBase({
-                ':root': {
-                    // ── Semantic vars consumed by components (sourced from cssVariables) ──
-                    ...tokens.cssVariables.colors,       // --color-bg, --color-fg, --color-accent, etc.
-                    ...tokens.cssVariables.rgbChannels,  // --accent-rgb, --fg-rgb, --black-rgb, etc.
-                    ...tokens.cssVariables.fonts,        // --font-display, --font-body, --font-mono
-
-                    // ── Extended role aliases ──
-                    '--color-primary':          tokens.color.primary.DEFAULT,
-                    '--color-secondary':        tokens.color.secondary.DEFAULT,
-                    '--color-tertiary':         tokens.color.tertiary.DEFAULT,
-                    '--color-background':       tokens.color.background.DEFAULT,
-                    '--color-surface':          tokens.color.background.surface,
-                    '--color-on-surface':       tokens.color.onSurface.DEFAULT,
-                    '--color-on-background':    tokens.color.onBackground.DEFAULT,
-                    '--color-outline':          tokens.color.outline.DEFAULT,
-                    '--color-outline-variant':  tokens.color.outline.variant,
-                    '--color-error':            tokens.color.error.DEFAULT,
-                    '--color-success':          tokens.color.status.success,
-                    '--color-border-default':   tokens.color.border.default,
-                    // Typography
-                    '--tracking-tight':         tokens.typography.style.tightTracking,
-                    '--tracking-blueprint':     tokens.typography.style.blueprintTracking,
-                    // Effects
-                    '--transition-base':        tokens.effects.transition.base,
-                    '--transition-luxury':      tokens.effects.transition.elastic,
-                    '--duration-entrance':      tokens.effects.duration.entrance,
-                    '--depth-1':                tokens.effects.depth['1'],
-                    '--depth-2':                tokens.effects.depth['2'],
-                    '--depth-3':                tokens.effects.depth['3'],
-                    '--magnetic-cta':           tokens.effects.magnetic.cta,
-                    // Spacing
-                    '--spacing-container-max':      tokens.spacing.containerMax,
-                    '--spacing-container-mobile':   tokens.spacing.containerPaddingMobile,
-                    '--spacing-container-tablet':   tokens.spacing.containerPaddingTablet,
-                    '--spacing-container-desktop':  tokens.spacing.containerPaddingDesktop,
-                    '--spacing-section-mobile':     tokens.spacing.sectionMobile,
-                    '--spacing-section-desktop':    tokens.spacing.sectionDesktop,
-                    '--spacing-card-padding':       tokens.spacing.cardPadding,
-                    // Animation
-                    '--animation-marquee-duration':  tokens.animation.marquee.duration,
-                    '--animation-marquee-timing':    tokens.animation.marquee.timing,
-                    '--animation-marquee-iteration': tokens.animation.marquee.iteration,
-                    // Border
-                    '--border-radius': tokens.border.radius.DEFAULT,
-                    '--border-width':  tokens.border.width.DEFAULT,
-                    // Grid
-                    '--grid-columns': String(tokens.grid.columns),
-                    '--grid-gutter':  tokens.grid.gutter,
-                    // Cursor
-                    '--cursor': tokens.cursor.DEFAULT,
-                },
+                ':root': rootCssVars,
             });
 
-            // ─── Typography Utilities ─────────────────────────────────────────
             addComponents({
+                /* Color inherits from parent (body / section / card) — use text-on-background, text-inverse-on-surface, etc. */
                 '.type-h1': {
-                    fontSize:      tokens.typography.h1.fontSize,
-                    fontWeight:    tokens.typography.h1.fontWeight,
-                    lineHeight:    tokens.typography.h1.lineHeight,
-                    letterSpacing: tokens.typography.h1.letterSpacing,
-                    fontFamily:    tokens.typography.h1.fontFamily,
-                    color:         tokens.typography.h1.color,
+                    fontSize:      typo.h1.fontSize,
+                    fontWeight:    typo.h1.fontWeight,
+                    lineHeight:    typo.h1.lineHeight,
+                    letterSpacing: typo.h1.letterSpacing,
+                    fontFamily:    typo.h1.fontFamily,
+                    color:         'currentColor',
                 },
                 '.type-h2': {
-                    fontSize:      tokens.typography.h2.fontSize,
-                    fontWeight:    tokens.typography.h2.fontWeight,
-                    lineHeight:    tokens.typography.h2.lineHeight,
-                    letterSpacing: tokens.typography.h2.letterSpacing,
-                    fontFamily:    tokens.typography.h2.fontFamily,
-                    color:         tokens.typography.h2.color,
+                    fontSize:      typo.h2.fontSize,
+                    fontWeight:    typo.h2.fontWeight,
+                    lineHeight:    typo.h2.lineHeight,
+                    letterSpacing: typo.h2.letterSpacing,
+                    fontFamily:    typo.h2.fontFamily,
+                    color:         'currentColor',
                 },
                 '.type-h3': {
-                    fontSize:      tokens.typography.h3.fontSize,
-                    fontWeight:    tokens.typography.h3.fontWeight,
-                    lineHeight:    tokens.typography.h3.lineHeight,
-                    letterSpacing: tokens.typography.h3.letterSpacing,
-                    fontFamily:    tokens.typography.h3.fontFamily,
-                    color:         tokens.typography.h3.color,
+                    fontSize:      typo.h3.fontSize,
+                    fontWeight:    typo.h3.fontWeight,
+                    lineHeight:    typo.h3.lineHeight,
+                    letterSpacing: typo.h3.letterSpacing,
+                    fontFamily:    typo.h3.fontFamily,
+                    color:         'currentColor',
                 },
                 '.type-h4': {
-                    fontSize:      tokens.typography.h4.fontSize,
-                    fontWeight:    tokens.typography.h4.fontWeight,
-                    lineHeight:    tokens.typography.h4.lineHeight,
-                    letterSpacing: tokens.typography.h4.letterSpacing,
-                    fontFamily:    tokens.typography.h4.fontFamily,
-                    color:         tokens.typography.h4.color,
+                    fontSize:      typo.h4.fontSize,
+                    fontWeight:    typo.h4.fontWeight,
+                    lineHeight:    typo.h4.lineHeight,
+                    letterSpacing: typo.h4.letterSpacing,
+                    fontFamily:    typo.h4.fontFamily,
+                    color:         'currentColor',
                 },
                 '.type-h5': {
-                    fontSize:      tokens.typography.h5.fontSize,
-                    fontWeight:    tokens.typography.h5.fontWeight,
-                    lineHeight:    tokens.typography.h5.lineHeight,
-                    letterSpacing: tokens.typography.h5.letterSpacing,
-                    fontFamily:    tokens.typography.h5.fontFamily,
-                    color:         tokens.typography.h5.color,
+                    fontSize:      typo.h5.fontSize,
+                    fontWeight:    typo.h5.fontWeight,
+                    lineHeight:    typo.h5.lineHeight,
+                    letterSpacing: typo.h5.letterSpacing,
+                    fontFamily:    typo.h5.fontFamily,
+                    color:         'currentColor',
                 },
                 '.type-body': {
-                    fontSize:   tokens.typography.body.fontSize,
-                    fontWeight: tokens.typography.body.fontWeight,
-                    lineHeight: tokens.typography.body.lineHeight,
-                    fontFamily: tokens.typography.body.fontFamily,
-                    color:      tokens.typography.body.color,
+                    fontSize:   typo.body.fontSize,
+                    fontWeight: typo.body.fontWeight,
+                    lineHeight: typo.body.lineHeight,
+                    fontFamily: typo.body.fontFamily,
+                    color:      'currentColor',
                 },
                 '.type-body-large': {
-                    fontSize:   tokens.typography.bodyLarge.fontSize,
-                    fontWeight: tokens.typography.bodyLarge.fontWeight,
-                    lineHeight: tokens.typography.bodyLarge.lineHeight,
-                    fontFamily: tokens.typography.bodyLarge.fontFamily,
-                    color:      tokens.typography.bodyLarge.color,
+                    fontSize:   typo.bodyLarge.fontSize,
+                    fontWeight: typo.bodyLarge.fontWeight,
+                    lineHeight: typo.bodyLarge.lineHeight,
+                    fontFamily: typo.bodyLarge.fontFamily,
+                    color:      'currentColor',
                 },
                 '.type-body-small': {
-                    fontSize:   tokens.typography.bodySmall.fontSize,
-                    fontWeight: tokens.typography.bodySmall.fontWeight,
-                    lineHeight: tokens.typography.bodySmall.lineHeight,
-                    fontFamily: tokens.typography.bodySmall.fontFamily,
-                    color:      tokens.typography.bodySmall.color,
+                    fontSize:   typo.bodySmall.fontSize,
+                    fontWeight: typo.bodySmall.fontWeight,
+                    lineHeight: typo.bodySmall.lineHeight,
+                    fontFamily: typo.bodySmall.fontFamily,
+                    color:      'currentColor',
                 },
                 '.type-caption': {
-                    fontSize:   tokens.typography.caption.fontSize,
-                    fontWeight: tokens.typography.caption.fontWeight,
-                    lineHeight: tokens.typography.caption.lineHeight,
-                    fontFamily: tokens.typography.caption.fontFamily,
-                    color:      tokens.typography.caption.color,
+                    fontSize:   typo.caption.fontSize,
+                    fontWeight: typo.caption.fontWeight,
+                    lineHeight: typo.caption.lineHeight,
+                    fontFamily: typo.caption.fontFamily,
+                    color:      'currentColor',
                 },
                 '.type-label': {
-                    fontSize:      tokens.typography.label.fontSize,
-                    fontWeight:    tokens.typography.label.fontWeight,
-                    lineHeight:    tokens.typography.label.lineHeight,
-                    letterSpacing: tokens.typography.label.letterSpacing,
-                    fontFamily:    tokens.typography.label.fontFamily,
-                    color:         tokens.typography.label.color,
-                    textTransform: 'uppercase',
-                },
-                '.type-label-uppercase': {
-                    fontSize:      tokens.typography.labelUppercase.fontSize,
-                    fontWeight:    tokens.typography.labelUppercase.fontWeight,
-                    lineHeight:    tokens.typography.labelUppercase.lineHeight,
-                    letterSpacing: tokens.typography.labelUppercase.letterSpacing,
-                    fontFamily:    tokens.typography.labelUppercase.fontFamily,
-                    color:         tokens.typography.labelUppercase.color,
+                    fontSize:      typo.label.fontSize,
+                    fontWeight:    typo.label.fontWeight,
+                    lineHeight:    typo.label.lineHeight,
+                    letterSpacing: typo.label.letterSpacing,
+                    fontFamily:    typo.label.fontFamily,
+                    color:         'currentColor',
                     textTransform: 'uppercase',
                 },
                 '.type-label-small': {
-                    fontSize:      tokens.typography.labelSmall.fontSize,
-                    fontWeight:    tokens.typography.labelSmall.fontWeight,
-                    lineHeight:    tokens.typography.labelSmall.lineHeight,
-                    letterSpacing: tokens.typography.labelSmall.letterSpacing,
-                    fontFamily:    tokens.typography.labelSmall.fontFamily,
-                    color:         tokens.typography.labelSmall.color,
+                    fontSize:      typo.labelSmall.fontSize,
+                    fontWeight:    typo.labelSmall.fontWeight,
+                    lineHeight:    typo.labelSmall.lineHeight,
+                    letterSpacing: typo.labelSmall.letterSpacing,
+                    fontFamily:    typo.labelSmall.fontFamily,
+                    color:         'currentColor',
                     textTransform: 'uppercase',
                 },
                 '.type-mono': {
-                    fontSize:   tokens.typography.mono.fontSize,
-                    fontWeight: tokens.typography.mono.fontWeight,
-                    lineHeight: tokens.typography.mono.lineHeight,
-                    fontFamily: tokens.typography.mono.fontFamily,
-                    color:      tokens.typography.mono.color,
+                    fontSize:   typo.mono.fontSize,
+                    fontWeight: typo.mono.fontWeight,
+                    lineHeight: typo.mono.lineHeight,
+                    fontFamily: typo.mono.fontFamily,
+                    color:      'currentColor',
                 },
                 '.type-button': {
-                    fontSize:      tokens.typography.button.fontSize,
-                    fontWeight:    tokens.typography.button.fontWeight,
-                    lineHeight:    tokens.typography.button.lineHeight,
-                    letterSpacing: tokens.typography.button.letterSpacing,
-                    fontFamily:    tokens.typography.button.fontFamily,
-                    textTransform: tokens.typography.button.textTransform,
+                    fontSize:      typo.button.fontSize,
+                    fontWeight:    typo.button.fontWeight,
+                    lineHeight:    typo.button.lineHeight,
+                    letterSpacing: typo.button.letterSpacing,
+                    fontFamily:    typo.button.fontFamily,
+                    textTransform: typo.button.textTransform,
                     whiteSpace:    'nowrap',
                 },
 
-                // ─── Layout ───────────────────────────────────────────────────
                 '.main-container': {
-                    maxWidth:     tokens.spacing.containerMax,
+                    maxWidth:     Sp.containerMax,
                     marginLeft:   'auto',
                     marginRight:  'auto',
-                    paddingLeft:  tokens.spacing.containerPaddingMobile,
-                    paddingRight: tokens.spacing.containerPaddingMobile,
+                    paddingLeft:  Sp.containerPaddingMobile,
+                    paddingRight: Sp.containerPaddingMobile,
                 },
                 '.section-y': {
-                    paddingTop:    tokens.spacing.sectionMobile,
-                    paddingBottom: tokens.spacing.sectionMobile,
+                    paddingTop:    Sp.sectionMobile,
+                    paddingBottom: Sp.sectionMobile,
                 },
                 '.card-pad': {
-                    padding: tokens.spacing.cardPaddingMobile,
+                    padding: Sp.cardPaddingMobile,
                 },
                 '@media (min-width: 810px)': {
                     '.main-container': {
-                        paddingLeft:  tokens.spacing.containerPaddingDesktop,
-                        paddingRight: tokens.spacing.containerPaddingDesktop,
+                        paddingLeft:  Sp.containerPaddingDesktop,
+                        paddingRight: Sp.containerPaddingDesktop,
                     },
                     '.section-y': {
-                        paddingTop:    tokens.spacing.sectionDesktop,
-                        paddingBottom: tokens.spacing.sectionDesktop,
+                        paddingTop:    Sp.sectionDesktop,
+                        paddingBottom: Sp.sectionDesktop,
                     },
                     '.card-pad': {
-                        padding: tokens.spacing.cardPadding,
+                        padding: Sp.cardPadding,
                     },
                 },
                 '@media (min-width: 1200px)': {
                     '.main-container': {
-                        paddingLeft:  tokens.spacing.containerPaddingWide,
-                        paddingRight: tokens.spacing.containerPaddingWide,
+                        paddingLeft:  Sp.containerPaddingWide,
+                        paddingRight: Sp.containerPaddingWide,
                     },
                 },
 
-                // ─── Heading mobile overrides ────────────────────────────────
-                '@media (max-width: 809px)': {
-                    '.type-h1': { fontSize: tokens.typography.h1.fontSizeMobile },
-                    '.type-h2': { fontSize: tokens.typography.h2.fontSizeMobile },
-                    '.type-h3': { fontSize: tokens.typography.h3.fontSizeMobile },
-                },
-
-                // ─── Depth & Motion ───────────────────────────────────────────
-                '.z-depth-1': { transform: tokens.effects.depth['1'] },
-                '.z-depth-2': { transform: tokens.effects.depth['2'] },
-                '.z-depth-3': { transform: tokens.effects.depth['3'] },
                 '.magnetic-cta': {
-                    transition: `transform ${tokens.effects.duration.normal} ${tokens.effects.transition.base}`,
+                    transition: `transform ${Fx.duration.normal} ${Fx.transition.base}`,
                 },
                 '.magnetic-cta:hover': {
-                    transform: tokens.effects.magnetic.cta,
+                    transform: Fx.magnetic.cta,
                 },
                 '.custom-bezier': {
-                    transitionTimingFunction: tokens.effects.transition.base,
+                    transitionTimingFunction: Fx.transition.base,
                 },
                 '.luxury-bezier': {
-                    transitionTimingFunction: tokens.effects.transition.elastic,
+                    transitionTimingFunction: Fx.transition.base,
                 },
-
-                // ─── Cards — no borders; depth via shadow only ────────────────
-                '.card-surface': {
-                    backgroundColor: tokens.color.background.surface,
-                    border:          'none',
-                    padding:         tokens.spacing.cardPadding,
-                    borderRadius:    tokens.border.radius.DEFAULT,
-                    boxShadow:       '0 1px 0 rgba(255,255,255,0.04) inset, 0 18px 40px -24px rgba(0,0,0,0.35)',
-                },
-                '.card-elevated': {
-                    backgroundColor: tokens.color.background.container,
-                    border:          'none',
-                    padding:         tokens.spacing.cardPadding,
-                    borderRadius:    tokens.border.radius.DEFAULT,
-                    boxShadow:       '0 1px 0 rgba(255,255,255,0.05) inset, 0 24px 50px -20px rgba(0,0,0,0.4)',
-                    transition:      `all ${tokens.effects.duration.slow} ${tokens.effects.transition.base}`,
-                },
-                '.card-elevated:hover': {
-                    transform:  'translateY(-4px)',
-                    transition: `all ${tokens.effects.duration.slow} ${tokens.effects.transition.base}`,
-                },
-            });
-
-            // ─── Utilities ────────────────────────────────────────────────────
-            addUtilities({
-                '.perspective-1k':  { perspective: '1000px' },
-                '.perspective-2k':  { perspective: '2000px' },
-                '.preserve-3d':     { transformStyle: 'preserve-3d' },
-                '.backface-hidden': { backfaceVisibility: 'hidden' },
             });
         }),
     ],

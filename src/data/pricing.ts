@@ -1,93 +1,118 @@
 /**
- * Homepage pricing — project-based tiers (no retainers).
- * Source of truth: GEMINI.md §4
- * Used by: Pricing.astro
+ * Homepage pricing — premium project engagements.
+ * Clear, structured, and built for fast decision making.
  */
 
 export interface PricingTier {
-  name: string;
-  tagline: string;
-  price: string;
-  timeline: string;
-  bestFor: string;
-  included: string[];
-  popular?: boolean;
-  ctaLabel: string;
-  ctaPrimary?: boolean;
+  name: string
+  tagline: string
+  price: string
+  timeline: string
+  bestFor: string
+  included: string[]
+  popular?: boolean
+  ctaLabel: string
+  ctaPrimary?: boolean
 }
 
 export const PRICING_HEADLINE =
-  "Transparent pricing, no retainers required.";
+  "Built around outcomes, not templates."
 
 export const PRICING_SUBTITLE =
-  "We take on 2–3 projects at a time to give each one the attention it deserves. Every engagement is scoped, priced, and delivered as a complete project.";
+  "Every project is custom-scoped based on your goals, timeline, and complexity. We work with a limited number of clients at a time to ensure focused execution and high-quality delivery."
 
-export const PRICING_BADGE = "1 spot open for April 2026";
+export const PRICING_BADGE =
+  "Currently booking for April 2026"
 
 export const PRICING_TRUST_LINE =
-  "Final quote provided after a 30-minute scoping call or project brief review — no surprises.";
+  "Most projects fall between $5k–20k depending on scope, platform, and level of strategy involved."
 
 export const PRICING_FOOTER = {
-  title: "Not sure which tier fits?",
+  title: "Not sure which engagement fits?",
   description:
-    "Book a free 30-minute scoping call or send us your project brief. We'll review the scope, recommend the right tier, and send you a fixed quote — no obligation.",
-  ctaLabel: "Schedule a call",
-};
+    "Book a short discovery call or send over your brief. We’ll review the scope, recommend the right engagement, and provide a fixed project quote — no obligation.",
+  ctaLabel: "Book a discovery call",
+}
 
 export const PRICING_TIERS: PricingTier[] = [
   {
-    name: "Starter",
-    tagline: "One focused deliverable, done right.",
-    price: "From $2,000",
+    name: "Landing Page",
+
+    tagline:
+      "A focused, high-converting launch experience.",
+
+    price: "$2,500",
+
     timeline: "1–2 weeks",
+
     bestFor:
-      "Landing pages, single-page sites, Shopify theme customisations, or standalone graphic design projects.",
+      "Founders, SaaS products, campaigns, and businesses that need a premium single-page website built fast.",
+
     included: [
-      "Custom design — no templates, ever",
-      "Development on Framer, Webflow, Shopify, Wix, or WordPress",
-      "Mobile-first responsive build",
-      "On-page SEO setup",
-      "2 rounds of revisions",
-      "Launch support and file handoff",
+      "Custom landing page design",
+      "Development in Framer or Webflow",
+      "Responsive optimisation",
+      "Core SEO and performance setup",
+      "Smooth interactions and animations",
+      "Launch support and final handoff",
     ],
+
     ctaLabel: "Start a project",
   },
+
   {
-    name: "Growth",
-    tagline: "A complete website built to convert.",
-    price: "From $4,000",
-    timeline: "2–4 weeks",
+    name: "Growth Website",
+
+    tagline:
+      "A complete website designed to scale your brand.",
+
+    price: "$5,000",
+
+    timeline: "2–5 weeks",
+
     bestFor:
-      "Multi-page websites, brand-led redesigns, e-commerce stores, or marketing sites that need to perform.",
+      "Multi-page websites, SaaS marketing sites, premium service brands, and modern e-commerce experiences.",
+
     included: [
-      "Everything in Starter",
-      "Up to 10 custom-designed pages",
-      "CMS setup and content architecture",
-      "Custom interactions and animations",
-      "Brand identity and visual direction",
-      "Performance tuning — 90+ Lighthouse scores",
-      "Unlimited revisions until you sign off",
+      "Everything included in Landing Page",
+      "Custom-designed multi-page experience",
+      "CMS setup and scalable content structure",
+      "Advanced interactions and motion systems",
+      "Brand direction and refined UI design",
+      "Performance and accessibility optimisation",
+      "Collaborative review process",
     ],
+
     popular: true,
+
     ctaLabel: "Start a project",
+
     ctaPrimary: true,
   },
+
   {
-    name: "Premium",
-    tagline: "Enterprise-grade, from strategy to launch.",
-    price: "From $9,500",
-    timeline: "4–8 weeks",
+    name: "Digital Product System",
+
+    tagline:
+      "Enterprise-level strategy, systems, and execution.",
+
+    price: "Custom",
+
+    timeline: "4–8+ weeks",
+
     bestFor:
-      "Complex platforms, full brand overhauls, custom web applications, or high-traffic e-commerce builds.",
+      "Complex platforms, custom applications, product ecosystems, and high-scale digital experiences.",
+
     included: [
-      "Everything in Growth",
-      "Discovery workshop and technical strategy",
-      "Unlimited pages and custom components",
-      "Advanced SEO and analytics integration",
-      "Graphic design — social kits, pitch decks, brand assets",
-      "Dedicated Slack channel with priority response",
-      "60 days of post-launch support included",
+      "Product strategy and discovery workshops",
+      "Custom UX systems and scalable architecture",
+      "Advanced development and API integrations",
+      "Design systems and reusable components",
+      "Analytics and conversion optimisation",
+      "Priority collaboration workflow",
+      "Post-launch support and iteration planning",
     ],
+
     ctaLabel: "Book a call",
   },
-];
+]

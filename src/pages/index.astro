@@ -3,10 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import AEOHeader from "../components/AEOHeader.astro";
 import Hero from "../components/Hero.astro";
 import ServicesMarquee from "../components/ServicesMarquee.astro";
-import AboutSection from "../components/AboutSection.astro";
 import StrayaOffer from "../components/StrayaOffer.astro";
 import Testimonials from "../components/Testimonials.astro";
 import SelectedWork from "../components/SelectedWork.astro";
+import Pricing from "../components/Pricing.astro";
 import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_CONFIG } from "../data/site-config";
@@ -33,25 +33,20 @@ const pageSchema = {
 <BaseLayout title={title} description={description} image={image}>
 	<AEOHeader />
 
-	<!-- 01: Hero -->
 	<Hero />
 
-	<!-- 02: About -->
-	<AboutSection />
-
-	<!-- 03: Selected Work -->
-	<SelectedWork />
-
-	<!-- 04: Social Proof -->
-	<Testimonials />
-
-	<!-- 06: Services -->
 	<ServicesMarquee />
 
-	<!-- 07: The Straya Offer — bento grid -->
+	<SelectedWork />
+
+	<Testimonials />
+
+
+
 	<StrayaOffer />
 
-	<!-- 08: FAQ -->
+	<Pricing />
+
 	<FAQ />
 
 	<Footer />

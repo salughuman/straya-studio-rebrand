@@ -83,14 +83,13 @@ const typeSpecs = [
         <h2 id="effects-heading" class="type-h3 text-on-background mb-6 pb-4 border-b border-black/5">Effects & Tokens</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/5">
           {[
-            { label: "Transition base",    value: tokens.effects.transition.base },
-            { label: "Transition elastic", value: tokens.effects.transition.elastic },
-            { label: "Duration normal",    value: tokens.effects.duration.normal },
-            { label: "Duration slow",      value: tokens.effects.duration.slow },
-            { label: "Depth 1",            value: tokens.effects.depth["1"] },
-            { label: "Depth 2",            value: tokens.effects.depth["2"] },
-            { label: "Border radius",      value: tokens.border.radius.DEFAULT },
-            { label: "Cursor",             value: tokens.cursor.DEFAULT },
+            { label: "Transition base",     value: tokens.effects.transition.base },
+            { label: "Duration entrance",   value: tokens.effects.duration.entrance },
+            { label: "Duration normal",     value: tokens.effects.duration.normal },
+            { label: "Duration slow",       value: tokens.effects.duration.slow },
+            { label: "Magnetic hover",      value: tokens.effects.magnetic.cta },
+            { label: "Grid gutter",         value: tokens.grid.gutter },
+            { label: "Border radius",       value: tokens.border.radius.DEFAULT },
           ].map(e => (
             <div class="bg-background p-5">
               <p class="type-label text-on-background mb-1">{e.label}</p>

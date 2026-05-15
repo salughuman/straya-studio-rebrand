@@ -1,822 +1,686 @@
 ---
-// WhyStraya.astro — Straya Studio [IMMERSIVE]
-// Bento grid with platform-faithful UI mockups (Framer, Webflow, Shopify).
-// GEMINI §3: scroll-linked entrance, unique interactive moment per card.
-// GEMINI §5: light mode tokens, no bold fonts, 0px radius.
+/**
+ * StrayaOffer.astro — inverse / primary strip (cream field + offer cards).
+ * Surfaces use design-tokens (primary, surface-container, inverse-panel); motion uses `--outline-variant-rgb` / `--accent-rgb` / `--fg-rgb` from `:root`.
+ */
 import Button from "./ui/buttons/Button.astro";
 const baseUrl = import.meta.env.BASE_URL;
+
+const cards = [
+  {
+    id: "speed",
+    eyebrow: "Speed",
+    title: "Launch-ready in days,\nnot months.",
+    body: "Most projects go from kickoff to live deployment within 2–4 weeks. No endless discovery phases, no waiting.",
+    stat: "2–4",
+    statLabel: "weeks avg.",
+    dark: true,
+  },
+  {
+    id: "quality",
+    eyebrow: "Quality",
+    title: "Pixel-perfect,\nevery breakpoint.",
+    body: "Every build is hand-checked at 375px, 768px, and 1440px before it ships. If it doesn't look right, it doesn't go live.",
+    dark: false,
+  },
+  {
+    id: "performance",
+    eyebrow: "Performance",
+    title: "90+ Lighthouse.\nEvery time.",
+    body: "Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking a sweat.",
+    dark: false,
+  },
+  {
+    id: "direct",
+    eyebrow: "Communication",
+    title: "Direct line\nto the engineer.",
+    body: "No account managers or ticket queues. You work with Salman directly — from discovery through launch.",
+    dark: true,
+  },
+];
 ---
 
 <section
   id="why"
-  aria-label="The Straya offer"
-  class="section-frosted section-y relative overflow-hidden"
+  aria-label="The Straya offer — four pillars"
+  class="relative overflow-hidden bg-primary text-inverse-on-surface pt-16 pb-16 md:pt-20 md:pb-20"
+  data-so2-root
 >
   <div class="main-container">
+
     <!-- Header -->
-    <header
-      class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8"
-    >
+    <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
-        <span
-          class="inline-block px-3 py-1 bg-brand-text-primary text-background font-mono text-xs uppercase tracking-widest -rotate-2 mb-6"
-        >
-          <span class="text-accent">[07]</span> / The Straya Offer
-        </span>
-        <h2
-          class="type-h2 text-on-background max-w-6xl"
-          style="word-spacing:-0.3em"
-          data-words-reveal
-          aria-label="Engineered for founders who ship fast."
-        >
-          <span
-            class="wpu-word inline-block"
-            style="--i:0;margin-right:0.25em"
-            aria-hidden="true">Engineered</span
-          >
-          <span
-            class="wpu-word inline-block"
-            style="--i:1;margin-right:0.25em"
-            aria-hidden="true">for</span
-          >
-          <span
-            class="wpu-word inline-block"
-            style="--i:2;margin-right:0.25em"
-            aria-hidden="true">founders</span
-          >
-          <span
-            class="wpu-word inline-block"
-            style="--i:3;margin-right:0.25em"
-            aria-hidden="true">who</span
-          >
-          <span
-            class="wpu-word inline-block"
-            style="--i:4;margin-right:0.25em"
-            aria-hidden="true">ship</span
-          >
-          <span class="wpu-word inline-block" style="--i:5" aria-hidden="true"
-            >fast.</span
-          >
+        <h2 class="type-h2 max-w-6xl mb-4 md:mb-6 tracking-tight">
+          Built different. Delivered fast.
         </h2>
       </div>
       <Button
-        href="#pricing"
+        href={`${baseUrl}contact`}
         label="Start a project"
-        variant="hero-pill"
-        class="ws-el flex-shrink-0"
-        data-delay="240"
+        variant="hero-pill-inverted"
+        class="flex-shrink-0"
       />
     </header>
 
-    <!-- Bento grid -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-px bg-black/5">
-      <p class="sr-only">
-        The Straya offer covers five key advantages: launch-ready delivery in
-        days not months, pixel-perfect builds hand-checked across all
-        breakpoints, 90+ Lighthouse performance scores, direct communication
-        with the founder throughout the project, and full ownership of all
-        deliverables with no lock-in.
-      </p>
+    <!-- 4-column equal row -->
+    <div
+      class="grid grid-cols-1 gap-[var(--grid-gutter)] md:grid-cols-4"
+      data-so2-grid
+    >
 
-      <!-- Card 1: Speed — Framer canvas mockup (wide) -->
-      <article
-        class="why-card md:col-span-7 bg-background flex flex-col overflow-hidden group"
-        aria-label="Launch-ready in days, not months"
-      >
-        <!-- Mockup: Framer canvas -->
-        <div
-          class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]"
+      {cards.map((card, i) => (
+        <article
+          class:list={[
+            "so2-card group relative flex max-h-[500px] min-h-0 flex-col overflow-hidden",
+            card.dark ? "bg-surface-container text-on-background" : "bg-inverse-panel text-inverse-on-surface",
+          ]}
+          data-so2-card={i}
+          data-so2-tone={card.dark ? "dark" : "light"}
+          aria-label={card.title.replace(/\n/g, ' ')}
         >
-          <!-- Framer-style toolbar -->
-          <div
-            class="absolute top-0 inset-x-0 flex items-center justify-between px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10"
-          >
-            <div class="flex items-center gap-2">
-              <div class="w-3 h-3 rounded-full bg-black/10"></div>
-              <span
-                class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"
-                >Framer</span
-              >
-            </div>
-            <div class="flex items-center gap-1.5">
-              <div
-                class="px-2 py-0.5 bg-accent/10 border border-accent/20 text-[8px] text-accent font-medium tracking-wide"
-              >
-                Preview
-              </div>
-              <div
-                class="px-2 py-0.5 bg-primary text-on-primary text-[8px] font-medium tracking-wide"
-              >
-                Publish
-              </div>
-            </div>
-          </div>
-          <!-- Canvas area -->
-          <div class="absolute inset-0 pt-8 flex items-center justify-center">
-            <!-- Grid dots -->
-            <div
-              class="absolute inset-0 framer-grid opacity-30"
-              aria-hidden="true"
-            >
-            </div>
-            <!-- Animated frame being built -->
-            <div class="relative w-48 h-28">
-              <div
-                class="framer-frame absolute inset-0 border border-accent/40 bg-surface-container-lowest shadow-sm"
-              >
-                <!-- Simulated component blocks -->
-                <div
-                  class="framer-block absolute top-3 left-3 right-3 h-3 bg-black/8 framer-anim"
-                  style="animation-delay:0ms"
-                >
-                </div>
-                <div
-                  class="framer-block absolute top-9 left-3 w-16 h-2 bg-black/5 framer-anim"
-                  style="animation-delay:120ms"
-                >
-                </div>
-                <div
-                  class="framer-block absolute top-9 right-3 w-10 h-2 bg-accent/20 framer-anim"
-                  style="animation-delay:240ms"
-                >
-                </div>
-                <div
-                  class="framer-block absolute bottom-3 left-3 w-20 h-5 bg-primary framer-anim"
-                  style="animation-delay:360ms"
-                >
-                </div>
-              </div>
-              <!-- Selection handles -->
-              <div
-                class="framer-handle absolute -top-1 -left-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim"
-                style="animation-delay:480ms"
-              >
-              </div>
-              <div
-                class="framer-handle absolute -top-1 -right-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim"
-                style="animation-delay:480ms"
-              >
-              </div>
-              <div
-                class="framer-handle absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim"
-                style="animation-delay:480ms"
-              >
-              </div>
-              <div
-                class="framer-handle absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-accent shadow-sm framer-anim"
-                style="animation-delay:480ms"
-              >
-              </div>
-              <!-- Tooltip -->
-              <div
-                class="framer-tooltip absolute -top-7 left-0 px-2 py-1 bg-primary text-on-primary text-[8px] whitespace-nowrap framer-anim"
-                style="animation-delay:600ms"
-              >
-                Hero Section · 768 × 480
-              </div>
-            </div>
-          </div>
-          <!-- Left panel: layers -->
-          <div
-            class="absolute left-0 top-8 bottom-0 w-24 bg-surface-container-lowest border-r border-black/5 p-2 flex flex-col gap-1"
-          >
-            {
-              ["Page", "Hero", "Navbar", "CTA", "Footer"].map((layer, i) => (
-                <div
-                  class="flex items-center gap-1.5 px-1.5 py-1 text-[8px] text-on-background/40 framer-layer"
-                  style={`animation-delay: ${i * 80}ms`}
-                >
-                  <div class="w-1.5 h-1.5 border border-black/20 flex-shrink-0" />
-                  {layer}
-                </div>
-              ))
-            }
-          </div>
-        </div>
-        <!-- Text -->
-        <div class="p-8 flex flex-col gap-3">
-          <h4 class="type-h4 text-on-background">
-            Launch-ready in days, not months
-          </h4>
-          <p class="type-body-small text-on-surface-variant leading-relaxed">
-            We move fast without cutting corners. Most projects go from kickoff
-            to live deployment within 2–4 weeks.
-          </p>
-        </div>
-      </article>
-
-      <!-- Card 2: Quality — Webflow designer mockup (narrow) -->
-      <article
-        class="why-card md:col-span-5 bg-background flex flex-col overflow-hidden group"
-        aria-label="Pixel-perfect, every time"
-      >
-        <!-- Mockup: Webflow designer -->
-        <div
-          class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[220px]"
-        >
-          <!-- Webflow toolbar -->
-          <div
-            class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10"
-          >
-            <div class="w-2 h-2 rounded-full bg-[#146EF5]/60"></div>
+          <!-- Eyebrow -->
+          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-0 pt-5 md:pt-6">
             <span
-              class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"
-              >Webflow</span
-            >
-            <div class="ml-auto flex gap-1">
-              {
-                ["D", "T", "M"].map((bp, i) => (
-                  <div
-                    class={`px-1.5 py-0.5 text-[8px] font-medium border ${i === 0 ? "bg-primary text-on-primary border-primary" : "border-black/10 text-on-background/30"}`}
-                  >
-                    {bp}
-                  </div>
-                ))
-              }
-            </div>
+              class:list={[
+                "type-label-small font-mono uppercase",
+                card.dark ? "text-on-background/50" : "text-inverse-on-surface/68",
+              ]}
+            >{card.eyebrow}</span>
           </div>
-          <!-- Style panel right -->
-          <div
-            class="absolute right-0 top-8 bottom-0 w-28 bg-surface-container-lowest border-l border-black/5 p-2 flex flex-col gap-2"
-          >
-            <div
-              class="text-[8px] text-on-background/30 font-medium uppercase tracking-wide mb-1"
-            >
-              Style
-            </div>
-            {
-              [
-                { label: "Width", val: "100%" },
-                { label: "Height", val: "auto" },
-                { label: "Padding", val: "48px" },
-                { label: "Font", val: "PP Mori" },
-              ].map((prop, i) => (
-                <div
-                  class="flex justify-between items-center webflow-prop"
-                  style={`animation-delay: ${i * 100}ms`}
-                >
-                  <span class="text-[8px] text-on-background/30">
-                    {prop.label}
-                  </span>
-                  <span class="text-[8px] text-on-background/60 bg-surface-container px-1 py-0.5">
-                    {prop.val}
-                  </span>
-                </div>
-              ))
-            }
-            <!-- Colour swatch -->
-            <div class="mt-1 flex items-center gap-1.5">
-              <div
-                class="w-4 h-4 border border-black/10 bg-primary flex-shrink-0"
-              >
-              </div>
-              <span class="text-[8px] text-on-background/40">#000000</span>
-            </div>
-          </div>
-          <!-- Canvas -->
-          <div
-            class="absolute inset-0 top-8 right-28 flex items-center justify-center p-4"
-          >
-            <div class="w-full max-w-[140px] flex flex-col gap-2">
-              <div class="webflow-el h-4 bg-black/8 w-3/4"></div>
-              <div
-                class="webflow-el h-2 bg-black/5 w-full"
-                style="animation-delay:80ms"
-              >
-              </div>
-              <div
-                class="webflow-el h-2 bg-black/5 w-5/6"
-                style="animation-delay:160ms"
-              >
-              </div>
-              <div
-                class="webflow-el h-7 bg-primary w-1/2 mt-1"
-                style="animation-delay:240ms"
-              >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="p-8 flex flex-col gap-3">
-          <h4 class="type-h4 text-on-background">Pixel-perfect, every time</h4>
-          <p class="type-body-small text-on-surface-variant leading-relaxed">
-            Every build is hand-checked across breakpoints.
-          </p>
-        </div>
-      </article>
 
-      <!-- Card 3: Performance — Lighthouse scores (full width) -->
-      <article
-        class="why-card md:col-span-12 bg-background flex flex-col md:flex-row overflow-hidden group"
-        aria-label="Built for performance and scale"
-      >
-        <!-- Mockup: Lighthouse report -->
-        <div
-          class="why-mockup relative overflow-hidden bg-surface-container-low border-b md:border-b-0 md:border-r border-black/5 min-h-[200px] md:w-1/2"
-        >
-          <div
-            class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10"
-          >
-            <div class="w-2 h-2 rounded-full bg-[#F4B400]/60"></div>
-            <span
-              class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"
-              >Lighthouse Report</span
-            >
+          <!-- Title -->
+          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pt-3 md:pt-4">
+            <h3
+              class:list={[
+                "font-display line-clamp-2 whitespace-pre-line font-semibold leading-[1.2] tracking-tight",
+                "text-[clamp(1.35rem,2vw,2rem)]",
+                card.dark ? "text-on-background" : "text-inverse-on-surface",
+              ]}
+            >{card.title}</h3>
           </div>
-          <div
-            class="absolute inset-0 top-8 flex items-center justify-center gap-6 px-6"
-          >
-            {
-              [
-                { label: "Performance", score: 99, color: "#DC5000" },
-                { label: "Accessibility", score: 100, color: "#DC5000" },
-                { label: "Best Practices", score: 100, color: "#DC5000" },
-                { label: "SEO", score: 100, color: "#DC5000" },
-              ].map((metric, i) => (
-                <div
-                  class="flex flex-col items-center gap-2 lighthouse-score"
-                  style={`animation-delay: ${i * 150}ms`}
-                >
-                  <div class="relative w-12 h-12">
-                    <svg
-                      class="w-full h-full -rotate-90"
-                      viewBox="0 0 36 36"
-                      aria-hidden="true"
+
+          <!-- Visual area — capped so card stays ≤500px tall -->
+          <div class="so2-vis relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-5 py-4 md:px-[var(--spacing-card-padding)] md:py-5">
+            {card.id === "speed" && (
+              <!-- Speed: radar-sweep milestone orbit; decorative -->
+              <div class="relative h-36 w-36 shrink-0 md:h-40 md:w-40" aria-hidden="true">
+                <!-- Dashed orbit -->
+                <div class="so2-speed-ring border-on-background/25 absolute inset-0 rounded-full border-2 border-dashed opacity-80"></div>
+                <!-- Conic radar sweep -->
+                <div class="so2-speed-radar absolute inset-[6%] rounded-full"></div>
+                <!-- Center pulse dot -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="so2-speed-dot bg-on-background relative block h-2.5 w-2.5 rounded-full"></span>
+                </div>
+                <!-- Milestone pills, evenly spaced N/E/S/W -->
+                {[
+                  { label: "Kickoff", angle: -90 },
+                  { label: "Design",  angle:   0 },
+                  { label: "Build",   angle:  90 },
+                  { label: "Ship",    angle: 180 },
+                ].map((m, mi) => {
+                  const rad = m.angle * Math.PI / 180;
+                  const r = 40;
+                  const x = 50 + r * Math.cos(rad);
+                  const y = 50 + r * Math.sin(rad);
+                  return (
+                    <div
+                      class="so2-speed-pill absolute"
+                      style={`left: ${x}%; top: ${y}%; animation-delay: ${mi * 220}ms;`}
                     >
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="15.9"
-                        fill="none"
-                        stroke="rgba(0,0,0,0.06)"
-                        stroke-width="2.5"
-                      />
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="15.9"
-                        fill="none"
-                        stroke={metric.color}
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        class="lighthouse-ring"
-                        data-score={metric.score}
-                        style={`animation-delay: ${i * 150 + 200}ms`}
-                      />
-                    </svg>
-                    <span class="absolute inset-0 flex items-center justify-center text-[11px] font-medium text-on-background">
-                      {metric.score}
-                    </span>
-                  </div>
-                  <span class="text-[7.5px] text-on-background/40 text-center leading-tight whitespace-nowrap">
-                    {metric.label}
-                  </span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-        <!-- Text -->
-        <div class="p-8 md:w-1/2 flex flex-col justify-center gap-3">
-          <h4 class="type-h4 text-on-background">
-            Built for performance and scale
-          </h4>
-          <p class="type-body-small text-on-surface-variant leading-relaxed">
-            Sub-second loads, 90+ Lighthouse scores, and infrastructure that
-            handles traffic spikes without breaking.
-          </p>
-          <div class="flex gap-4 mt-2">
-            {
-              [
-                ["< 1s", "FCP"],
-                ["≤ 0.05", "CLS"],
-                ["< 150ms", "TBT"],
-              ].map(([val, label]) => (
-                <div>
-                  <div class="type-h5 text-on-background">{val}</div>
-                  <div class="type-label text-on-background/30">{label}</div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 4: Communication — Slack-style thread (narrow) -->
-      <article
-        class="why-card md:col-span-5 bg-background flex flex-col overflow-hidden group"
-        aria-label="Direct line to the engineers"
-      >
-        <div
-          class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[200px]"
-        >
-          <div
-            class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10"
-          >
-            <div class="w-2 h-2 rounded-full bg-[#4A154B]/40"></div>
-            <span
-              class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"
-              ># straya-project</span
-            >
-          </div>
-          <div
-            class="absolute inset-0 top-8 flex flex-col gap-2 p-3 overflow-hidden"
-          >
-            {
-              [
-                {
-                  from: "Salman",
-                  msg: "Hero section is live — check preview link",
-                  time: "9:41 AM",
-                  self: false,
-                },
-                {
-                  from: "You",
-                  msg: "Looks great! Can we adjust the CTA colour?",
-                  time: "9:43 AM",
-                  self: true,
-                },
-                {
-                  from: "Salman",
-                  msg: "Done — pushed to staging ✓",
-                  time: "9:44 AM",
-                  self: false,
-                },
-              ].map((msg, i) => (
-                <div
-                  class={`flex flex-col gap-0.5 chat-msg ${msg.self ? "items-end" : "items-start"}`}
-                  style={`animation-delay: ${i * 300}ms`}
-                >
-                  <span class="text-[8px] text-on-background/30 px-1">
-                    {msg.from} · {msg.time}
-                  </span>
-                  <div
-                    class={`px-2.5 py-1.5 max-w-[80%] text-[9px] leading-relaxed ${msg.self ? "bg-surface-container text-on-background/60" : "bg-surface-container-lowest border border-black/5 text-on-background/70"}`}
-                  >
-                    {msg.msg}
-                  </div>
-                </div>
-              ))
-            }
-            <!-- Typing indicator -->
-            <div class="flex items-center gap-1 px-1 mt-1 chat-typing">
-              <span class="text-[8px] text-on-background/30"
-                >Salman is typing</span
-              >
-              <div class="flex gap-0.5">
-                {
-                  [0, 1, 2].map((i) => (
-                    <span
-                      class="w-1 h-1 rounded-full bg-on-background/20 typing-dot"
-                      style={`animation-delay: ${i * 150}ms`}
-                    />
-                  ))
-                }
+                      <span
+                        class="bg-surface-container text-on-background block whitespace-nowrap px-2 py-1 font-mono text-[8px] uppercase tracking-[0.06em]"
+                      >{m.label}</span>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="p-8 flex flex-col gap-3">
-          <h4 class="type-h4 text-on-background">
-            Direct line to the engineers
-          </h4>
-          <p class="type-body-small text-on-surface-variant leading-relaxed">
-            No account managers or ticket queues. You work with the same senior
-            engineers from discovery through launch.
-          </p>
-        </div>
-      </article>
+            )}
 
-      <!-- Card 5: Ownership — Shopify admin mockup (wide) -->
-      <article
-        class="why-card md:col-span-7 bg-background flex flex-col overflow-hidden group"
-        aria-label="Full ownership of every deliverable"
-      >
-        <div
-          class="why-mockup flex-1 relative overflow-hidden bg-surface-container-low border-b border-black/5 min-h-[200px]"
-        >
-          <div
-            class="absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-2 bg-surface-container-lowest border-b border-black/5 z-10"
-          >
-            <div class="w-2 h-2 rounded-full bg-[#96BF48]/60"></div>
-            <span
-              class="text-[9px] font-medium tracking-wide text-on-background/30 uppercase"
-              >Shopify Admin</span
-            >
-            <div class="ml-auto text-[8px] text-accent font-medium">● Live</div>
-          </div>
-          <!-- Sidebar -->
-          <div
-            class="absolute left-0 top-8 bottom-0 w-20 bg-surface-container-lowest border-r border-black/5 flex flex-col gap-0.5 p-1.5"
-          >
-            {
-              ["Dashboard", "Orders", "Products", "Customers", "Analytics"].map(
-                (item, i) => (
-                  <div
-                    class={`px-2 py-1 text-[8px] shopify-nav ${i === 0 ? "bg-surface-container text-on-background/70" : "text-on-background/30"}`}
-                    style={`animation-delay: ${i * 60}ms`}
-                  >
-                    {item}
-                  </div>
-                ),
-              )
-            }
-          </div>
-          <!-- Main content -->
-          <div class="absolute inset-0 top-8 left-20 p-3 flex flex-col gap-2">
-            <div class="grid grid-cols-3 gap-1.5">
-              {
-                [
-                  { label: "Revenue", val: "$12,480" },
-                  { label: "Orders", val: "84" },
-                  { label: "Conversion", val: "3.2%" },
-                ].map((stat, i) => (
-                  <div
-                    class="bg-surface-container-lowest border border-black/5 p-2 shopify-stat"
-                    style={`animation-delay: ${i * 100}ms`}
-                  >
-                    <div class="text-[8px] text-on-background/30 mb-0.5">
-                      {stat.label}
+            {card.id === "quality" && (
+              <!-- Quality: snapping breakpoint frame + inner responsive layout -->
+              <div class="so2-q-stage flex w-full max-w-[260px] flex-col items-center" aria-hidden="true">
+                <div class="flex w-full justify-center">
+                  <div class="so2-q-window so2-frame-mock bg-outline-variant relative w-full">
+                    <!-- Browser chrome -->
+                    <div class="border-inverse-panel/15 flex items-center gap-1 border-b px-2 py-1.5">
+                      {[0,1,2].map(() => (
+                        <div class="bg-inverse-panel/35 h-1.5 w-1.5 rounded-full"></div>
+                      ))}
+                      <div class="bg-inverse-panel/12 ml-auto h-1.5 w-10 rounded-sm"></div>
                     </div>
-                    <div class="text-[11px] font-medium text-on-background">
-                      {stat.val}
+                    <!-- Body (container-query root — children reflow with the frame's width) -->
+                    <div class="so2-q-body">
+                      <!-- Hero bar -->
+                      <div class="so2-q-hero flex items-center gap-2 px-2 pt-2">
+                        <div class="flex flex-1 flex-col gap-1">
+                          <div class="bg-inverse-panel/45 h-2 w-[55%] rounded-sm"></div>
+                          <div class="bg-inverse-panel/22 h-1 w-[80%] rounded-sm"></div>
+                        </div>
+                        <div class="bg-accent/75 h-2.5 w-7 rounded-[2px]"></div>
+                      </div>
+                      <!-- Responsive tile grid: 3 → 2 → 1 columns based on FRAME width -->
+                      <div class="so2-q-grid p-2">
+                        {[0,1,2].map(() => (
+                          <div class="so2-q-tile bg-inverse-panel/[0.10] flex flex-col gap-1 p-1.5">
+                            <div class="bg-inverse-panel/28 h-4 w-full rounded-sm"></div>
+                            <div class="bg-inverse-panel/22 h-1 w-[80%] rounded-sm"></div>
+                            <div class="bg-inverse-panel/14 h-1 w-[55%] rounded-sm"></div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+                    <!-- Scan line (sweeps top→bottom on each snap) -->
+                    <div class="so2-q-scan absolute inset-x-0"></div>
+                    <!-- Corner QA brackets -->
+                    <span class="so2-q-bracket so2-q-bracket--tl"></span>
+                    <span class="so2-q-bracket so2-q-bracket--tr"></span>
+                    <span class="so2-q-bracket so2-q-bracket--bl"></span>
+                    <span class="so2-q-bracket so2-q-bracket--br"></span>
                   </div>
-                ))
-              }
-            </div>
-            <!-- Mini chart -->
-            <div
-              class="flex-1 bg-surface-container-lowest border border-black/5 p-2 flex items-end gap-0.5"
-            >
-              {
-                [30, 55, 40, 70, 60, 85, 75, 90, 65, 95].map((h, i) => (
+                </div>
+                <!-- Cycling dimension labels -->
+                <div class="so2-q-labels relative mt-3 h-4 w-full">
+                  {[
+                    { label: "1440 × 900", delay: 0    },
+                    { label: "768 × 1024", delay: 2200 },
+                    { label: "375 × 812",  delay: 4400 },
+                  ].map(d => (
+                    <span
+                      class="so2-q-label type-label-small text-inverse-on-surface/72 absolute inset-x-0 text-center font-mono tracking-[0.1em]"
+                      style={`animation-delay: ${d.delay}ms`}
+                    >{d.label}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {card.id === "performance" && (
+              <!-- Circular score orbit -->
+              <div class="relative h-36 w-36 shrink-0 md:h-40 md:w-40" aria-hidden="true">
+                <!-- Dashed orbit -->
+                <div class="so2-orbit-dash border-black/18 absolute inset-0 rounded-full border-2 border-dashed opacity-80"></div>
+                <!-- Centre score -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span class="so2-score-pulse font-display text-inverse-on-surface text-[clamp(1.75rem,4vw,2.25rem)] font-normal leading-none tracking-tight">
+                    90+
+                  </span>
+                  <span class="type-label-small font-mono mt-1 text-inverse-on-surface/72 uppercase tracking-[0.08em]">
+                    Lighthouse
+                  </span>
+                </div>
+                <!-- Orbiting metric pills -->
+                {[
+                  { label: "Performance", angle: -60 },
+                  { label: "Accessibility", angle: 0 },
+                  { label: "Best Practices", angle: 60 },
+                  { label: "SEO", angle: 120 },
+                ].map((m, mi) => {
+                  const rad = (m.angle - 90) * Math.PI / 180;
+                  const r = 40;
+                  const x = 50 + r * Math.cos(rad);
+                  const y = 50 + r * Math.sin(rad);
+                  return (
+                    <div
+                      class="absolute so2-pill so2-volume-pill"
+                      style={`left: ${x}%; top: ${y}%; animation-delay: ${mi * 220}ms;`}
+                    >
+                      <span
+                        class="block whitespace-nowrap bg-surface-container px-2 py-1 font-mono text-[8px] uppercase tracking-[0.06em] text-on-background"
+                      >{m.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {card.id === "direct" && (
+              <div class="flex w-full flex-col gap-1.5" aria-hidden="true">
+                <!-- Channel header with live dot -->
+                <div class="mb-6m flex items-center gap-1.5">
+                  <span class="bg-accent h-1.5 w-1.5 rounded-full"></span>
+                  <span class="type-label-small text-on-background/80 font-mono uppercase tracking-[0.08em]">
+                    # straya-project
+                  </span>
+                </div>
+                {[
+                  { initial: "S", msg: "Hero section is live", self: false, delay: 0   },
+                  { initial: "Y", msg: "Looks great!",         self: true,  delay: 320 },
+                  { initial: "S", msg: "Pushed update",        self: false, delay: 640 },
+                ].map(m => (
                   <div
-                    class="flex-1 bg-accent/20 shopify-bar"
-                    style={`height: ${h}%; animation-delay: ${i * 60}ms`}
-                  />
-                ))
-              }
-            </div>
+                    class:list={[
+                      "so2-chat flex items-end gap-1.5",
+                      m.self ? "flex-row-reverse" : "",
+                    ]}
+                    style={`animation-delay: ${m.delay}ms`}
+                  >
+                    <span
+                      class:list={[
+                        "so2-chat-avatar flex h-4 w-4 shrink-0 items-center justify-center rounded-full font-mono text-[7px] font-semibold",
+                        m.self ? "bg-accent text-black" : "bg-on-background text-surface-container",
+                      ]}
+                    >{m.initial}</span>
+                    <div
+                      class:list={[
+                        "so2-chat-msg max-w-[78%] px-2.5 py-1 font-mono text-[9.5px] leading-snug",
+                        m.self
+                          ? "bg-accent text-black"
+                          : "bg-on-background text-surface-container",
+                      ]}
+                    >{m.msg}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-        <div class="p-8 flex flex-col gap-3">
-          <h4 class="type-h4 text-on-background">
-            Full ownership of every deliverable
-          </h4>
-          <p class="type-body-small text-on-surface-variant leading-relaxed">
-            Clean, documented, optimised code on your infrastructure. No
-            lock-in. Every asset, token and component is yours.
-          </p>
-        </div>
-      </article>
+
+          <!-- Body text -->
+          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-5 pt-1 md:pb-6">
+            <p
+              class:list={[
+                "type-body-small leading-relaxed",
+                card.dark ? "text-on-background/65" : "text-inverse-on-surface/82",
+              ]}
+            >{card.body}</p>
+          </div>
+
+        </article>
+      ))}
+
     </div>
+
   </div>
 </section>
 
 <style>
-  /* PERMITTED: CSS variable stagger + @keyframes for mockup animations */
-  .wpu-word {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(16px);
-    transition:
-      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      filter 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms),
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 60ms);
+  /* PERMITTED: @keyframes, layered shadows — card shells avoid outline borders */
+
+  /* ── Eyebrow rule ──────────────────────────────────────────── */
+  .so2-rule {
+    transition: width 600ms var(--transition-base) 200ms;
   }
-  [data-words-reveal].is-revealed .wpu-word {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
+  [data-so2-eyebrow].is-visible .so2-rule { width: 2.5rem; }
+
+  /* ── Cards: static depth (no hover lift) ─────────────────────── */
+  .so2-card {
+    box-shadow:
+      0 1px 0 rgba(var(--outline-variant-rgb), 0.06),
+      0 6px 20px rgba(var(--outline-variant-rgb), 0.06),
+      inset 0 1px 0 rgba(var(--fg-rgb), 0.04);
   }
 
-  /* ── why-card — visible by default ── */
+  [data-so2-tone="light"].so2-card {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      0 8px 26px rgba(0, 0, 0, 0.09),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
 
-  /* ── Framer canvas ─────────────────────────────────────────── */
-  .framer-grid {
-    background-image: radial-gradient(
-      circle,
-      rgba(0, 0, 0, 0.12) 1px,
-      transparent 1px
+  /* Mock browser chrome inside cards (decorative) — flat panel, no shadow */
+  .so2-frame-mock {
+    overflow: hidden;
+  }
+
+  /* ── Quality card — snapping breakpoint frame + scan + brackets ─ */
+  .so2-q-window {
+    transform-origin: top center;
+    animation: so2-q-snap 6.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    will-change: width;
+    height: 138px;
+  }
+  @keyframes so2-q-snap {
+    0%, 28%   { width: 100%; }
+    33%, 61%  { width: 65%; }
+    66%, 94%  { width: 38%; }
+    100%      { width: 100%; }
+  }
+
+  /* Body is a container — inner grid reflows on frame width */
+  .so2-q-body {
+    container-type: inline-size;
+  }
+  .so2-q-grid {
+    display: grid;
+    gap: 4px;
+    grid-template-columns: 1fr; /* mobile default (≈ 99px) */
+  }
+  @container (min-width: 130px) {
+    .so2-q-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @container (min-width: 200px) {
+    .so2-q-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Scan line: one top→bottom pass per snap (3 per full cycle) */
+  .so2-q-scan {
+    pointer-events: none;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--accent-rgb), 0.55) 50%,
+      transparent 100%
     );
-    background-size: 16px 16px;
+    filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.32));
+    opacity: 0;
+    animation: so2-q-scan-pass 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @keyframes so2-q-scan-pass {
+    0%   { top: 0%;   opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { top: 96%;  opacity: 1; }
+    100% { top: 100%; opacity: 0; }
   }
 
-  @keyframes framer-build {
-    0%,
-    10% {
-      opacity: 0;
-      transform: scaleX(0.8);
+  /* QA corner brackets — decorative inspection marks, not card borders */
+  .so2-q-bracket {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: solid rgba(var(--outline-variant-rgb), 0.55);
+    pointer-events: none;
+  }
+  .so2-q-bracket--tl { top: -5px;    left: -5px;  border-width: 1.5px 0 0 1.5px; }
+  .so2-q-bracket--tr { top: -5px;    right: -5px; border-width: 1.5px 1.5px 0 0; }
+  .so2-q-bracket--bl { bottom: -5px; left: -5px;  border-width: 0 0 1.5px 1.5px; }
+  .so2-q-bracket--br { bottom: -5px; right: -5px; border-width: 0 1.5px 1.5px 0; }
+
+  /* Dimension labels — staggered cycle (delays 0/2.2s/4.4s on a 6.6s loop) */
+  .so2-q-label {
+    opacity: 0;
+    animation: so2-q-label-cycle 6.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+  @keyframes so2-q-label-cycle {
+    0%, 30%   { opacity: 1; transform: translateY(0); }
+    35%, 100% { opacity: 0; transform: translateY(-4px); }
+  }
+
+  /* ── Lighthouse orbit — dashed ring breathes + pills float ───── */
+  @keyframes so2-orbit-breathe {
+    0%, 100% { opacity: 0.78; transform: scale(0.99); }
+    50%      { opacity: 1;    transform: scale(1.022); }
+  }
+  .so2-orbit-dash {
+    transform-origin: 50% 50%;
+    animation: so2-orbit-breathe 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes so2-score-pulse {
+    0%, 100% {
+      transform: scale(1);
+      text-shadow: 0 2px 6px rgba(var(--outline-variant-rgb), 0.08);
     }
-    30%,
-    80% {
+    50% {
+      transform: scale(1.022);
+      text-shadow:
+        0 6px 14px rgba(var(--outline-variant-rgb), 0.1),
+        0 0 18px rgba(var(--accent-rgb), 0.18);
+    }
+  }
+  .so2-score-pulse {
+    animation: so2-score-pulse 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform;
+  }
+
+  /* Pills: smooth fade arc (no rotate, no animated shadow — shadow is static on the inner span) */
+  @keyframes so2-volume-pill {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.86);
+    }
+    20%, 80% {
       opacity: 1;
-      transform: scaleX(1);
+      transform: translate(-50%, -50%) scale(1);
     }
-    95%,
     100% {
       opacity: 0;
-      transform: scaleX(0.8);
+      transform: translate(-50%, -50%) scale(0.92);
     }
   }
-
-  .framer-anim {
-    animation: framer-build 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  .so2-volume-pill {
+    transform-origin: center;
+    animation: so2-volume-pill 7.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform, opacity;
+  }
+  .so2-volume-pill > span {
+    box-shadow:
+      0 4px 10px rgba(var(--black-rgb), 0.3),
+      0 1px 2px rgba(var(--black-rgb), 0.18),
+      inset 0 1px 0 rgba(var(--fg-rgb), 0.1);
   }
 
-  .framer-layer {
-    animation: framer-build 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  /* ── Speed card — radar sweep + milestone orbit ─────────────── */
+  .so2-speed-ring {
+    transform-origin: 50% 50%;
+    animation: so2-speed-orbit-breathe 7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
-
-  /* ── Webflow designer ──────────────────────────────────────── */
-  @keyframes webflow-appear {
-    0%,
-    10% {
-      opacity: 0;
-      transform: translateY(4px);
+  @keyframes so2-speed-orbit-breathe {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(0.96);
+      filter: drop-shadow(0 2px 10px rgba(var(--outline-variant-rgb), 0.06));
     }
-    30%,
-    80% {
+    45% {
       opacity: 1;
-      transform: translateY(0);
+      transform: scale(1.04);
+      filter: drop-shadow(0 8px 24px rgba(var(--accent-rgb), 0.12));
     }
-    95%,
+  }
+
+  /* Conic radar wedge — masked into an inner annulus so it reads as a sweep */
+  .so2-speed-radar {
+    pointer-events: none;
+    background: conic-gradient(
+      from 0deg,
+      rgba(var(--accent-rgb), 0.42) 0deg,
+      rgba(var(--accent-rgb), 0.22) 24deg,
+      rgba(var(--accent-rgb), 0.06) 62deg,
+      rgba(var(--accent-rgb), 0) 96deg,
+      rgba(var(--accent-rgb), 0) 360deg
+    );
+    -webkit-mask: radial-gradient(circle, transparent 38%, #000 42%, #000 96%, transparent 100%);
+            mask: radial-gradient(circle, transparent 38%, #000 42%, #000 96%, transparent 100%);
+    animation: so2-speed-radar-spin 4.6s linear infinite;
+    will-change: transform;
+  }
+  @keyframes so2-speed-radar-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Center pulse dot */
+  .so2-speed-dot {
+    box-shadow:
+      0 0 0 0 rgba(var(--accent-rgb), 0.55),
+      0 6px 14px rgba(var(--black-rgb), 0.32);
+    animation: so2-speed-dot-pulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @keyframes so2-speed-dot-pulse {
+    0% {
+      box-shadow:
+        0 0 0 0 rgba(var(--accent-rgb), 0.55),
+        0 6px 14px rgba(var(--black-rgb), 0.32);
+    }
+    70% {
+      box-shadow:
+        0 0 0 14px rgba(var(--accent-rgb), 0),
+        0 6px 14px rgba(var(--black-rgb), 0.32);
+    }
     100% {
-      opacity: 0;
-      transform: translateY(4px);
+      box-shadow:
+        0 0 0 0 rgba(var(--accent-rgb), 0),
+        0 6px 14px rgba(var(--black-rgb), 0.32);
     }
   }
 
-  .webflow-el,
-  .webflow-prop {
-    animation: webflow-appear 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  /* Milestone pills — cycle in/out staggered */
+  .so2-speed-pill {
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+    animation: so2-speed-pill-cycle 6.2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
   }
-
-  /* ── Lighthouse rings ──────────────────────────────────────── */
-  @keyframes ring-99 {
-    0%,
-    15% {
-      stroke-dasharray: 0 100;
+  @keyframes so2-speed-pill-cycle {
+    0%, 8% {
       opacity: 0;
+      transform: translate(-50%, -50%) scale(0.78);
     }
-    50%,
-    85% {
-      stroke-dasharray: 99 100;
+    22%, 78% {
       opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      box-shadow:
+        0 6px 16px rgba(var(--black-rgb), 0.32),
+        0 2px 4px rgba(var(--black-rgb), 0.18),
+        inset 0 1px 0 rgba(var(--fg-rgb), 0.12);
     }
-    100% {
-      stroke-dasharray: 99 100;
+    92%, 100% {
       opacity: 0;
+      transform: translate(-50%, -50%) scale(0.9);
     }
   }
-  @keyframes ring-100 {
-    0%,
-    15% {
-      stroke-dasharray: 0 100;
+
+  /* ── Chat bubbles — full fade-out before next cycle ─────────── */
+  @keyframes so2-chat-slot {
+    0%, 8% {
       opacity: 0;
+      transform: translateY(5px) scale(0.985);
     }
-    50%,
-    85% {
-      stroke-dasharray: 100 100;
+    22%, 76% {
       opacity: 1;
+      transform: translateY(0) scale(1);
     }
-    100% {
-      stroke-dasharray: 100 100;
+    92%, 100% {
       opacity: 0;
+      transform: translateY(-3px) scale(0.99);
     }
   }
-
-  .lighthouse-ring[data-score="99"] {
-    stroke-dasharray: 0 100;
-    animation: ring-99 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  .so2-chat {
+    animation: so2-chat-slot 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    will-change: transform, opacity;
   }
-  .lighthouse-ring[data-score="100"] {
-    stroke-dasharray: 0 100;
-    animation: ring-100 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  .so2-chat-msg {
+    border-radius: var(--border-radius);
+    box-shadow:
+      0 2px 8px rgba(var(--black-rgb), 0.24),
+      inset 0 1px 0 rgba(var(--fg-rgb), 0.12);
   }
-
-  .lighthouse-score {
-    animation: webflow-appear 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  /* ── Chat messages ─────────────────────────────────────────── */
-  @keyframes chat-in {
-    0%,
-    5% {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    20%,
-    75% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    90%,
-    100% {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
+  .so2-chat-avatar {
+    box-shadow:
+      0 2px 6px rgba(var(--black-rgb), 0.22),
+      inset 0 1px 0 rgba(var(--fg-rgb), 0.18);
   }
 
-  .chat-msg {
-    animation: chat-in 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  @keyframes typing-bounce {
-    0%,
-    60%,
-    100% {
-      transform: translateY(0);
-      opacity: 0.3;
-    }
-    30% {
-      transform: translateY(-2px);
-      opacity: 0.8;
-    }
-  }
-
-  .typing-dot {
-    animation: typing-bounce 1.2s ease infinite;
-  }
-
-  .chat-typing {
-    animation: chat-in 5s 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  /* ── Shopify bars ──────────────────────────────────────────── */
-  @keyframes bar-rise {
-    0%,
-    10% {
-      transform: scaleY(0);
-      opacity: 0;
-    }
-    35%,
-    80% {
-      transform: scaleY(1);
-      opacity: 1;
-    }
-    95%,
-    100% {
-      transform: scaleY(0);
-      opacity: 0;
-    }
-  }
-
-  .shopify-bar {
-    transform-origin: bottom;
-    animation: bar-rise 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  .shopify-stat,
-  .shopify-nav {
-    animation: webflow-appear 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
+  /* ── Reduced motion ────────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .framer-anim,
-    .framer-layer,
-    .webflow-el,
-    .webflow-prop,
-    .lighthouse-ring,
-    .lighthouse-score,
-    .chat-msg,
-    .chat-typing,
-    .typing-dot,
-    .shopify-bar,
-    .shopify-stat,
-    .shopify-nav {
-      animation: none !important;
-      opacity: 1;
+    .so2-card {
+      transform: none !important;
     }
+    .so2-q-window {
+      animation: none !important;
+      width: 100% !important;
+      transform: none !important;
+    }
+    .so2-q-scan {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+    .so2-q-labels {
+      height: auto !important;
+      display: flex !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .so2-q-label {
+      animation: none !important;
+      position: static !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .so2-orbit-dash {
+      animation: none !important;
+      opacity: 0.95 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+    .so2-volume-pill {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) !important;
+    }
+    .so2-chat {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .so2-chat-msg {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .so2-speed-ring,
+    .so2-speed-radar,
+    .so2-speed-dot,
+    .so2-speed-pill {
+      animation: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+      will-change: auto !important;
+    }
+    .so2-speed-ring {
+      transform: none !important;
+      opacity: 0.95 !important;
+    }
+    .so2-speed-radar {
+      transform: rotate(35deg);
+      opacity: 0.55 !important;
+    }
+    .so2-speed-dot {
+      box-shadow:
+        0 0 0 0 rgba(var(--accent-rgb), 0.45),
+        0 6px 14px rgba(var(--black-rgb), 0.32) !important;
+    }
+    .so2-speed-pill {
+      transform: translate(-50%, -50%) !important;
+      box-shadow:
+        0 4px 12px rgba(var(--black-rgb), 0.28),
+        inset 0 1px 0 rgba(var(--fg-rgb), 0.1) !important;
+    }
+    .so2-rule { transition: none !important; }
   }
 </style>
 
 <script>
-  // ── Heading — one-time entry word reveal (§8.3) ─────────────
-  const whySection = document.getElementById("why");
-  if (whySection) {
-    const heading = whySection.querySelector<HTMLElement>(
-      "[data-words-reveal]",
-    );
-    if (heading) {
-      const reduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-      if (reduced) {
-        heading.classList.add("is-revealed");
-      } else {
-        const obs = new IntersectionObserver(
-          (entries) => {
-            if (!entries[0].isIntersecting) return;
-            heading.classList.add("is-revealed");
-            obs.disconnect();
-          },
-          { rootMargin: "0px 0px -80px 0px", threshold: 0 },
-        );
-        obs.observe(heading);
+  const initSO2 = () => {
+    const root = document.querySelector<HTMLElement>('[data-so2-root]');
+    if (!root) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Eyebrow rule
+    const eyebrow = root.querySelector<HTMLElement>('[data-so2-eyebrow]');
+    if (eyebrow) {
+      if (reduced) { eyebrow.classList.add('is-visible'); }
+      else {
+        const obs = new IntersectionObserver(e => {
+          if (!e[0].isIntersecting) return;
+          eyebrow.classList.add('is-visible');
+          obs.disconnect();
+        }, { rootMargin: '0px 0px -60px 0px' });
+        obs.observe(eyebrow);
       }
     }
-  }
-  // why-card entrance animation removed — cards visible by default
+
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-so2-card]'));
+
+    if (reduced) {
+      cards.forEach(c => c.style.setProperty('--p', '1'));
+      return;
+    }
+
+    document.addEventListener('astro:before-swap', () => {}, { once: true });
+  };
+
+  initSO2();
+  document.addEventListener('astro:after-swap', initSO2);
 </script>

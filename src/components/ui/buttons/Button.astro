@@ -11,7 +11,6 @@ interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
   label: string;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'hero-pill' | 'hero-pill-inverted' | 'text-link';
   size?: 'sm' | 'md' | 'lg';
-  iconCircle?: boolean;
 }
 
 const {
@@ -19,7 +18,6 @@ const {
   label,
   variant = 'primary',
   size = 'md',
-  iconCircle = false,
   class: className,
   ...rest
 } = Astro.props;
@@ -32,12 +30,12 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
     href={href}
     {...rest}
     class:list={[
-      "btn-pill-lusion group inline-flex items-center justify-center self-start rounded-full py-3.5 px-8 text-sm font-medium no-underline select-none tracking-[0.04em]",
+      "btn-pill-lusion group inline-flex items-center justify-center self-start rounded-full py-3 px-7 text-xs font-medium no-underline select-none tracking-[0.04em]",
       "active:scale-[0.98]",
       "disabled:pointer-events-none disabled:opacity-[0.64]",
-      "sm:text-base sm:py-4 sm:px-10",
-      "bg-[var(--color-bg-elevated)] text-[var(--color-fg)]",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-raised)]",
+      "sm:py-3.5 sm:px-8",
+      "bg-surface-container text-on-background",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dim",
       className,
     ]}
   >
@@ -50,7 +48,7 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
     {...rest}
     class:list={[
       "group inline-flex items-center gap-2 px-0 pb-px",
-      "font-medium text-sm tracking-[0.04em] uppercase no-underline select-none",
+      "font-medium text-xs tracking-[0.06em] uppercase no-underline select-none",
       "text-on-background/60",
       "bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat bg-[position:0_100%]",
       "transition-[color,background-size] duration-[240ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
@@ -77,19 +75,19 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
       "before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(0.5rem-1px)]",
       variant === 'primary' && [
         "border-primary bg-primary text-on-primary",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_1px_3px_rgba(0,0,0,0.24)]",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]",
         "hover:bg-primary/90",
         "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
       ],
       variant === 'secondary' && [
         "border-secondary bg-secondary text-on-secondary",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_1px_3px_rgba(0,0,0,0.24)]",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]",
         "hover:bg-secondary/90",
         "active:shadow-[inset_0_1px_0_rgba(0,0,0,0.08)]",
       ],
       variant === 'outline' && [
         "border-on-background/12 bg-background text-on-background",
-        "shadow-[0_1px_2px_rgba(0,0,0,0.06)] before:shadow-[inset_0_1px_0_rgba(0,0,0,0.06)]",
+        "before:shadow-[inset_0_1px_0_rgba(0,0,0,0.06)]",
         "hover:bg-on-background/5 hover:border-on-background/20",
         "active:shadow-none",
       ],
@@ -98,9 +96,9 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
         "hover:bg-on-background/8",
         "active:bg-on-background/12",
       ],
-      size === 'sm' && "h-8 gap-1.5 px-[calc(0.625rem-1px)] text-xs tracking-[0.04em] uppercase",
-      size === 'md' && "h-9 px-[calc(0.75rem-1px)] text-sm tracking-[0.04em] uppercase sm:h-8",
-      size === 'lg' && "h-10 px-[calc(0.875rem-1px)] text-base tracking-[0.03em] uppercase sm:h-9",
+      size === 'sm' && "h-8 gap-1.5 px-[calc(0.625rem-1px)] text-[11px] tracking-[0.05em] uppercase",
+      size === 'md' && "h-8 px-[calc(0.75rem-1px)] text-xs tracking-[0.04em] uppercase sm:h-8",
+      size === 'lg' && "h-9 px-[calc(0.875rem-1px)] text-sm tracking-[0.04em] uppercase sm:h-9",
       className,
     ]}
   >
@@ -118,8 +116,6 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
   .btn-pill-lusion {
     box-shadow:
       0 0 0 1px rgba(var(--fg-rgb), 0.08),
-      0 2px 8px rgba(var(--black-rgb), 0.5),
-      0 0 0 0 rgba(var(--accent-rgb), 0),
       inset 0 0 0 0 rgba(var(--accent-rgb), 0),
       inset 0 0 0 0 rgba(var(--accent-rgb), 0);
     transition: box-shadow 900ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -128,11 +124,11 @@ const isPill = variant === 'hero-pill' || variant === 'hero-pill-inverted';
   .btn-pill-lusion:hover {
     box-shadow:
       0 0 0 1px rgba(var(--fg-rgb), 0.08),
-      0 2px 8px rgba(var(--black-rgb), 0.5),
-      0 0 0 1.5px var(--color-accent),
       inset 0 0 20px 6px rgba(var(--accent-rgb), 0.30),
       inset 0 0 48px 16px rgba(var(--accent-rgb), 0.12);
   }
+
+  /* PERMITTED: staggered inset glow uses RGB channels from tokens (no Tailwind inset shadow presets). */
 
   @media (prefers-reduced-motion: reduce) {
     .btn-pill-lusion { transition: none; }
