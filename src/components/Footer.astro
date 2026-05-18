@@ -1,232 +1,182 @@
 ---
 /**
  * Footer.astro — Straya Studio
- * Light band (primary cream): brown typography, soft inverse-panel depth, no outline borders on panels.
+ * Multi-column nav bar + newsletter + oversized wordmark. Inspired by editorial dark footers.
  */
 import { SITE_CONFIG } from "../data/site-config";
-import Button from "./ui/buttons/Button.astro";
 
 const baseUrl = import.meta.env.BASE_URL;
 const year = new Date().getFullYear();
 
-/** Same scroll order as homepage + Navbar */
-const exploreLinks = [
-  { label: "About", href: `${baseUrl}#about` },
-  { label: "Work", href: `${baseUrl}#work` },
-  { label: "Testimonials", href: `${baseUrl}#testimonials` },
-  { label: "Services", href: `${baseUrl}#services` },
-  { label: "Offer", href: `${baseUrl}#why` },
-  { label: "FAQ", href: `${baseUrl}#faq` },
-];
-
-const socialLinks = [
-  { label: "LinkedIn", href: SITE_CONFIG.socials.agency_linkedin },
-  { label: "Framer", href: SITE_CONFIG.socials.framer },
-  { label: "Contra", href: SITE_CONFIG.socials.contra },
-  { label: "GitHub", href: SITE_CONFIG.socials.github },
-];
-
 const legalLinks = [
-  { label: "Privacy", href: `${baseUrl}privacy` },
-  { label: "Terms", href: `${baseUrl}terms` },
-  { label: "Sitemap", href: `${baseUrl}sitemap-page` },
+  { label: "Privacy Policy", href: `${baseUrl}privacy` },
+  { label: "Terms of Service", href: `${baseUrl}terms` },
+  { label: "Cookie Policy", href: `${baseUrl}privacy#cookies` },
+];
+
+const contactLinks = [
+  { label: "LinkedIn", href: SITE_CONFIG.socials.linkedIn, external: true },
+  {
+    label: SITE_CONFIG.email,
+    href: `mailto:${SITE_CONFIG.email}`,
+    external: false,
+  },
+];
+
+const serviceLinks = [
+  { label: "Framer", href: `${baseUrl}services/framer` },
+  { label: "Webflow", href: `${baseUrl}services/webflow` },
+  { label: "Shopify", href: `${baseUrl}services/shopify` },
+  { label: "Work", href: `${baseUrl}work` },
 ];
 ---
 
 <footer
   aria-label="Site footer"
-  class="footer-root relative overflow-hidden bg-primary text-inverse-on-surface"
+  class="relative overflow-hidden bg-background text-on-background"
 >
-  <!-- Warm light washes -->
+  <!-- ── Top info bar ─────────────────────────────────────────────── -->
   <div
-    class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_110%_70%_at_100%_-10%,rgba(var(--accent-rgb),0.09),transparent_52%)]"
-    aria-hidden="true"
-  ></div>
-  <div
-    class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_0%_100%,rgba(var(--outline-variant-rgb),0.07),transparent_50%)]"
-    aria-hidden="true"
-  ></div>
-
-  <div class="main-container relative z-10 pt-16 pb-12 md:pt-20 md:pb-14">
-    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
-      <!-- Brand + story -->
-      <div class="flex max-w-xl flex-col gap-7 lg:col-span-5">
-        <a
-          href={baseUrl}
-          class="inline-flex w-fit items-baseline gap-0 rounded-sm outline-none transition-opacity hover:opacity-85 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-          aria-label={SITE_CONFIG.name}
-        >
-          <span class="font-display text-5xl font-semibold leading-[0.82] tracking-tight md:text-6xl" aria-hidden="true">S</span>
-          <span
-            class="font-display text-3xl font-bold leading-none text-accent translate-y-[0.22em] md:text-4xl"
-            aria-hidden="true">.</span>
-        </a>
-
-        <p class="type-body m-0 max-w-[40ch] leading-relaxed text-inverse-on-surface/82 md:text-[1.05rem]">
-          {SITE_CONFIG.tagline} Founder-led Framer, Webflow, and Shopify work — tight scopes, fast cycles, and
-          performance you can measure.
-        </p>
-
-        <h2 class="type-h2 m-0 max-w-[16ch] font-medium leading-[1.06] tracking-tight">
-          Ready for a launch that feels inevitable?
-        </h2>
-
-        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <Button
-            href={`${baseUrl}contact`}
-            label="Start a project"
-            variant="hero-pill-inverted"
-            class="w-full justify-center focus-visible:ring-offset-primary sm:w-auto"
-          />
-          <a
-            href={SITE_CONFIG.socials.calendly}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="type-label-small inline-flex w-full items-center justify-center rounded-full bg-inverse-panel px-6 py-3.5 font-mono uppercase tracking-[0.1em] text-inverse-on-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-[transform,box-shadow,background-color] duration-200 motion-safe:hover:-translate-y-px hover:bg-inverse-panel/95 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:w-auto"
-          >
-            Book a 30-min call
-          </a>
-        </div>
-      </div>
-
-      <!-- Nav cluster + contact -->
-      <div class="flex flex-col gap-10 lg:col-span-7 lg:pl-2">
-        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-12 lg:gap-x-16">
-          <nav aria-label="Footer page links" class="flex flex-col gap-4">
-            <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/62">Explore</span>
-            <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
-              {
-                exploreLinks.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))
-              }
-              <li>
-                <a
-                  href={`${baseUrl}contact`}
-                  class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-          <nav aria-label="Social media" class="flex flex-col gap-4">
-            <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/62">Connect</span>
-            <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
-              {
-                socialLinks.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="footer-link type-label-small group inline-flex items-center gap-2 font-mono uppercase tracking-[0.1em] text-inverse-on-surface/88"
-                    >
-                      {link.label}
-                      <svg
-                        class="h-2.5 w-2.5 text-inverse-on-surface/45 transition-opacity group-hover:opacity-100"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2 8L8 2M8 2H4M8 2V6"
-                          stroke="currentColor"
-                          stroke-width="1.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </nav>
-        </div>
-
-        <div
-          class="flex flex-col gap-4 bg-inverse-panel px-6 py-6 text-inverse-on-surface shadow-[0_10px_36px_rgba(0,0,0,0.1),0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.78)] sm:px-8 sm:py-7"
-        >
-          <span class="type-label-small font-mono uppercase tracking-[0.14em] text-inverse-on-surface/72">Direct</span>
-          <a
-            href={`mailto:${SITE_CONFIG.email}`}
-            class="footer-link break-words font-mono text-base font-semibold tracking-tight text-inverse-on-surface md:text-lg"
-          >
-            {SITE_CONFIG.email}
-          </a>
-          <p class="type-caption m-0 max-w-[42ch] leading-relaxed text-inverse-on-surface/82">
-            Email is the fastest line — we reply within one business day. Calendly works too if you prefer a live
-            walkthrough.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Meta strip -->
+    class="border-b border-on-background/10 px-container-mobile pt-20 pb-8 md:px-container-desktop md:pt-44"
+  >
     <div
-      class="mt-14 flex flex-col gap-6 pt-10 shadow-[inset_0_1px_0_0_rgba(var(--outline-variant-rgb),0.14)] md:mt-16 md:flex-row md:items-center md:justify-between md:gap-8"
+      class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between"
     >
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="h-2 w-2 shrink-0 rounded-full bg-accent shadow-[0_0_0_3px_rgba(var(--accent-rgb),0.2)]" aria-hidden="true"></span>
-        <span class="type-label-small font-mono uppercase tracking-[0.12em] text-inverse-on-surface/72">
-          Accepting new briefs
-        </span>
+      <!-- Link columns -->
+      <div class="flex flex-wrap gap-10 md:gap-14">
+        <nav aria-label="Legal links" class="flex flex-col gap-[0.6rem]">
+          {
+            legalLinks.map((link) => (
+              <a href={link.href} class="footer-nav-link">
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <nav aria-label="Contact links" class="flex flex-col gap-[0.6rem]">
+          {
+            contactLinks.map((link) => (
+              <a
+                href={link.href}
+                class="footer-nav-link"
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <nav aria-label="Service links" class="flex flex-col gap-[0.6rem]">
+          {
+            serviceLinks.map((link) => (
+              <a href={link.href} class="footer-nav-link">
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
       </div>
 
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 md:justify-end">
-        <span class="type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/58">
-          © {year} Straya Studio
+      <!-- Newsletter -->
+      <div class="flex flex-col gap-3 md:max-w-[22rem] md:flex-1">
+        <span
+          class="type-label-small font-semibold uppercase tracking-blueprint text-on-background"
+        >
+          Our Newsletter
         </span>
-        {
-          legalLinks.map((link) => (
-            <a
-              href={link.href}
-              class="footer-link type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/68"
-            >
-              {link.label}
-            </a>
-          ))
-        }
-        <span class="type-label-small font-mono uppercase tracking-[0.1em] text-inverse-on-surface/52">Lahore, Pakistan</span>
+        <form
+          class="flex items-center gap-4 border-b border-on-background/30 pb-2"
+          novalidate
+          aria-label="Newsletter signup"
+        >
+          <input
+            type="email"
+            placeholder="Email address here"
+            aria-label="Email address"
+            class="type-body-small min-w-0 flex-1 bg-transparent text-on-background placeholder:text-on-background/40 outline-none"
+          />
+          <button
+            type="submit"
+            class="type-label-small whitespace-nowrap uppercase tracking-blueprint text-on-background transition-colors duration-normal ease-luxury hover:text-accent"
+          >
+            Sign-Up
+          </button>
+        </form>
       </div>
+
+      <!-- Copyright -->
+      <p
+        class="type-label-small uppercase tracking-blueprint text-on-background/50 md:self-start"
+      >
+        ©{year}
+      </p>
     </div>
+  </div>
+
+  <!-- ── Giant wordmark ────────────────────────────────────────────── -->
+  <div class="overflow-hidden" aria-hidden="true">
+    <p
+      id="footer-wordmark"
+      class="select-none whitespace-nowrap font-display font-black leading-none text-on-background"
+      style="font-size: clamp(8rem, 25vw, 48rem); line-height: 0.82; letter-spacing: -0.04em;"
+    >
+      Straya
+    </p>
   </div>
 </footer>
 
-<style>
-  .footer-link {
-    text-decoration: none;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition:
-      color 200ms cubic-bezier(0.16, 1, 0.3, 1),
-      background-size 220ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .footer-link:hover,
-  .footer-link:focus-visible {
-    color: var(--color-outline-variant);
-    background-size: 100% 1px;
-  }
-  .footer-link:focus-visible {
-    outline: 2px solid rgb(var(--accent-rgb));
-    outline-offset: 3px;
-    border-radius: 2px;
+<script>
+  function fitWordmark() {
+    const el = document.getElementById("footer-wordmark");
+    if (!el) return;
+
+    // Measure in an unconstrained clone so overflow-hidden doesn't clamp the width
+    const probe = el.cloneNode(true) as HTMLElement;
+    const cs = getComputedStyle(el);
+    probe.style.cssText = [
+      "position:fixed",
+      "top:-9999px",
+      "left:-9999px",
+      "visibility:hidden",
+      "pointer-events:none",
+      "white-space:nowrap",
+      "font-size:200px",
+      `font-family:${cs.fontFamily}`,
+      `font-weight:${cs.fontWeight}`,
+      "letter-spacing:-0.04em",
+    ].join(";");
+    document.body.appendChild(probe);
+    const naturalWidth = probe.getBoundingClientRect().width;
+    document.body.removeChild(probe);
+
+    if (!naturalWidth) return;
+    const scale = document.documentElement.clientWidth / naturalWidth;
+    el.style.fontSize = 200 * scale + "px";
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .footer-link {
-      transition: none;
-    }
+  document.fonts.ready.then(fitWordmark);
+  window.addEventListener("resize", fitWordmark);
+</script>
+
+<style>
+  .footer-nav-link {
+    font-family: var(--font-body);
+    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.72rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 237, 215, 0.55);
+    text-decoration: none;
+    transition: color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .footer-nav-link:hover {
+    color: #ffedd7;
+  }
+  .footer-nav-link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 </style>

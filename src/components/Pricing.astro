@@ -1,7 +1,7 @@
 ---
 /**
- * Pricing.astro — project tiers on primary cream band (aligned with StrayaOffer).
- * Light / dark card tones, gutter grid, static depth — no scroll-driven motion.
+ * Pricing.astro — Straya Studio
+ * Premium dark editorial pricing — tier indices, oversized price, accent featured card.
  */
 import {
   PRICING_TIERS,
@@ -22,12 +22,14 @@ const tierCtaHref = (tierName: string, index: number) => {
   if (index === 2) return SITE_CONFIG.socials.calendly;
   return `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tierSlug(tierName))}`;
 };
+
+const indices = ["01", "02", "03"];
 ---
 
 <section
   id="pricing"
   aria-label="Project pricing tiers"
-  class="relative overflow-hidden bg-primary text-inverse-on-surface pt-16 pb-16 md:pt-20 md:pb-20"
+  class="relative bg-background text-on-background overflow-hidden"
 >
   <p class="sr-only">
     Straya Studio offers three project-based pricing tiers with no retainers or subscriptions.
@@ -35,196 +37,219 @@ const tierCtaHref = (tierName: string, index: number) => {
     Digital Product System is a custom engagement (4–8+ weeks) for complex platforms.
   </p>
 
-  <div class="main-container">
-    <header class="mb-12 flex flex-col gap-8 md:mb-14 md:flex-row md:items-end md:justify-between md:gap-10">
-      <div class="max-w-3xl">
-        <h2 class="type-h2 m-0 max-w-5xl tracking-tight">
-          {PRICING_HEADLINE}
-        </h2>
-        <p
-          class="type-label-small mt-5 inline-flex items-center gap-2 font-mono uppercase tracking-[0.1em] text-inverse-on-surface/62"
-          role="status"
-        >
-          <span class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+  <!-- Section header -->
+  <div class="main-container pt-20 pb-14 md:pt-28 md:pb-16">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-16">
+
+      <div class="flex-1">
+        <p class="type-label-small mb-5 inline-flex items-center gap-2 uppercase tracking-blueprint text-on-background/50" role="status">
+          <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
           {PRICING_BADGE}
         </p>
+        <h2 class="type-h2 m-0 max-w-2xl tracking-tight text-on-background">
+          {PRICING_HEADLINE}
+        </h2>
       </div>
-      <div class="flex flex-col gap-5 md:max-w-md md:items-end md:text-right lg:max-w-lg">
-        <p class="type-body text-left max-w-[52ch] leading-relaxed text-inverse-on-surface/78">
-          {PRICING_SUBTITLE}
-        </p>
-      </div>
-    </header>
 
-    <div class="grid grid-cols-1 gap-[var(--grid-gutter)] md:grid-cols-3" role="list">
+      <p class="type-body m-0 max-w-[44ch] text-on-background/60 md:text-right leading-relaxed">
+        {PRICING_SUBTITLE}
+      </p>
+
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="main-container">
+    <div class="pricing-rule"></div>
+  </div>
+
+  <!-- Cards -->
+  <div class="main-container py-0">
+    <div class="grid grid-cols-1 md:grid-cols-3" role="list">
       {
         PRICING_TIERS.map((tier, i) => {
-          const dark = Boolean(tier.popular);
+          const featured = Boolean(tier.popular);
           const href = tierCtaHref(tier.name, i);
           const external = i === 2;
           return (
             <article
               class:list={[
-                "pricing-card group relative flex min-h-0 flex-col overflow-hidden",
-                dark ? "bg-surface-container text-on-background" : "bg-inverse-panel text-inverse-on-surface",
+                "pricing-card group relative flex flex-col",
+                featured ? "pricing-card--featured" : "",
+                i < PRICING_TIERS.length - 1 ? "pricing-card--bordered" : "",
               ]}
-              data-pricing-tone={dark ? "dark" : "light"}
               role="listitem"
               aria-label={`${tier.name} — ${tier.price}`}
             >
-              <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-0 pt-5 md:pt-6">
-                
-              </div>
+              <!-- Card inner -->
+              <div class="flex flex-1 flex-col px-8 pt-8 pb-8 md:px-10 md:pt-10 md:pb-10">
 
-              <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pt-3 md:pt-4">
-                <h3
-                  class:list={[
-                    "font-display line-clamp-2 font-semibold leading-[1.12] tracking-tight",
-                    "text-[clamp(1.35rem,2vw,1.85rem)]",
-                    dark ? "text-on-background" : "text-inverse-on-surface",
-                  ]}
-                >
-                  {tier.name}
-                </h3>
-                <p
-                  class:list={[
-                    "type-body-small m-0 mt-2 leading-relaxed",
-                    dark ? "text-on-background/65" : "text-inverse-on-surface/72",
-                  ]}
-                >
-                  {tier.tagline}
-                </p>
-              </div>
+                <!-- Index + name row -->
+                <div class="flex items-start justify-between mb-8">
+                  <span class="pricing-index">{indices[i]}</span>
+                  {featured && (
+                    <span class="pricing-badge">Most Popular</span>
+                  )}
+                </div>
 
-              <div
-                class="pricing-vis relative flex min-h-[7.5rem] flex-shrink-0 flex-col justify-center px-[var(--spacing-card-padding)] py-5 md:min-h-[8.5rem] md:py-6"
-                aria-hidden="true"
-              >
-                <span
-                  class:list={[
-                    "type-label-small mb-2 block font-mono uppercase tracking-[0.1em]",
-                    dark ? "text-on-background/45" : "text-inverse-on-surface/50",
-                  ]}
-                >
-                  From
-                </span>
-                <p
-                  class:list={[
-                    "pricing-price m-0 font-display font-medium leading-[0.95] tracking-tight",
-                    dark ? "text-on-background" : "text-inverse-on-surface",
-                  ]}
-                >
-                  {tier.price}
-                </p>
-                <p
-                  class:list={[
-                    "type-label-small m-0 mt-3 font-mono uppercase tracking-[0.08em]",
-                    dark ? "text-on-background/50" : "text-inverse-on-surface/55",
-                  ]}
-                >
-                  {tier.timeline}
-                </p>
-                <div class="pricing-vis-rule mt-4" aria-hidden="true"></div>
-              </div>
+                <!-- Name & tagline -->
+                <div class="mb-8">
+                  <h3 class:list={[
+                    "font-display font-semibold leading-tight tracking-tight mb-2",
+                    "text-[clamp(1.5rem,2.2vw,2rem)]",
+                    featured ? "text-on-background" : "text-on-background/90",
+                  ]}>
+                    {tier.name}
+                  </h3>
+                  <p class="type-body-small m-0 text-on-background/50 leading-relaxed">
+                    {tier.tagline}
+                  </p>
+                </div>
 
-              <div class="flex flex-1 flex-col px-[var(--spacing-card-padding)] pb-5 pt-1 md:pb-6">
-                <p
-                  class:list={[
-                    "type-body-small m-0 mb-5 leading-relaxed",
-                    dark ? "text-on-background/70" : "text-inverse-on-surface/78",
-                  ]}
-                >
+                <!-- Price block -->
+                <div class="mb-8 pb-8 pricing-price-block">
+                  <p class="type-label-small mb-3 uppercase tracking-blueprint text-on-background/40">Starting from</p>
+                  <p class:list={[
+                    "pricing-price font-display font-black leading-none tracking-tight m-0",
+                    featured ? "text-on-background" : "text-on-background/85",
+                  ]}>
+                    {tier.price}
+                  </p>
+                  <p class="type-label-small mt-3 uppercase tracking-blueprint text-on-background/45 m-0">
+                    {tier.timeline}
+                  </p>
+                </div>
+
+                <!-- Best for -->
+                <p class="type-body-small m-0 mb-6 text-on-background/55 leading-relaxed">
                   {tier.bestFor}
                 </p>
-                <ul class="m-0 flex flex-1 list-none flex-col gap-2.5 p-0" aria-label={`${tier.name} includes`}>
+
+                <!-- Features -->
+                <ul class="m-0 flex flex-1 list-none flex-col gap-3 p-0 mb-10" aria-label={`${tier.name} includes`}>
                   {
                     tier.included.map((feature) => (
-                      <li class="flex items-start gap-2.5">
-                        <svg
-                          class="mt-0.5 h-3 w-3 shrink-0 text-accent"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M2 6.5L4.5 9L10 3.5"
-                            stroke="currentColor"
-                            stroke-width="1.2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                        <span
-                          class:list={[
-                            "type-body-small leading-snug",
-                            dark ? "text-on-background/85" : "text-inverse-on-surface/88",
-                          ]}
-                        >
+                      <li class="flex items-start gap-3">
+                        <span class="pricing-check-icon mt-0.5 shrink-0" aria-hidden="true">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6.5L4.5 9L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        <span class="type-body-small text-on-background/75 leading-snug">
                           {feature}
                         </span>
                       </li>
                     ))
                   }
                 </ul>
-              </div>
 
-              <div class="mt-auto flex-shrink-0 px-[var(--spacing-card-padding)] pb-5 md:pb-6">
-                <Button
-                  href={href}
-                  label={tier.ctaLabel}
-                  variant={dark ? "hero-pill" : "hero-pill-inverted"}
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noopener noreferrer" : undefined}
-                  class="w-full justify-center"
-                  aria-label={`${tier.ctaLabel} — ${tier.name}`}
-                />
+                <!-- CTA -->
+                <div class="mt-auto">
+                  <Button
+                    href={href}
+                    label={tier.ctaLabel}
+                    variant={featured ? "hero-pill" : "hero-pill-inverted"}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    class="w-full justify-center"
+                    aria-label={`${tier.ctaLabel} — ${tier.name}`}
+                  />
+                </div>
+
               </div>
             </article>
           );
         })
       }
     </div>
-
-    <p class="type-caption m-0 mt-8 text-center text-inverse-on-surface/55">{PRICING_TRUST_LINE}</p>
   </div>
+
+  <!-- Trust line -->
+  <div class="main-container pb-16 md:pb-24">
+    <div class="pricing-rule mb-8"></div>
+    <p class="type-caption m-0 text-center text-on-background/40">{PRICING_TRUST_LINE}</p>
+  </div>
+
 </section>
 
 <style>
-  .pricing-card {
-    box-shadow:
-      0 1px 0 rgba(var(--outline-variant-rgb), 0.06),
-      0 6px 20px rgba(var(--outline-variant-rgb), 0.06),
-      inset 0 1px 0 rgba(var(--fg-rgb), 0.04);
-  }
-
-  [data-pricing-tone="light"].pricing-card {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.05),
-      0 8px 26px rgba(0, 0, 0, 0.09),
-      inset 0 1px 0 rgba(255, 255, 255, 0.75);
-  }
-
-  .pricing-price {
-    font-size: clamp(1.65rem, 2.4vw, 2.35rem);
-  }
-
-  .pricing-vis-rule {
+  .pricing-rule {
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      rgba(var(--accent-rgb), 0.55) 0%,
-      rgba(var(--accent-rgb), 0.08) 55%,
-      transparent 100%
-    );
+    background: rgba(255, 237, 215, 0.08);
   }
 
-  [data-pricing-tone="dark"] .pricing-vis-rule {
-    background: linear-gradient(
-      90deg,
-      rgba(var(--accent-rgb), 0.75) 0%,
-      rgba(255, 237, 215, 0.12) 55%,
-      transparent 100%
-    );
+  /* Card base */
+  .pricing-card {
+    border-top: 1px solid rgba(255, 237, 215, 0.08);
+    transition: background 300ms cubic-bezier(0.16, 1, 0.30, 1);
   }
 
+  /* Vertical divider between cards */
+  .pricing-card--bordered {
+    border-right: 1px solid rgba(255, 237, 215, 0.08);
+  }
+
+  /* Featured / popular card */
+  .pricing-card--featured {
+    background: rgba(255, 237, 215, 0.035);
+    border-top: 1px solid rgba(220, 80, 0, 0.6);
+    position: relative;
+  }
+
+  .pricing-card--featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(220, 80, 0, 0.9) 40%, rgba(220, 80, 0, 0.4) 100%);
+  }
+
+  /* Hover lift for non-featured */
+  .pricing-card:not(.pricing-card--featured):hover {
+    background: rgba(255, 237, 215, 0.02);
+  }
+
+  /* Tier index */
+  .pricing-index {
+    font-family: var(--font-body);
+    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.72rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 237, 215, 0.25);
+  }
+
+  /* Popular badge */
+  .pricing-badge {
+    font-family: var(--font-body);
+    font-size: clamp(0.6rem, 0.58rem + 0.1vw, 0.68rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #DC5000;
+    border: 1px solid rgba(220, 80, 0, 0.35);
+    padding: 0.25rem 0.6rem;
+    line-height: 1;
+  }
+
+  /* Price */
+  .pricing-price {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    letter-spacing: -0.04em;
+  }
+
+  /* Separator below price block */
+  .pricing-price-block {
+    border-bottom: 1px solid rgba(255, 237, 215, 0.07);
+  }
+
+  /* Check icon */
+  .pricing-check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #DC5000;
+  }
 </style>

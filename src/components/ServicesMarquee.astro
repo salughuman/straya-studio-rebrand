@@ -67,11 +67,26 @@ function segmentsFor(project: ServiceProject): string[] {
 ---
 
 <section
-  class="section-frosted relative overflow-hidden py-20 md:py-28"
+  class="section-frosted relative overflow-hidden pt-16 pb-20 md:pt-20 md:pb-28"
   id="services"
   aria-labelledby="services-heading"
 >
-  <div class="main-container">
+  <!-- Background image (same as about section) -->
+  <img
+    src="/images/about/about-bg.webp"
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+    loading="lazy"
+    decoding="async"
+  />
+  <!-- Darkening overlay for text legibility -->
+  <div
+    class="pointer-events-none absolute inset-0 z-[1] bg-background/70"
+    aria-hidden="true"
+  ></div>
+
+  <div class="main-container relative z-10">
     <header class="services-section-head pb-10 md:pb-14">
       
       <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">

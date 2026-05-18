@@ -28,7 +28,7 @@ const baseUrl = import.meta.env.BASE_URL;
       center project title that updates as each project enters view.
     </p>
 
-    <div class="w-full py-12 md:py-32">
+    <div class="w-full pt-16 pb-12 md:pt-20 md:pb-32">
       <div
         class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0"
         data-work-rows
@@ -83,13 +83,13 @@ const baseUrl = import.meta.env.BASE_URL;
           >
             <div class="w-full max-w-lg">
               <ul
-                class="flex flex-col gap-3 md:gap-4"
+                class="flex flex-col items-center gap-3 md:gap-4"
                 aria-label="Project titles"
               >
                 {
                   SELECTED_PROJECTS.map((project, i) => (
                     <li
-                      class="work-title-item font-display font-normal tracking-tight leading-[0.88] text-[clamp(2.5rem,5.5vw,5.5rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
+                      class="work-title-item w-full text-center font-display font-normal tracking-tight leading-[0.88] text-[clamp(2.5rem,5.5vw,5.5rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
                       data-work-title-item
                       data-index={i}
                     >

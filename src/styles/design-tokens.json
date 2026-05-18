@@ -103,7 +103,7 @@
   "letterSpacing": "-0.06em",
   "fontFamily": "'Spline Sans', 'Helvetica Neue', sans-serif"},
         "h2": {
-            "fontSize": "clamp(1.75rem, 1rem + 2.65vw, 3.625rem)",
+            "fontSize": "clamp(1.925rem, 1.1rem + 2.915vw, 3.9875rem)",
             "fontWeight": "600",
             "lineHeight": "1.04",
             "letterSpacing": "-0.018em",

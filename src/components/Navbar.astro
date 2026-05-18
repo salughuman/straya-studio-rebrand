@@ -11,12 +11,12 @@ const baseUrl = import.meta.env.BASE_URL;
 
 /** Order matches `src/pages/index.astro` main scroll sections (after Hero). */
 const navLinks = [
-  { label: "About",         href: `${baseUrl}#about` },
-  { label: "Work",          href: `${baseUrl}#work` },
-  { label: "Testimonials",  href: `${baseUrl}#testimonials` },
-  { label: "Services",      href: `${baseUrl}#services` },
-  { label: "Offer",         href: `${baseUrl}#why` },
-  { label: "FAQ",           href: `${baseUrl}#faq` },
+  { label: "Services", href: `${baseUrl}#services` },
+  { label: "Work", href: `${baseUrl}#work` },
+  { label: "Testimonials", href: `${baseUrl}#testimonials` },
+  { label: "Offer", href: `${baseUrl}#why` },
+  { label: "Pricing", href: `${baseUrl}#pricing` },
+  { label: "FAQ", href: `${baseUrl}#faq` },
 ];
 
 const navCtaLabel = "Start a project";
@@ -26,57 +26,67 @@ const navCtaLabel = "Start a project";
 <nav
   id="navbar"
   aria-label="Main navigation"
-  class="pointer-events-none fixed inset-x-0 top-2 z-50 w-full"
+  class="pointer-events-none fixed inset-x-0 top-0 z-50 w-full"
 >
   <div
-    class="main-container pointer-events-auto flex items-center justify-between gap-6 py-3 sm:py-4"
+    class="main-container pointer-events-auto flex items-center justify-between gap-6 py-4 sm:py-5"
   >
     <a
       href={baseUrl}
-      class="shrink-0 rounded-sm outline-none transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      class="shrink-0 rounded-sm outline-none transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label={SITE_CONFIG.name}
     >
-      <span class="font-display inline-flex items-baseline gap-0 font-semibold tracking-tight text-on-background" aria-hidden="true">
-        <span class="text-4xl leading-[0.85] sm:text-5xl">S</span>
-        <span class="text-2xl leading-none text-accent sm:text-3xl translate-y-[0.22em]">.</span>
+      <span class="straya-logo" aria-hidden="true">
+        <span class="straya-logo__word">straya</span>
+        <span class="straya-logo__mark"></span>
       </span>
+      <span class="sr-only">Straya Studio</span>
     </a>
 
-    <div class="flex shrink-0 items-center gap-3 sm:gap-4 md:gap-6">
-      <div class="hidden items-center gap-5 md:flex md:gap-8 lg:gap-8">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            data-nav-link
-            class="global-nav-link whitespace-nowrap  py-2 font-mono text-sm font-medium tracking-[0.06em] uppercase text-on-background/90 transition-colors duration-200 hover:text-on-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            {link.label}
-          </a>
-        ))}
+    <div class="flex shrink-0 items-center gap-3 sm:gap-4 md:gap-5">
+      <!-- Desktop pill nav -->
+      <div
+        class="nav-glass hidden items-center gap-1 rounded-full py-1.5 pl-2 pr-2 md:flex"
+      >
+        <div class="flex items-center gap-0.5 pl-3 pr-2">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                data-nav-link
+                class="global-nav-link relative whitespace-nowrap px-3 py-2 text-[0.75rem] font-medium tracking-[0.02em] text-on-background/60 transition-colors duration-200 hover:text-on-background/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+        <div class="nav-divider mx-1 h-4 w-px shrink-0 bg-on-background/15"></div>
         <Button
           href={`${baseUrl}contact`}
           label={navCtaLabel}
           variant="hero-pill"
-          class="!py-2.5 !px-6 text-xs sm:!py-3 sm:!px-8"
+          class="!py-2 !px-5 !text-[0.72rem] sm:!py-2.5 sm:!px-6"
         />
       </div>
 
+      <!-- Mobile toggle -->
       <button
         id="nav-toggle"
         type="button"
-        class="nav-icon-btn relative inline-flex h-10 w-10 rounded-md text-on-background transition-colors hover:text-on-background/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
+        class="nav-icon-btn relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-on-background/12 bg-background/60 backdrop-blur-sm text-on-background transition-all duration-200 hover:border-on-background/25 hover:bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
         <span class="nav-toggle-face nav-toggle-face--menu" aria-hidden="true">
-          <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
-            <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
         </span>
         <span class="nav-toggle-face nav-toggle-face--close" aria-hidden="true">
-          <svg class="nav-toggle-svg" viewBox="0 0 24 24" width="20" height="20" fill="none">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
         </span>
       </button>
@@ -91,57 +101,68 @@ const navCtaLabel = "Start a project";
   aria-modal="false"
   aria-hidden="true"
   aria-labelledby="mobile-menu-title"
-  class="fixed inset-x-0 top-0 z-40 bg-surface-dim flex flex-col md:hidden h-dvh"
+  class="fixed inset-x-0 top-0 z-40 bg-background flex flex-col md:hidden h-dvh"
 >
   <h2 id="mobile-menu-title" class="sr-only">Site menu</h2>
 
-  <!-- Header row — logo left, close right (matches main nav) -->
-  <div class="main-container flex flex-shrink-0 items-center justify-between border-b border-on-background/20 py-4">
+  <!-- Header row -->
+  <div
+    class="main-container flex flex-shrink-0 items-center justify-between py-5 border-b border-on-background/10"
+  >
     <a
       href={baseUrl}
-      class="shrink-0 rounded-sm outline-none transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dim"
+      class="shrink-0 rounded-sm outline-none transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label={SITE_CONFIG.name}
     >
-      <span class="font-display inline-flex items-baseline gap-0 font-semibold tracking-tight text-on-background" aria-hidden="true">
-        <span class="text-4xl leading-[0.85] sm:text-5xl">S</span>
-        <span class="text-2xl leading-none text-accent sm:text-3xl translate-y-[0.22em]">.</span>
+      <span class="straya-logo" aria-hidden="true">
+        <span class="straya-logo__word">straya</span>
+        <span class="straya-logo__mark"></span>
       </span>
+      <span class="sr-only">Straya Studio</span>
     </a>
     <button
       id="nav-close"
       type="button"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-md text-on-background transition-colors hover:text-on-background/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dim"
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-on-background/12 text-on-background transition-all duration-200 hover:border-on-background/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label="Close menu"
     >
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
+        <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
     </button>
   </div>
 
   <!-- Links -->
-  <nav class="flex-1 flex flex-col justify-start gap-0 pt-4 pb-3 overflow-y-auto px-5 md:px-12" aria-label="Mobile navigation">
-    {navLinks.map((link, i) => (
-      <a
-        href={link.href}
-        class="mobile-link block w-full border-b border-on-background/15 last:border-0 py-5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
-        data-nav-link
-        data-i={i}
-      >
-        <div class="flex items-center justify-between">
-          <span class="font-display font-normal tracking-tight text-on-background" style="font-size: clamp(1.8rem, 7vw, 2.5rem);">
+  <nav
+    class="flex-1 flex flex-col justify-start overflow-y-auto"
+    aria-label="Mobile navigation"
+  >
+    {
+      navLinks.map((link, i) => (
+        <a
+          href={link.href}
+          class="mobile-link flex items-center justify-between px-5 py-5 border-b border-on-background/08 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent md:px-12"
+          data-nav-link
+          data-i={i}
+        >
+          <span
+            class="font-display font-light tracking-tight text-on-background"
+            style="font-size: clamp(1.9rem, 7.5vw, 2.8rem); letter-spacing: -0.03em;"
+          >
             {link.label}
           </span>
-          <svg class="h-4 w-4 text-on-background/45" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </a>
-    ))}
+          <span class="mobile-link__arrow flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-on-background/12 text-on-background/30 transition-all duration-200">
+            <svg class="h-3.5 w-3.5" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      ))
+    }
   </nav>
 
   <!-- Footer CTA -->
-  <div class="px-5 md:px-12 pb-10 flex-shrink-0 flex flex-col gap-3">
+  <div class="px-5 pb-10 pt-6 flex-shrink-0 flex flex-col gap-3 border-t border-on-background/08 md:px-12">
     <Button
       href={`${baseUrl}contact`}
       label={navCtaLabel}
@@ -150,7 +171,7 @@ const navCtaLabel = "Start a project";
     />
     <a
       href={`mailto:${SITE_CONFIG.email}`}
-      class="font-mono text-xs uppercase tracking-[0.08em] text-on-background/70 text-center underline decoration-on-background/30 underline-offset-2 transition-colors duration-200 hover:text-on-background hover:decoration-on-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dim rounded-sm"
+      class="text-[0.7rem] font-medium tracking-[0.06em] uppercase text-on-background/40 text-center transition-colors duration-200 hover:text-on-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
     >
       {SITE_CONFIG.email}
     </a>
@@ -158,26 +179,96 @@ const navCtaLabel = "Start a project";
 </div>
 
 <style>
-  /* PERMITTED: backdrop-filter, clip-path animation, @keyframes */
-
-  /* Global nav link style */
-  .global-nav-link.is-active {
-    @apply text-on-background;
-    box-shadow: inset 0 -2px 0 rgba(var(--accent-rgb), 0.95);
+  /* ── Straya wordmark logo ──────────────────────────────────── */
+  .straya-logo {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    line-height: 1;
   }
 
-  /* ── Hamburger toggle faces ────────────────────────────────── */
+  .straya-logo__word {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.5vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    color: #ffedd7;
+    line-height: 1;
+  }
+
+  /* Orange parallelogram accent mark — sits top-right like a prime/apostrophe */
+  .straya-logo__mark {
+    position: absolute;
+    top: 5px;
+    right: -0.32em;
+    width: 0.5em;
+    height: 0.25em;
+    rotate: -35deg;
+    background: #dc5000;
+    clip-path: polygon(22% 0%, 100% 0%, 78% 100%, 0% 100%);
+  }
+
+  /* ── Desktop nav pill ─────────────────────────────────────── */
+  .nav-glass {
+    position: relative;
+    isolation: isolate;
+    background: rgba(8, 6, 5, 0.78);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 237, 215, 0.1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 237, 215, 0.07),
+      0 20px 40px -12px rgba(0, 0, 0, 0.6),
+      0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Subtle accent highlight along the top edge */
+  .nav-glass::after {
+    content: "";
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 0;
+    height: 1px;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(220, 80, 0, 0.5) 40%, rgba(220, 80, 0, 0.2) 100%);
+    opacity: 0.8;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .nav-glass {
+      background: rgba(8, 6, 5, 0.95);
+    }
+  }
+
+  /* Nav link base & active state */
+  .global-nav-link {
+    font-family: var(--font-body);
+  }
+  .global-nav-link.is-active {
+    color: rgba(255, 237, 215, 0.92);
+  }
+  .global-nav-link.is-active::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    border-radius: 9999px;
+    background: #dc5000;
+  }
+
+  /* ── Mobile icon button ────────────────────────────────────── */
   #nav-toggle,
   #nav-close {
     -webkit-tap-highlight-color: transparent;
-    align-items: center;
-    justify-content: center;
     padding: 0;
-    border: none;
-    background: transparent;
+    border-width: 1px;
     cursor: pointer;
   }
-  #nav-close { display: inline-flex; }
   .nav-toggle-face {
     position: absolute;
     inset: 0;
@@ -186,9 +277,15 @@ const navCtaLabel = "Start a project";
     justify-content: center;
     pointer-events: none;
   }
-  #nav-toggle .nav-toggle-face--close { display: none; }
-  #nav-toggle.is-open .nav-toggle-face--menu { display: none; }
-  #nav-toggle.is-open .nav-toggle-face--close { display: flex; }
+  #nav-toggle .nav-toggle-face--close {
+    display: none;
+  }
+  #nav-toggle.is-open .nav-toggle-face--menu {
+    display: none;
+  }
+  #nav-toggle.is-open .nav-toggle-face--close {
+    display: flex;
+  }
 
   /* ── Mobile menu slide ─────────────────────────────────────── */
   #mobile-menu {
@@ -204,68 +301,89 @@ const navCtaLabel = "Start a project";
   /* ── Mobile link stagger ───────────────────────────────────── */
   .mobile-link {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
     transition:
       opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       color 0.2s ease;
     text-decoration: none;
-    @apply text-on-background;
+    color: rgba(255, 237, 215, 0.85);
   }
-  #mobile-menu.is-open .mobile-link { opacity: 1; transform: translateY(0); }
-  #mobile-menu.is-open .mobile-link[data-i="0"] { transition-delay: 0.10s; }
-  #mobile-menu.is-open .mobile-link[data-i="1"] { transition-delay: 0.15s; }
-  #mobile-menu.is-open .mobile-link[data-i="2"] { transition-delay: 0.20s; }
-  #mobile-menu.is-open .mobile-link[data-i="3"] { transition-delay: 0.25s; }
-  #mobile-menu.is-open .mobile-link[data-i="4"] { transition-delay: 0.30s; }
-  #mobile-menu.is-open .mobile-link[data-i="5"] { transition-delay: 0.35s; }
+  .mobile-link:hover {
+    color: #ffedd7;
+  }
+  .mobile-link:hover .mobile-link__arrow {
+    border-color: rgba(255, 237, 215, 0.25);
+    color: rgba(255, 237, 215, 0.6);
+  }
+  #mobile-menu.is-open .mobile-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #mobile-menu.is-open .mobile-link[data-i="0"] { transition-delay: 0.08s; }
+  #mobile-menu.is-open .mobile-link[data-i="1"] { transition-delay: 0.12s; }
+  #mobile-menu.is-open .mobile-link[data-i="2"] { transition-delay: 0.16s; }
+  #mobile-menu.is-open .mobile-link[data-i="3"] { transition-delay: 0.20s; }
+  #mobile-menu.is-open .mobile-link[data-i="4"] { transition-delay: 0.24s; }
+  #mobile-menu.is-open .mobile-link[data-i="5"] { transition-delay: 0.28s; }
 
-  .mobile-link.is-active span.font-display { @apply text-accent; }
+  .mobile-link.is-active > span.font-display {
+    color: #dc5000;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     #mobile-menu { transition: none; }
-    .mobile-link { transition: none; opacity: 1; transform: none; }
+    .mobile-link {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
   }
 </style>
 
 <script>
   const initNavbar = () => {
-    const toggle      = document.getElementById('nav-toggle');
-    const menu        = document.getElementById('mobile-menu');
-    const closeBtn    = document.getElementById('nav-close');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const toggle = document.getElementById("nav-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const closeBtn = document.getElementById("nav-close");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
 
     const open = () => {
-      menu?.classList.add('is-open');
-      menu?.setAttribute('aria-hidden', 'false');
-      menu?.setAttribute('aria-modal', 'true');
-      toggle?.classList.add('is-open');
-      toggle?.setAttribute('aria-expanded', 'true');
-      toggle?.setAttribute('aria-label', 'Close menu');
-      document.body.style.overflow = 'hidden';
+      menu?.classList.add("is-open");
+      menu?.setAttribute("aria-hidden", "false");
+      menu?.setAttribute("aria-modal", "true");
+      toggle?.classList.add("is-open");
+      toggle?.setAttribute("aria-expanded", "true");
+      toggle?.setAttribute("aria-label", "Close menu");
+      document.body.style.overflow = "hidden";
     };
 
     const close = () => {
-      menu?.classList.remove('is-open');
-      menu?.setAttribute('aria-hidden', 'true');
-      menu?.setAttribute('aria-modal', 'false');
-      toggle?.classList.remove('is-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-      toggle?.setAttribute('aria-label', 'Open menu');
-      document.body.style.overflow = '';
+      menu?.classList.remove("is-open");
+      menu?.setAttribute("aria-hidden", "true");
+      menu?.setAttribute("aria-modal", "false");
+      toggle?.classList.remove("is-open");
+      toggle?.setAttribute("aria-expanded", "false");
+      toggle?.setAttribute("aria-label", "Open menu");
+      document.body.style.overflow = "";
     };
 
-    toggle?.addEventListener('click', () => menu?.classList.contains('is-open') ? close() : open());
-    closeBtn?.addEventListener('click', close);
-    mobileLinks.forEach(l => l.addEventListener('click', close));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    toggle?.addEventListener("click", () =>
+      menu?.classList.contains("is-open") ? close() : open(),
+    );
+    closeBtn?.addEventListener("click", close);
+    mobileLinks.forEach((l) => l.addEventListener("click", close));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
 
     // ── Active section tracking ───────────────────────────────
-    const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+    const allNavLinks =
+      document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
     const seenIds = new Set<string>();
     const sectionIds: string[] = [];
     allNavLinks.forEach((link) => {
-      const id = link.getAttribute('href')?.split('#')[1];
+      const id = link.getAttribute("href")?.split("#")[1];
       if (id && !seenIds.has(id)) {
         seenIds.add(id);
         sectionIds.push(id);
@@ -274,19 +392,24 @@ const navCtaLabel = "Start a project";
 
     const setActive = (id: string) => {
       allNavLinks.forEach((link) => {
-        const href = link.getAttribute('href') ?? '';
+        const href = link.getAttribute("href") ?? "";
         const active = href.endsWith(`#${id}`);
-        link.classList.toggle('is-active', active);
-        if (active) link.setAttribute('aria-current', 'true');
-        else link.removeAttribute('aria-current');
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
       });
     };
 
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); });
-    }, { rootMargin: '-10% 0px -60% 0px', threshold: 0 });
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-10% 0px -60% 0px", threshold: 0 },
+    );
 
-    sectionIds.forEach(id => {
+    sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) sectionObserver.observe(el);
     });
@@ -296,5 +419,5 @@ const navCtaLabel = "Start a project";
   };
 
   initNavbar();
-  document.addEventListener('astro:after-swap', initNavbar);
+  document.addEventListener("astro:after-swap", initNavbar);
 </script>

@@ -1,7 +1,6 @@
 ---
 /**
- * StrayaOffer.astro — inverse / primary strip (cream field + offer cards).
- * Surfaces use design-tokens (primary, surface-container, inverse-panel); motion uses `--outline-variant-rgb` / `--accent-rgb` / `--fg-rgb` from `:root`.
+ * StrayaOffer.astro — four pillars. Dark editorial treatment.
  */
 import Button from "./ui/buttons/Button.astro";
 const baseUrl = import.meta.env.BASE_URL;
@@ -9,33 +8,31 @@ const baseUrl = import.meta.env.BASE_URL;
 const cards = [
   {
     id: "speed",
+    index: "01",
     eyebrow: "Speed",
     title: "Launch-ready in days,\nnot months.",
-    body: "Most projects go from kickoff to live deployment within 2–4 weeks. No endless discovery phases, no waiting.",
-    stat: "2–4",
-    statLabel: "weeks avg.",
-    dark: true,
+    body: "Most projects go from kickoff to live in 2–4 weeks. No endless discovery phases, no waiting.",
   },
   {
     id: "quality",
+    index: "02",
     eyebrow: "Quality",
     title: "Pixel-perfect,\nevery breakpoint.",
-    body: "Every build is hand-checked at 375px, 768px, and 1440px before it ships. If it doesn't look right, it doesn't go live.",
-    dark: false,
+    body: "Every build is hand-checked at 375 px, 768 px, and 1440 px. If it doesn't look right, it doesn't ship.",
   },
   {
     id: "performance",
+    index: "03",
     eyebrow: "Performance",
     title: "90+ Lighthouse.\nEvery time.",
     body: "Sub-second loads, 90+ Lighthouse scores, and infrastructure that handles traffic spikes without breaking a sweat.",
-    dark: false,
   },
   {
     id: "direct",
+    index: "04",
     eyebrow: "Communication",
     title: "Direct line\nto the engineer.",
     body: "No account managers or ticket queues. You work with Salman directly — from discovery through launch.",
-    dark: true,
   },
 ];
 ---
@@ -43,611 +40,567 @@ const cards = [
 <section
   id="why"
   aria-label="The Straya offer — four pillars"
-  class="relative overflow-hidden bg-primary text-inverse-on-surface pt-16 pb-16 md:pt-20 md:pb-20"
+  class="relative overflow-hidden bg-background text-on-background"
   data-so2-root
 >
-  <div class="main-container">
 
-    <!-- Header -->
-    <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div>
-        <h2 class="type-h2 max-w-6xl mb-4 md:mb-6 tracking-tight">
-          Built different. Delivered fast.
-        </h2>
+  <!-- Section header -->
+  <div class="main-container pt-20 pb-14 md:pt-28 md:pb-16">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-16">
+      <h2 class="type-h2 m-0 max-w-2xl tracking-tight text-on-background">
+        Built different.<br/>Delivered fast.
+      </h2>
+      <div class="flex flex-col items-start gap-5 md:items-end md:text-right">
+        <p class="type-body m-0 max-w-[40ch] text-on-background/55 leading-relaxed">
+          Senior-led execution across every project — no hand-offs, no surprises.
+        </p>
+        <Button
+          href={`${baseUrl}contact`}
+          label="Start a project"
+          variant="hero-pill"
+          class="flex-shrink-0"
+        />
       </div>
-      <Button
-        href={`${baseUrl}contact`}
-        label="Start a project"
-        variant="hero-pill-inverted"
-        class="flex-shrink-0"
-      />
-    </header>
+    </div>
+  </div>
 
-    <!-- 4-column equal row -->
-    <div
-      class="grid grid-cols-1 gap-[var(--grid-gutter)] md:grid-cols-4"
-      data-so2-grid
-    >
+  <!-- Top rule -->
+  <div class="main-container">
+    <div class="so2-rule"></div>
+  </div>
+
+  <!-- Cards grid -->
+  <div class="main-container" data-so2-grid>
+    <div class="grid grid-cols-1 md:grid-cols-4">
 
       {cards.map((card, i) => (
         <article
-          class:list={[
-            "so2-card group relative flex max-h-[500px] min-h-0 flex-col overflow-hidden",
-            card.dark ? "bg-surface-container text-on-background" : "bg-inverse-panel text-inverse-on-surface",
-          ]}
+          class="so2-card group relative flex flex-col"
+          class:list={[ i < cards.length - 1 ? "so2-card--bordered" : "" ]}
           data-so2-card={i}
-          data-so2-tone={card.dark ? "dark" : "light"}
           aria-label={card.title.replace(/\n/g, ' ')}
         >
-          <!-- Eyebrow -->
-          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-0 pt-5 md:pt-6">
-            <span
-              class:list={[
-                "type-label-small font-mono uppercase",
-                card.dark ? "text-on-background/50" : "text-inverse-on-surface/68",
-              ]}
-            >{card.eyebrow}</span>
-          </div>
+          <div class="flex flex-1 flex-col px-7 pt-8 pb-8 md:px-8 md:pt-10 md:pb-10">
 
-          <!-- Title -->
-          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pt-3 md:pt-4">
-            <h3
-              class:list={[
-                "font-display line-clamp-2 whitespace-pre-line font-semibold leading-[1.2] tracking-tight",
-                "text-[clamp(1.35rem,2vw,2rem)]",
-                card.dark ? "text-on-background" : "text-inverse-on-surface",
-              ]}
-            >{card.title}</h3>
-          </div>
+            <!-- Index + eyebrow -->
+            <div class="mb-6 flex items-center justify-between">
+              <span class="so2-index">{card.index}</span>
+              <span class="so2-eyebrow">{card.eyebrow}</span>
+            </div>
 
-          <!-- Visual area — capped so card stays ≤500px tall -->
-          <div class="so2-vis relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-5 py-4 md:px-[var(--spacing-card-padding)] md:py-5">
-            {card.id === "speed" && (
-              <!-- Speed: radar-sweep milestone orbit; decorative -->
-              <div class="relative h-36 w-36 shrink-0 md:h-40 md:w-40" aria-hidden="true">
-                <!-- Dashed orbit -->
-                <div class="so2-speed-ring border-on-background/25 absolute inset-0 rounded-full border-2 border-dashed opacity-80"></div>
-                <!-- Conic radar sweep -->
-                <div class="so2-speed-radar absolute inset-[6%] rounded-full"></div>
-                <!-- Center pulse dot -->
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="so2-speed-dot bg-on-background relative block h-2.5 w-2.5 rounded-full"></span>
-                </div>
-                <!-- Milestone pills, evenly spaced N/E/S/W -->
-                {[
-                  { label: "Kickoff", angle: -90 },
-                  { label: "Design",  angle:   0 },
-                  { label: "Build",   angle:  90 },
-                  { label: "Ship",    angle: 180 },
-                ].map((m, mi) => {
-                  const rad = m.angle * Math.PI / 180;
-                  const r = 40;
-                  const x = 50 + r * Math.cos(rad);
-                  const y = 50 + r * Math.sin(rad);
-                  return (
-                    <div
-                      class="so2-speed-pill absolute"
-                      style={`left: ${x}%; top: ${y}%; animation-delay: ${mi * 220}ms;`}
-                    >
-                      <span
-                        class="bg-surface-container text-on-background block whitespace-nowrap px-2 py-1 font-mono text-[8px] uppercase tracking-[0.06em]"
-                      >{m.label}</span>
+            <!-- Visual -->
+            <div
+              class="so2-vis relative mb-8 flex items-center justify-center overflow-hidden"
+              style="height: 160px;"
+              aria-hidden="true"
+            >
+              {card.id === "speed" && (
+                <div class="sp-terminal w-full">
+                  <!-- Terminal chrome -->
+                  <div class="flex items-center gap-1.5 border-b border-on-background/8 px-3 py-2">
+                    <span class="h-[5px] w-[5px] rounded-full bg-on-background/15"></span>
+                    <span class="h-[5px] w-[5px] rounded-full bg-on-background/15"></span>
+                    <span class="h-[5px] w-[5px] rounded-full bg-on-background/15"></span>
+                    <span class="ml-2.5 font-mono text-[7.5px] tracking-[0.06em] text-on-background/25">$ deploy --production</span>
+                    <span class="sp-cursor ml-px font-mono text-[7.5px] text-accent">▌</span>
+                  </div>
+                  <!-- Log rows -->
+                  <div class="flex flex-col gap-[5px] px-3 py-3">
+                    <div class="sp-row-1 flex items-center gap-2">
+                      <svg class="shrink-0 text-on-background/30" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span class="font-mono text-[8.5px] tracking-[0.04em] text-on-background/50">Kickoff</span>
+                      <span class="ml-auto font-mono text-[7.5px] text-on-background/22">Day 1</span>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {card.id === "quality" && (
-              <!-- Quality: snapping breakpoint frame + inner responsive layout -->
-              <div class="so2-q-stage flex w-full max-w-[260px] flex-col items-center" aria-hidden="true">
-                <div class="flex w-full justify-center">
-                  <div class="so2-q-window so2-frame-mock bg-outline-variant relative w-full">
-                    <!-- Browser chrome -->
-                    <div class="border-inverse-panel/15 flex items-center gap-1 border-b px-2 py-1.5">
-                      {[0,1,2].map(() => (
-                        <div class="bg-inverse-panel/35 h-1.5 w-1.5 rounded-full"></div>
-                      ))}
-                      <div class="bg-inverse-panel/12 ml-auto h-1.5 w-10 rounded-sm"></div>
+                    <div class="sp-row-2 flex items-center gap-2">
+                      <svg class="shrink-0 text-on-background/30" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span class="font-mono text-[8.5px] tracking-[0.04em] text-on-background/50">Design</span>
+                      <span class="ml-auto font-mono text-[7.5px] text-on-background/22">Day 4</span>
                     </div>
-                    <!-- Body (container-query root — children reflow with the frame's width) -->
-                    <div class="so2-q-body">
-                      <!-- Hero bar -->
-                      <div class="so2-q-hero flex items-center gap-2 px-2 pt-2">
-                        <div class="flex flex-1 flex-col gap-1">
-                          <div class="bg-inverse-panel/45 h-2 w-[55%] rounded-sm"></div>
-                          <div class="bg-inverse-panel/22 h-1 w-[80%] rounded-sm"></div>
-                        </div>
-                        <div class="bg-accent/75 h-2.5 w-7 rounded-[2px]"></div>
-                      </div>
-                      <!-- Responsive tile grid: 3 → 2 → 1 columns based on FRAME width -->
-                      <div class="so2-q-grid p-2">
-                        {[0,1,2].map(() => (
-                          <div class="so2-q-tile bg-inverse-panel/[0.10] flex flex-col gap-1 p-1.5">
-                            <div class="bg-inverse-panel/28 h-4 w-full rounded-sm"></div>
-                            <div class="bg-inverse-panel/22 h-1 w-[80%] rounded-sm"></div>
-                            <div class="bg-inverse-panel/14 h-1 w-[55%] rounded-sm"></div>
-                          </div>
-                        ))}
-                      </div>
+                    <div class="sp-row-3 flex items-center gap-2">
+                      <svg class="shrink-0 text-on-background/30" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span class="font-mono text-[8.5px] tracking-[0.04em] text-on-background/50">Build</span>
+                      <span class="ml-auto font-mono text-[7.5px] text-on-background/22">Day 9</span>
                     </div>
-                    <!-- Scan line (sweeps top→bottom on each snap) -->
-                    <div class="so2-q-scan absolute inset-x-0"></div>
-                    <!-- Corner QA brackets -->
-                    <span class="so2-q-bracket so2-q-bracket--tl"></span>
-                    <span class="so2-q-bracket so2-q-bracket--tr"></span>
-                    <span class="so2-q-bracket so2-q-bracket--bl"></span>
-                    <span class="so2-q-bracket so2-q-bracket--br"></span>
+                    <div class="sp-row-4 flex items-center gap-2">
+                      <svg class="shrink-0 text-accent" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span class="font-mono text-[8.5px] tracking-[0.04em] text-on-background font-medium">Shipped</span>
+                      <span class="ml-auto font-mono text-[7.5px] text-accent">Day 14</span>
+                    </div>
+                    <!-- Progress bar -->
+                    <div class="sp-progress-wrap mt-2 overflow-hidden rounded-full" style="height:2px;">
+                      <div class="sp-bar h-full bg-accent"></div>
+                    </div>
+                    <!-- Footer label -->
+                    <div class="sp-row-4 mt-0.5 flex justify-between">
+                      <span class="font-mono text-[7px] uppercase tracking-[0.06em] text-on-background/20">Timeline</span>
+                      <span class="font-mono text-[7px] uppercase tracking-[0.06em] text-accent">2 weeks avg.</span>
+                    </div>
                   </div>
                 </div>
-                <!-- Cycling dimension labels -->
-                <div class="so2-q-labels relative mt-3 h-4 w-full">
+              )}
+
+              {card.id === "quality" && (
+                <div class="ql-wrap relative flex w-full max-w-[220px] flex-col items-center">
+                  <div class="ql-scan pointer-events-none absolute inset-x-0" aria-hidden="true"></div>
+
+                  <div class="flex items-start gap-3">
+
+                    <!-- ── Desktop 76×48 ───────────────────────── -->
+                    <div class="flex flex-col items-center">
+                      <div class="ql-device overflow-hidden" style="width:76px;height:48px;border-radius:1px;">
+                        <!-- Browser nav -->
+                        <div class="flex items-center justify-between px-[5px] py-[3px]" style="border-bottom:1px solid rgba(255,237,215,0.06);">
+                          <div class="rounded-[1px] bg-on-background/45" style="width:10px;height:2px;"></div>
+                          <div class="flex gap-[4px]">
+                            {["5px","5px","5px"].map(w => <div class="bg-on-background/18 rounded-[1px]" style={`width:${w};height:1.5px;`}></div>)}
+                          </div>
+                          <div class="rounded-full bg-accent/70" style="width:11px;height:3px;"></div>
+                        </div>
+                        <!-- Hero -->
+                        <div class="flex flex-col gap-[2px] px-[5px] pt-[4px]">
+                          <div class="rounded-[1px] bg-on-background/30" style="width:100%;height:2.5px;"></div>
+                          <div class="rounded-[1px] bg-on-background/30" style="width:65%;height:2.5px;"></div>
+                          <div class="rounded-[1px] bg-on-background/15 mt-[1px]" style="width:82%;height:1.5px;"></div>
+                          <div class="rounded-full bg-accent/70 mt-[2px]" style="width:14px;height:3px;"></div>
+                        </div>
+                        <!-- 3-col cards -->
+                        <div class="flex gap-[3px] px-[5px] pt-[4px]">
+                          {[0,1,2].map(() => (
+                            <div class="flex flex-1 flex-col gap-[2px]">
+                              <div class="rounded-[1px] bg-on-background/12" style="height:8px;"></div>
+                              <div class="rounded-[1px] bg-on-background/20" style="height:1.5px;width:90%;"></div>
+                              <div class="rounded-[1px] bg-on-background/10" style="height:1.5px;width:65%;"></div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <!-- Monitor stand -->
+                      <div class="bg-on-background/12" style="width:10px;height:4px;"></div>
+                      <div class="bg-on-background/8"  style="width:18px;height:2px;"></div>
+                      <div class="ql-chk-1 mt-3 flex flex-col items-center gap-0.5">
+                        <svg class="text-accent" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="font-mono text-[7px] tracking-[0.04em] text-on-background/30">1440</span>
+                      </div>
+                    </div>
+
+                    <!-- ── Tablet 34×56 ────────────────────────── -->
+                    <div class="flex flex-col items-center">
+                      <div class="ql-device overflow-hidden" style="width:34px;height:56px;border-radius:2px;">
+                        <!-- Camera pill -->
+                        <div class="flex items-center justify-center" style="height:5px;border-bottom:1px solid rgba(255,237,215,0.06);">
+                          <div class="rounded-full bg-on-background/22" style="height:2px;width:7px;"></div>
+                        </div>
+                        <!-- Nav -->
+                        <div class="flex items-center justify-between px-[3px] py-[2px]" style="border-bottom:1px solid rgba(255,237,215,0.06);">
+                          <div class="rounded-[1px] bg-on-background/45" style="width:8px;height:2px;"></div>
+                          <div class="flex flex-col gap-[1px]">
+                            <div class="bg-on-background/20" style="width:6px;height:1px;"></div>
+                            <div class="bg-on-background/20" style="width:6px;height:1px;"></div>
+                            <div class="bg-on-background/20" style="width:4px;height:1px;"></div>
+                          </div>
+                        </div>
+                        <!-- Hero -->
+                        <div class="flex flex-col gap-[2px] px-[3px] pt-[3px]">
+                          <div class="rounded-[1px] bg-on-background/30" style="width:100%;height:2px;"></div>
+                          <div class="rounded-[1px] bg-on-background/30" style="width:72%;height:2px;"></div>
+                          <div class="rounded-[1px] bg-on-background/15 mt-[1px]" style="width:88%;height:1.5px;"></div>
+                          <div class="rounded-full bg-accent/70 mt-[2px]" style="width:11px;height:3px;"></div>
+                        </div>
+                        <!-- 2-col cards -->
+                        <div class="flex gap-[2px] px-[3px] pt-[3px]">
+                          {[0,1].map(() => (
+                            <div class="flex flex-1 flex-col gap-[2px]">
+                              <div class="rounded-[1px] bg-on-background/12" style="height:10px;"></div>
+                              <div class="rounded-[1px] bg-on-background/20" style="height:1.5px;width:90%;"></div>
+                              <div class="rounded-[1px] bg-on-background/10" style="height:1.5px;width:65%;"></div>
+                            </div>
+                          ))}
+                        </div>
+                        <!-- Home bar -->
+                        <div class="flex justify-center" style="padding-top:4px;">
+                          <div class="rounded-full bg-on-background/15" style="height:2px;width:10px;"></div>
+                        </div>
+                      </div>
+                      <div class="ql-chk-2 mt-3 flex flex-col items-center gap-0.5">
+                        <svg class="text-accent" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="font-mono text-[7px] tracking-[0.04em] text-on-background/30">768</span>
+                      </div>
+                    </div>
+
+                    <!-- ── Mobile 20×50 ────────────────────────── -->
+                    <div class="flex flex-col items-center">
+                      <div class="ql-device overflow-hidden" style="width:20px;height:50px;border-radius:3px;">
+                        <!-- Dynamic island -->
+                        <div class="flex items-center justify-center" style="height:5px;border-bottom:1px solid rgba(255,237,215,0.06);">
+                          <div class="rounded-full bg-on-background/22" style="height:2px;width:5px;"></div>
+                        </div>
+                        <!-- Nav -->
+                        <div class="flex items-center justify-between px-[2px] py-[2px]" style="border-bottom:1px solid rgba(255,237,215,0.05);">
+                          <div class="rounded-[1px] bg-on-background/45" style="width:6px;height:1.5px;"></div>
+                          <div class="flex flex-col gap-[1px]">
+                            <div class="bg-on-background/20" style="width:4px;height:1px;"></div>
+                            <div class="bg-on-background/20" style="width:3px;height:1px;"></div>
+                          </div>
+                        </div>
+                        <!-- Hero -->
+                        <div class="flex flex-col gap-[2px] px-[2px] pt-[3px]">
+                          <div class="rounded-[1px] bg-on-background/30" style="width:100%;height:2px;"></div>
+                          <div class="rounded-[1px] bg-on-background/30" style="width:80%;height:2px;"></div>
+                          <div class="rounded-[1px] bg-on-background/15 mt-[1px]" style="width:90%;height:1.5px;"></div>
+                          <div class="rounded-full bg-accent/70 mt-[2px]" style="width:9px;height:3px;"></div>
+                        </div>
+                        <!-- Single card -->
+                        <div class="flex flex-col gap-[2px] px-[2px] pt-[3px]">
+                          <div class="rounded-[1px] bg-on-background/12" style="height:9px;"></div>
+                          <div class="rounded-[1px] bg-on-background/20" style="height:1.5px;width:90%;"></div>
+                          <div class="rounded-[1px] bg-on-background/10" style="height:1.5px;width:68%;"></div>
+                        </div>
+                        <!-- Home indicator -->
+                        <div class="flex justify-center" style="padding-top:3px;">
+                          <div class="rounded-full bg-on-background/14" style="height:1.5px;width:5px;"></div>
+                        </div>
+                      </div>
+                      <div class="ql-chk-3 mt-3 flex flex-col items-center gap-0.5">
+                        <svg class="text-accent" width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4L3 6L7 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="font-mono text-[7px] tracking-[0.04em] text-on-background/30">375</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              )}
+
+              {card.id === "performance" && (
+                <div class="relative h-36 w-36 shrink-0">
+                  <div class="so2-ring absolute inset-0 rounded-full border-2 border-dashed border-on-background/20"></div>
+                  <div class="so2-radar absolute inset-[6%] rounded-full"></div>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span class="font-display font-black leading-none tracking-tight text-on-background" style="font-size:clamp(1.5rem,3vw,1.9rem);">90+</span>
+                    <span class="mt-1 font-mono uppercase text-on-background/40" style="font-size:7px;letter-spacing:0.1em;">score</span>
+                  </div>
                   {[
-                    { label: "1440 × 900", delay: 0    },
-                    { label: "768 × 1024", delay: 2200 },
-                    { label: "375 × 812",  delay: 4400 },
-                  ].map(d => (
-                    <span
-                      class="so2-q-label type-label-small text-inverse-on-surface/72 absolute inset-x-0 text-center font-mono tracking-[0.1em]"
-                      style={`animation-delay: ${d.delay}ms`}
-                    >{d.label}</span>
+                    { label: "Perf",  angle: -90 },
+                    { label: "SEO",   angle:   0 },
+                    { label: "A11y",  angle:  90 },
+                    { label: "Speed", angle: 180 },
+                  ].map((m, mi) => {
+                    const rad = m.angle * Math.PI / 180;
+                    const x = 50 + 40 * Math.cos(rad);
+                    const y = 50 + 40 * Math.sin(rad);
+                    return (
+                      <div class="so2-pill absolute" style={`left:${x}%;top:${y}%;animation-delay:${mi*220}ms`}>
+                        <span class="block whitespace-nowrap bg-surface-container-low border border-on-background/10 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.08em] text-on-background/70">
+                          {m.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {card.id === "direct" && (
+                <div class="flex w-full flex-col gap-2" style="max-width:220px;">
+                  <div class="mb-2 flex items-center gap-1.5">
+                    <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                    <span class="font-mono text-[9px] uppercase tracking-[0.08em] text-on-background/50"># straya-project</span>
+                  </div>
+                  {[
+                    { initial: "S", msg: "Hero section is live", self: false, delay: 0   },
+                    { initial: "Y", msg: "Looks great!",         self: true,  delay: 320 },
+                    { initial: "S", msg: "Pushed update",        self: false, delay: 640 },
+                  ].map(m => (
+                    <div
+                      class:list={["so2-chat flex items-end gap-1.5", m.self ? "flex-row-reverse" : ""]}
+                      style={`animation-delay:${m.delay}ms`}
+                    >
+                      <span class:list={[
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-mono text-[7px] font-semibold",
+                        m.self ? "bg-accent text-black" : "bg-on-background/15 text-on-background/70 border border-on-background/10",
+                      ]}>{m.initial}</span>
+                      <div class:list={[
+                        "so2-chat-msg max-w-[80%] px-3 py-1.5 font-mono text-[9px] leading-snug",
+                        m.self ? "bg-accent text-black" : "bg-on-background/8 text-on-background/75 border border-on-background/10",
+                      ]}>{m.msg}</div>
+                    </div>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {card.id === "performance" && (
-              <!-- Circular score orbit -->
-              <div class="relative h-36 w-36 shrink-0 md:h-40 md:w-40" aria-hidden="true">
-                <!-- Dashed orbit -->
-                <div class="so2-orbit-dash border-black/18 absolute inset-0 rounded-full border-2 border-dashed opacity-80"></div>
-                <!-- Centre score -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span class="so2-score-pulse font-display text-inverse-on-surface text-[clamp(1.75rem,4vw,2.25rem)] font-normal leading-none tracking-tight">
-                    90+
-                  </span>
-                  <span class="type-label-small font-mono mt-1 text-inverse-on-surface/72 uppercase tracking-[0.08em]">
-                    Lighthouse
-                  </span>
-                </div>
-                <!-- Orbiting metric pills -->
-                {[
-                  { label: "Performance", angle: -60 },
-                  { label: "Accessibility", angle: 0 },
-                  { label: "Best Practices", angle: 60 },
-                  { label: "SEO", angle: 120 },
-                ].map((m, mi) => {
-                  const rad = (m.angle - 90) * Math.PI / 180;
-                  const r = 40;
-                  const x = 50 + r * Math.cos(rad);
-                  const y = 50 + r * Math.sin(rad);
-                  return (
-                    <div
-                      class="absolute so2-pill so2-volume-pill"
-                      style={`left: ${x}%; top: ${y}%; animation-delay: ${mi * 220}ms;`}
-                    >
-                      <span
-                        class="block whitespace-nowrap bg-surface-container px-2 py-1 font-mono text-[8px] uppercase tracking-[0.06em] text-on-background"
-                      >{m.label}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            <!-- Title -->
+            <h3 class="font-display font-semibold leading-[1.15] tracking-tight text-on-background mb-4 whitespace-pre-line"
+                style="font-size:clamp(1.25rem,1.8vw,1.75rem);">
+              {card.title}
+            </h3>
 
-            {card.id === "direct" && (
-              <div class="flex w-full flex-col gap-1.5" aria-hidden="true">
-                <!-- Channel header with live dot -->
-                <div class="mb-6m flex items-center gap-1.5">
-                  <span class="bg-accent h-1.5 w-1.5 rounded-full"></span>
-                  <span class="type-label-small text-on-background/80 font-mono uppercase tracking-[0.08em]">
-                    # straya-project
-                  </span>
-                </div>
-                {[
-                  { initial: "S", msg: "Hero section is live", self: false, delay: 0   },
-                  { initial: "Y", msg: "Looks great!",         self: true,  delay: 320 },
-                  { initial: "S", msg: "Pushed update",        self: false, delay: 640 },
-                ].map(m => (
-                  <div
-                    class:list={[
-                      "so2-chat flex items-end gap-1.5",
-                      m.self ? "flex-row-reverse" : "",
-                    ]}
-                    style={`animation-delay: ${m.delay}ms`}
-                  >
-                    <span
-                      class:list={[
-                        "so2-chat-avatar flex h-4 w-4 shrink-0 items-center justify-center rounded-full font-mono text-[7px] font-semibold",
-                        m.self ? "bg-accent text-black" : "bg-on-background text-surface-container",
-                      ]}
-                    >{m.initial}</span>
-                    <div
-                      class:list={[
-                        "so2-chat-msg max-w-[78%] px-2.5 py-1 font-mono text-[9.5px] leading-snug",
-                        m.self
-                          ? "bg-accent text-black"
-                          : "bg-on-background text-surface-container",
-                      ]}
-                    >{m.msg}</div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <!-- Body -->
+            <p class="type-body-small m-0 text-on-background/50 leading-relaxed">
+              {card.body}
+            </p>
+
           </div>
-
-          <!-- Body text -->
-          <div class="flex-shrink-0 px-[var(--spacing-card-padding)] pb-5 pt-1 md:pb-6">
-            <p
-              class:list={[
-                "type-body-small leading-relaxed",
-                card.dark ? "text-on-background/65" : "text-inverse-on-surface/82",
-              ]}
-            >{card.body}</p>
-          </div>
-
         </article>
       ))}
 
     </div>
-
   </div>
+
+  <!-- Bottom rule -->
+  <div class="main-container">
+    <div class="so2-rule"></div>
+  </div>
+
 </section>
 
 <style>
-  /* PERMITTED: @keyframes, layered shadows — card shells avoid outline borders */
-
-  /* ── Eyebrow rule ──────────────────────────────────────────── */
+  /* ── Layout ─────────────────────────────────────────────────── */
   .so2-rule {
-    transition: width 600ms var(--transition-base) 200ms;
+    height: 1px;
+    background: rgba(255, 237, 215, 0.08);
   }
-  [data-so2-eyebrow].is-visible .so2-rule { width: 2.5rem; }
 
-  /* ── Cards: static depth (no hover lift) ─────────────────────── */
   .so2-card {
-    box-shadow:
-      0 1px 0 rgba(var(--outline-variant-rgb), 0.06),
-      0 6px 20px rgba(var(--outline-variant-rgb), 0.06),
-      inset 0 1px 0 rgba(var(--fg-rgb), 0.04);
+    border-top: 1px solid rgba(255, 237, 215, 0.08);
+    transition: background 300ms cubic-bezier(0.16, 1, 0.30, 1);
+  }
+  .so2-card:hover {
+    background: rgba(255, 237, 215, 0.025);
+  }
+  .so2-card--bordered {
+    border-right: 1px solid rgba(255, 237, 215, 0.08);
   }
 
-  [data-so2-tone="light"].so2-card {
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.05),
-      0 8px 26px rgba(0, 0, 0, 0.09),
-      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  /* ── Labels ─────────────────────────────────────────────────── */
+  .so2-index {
+    font-family: var(--font-body);
+    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.72rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 237, 215, 0.2);
+  }
+  .so2-eyebrow {
+    font-family: var(--font-body);
+    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.72rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 237, 215, 0.35);
   }
 
-  /* Mock browser chrome inside cards (decorative) — flat panel, no shadow */
-  .so2-frame-mock {
-    overflow: hidden;
+  /* ── Speed card — terminal build log ────────────────────────── */
+  .sp-terminal {
+    border: 1px solid rgba(255, 237, 215, 0.07);
+    background: rgba(255, 237, 215, 0.025);
   }
 
-  /* ── Quality card — snapping breakpoint frame + scan + brackets ─ */
-  .so2-q-window {
-    transform-origin: top center;
-    animation: so2-q-snap 6.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-    will-change: width;
-    height: 138px;
+  /* Blinking cursor in header */
+  .sp-cursor {
+    animation: sp-blink 1.1s step-end infinite;
   }
-  @keyframes so2-q-snap {
-    0%, 28%   { width: 100%; }
-    33%, 61%  { width: 65%; }
-    66%, 94%  { width: 38%; }
-    100%      { width: 100%; }
+  @keyframes sp-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
   }
 
-  /* Body is a container — inner grid reflows on frame width */
-  .so2-q-body {
-    container-type: inline-size;
+  /*
+   * All rows + bar share animation-duration: 5s with no delay,
+   * so every loop is perfectly synced. Each gets its own @keyframes
+   * encoding its individual appear / hold / fade timing.
+   *
+   * Row 1 → 2% (0.10s)  Row 2 → 16% (0.80s)
+   * Row 3 → 30% (1.50s)  Row 4 → 44% (2.20s)
+   * Hold until 72% (3.60s) · Fade 72→83% · Gap 83→100%
+   */
+  .sp-row-1, .sp-row-2, .sp-row-3, .sp-row-4, .sp-bar {
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
   }
-  .so2-q-grid {
-    display: grid;
-    gap: 4px;
-    grid-template-columns: 1fr; /* mobile default (≈ 99px) */
+  .sp-row-1 { animation-name: sp-r1; }
+  .sp-row-2 { animation-name: sp-r2; }
+  .sp-row-3 { animation-name: sp-r3; }
+  .sp-row-4 { animation-name: sp-r4; }
+  .sp-bar   { animation-name: sp-progress; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transform-origin: left; transform: scaleX(0); }
+
+  @keyframes sp-r1 {
+    0%        { opacity: 0; transform: translateY(4px); }
+    2%, 72%   { opacity: 1; transform: translateY(0); }
+    83%, 100% { opacity: 0; transform: translateY(-3px); }
   }
-  @container (min-width: 130px) {
-    .so2-q-grid { grid-template-columns: repeat(2, 1fr); }
+  @keyframes sp-r2 {
+    0%, 14%   { opacity: 0; transform: translateY(4px); }
+    18%, 72%  { opacity: 1; transform: translateY(0); }
+    83%, 100% { opacity: 0; transform: translateY(-3px); }
   }
-  @container (min-width: 200px) {
-    .so2-q-grid { grid-template-columns: repeat(3, 1fr); }
+  @keyframes sp-r3 {
+    0%, 28%   { opacity: 0; transform: translateY(4px); }
+    32%, 72%  { opacity: 1; transform: translateY(0); }
+    83%, 100% { opacity: 0; transform: translateY(-3px); }
+  }
+  @keyframes sp-r4 {
+    0%, 42%   { opacity: 0; transform: translateY(4px); }
+    46%, 72%  { opacity: 1; transform: translateY(0); }
+    83%, 100% { opacity: 0; transform: translateY(-3px); }
+  }
+  /* Bar fills as rows appear (0→44%), holds, then resets */
+  @keyframes sp-progress {
+    0%        { transform: scaleX(0); opacity: 1; }
+    44%       { transform: scaleX(1); opacity: 1; }
+    72%       { transform: scaleX(1); opacity: 1; }
+    83%, 100% { transform: scaleX(0); opacity: 0; }
   }
 
-  /* Scan line: one top→bottom pass per snap (3 per full cycle) */
-  .so2-q-scan {
+  /* ── Radar / Speed / Performance shared ─────────────────────── */
+  .so2-ring {
+    transform-origin: 50% 50%;
+    animation: so2-ring-breathe 7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  @keyframes so2-ring-breathe {
+    0%, 100% { opacity: 0.5;  transform: scale(0.96); }
+    45%      { opacity: 1;    transform: scale(1.04); filter: drop-shadow(0 0 12px rgba(var(--accent-rgb), 0.18)); }
+  }
+
+  .so2-radar {
     pointer-events: none;
+    background: conic-gradient(
+      from 0deg,
+      rgba(var(--accent-rgb), 0.50) 0deg,
+      rgba(var(--accent-rgb), 0.26) 24deg,
+      rgba(var(--accent-rgb), 0.06) 62deg,
+      rgba(var(--accent-rgb), 0) 96deg,
+      rgba(var(--accent-rgb), 0) 360deg
+    );
+    -webkit-mask: radial-gradient(circle, transparent 36%, #000 40%, #000 96%, transparent 100%);
+            mask: radial-gradient(circle, transparent 36%, #000 40%, #000 96%, transparent 100%);
+    animation: so2-radar-spin 4s linear infinite;
+    will-change: transform;
+  }
+  @keyframes so2-radar-spin { to { transform: rotate(360deg); } }
+
+  .so2-dot {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.6), 0 4px 12px rgba(0,0,0,0.4);
+    animation: so2-dot-pulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @keyframes so2-dot-pulse {
+    0%  { box-shadow: 0 0 0 0   rgba(var(--accent-rgb), 0.6), 0 4px 12px rgba(0,0,0,0.4); }
+    70% { box-shadow: 0 0 0 14px rgba(var(--accent-rgb), 0),  0 4px 12px rgba(0,0,0,0.4); }
+    100%{ box-shadow: 0 0 0 0   rgba(var(--accent-rgb), 0),   0 4px 12px rgba(0,0,0,0.4); }
+  }
+
+  .so2-pill {
+    transform: translate(-50%, -50%);
+    animation: so2-pill-cycle 6.2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+  }
+  @keyframes so2-pill-cycle {
+    0%, 8%   { opacity: 0; transform: translate(-50%,-50%) scale(0.78); }
+    22%, 78% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    92%,100% { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
+  }
+  .so2-pill > span {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  /* ── Quality card — device inspection sweep ─────────────────── */
+  /* Device frame — dark screen tone, shadow edge (no white border) */
+  .ql-device {
+    background: #0c0c14;
+    box-shadow:
+      0 0 0 1px rgba(255, 237, 215, 0.04),
+      0 6px 20px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  /*
+   * Single scan line translates 56 px (tallest device height) in 6 s.
+   * Three checks appear in sequence after scan reaches the bottom.
+   * All share animation-duration: 6s — no delay drift across loops.
+   *
+   * Scan:   5–8% appear · 8–62% sweep · 62–67% fade · 67–100% hidden
+   * Chk 1:  67–70% appear · hold 88% · fade 95%
+   * Chk 2:  74–77% appear · hold 88% · fade 95%
+   * Chk 3:  81–84% appear · hold 88% · fade 95%
+   */
+  .ql-scan {
     top: 0;
     height: 1px;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(var(--accent-rgb), 0.55) 50%,
+      rgba(var(--accent-rgb), 0.45) 15%,
+      rgba(var(--accent-rgb), 0.95) 50%,
+      rgba(var(--accent-rgb), 0.45) 85%,
       transparent 100%
     );
-    filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.32));
+    filter: drop-shadow(0 0 5px rgba(var(--accent-rgb), 0.5));
     opacity: 0;
-    animation: so2-q-scan-pass 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    animation: ql-sweep 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
-  @keyframes so2-q-scan-pass {
-    0%   { top: 0%;   opacity: 0; }
-    8%   { opacity: 1; }
-    82%  { top: 96%;  opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-  }
-
-  /* QA corner brackets — decorative inspection marks, not card borders */
-  .so2-q-bracket {
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    border: solid rgba(var(--outline-variant-rgb), 0.55);
-    pointer-events: none;
-  }
-  .so2-q-bracket--tl { top: -5px;    left: -5px;  border-width: 1.5px 0 0 1.5px; }
-  .so2-q-bracket--tr { top: -5px;    right: -5px; border-width: 1.5px 1.5px 0 0; }
-  .so2-q-bracket--bl { bottom: -5px; left: -5px;  border-width: 0 0 1.5px 1.5px; }
-  .so2-q-bracket--br { bottom: -5px; right: -5px; border-width: 0 1.5px 1.5px 0; }
-
-  /* Dimension labels — staggered cycle (delays 0/2.2s/4.4s on a 6.6s loop) */
-  .so2-q-label {
-    opacity: 0;
-    animation: so2-q-label-cycle 6.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  }
-  @keyframes so2-q-label-cycle {
-    0%, 30%   { opacity: 1; transform: translateY(0); }
-    35%, 100% { opacity: 0; transform: translateY(-4px); }
+  @keyframes ql-sweep {
+    0%, 5%  { transform: translateY(0);    opacity: 0; }
+    8%      { transform: translateY(0);    opacity: 1; }
+    62%     { transform: translateY(56px); opacity: 1; }
+    67%     { transform: translateY(56px); opacity: 0; }
+    100%    { transform: translateY(0);    opacity: 0; }
   }
 
-  /* ── Lighthouse orbit — dashed ring breathes + pills float ───── */
-  @keyframes so2-orbit-breathe {
-    0%, 100% { opacity: 0.78; transform: scale(0.99); }
-    50%      { opacity: 1;    transform: scale(1.022); }
+  .ql-chk-1, .ql-chk-2, .ql-chk-3 {
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
   }
-  .so2-orbit-dash {
-    transform-origin: 50% 50%;
-    animation: so2-orbit-breathe 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    will-change: transform, opacity;
+  .ql-chk-1 { animation-name: ql-c1; }
+  .ql-chk-2 { animation-name: ql-c2; }
+  .ql-chk-3 { animation-name: ql-c3; }
+
+  @keyframes ql-c1 {
+    0%, 65%   { opacity: 0; transform: translateY(4px) scale(0.8); }
+    71%, 88%  { opacity: 1; transform: translateY(0)   scale(1);   }
+    95%, 100% { opacity: 0; }
+  }
+  @keyframes ql-c2 {
+    0%, 72%   { opacity: 0; transform: translateY(4px) scale(0.8); }
+    78%, 88%  { opacity: 1; transform: translateY(0)   scale(1);   }
+    95%, 100% { opacity: 0; }
+  }
+  @keyframes ql-c3 {
+    0%, 79%   { opacity: 0; transform: translateY(4px) scale(0.8); }
+    85%, 88%  { opacity: 1; transform: translateY(0)   scale(1);   }
+    95%, 100% { opacity: 0; }
   }
 
-  @keyframes so2-score-pulse {
-    0%, 100% {
-      transform: scale(1);
-      text-shadow: 0 2px 6px rgba(var(--outline-variant-rgb), 0.08);
-    }
-    50% {
-      transform: scale(1.022);
-      text-shadow:
-        0 6px 14px rgba(var(--outline-variant-rgb), 0.1),
-        0 0 18px rgba(var(--accent-rgb), 0.18);
-    }
-  }
-  .so2-score-pulse {
-    animation: so2-score-pulse 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    will-change: transform;
-  }
-
-  /* Pills: smooth fade arc (no rotate, no animated shadow — shadow is static on the inner span) */
-  @keyframes so2-volume-pill {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.86);
-    }
-    20%, 80% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.92);
-    }
-  }
-  .so2-volume-pill {
-    transform-origin: center;
-    animation: so2-volume-pill 7.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    will-change: transform, opacity;
-  }
-  .so2-volume-pill > span {
-    box-shadow:
-      0 4px 10px rgba(var(--black-rgb), 0.3),
-      0 1px 2px rgba(var(--black-rgb), 0.18),
-      inset 0 1px 0 rgba(var(--fg-rgb), 0.1);
-  }
-
-  /* ── Speed card — radar sweep + milestone orbit ─────────────── */
-  .so2-speed-ring {
-    transform-origin: 50% 50%;
-    animation: so2-speed-orbit-breathe 7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-  @keyframes so2-speed-orbit-breathe {
-    0%, 100% {
-      opacity: 0.6;
-      transform: scale(0.96);
-      filter: drop-shadow(0 2px 10px rgba(var(--outline-variant-rgb), 0.06));
-    }
-    45% {
-      opacity: 1;
-      transform: scale(1.04);
-      filter: drop-shadow(0 8px 24px rgba(var(--accent-rgb), 0.12));
-    }
-  }
-
-  /* Conic radar wedge — masked into an inner annulus so it reads as a sweep */
-  .so2-speed-radar {
-    pointer-events: none;
-    background: conic-gradient(
-      from 0deg,
-      rgba(var(--accent-rgb), 0.42) 0deg,
-      rgba(var(--accent-rgb), 0.22) 24deg,
-      rgba(var(--accent-rgb), 0.06) 62deg,
-      rgba(var(--accent-rgb), 0) 96deg,
-      rgba(var(--accent-rgb), 0) 360deg
-    );
-    -webkit-mask: radial-gradient(circle, transparent 38%, #000 42%, #000 96%, transparent 100%);
-            mask: radial-gradient(circle, transparent 38%, #000 42%, #000 96%, transparent 100%);
-    animation: so2-speed-radar-spin 4.6s linear infinite;
-    will-change: transform;
-  }
-  @keyframes so2-speed-radar-spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Center pulse dot */
-  .so2-speed-dot {
-    box-shadow:
-      0 0 0 0 rgba(var(--accent-rgb), 0.55),
-      0 6px 14px rgba(var(--black-rgb), 0.32);
-    animation: so2-speed-dot-pulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-  @keyframes so2-speed-dot-pulse {
-    0% {
-      box-shadow:
-        0 0 0 0 rgba(var(--accent-rgb), 0.55),
-        0 6px 14px rgba(var(--black-rgb), 0.32);
-    }
-    70% {
-      box-shadow:
-        0 0 0 14px rgba(var(--accent-rgb), 0),
-        0 6px 14px rgba(var(--black-rgb), 0.32);
-    }
-    100% {
-      box-shadow:
-        0 0 0 0 rgba(var(--accent-rgb), 0),
-        0 6px 14px rgba(var(--black-rgb), 0.32);
-    }
-  }
-
-  /* Milestone pills — cycle in/out staggered */
-  .so2-speed-pill {
-    transform: translate(-50%, -50%);
-    transform-origin: center;
-    animation: so2-speed-pill-cycle 6.2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
-  }
-  @keyframes so2-speed-pill-cycle {
-    0%, 8% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.78);
-    }
-    22%, 78% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      box-shadow:
-        0 6px 16px rgba(var(--black-rgb), 0.32),
-        0 2px 4px rgba(var(--black-rgb), 0.18),
-        inset 0 1px 0 rgba(var(--fg-rgb), 0.12);
-    }
-    92%, 100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.9);
-    }
-  }
-
-  /* ── Chat bubbles — full fade-out before next cycle ─────────── */
-  @keyframes so2-chat-slot {
-    0%, 8% {
-      opacity: 0;
-      transform: translateY(5px) scale(0.985);
-    }
-    22%, 76% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    92%, 100% {
-      opacity: 0;
-      transform: translateY(-3px) scale(0.99);
-    }
-  }
+  /* ── Chat bubbles ────────────────────────────────────────────── */
   .so2-chat {
     animation: so2-chat-slot 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
     will-change: transform, opacity;
   }
-  .so2-chat-msg {
-    border-radius: var(--border-radius);
-    box-shadow:
-      0 2px 8px rgba(var(--black-rgb), 0.24),
-      inset 0 1px 0 rgba(var(--fg-rgb), 0.12);
+  @keyframes so2-chat-slot {
+    0%, 8%   { opacity: 0; transform: translateY(5px) scale(0.985); }
+    22%, 76% { opacity: 1; transform: translateY(0) scale(1); }
+    92%,100% { opacity: 0; transform: translateY(-3px) scale(0.99); }
   }
-  .so2-chat-avatar {
-    box-shadow:
-      0 2px 6px rgba(var(--black-rgb), 0.22),
-      inset 0 1px 0 rgba(var(--fg-rgb), 0.18);
+  .so2-chat-msg {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,237,215,0.06);
   }
 
-  /* ── Reduced motion ────────────────────────────────────────── */
+  /* ── Reduced motion ──────────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .so2-card {
-      transform: none !important;
-    }
-    .so2-q-window {
-      animation: none !important;
-      width: 100% !important;
-      transform: none !important;
-    }
-    .so2-q-scan {
-      animation: none !important;
-      opacity: 0 !important;
-    }
-    .so2-q-labels {
-      height: auto !important;
-      display: flex !important;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-    .so2-q-label {
-      animation: none !important;
-      position: static !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-    .so2-orbit-dash {
-      animation: none !important;
-      opacity: 0.95 !important;
-      transform: none !important;
-      filter: none !important;
-    }
-    .so2-volume-pill {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: translate(-50%, -50%) !important;
-    }
-    .so2-chat {
+    .sp-row-1, .sp-row-2, .sp-row-3, .sp-row-4, .sp-bar, .sp-cursor {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
     }
-    .so2-chat-msg {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-    .so2-speed-ring,
-    .so2-speed-radar,
-    .so2-speed-dot,
-    .so2-speed-pill {
-      animation: none !important;
-      opacity: 1 !important;
-      filter: none !important;
-      will-change: auto !important;
-    }
-    .so2-speed-ring {
-      transform: none !important;
-      opacity: 0.95 !important;
-    }
-    .so2-speed-radar {
-      transform: rotate(35deg);
-      opacity: 0.55 !important;
-    }
-    .so2-speed-dot {
-      box-shadow:
-        0 0 0 0 rgba(var(--accent-rgb), 0.45),
-        0 6px 14px rgba(var(--black-rgb), 0.32) !important;
-    }
-    .so2-speed-pill {
-      transform: translate(-50%, -50%) !important;
-      box-shadow:
-        0 4px 12px rgba(var(--black-rgb), 0.28),
-        inset 0 1px 0 rgba(var(--fg-rgb), 0.1) !important;
-    }
-    .so2-rule { transition: none !important; }
+    .sp-bar { transform: scaleX(1) !important; }
+    .so2-ring, .so2-radar, .so2-dot, .so2-pill { animation: none !important; opacity: 1 !important; }
+    .so2-ring  { transform: none !important; }
+    .so2-radar { transform: rotate(35deg); opacity: 0.5 !important; }
+    .so2-dot   { box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important; }
+    .so2-pill  { transform: translate(-50%,-50%) !important; }
+    .ql-scan { animation: none !important; opacity: 0 !important; }
+    .ql-chk-1, .ql-chk-2, .ql-chk-3 { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .so2-chat     { animation: none !important; opacity: 1 !important; transform: none !important; }
   }
 </style>
 
@@ -656,31 +609,10 @@ const cards = [
     const root = document.querySelector<HTMLElement>('[data-so2-root]');
     if (!root) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Eyebrow rule
-    const eyebrow = root.querySelector<HTMLElement>('[data-so2-eyebrow]');
-    if (eyebrow) {
-      if (reduced) { eyebrow.classList.add('is-visible'); }
-      else {
-        const obs = new IntersectionObserver(e => {
-          if (!e[0].isIntersecting) return;
-          eyebrow.classList.add('is-visible');
-          obs.disconnect();
-        }, { rootMargin: '0px 0px -60px 0px' });
-        obs.observe(eyebrow);
-      }
-    }
-
-    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-so2-card]'));
-
     if (reduced) {
-      cards.forEach(c => c.style.setProperty('--p', '1'));
-      return;
+      root.querySelectorAll<HTMLElement>('[data-so2-card]').forEach(c => c.style.setProperty('--p', '1'));
     }
-
-    document.addEventListener('astro:before-swap', () => {}, { once: true });
   };
-
   initSO2();
   document.addEventListener('astro:after-swap', initSO2);
 </script>

@@ -14,13 +14,14 @@
 
 @layer base {
 	html {
+		--scroll-anchor-offset: 0rem;
 		width: 100%;
 		max-width: 100%;
 		font-family: var(--font-body, theme('fontFamily.sans'));
 		background-color: var(--color-bg);
 		color: var(--color-fg);
 		scroll-behavior: smooth;
-		scroll-padding-top: 4.5rem;
+		scroll-padding-top: var(--scroll-anchor-offset);
 		overflow-x: clip;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -73,18 +74,19 @@
 	/* Mobile anchor offset */
 	@media (max-width: 809px) {
 		html {
-			scroll-padding-top: 3.5rem;
+			--scroll-anchor-offset: 0rem;
 		}
 
 		body {
 			background-color: var(--color-bg);
 		}
 
-		section[id],
-		footer[id],
-		main [id] {
-			scroll-margin-top: 3.5rem;
-		}
+	}
+
+	section[id],
+	footer[id],
+	main [id] {
+		scroll-margin-top: var(--scroll-anchor-offset);
 	}
 
 	/* Semantic headings — `--font-display`; weights + tracking-* map to typography.h1–h5 (h6 shares tracking-h5, weight 500) */
