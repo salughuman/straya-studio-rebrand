@@ -1,0 +1,80 @@
+---
+/**
+ * SmoothScroll.astro — Lenis smooth scroll, site-wide.
+ * Natural feel: moderate lerp, no over-dampening.
+ * Disabled on reduced-motion preference.
+ * RAF loop integrates with Lenis's own ticker for correct timing.
+ */
+---
+
+<script>
+  import Lenis from "lenis";
+
+  declare global {
+    interface Window { lenis: Lenis | null; }
+  }
+
+  let rafId = 0;
+
+  const init = () => {
+    if (window.lenis) {
+      window.lenis.destroy();
+      window.lenis = null;
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    window.lenis = new Lenis({
+      duration: 1.15,
+      easing: (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.8,
+      infinite: false,
+      autoRaf: false,
+    });
+
+    const raf = (time: number) => {
+      window.lenis!.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    // Intercept ALL hash-link clicks site-wide and route through Lenis
+    document.addEventListener("click", handleHashClick);
+  };
+
+  const handleHashClick = (e: MouseEvent) => {
+    const anchor = (e.target as Element).closest<HTMLAnchorElement>("a[href]");
+    if (!anchor) return;
+
+    const href = anchor.getAttribute("href") ?? "";
+
+    // Only handle same-page hash links (e.g. #services, /#services on homepage)
+    const url = new URL(href, window.location.href);
+    const isSamePage = url.pathname === window.location.pathname || url.pathname === "/";
+    if (!url.hash || !isSamePage) return;
+
+    const target = document.querySelector(url.hash);
+    if (!target) return;
+
+    e.preventDefault();
+    window.lenis?.scrollTo(target as HTMLElement, {
+      offset: 0,
+      duration: 1.4,
+      easing: (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+    });
+  };
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+
+  document.addEventListener("astro:before-swap", () => {
+    if (window.lenis) { window.lenis.destroy(); window.lenis = null; }
+    cancelAnimationFrame(rafId);
+    rafId = 0;
+    document.removeEventListener("click", handleHashClick);
+  });
+</script>

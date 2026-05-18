@@ -1,0 +1,51 @@
+---
+/**
+ * ScrollProgress.astro — Thin accent line at top of viewport tracking scroll depth.
+ */
+---
+
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<style>
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, #dc5000 0%, rgba(220, 80, 0, 0.6) 100%);
+    will-change: width;
+    pointer-events: none;
+    transform-origin: left;
+  }
+</style>
+
+<script>
+  const initScrollProgress = () => {
+    const bar = document.getElementById("scroll-progress");
+    if (!bar) return;
+
+    let rafQueued = false;
+
+    const update = () => {
+      rafQueued = false;
+      const scrolled  = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) { bar.style.width = "0%"; return; }
+      bar.style.width = Math.min(100, (scrolled / docHeight) * 100) + "%";
+    };
+
+    window.addEventListener("scroll", () => {
+      if (rafQueued) return;
+      rafQueued = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+
+    // Set initial state
+    update();
+  };
+
+  initScrollProgress();
+  document.addEventListener("astro:after-swap", initScrollProgress);
+</script>

@@ -18,6 +18,8 @@ const {
   tagline = "Straya is a digital studio building brand-defining websites and product experiences for ambitious teams. We design, build and ship - end to end.",
   ctaLabel = "Start a project",
 } = Astro.props as Props;
+
+const headlineLines = headline.split("\n");
 ---
 
 <section
@@ -61,24 +63,34 @@ const {
     <div class="main-container w-full pb-2 sm:pb-4 lg:pb-10">
       <div class="grid grid-cols-12 items-end gap-4 lg:gap-6">
         <div class="col-span-12 lg:col-span-8">
-          <h1 class="hero-headline type-h1 whitespace-pre-line text-on-background">
-            {headline}
+          <h1 class="hero-headline type-h1 text-on-background" style="white-space: pre-line;">
+            {headlineLines.map((line, i) => (
+              <span
+                class="hero-line block"
+                style={`animation-delay: ${0.05 + i * 0.18}s`}
+              >{line}</span>
+            ))}
           </h1>
         </div>
 
         <div
           class="col-span-12 flex flex-col gap-5 lg:col-span-4"
         >
-          <p class="type-body max-w-md text-pretty text-on-surface-variant">
+          <p
+            class="hero-tagline type-body max-w-md text-pretty text-on-surface-variant"
+            style="animation-delay: 0.52s"
+          >
             {tagline}
           </p>
 
-          <Button
-            href={`${baseUrl}contact`}
-            label={ctaLabel}
-            variant="hero-pill"
-            class="self-start"
-          />
+          <div class="hero-cta" style="animation-delay: 0.68s">
+            <Button
+              href={`${baseUrl}contact`}
+              label={ctaLabel}
+              variant="hero-pill"
+              class="self-start"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -88,36 +100,67 @@ const {
 </section>
 
 <style>
-  /* Subtle vertical fade — softer toward the top, full strength at the baseline (over hero scrim) */
-  .hero-headline {
-    background-image: linear-gradient(
-      180deg,
-      rgba(var(--fg-rgb), 0.48) 0%,
-      rgba(var(--fg-rgb), 0.78) 32%,
-      rgba(var(--fg-rgb), 0.96) 68%,
-      rgb(var(--fg-rgb)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-  }
+  /* Gradient fades across all lines: first line lightest, last line full opacity */
+  .hero-line:nth-child(1) { color: rgba(var(--fg-rgb), 0.58); }
+  .hero-line:nth-child(2) { color: rgba(var(--fg-rgb), 0.82); }
+  .hero-line:nth-child(3) { color: rgb(var(--fg-rgb)); }
+  /* Fallback for fewer/more lines */
+  .hero-line:only-child   { color: rgb(var(--fg-rgb)); }
 
-  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-    .hero-headline {
-      color: var(--color-on-background);
-      background: none;
+  /* ── Entrance animations ───────────────────────────────────── */
+  @keyframes hero-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(8px);
+    }
+    60% {
+      filter: blur(1px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
     }
   }
 
+  @keyframes hero-reveal-sm {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(5px);
+    }
+    60% {
+      filter: blur(0.5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .hero-line {
+    animation: hero-reveal 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero-tagline {
+    animation: hero-reveal-sm 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero-cta {
+    animation: hero-reveal-sm 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Reduced motion: skip animation */
   @media (prefers-reduced-motion: reduce) {
-    .hero-headline {
-      background-image: linear-gradient(
-        180deg,
-        rgba(var(--fg-rgb), 0.82) 0%,
-        rgb(var(--fg-rgb)) 100%
-      );
+    .hero-line,
+    .hero-tagline,
+    .hero-cta {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      filter: none;
     }
   }
 </style>

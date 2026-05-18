@@ -20,11 +20,14 @@
 		font-family: var(--font-body, theme('fontFamily.sans'));
 		background-color: var(--color-bg);
 		color: var(--color-fg);
-		scroll-behavior: smooth;
 		scroll-padding-top: var(--scroll-anchor-offset);
 		overflow-x: clip;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		scrollbar-width: none;
+	}
+	html::-webkit-scrollbar {
+		display: none;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -41,8 +44,7 @@
 		background-color: var(--color-bg);
 		color: var(--color-fg);
 		overflow-x: clip;
-		/* Reinforce smooth document scrolling (e.g. Safari) while respecting html behavior */
-		scroll-behavior: smooth;
+		/* scroll-behavior handled by Lenis */
 	}
 
 	@media (prefers-reduced-motion: reduce) {

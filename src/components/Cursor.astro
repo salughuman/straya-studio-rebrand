@@ -1,0 +1,258 @@
+---
+/**
+ * Cursor.astro — Custom cursor: solid accent dot + lagging ring.
+ * Expands with section label on section hover, and updates on scroll (incl. 2-finger trackpad).
+ */
+---
+
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true">
+  <span id="cursor-label"></span>
+</div>
+
+<style>
+  #cursor-dot,
+  #cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    will-change: transform;
+  }
+
+  /* ── Dot ──────────────────────────────────────────────────── */
+  #cursor-dot {
+    width: 7px;
+    height: 7px;
+    background: #dc5000;
+    margin-top: -3.5px;
+    margin-left: -3.5px;
+    transition: opacity 200ms ease, width 300ms cubic-bezier(0.16,1,0.3,1), height 300ms cubic-bezier(0.16,1,0.3,1), margin 300ms cubic-bezier(0.16,1,0.3,1);
+  }
+  #cursor-dot.is-section {
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    margin-left: -2px;
+    opacity: 0 !important;
+  }
+
+  /* ── Ring ─────────────────────────────────────────────────── */
+  #cursor-ring {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid rgba(220, 80, 0, 0.65);
+    margin-top: -16px;
+    margin-left: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition:
+      opacity 300ms ease,
+      width  400ms cubic-bezier(0.16, 1, 0.3, 1),
+      height 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      margin 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 350ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms ease,
+      border-width 300ms ease;
+  }
+
+  /* Interactive element hover */
+  #cursor-ring.is-hovering {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    margin-left: -22px;
+    background-color: rgba(220, 80, 0, 0.1);
+    border-color: rgba(220, 80, 0, 0.9);
+  }
+
+  /* Section expand */
+  #cursor-ring.has-section {
+    width: 92px;
+    height: 92px;
+    margin-top: -46px;
+    margin-left: -46px;
+    background-color: rgba(8, 6, 5, 0.88);
+    border-color: rgba(220, 80, 0, 0.6);
+    border-width: 1px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Click feedback */
+  #cursor-ring.is-clicking:not(.has-section) {
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    margin-left: -12px;
+    background-color: rgba(220, 80, 0, 0.18);
+  }
+
+  /* ── Label ────────────────────────────────────────────────── */
+  #cursor-label {
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffedd7;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.75) translateY(4px);
+    transition:
+      opacity 280ms cubic-bezier(0.16, 1, 0.3, 1) 60ms,
+      transform 320ms cubic-bezier(0.16, 1, 0.3, 1) 60ms;
+    pointer-events: none;
+    user-select: none;
+  }
+  #cursor-ring.has-section #cursor-label {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Orange accent line below label */
+  #cursor-ring.has-section::after {
+    content: "";
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 1.5px;
+    background: rgba(220, 80, 0, 0.7);
+    border-radius: 9999px;
+  }
+</style>
+
+<script>
+  const initCursor = () => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    const dot   = document.getElementById("cursor-dot")   as HTMLElement;
+    const ring  = document.getElementById("cursor-ring")  as HTMLElement;
+    const label = document.getElementById("cursor-label") as HTMLElement;
+    if (!dot || !ring || !label) return;
+
+    const SECTION_NAMES: Record<string, string> = {
+      hero:         "Home",
+      services:     "Services",
+      work:         "Work",
+      testimonials: "Reviews",
+      why:          "Offer",
+      pricing:      "Pricing",
+      faq:          "FAQ",
+    };
+
+    let mouseX = -200, mouseY = -200;
+    let ringX  = -200, ringY  = -200;
+    let rafId  = 0;
+    let rafScroll = 0;
+    let visible = false;
+    let currentSection = "";
+
+    const show = () => {
+      if (visible) return;
+      visible = true;
+      dot.style.opacity  = "1";
+      ring.style.opacity = "1";
+    };
+
+    // ── Lerp loop ─────────────────────────────────────────────
+    const tick = () => {
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      const speed = ring.classList.contains("has-section") ? 0.07 : 0.12;
+      ringX += dx * speed;
+      ringY += dy * speed;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      if (Math.abs(dx) > 0.04 || Math.abs(dy) > 0.04) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = 0;
+      }
+    };
+
+    // ── Section detection ─────────────────────────────────────
+    const updateSection = (x: number, y: number) => {
+      const el = document.elementFromPoint(x, y);
+      const section = el?.closest<HTMLElement>("section[id]");
+      const id   = section?.id ?? "";
+      const name = SECTION_NAMES[id] ?? "";
+
+      if (name === currentSection) return;
+      currentSection = name;
+
+      if (name) {
+        label.textContent = name;
+        ring.classList.add("has-section");
+        ring.classList.remove("is-hovering");
+        dot.classList.add("is-section");
+      } else {
+        ring.classList.remove("has-section");
+        dot.classList.remove("is-section");
+        setTimeout(() => {
+          if (!ring.classList.contains("has-section")) label.textContent = "";
+        }, 380);
+      }
+    };
+
+    // ── Pointer move ──────────────────────────────────────────
+    window.addEventListener("pointermove", (e: PointerEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      updateSection(mouseX, mouseY);
+      show();
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }, { passive: true });
+
+    // ── Scroll (2-finger trackpad suppresses pointermove) ─────
+    // Re-run section detection using last known cursor position on each scroll frame.
+    window.addEventListener("scroll", () => {
+      if (rafScroll) return;
+      rafScroll = requestAnimationFrame(() => {
+        rafScroll = 0;
+        if (mouseX < 0) return;
+        updateSection(mouseX, mouseY);
+        // Also keep ring following during scroll
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      });
+    }, { passive: true });
+
+    // ── Interactive hover ──────────────────────────────────────
+    const HOVER_SEL = "a, button, [data-cursor-hover], label, input, select, textarea";
+    const attachHover = () => {
+      document.querySelectorAll<HTMLElement>(HOVER_SEL).forEach((el) => {
+        if (el.dataset.cursorReady) return;
+        el.dataset.cursorReady = "1";
+        el.addEventListener("pointerenter", () => {
+          if (!ring.classList.contains("has-section"))
+            ring.classList.add("is-hovering");
+        });
+        el.addEventListener("pointerleave", () => ring.classList.remove("is-hovering"));
+      });
+    };
+    attachHover();
+    document.addEventListener("astro:after-swap", attachHover);
+
+    // Click
+    window.addEventListener("pointerdown", () => ring.classList.add("is-clicking"),    { passive: true });
+    window.addEventListener("pointerup",   () => ring.classList.remove("is-clicking"), { passive: true });
+
+    // Hide when pointer leaves viewport
+    document.addEventListener("pointerleave", () => {
+      dot.style.opacity  = "0";
+      ring.style.opacity = "0";
+      visible = false;
+    });
+    document.addEventListener("pointerenter", show);
+  };
+
+  initCursor();
+  document.addEventListener("astro:after-swap", initCursor);
+</script>
