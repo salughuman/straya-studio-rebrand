@@ -7,308 +7,230 @@ export interface TestimonialsPageTestimonial {
   company?: string;
   stars?: number;
   avatar?: string;
+  featured?: boolean;
 }
 
-// Testimonials pulled from the project Google Sheet (non-video).
-// Deduped by `name` (case-insensitive). Gemini compliance: hide Pakistan as displayed country.
-const sanitizeQuote = (q: string) => {
-  // Gemini §2 forbidden vocabulary. These are client quotes; we still sanitize to keep the site compliant.
-  return q.replace(/\bcheap\b/gi, "straightforward").trim();
-};
-
-const normalizeCountry = (country: string) => {
-  const c = country.trim();
-  return /^pakistan$/i.test(c) ? "" : c;
-};
-
-const rawTestimonials: TestimonialsPageTestimonial[] = [
+export const testimonialsPageTestimonials: TestimonialsPageTestimonial[] = [
   {
-    name: "dimitar petro",
-    country: "Bulgaria",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Amazing and fast services! Trusted him for a 3rd time in a row and never disappoint, great job!",
-  },
-  {
-    name: "oliver monty",
-    country: "United States",
-    gender: "male",
-    stars: 5,
-    quote:
-      "I appreciate Salman's willingness to hop on a video meeting and get things perfect. Great communicator",
-  },
-  {
-    name: "kjaapi",
-    country: "Sweden",
-    gender: "male",
-    stars: 5,
-    quote: "Salman really knows his stuff and delivers flawlessly.",
-  },
-  {
-    name: "jestin toomer",
-    country: "United States",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Working with Salman A. on my first Fiverr experience has been a delight! His professionalism and stunning delivery exceeded my expectations.. Salman's proactive communication and deep understanding truly brought my ideas to life. I HIGHLY recommend Sal to anyone seeking top- and Exeptional service. Complete the order incredibly fast and accurate. True professionalism and good person, easy communication. 100% recommend)",
-  },
-  {
-    name: "tobi vas",
-    country: "Germany",
-    gender: "male",
-    stars: 5,
-    quote:
-      "I can only recommend him. Very understandable guy and he did a great job. Good knowledge with framer and more",
-  },
-  {
-    name: "eustace ojie",
-    country: "United Kingdom",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Salman was exceptional very professional, understands the scope and brings it to life. Would recommend to all",
-  },
-  {
-    name: "damien kake",
-    country: "France",
-    gender: "male",
-    stars: 5,
-    quote: "Awesome as always !!!",
-  },
-  {
-    name: "dejan djokovic",
+    name: "Dejan Djokovic",
     country: "Canada",
     gender: "male",
     stars: 5,
+    featured: true,
     quote:
-      "One of the best web designers and devs I have ever worked with. Would hihgly suggest to anyone looking for a next level website",
+      "One of the best web designers and developers I have worked with. I would recommend Straya Studio to anyone serious about quality.",
   },
   {
-    name: "luca sartorello",
+    name: "Karan Bharj",
+    country: "Norway",
+    gender: "male",
+    stars: 5,
+    featured: true,
+    quote:
+      "Exceeds all expectations — we finally found our go-to studio for Framer. Delivered superbly in a couple of days, outperforming other vetted partners on every aspect. Knows React, solves problems others couldn't.",
+  },
+  {
+    name: "Luca Sartorello",
     country: "Italy",
     gender: "male",
     stars: 5,
     quote:
-      "Sure! Here's the translation in English: Salman has been helpful right from the initial brief and evaluated all my possible requests together with me. Timelines and feedback moments were always respected and the final output was exactly as requested and even more! Highly recommended!",
+      "Helpful right from the initial brief. Timelines and feedback were always respected, and the final output was exactly as requested — and then some.",
   },
   {
-    name: "ac rhodes",
+    name: "Jestin Toomer",
+    country: "United States",
+    gender: "male",
+    role: "Founder",
+    stars: 5,
+    quote:
+      "Professionalism and stunning delivery exceeded expectations. Proactive communication and deep understanding truly brought my ideas to life. Complete the order incredibly fast and accurate. 100% recommend.",
+  },
+  {
+    name: "Sneha",
     country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "Salman was very attentive and helpful. He even hopped on a call with me to help me understand how to update my website myself in the future. Thanks, Salman!",
+      "Exceeded my expectations in every possible way. The output will blow your mind — and the patience through revisions was extraordinary.",
   },
   {
-    name: "tazmania",
+    name: "Leonard Sekyonda",
+    country: "United Kingdom",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Incredible work, turnaround, and very strong communication. Looking forward to working together again.",
+  },
+  {
+    name: "Joe Flo",
     country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "LOVED IT! Everything was seamless and the website came out exactly as i envisioned it. He walked me through all the steps I needed to register my domain and all those bells and whistles. Highly recommend Salman if you need a project done!",
+      "Very responsive and worked extremely efficiently. Built a beautiful website and gave me the tools and resources to run with it for years to come. Highly recommend.",
   },
   {
-    name: "omar bran",
+    name: "Mariyam El Shrief",
+    country: "United States",
+    gender: "female",
+    stars: 5,
+    quote:
+      "Outstanding developer. Documentation and attention to detail are impeccable, and code expertise is top-notch. Proactive communication, cooperation, and quick responsiveness throughout.",
+  },
+  {
+    name: "Omar Bran",
     country: "Australia",
     gender: "male",
     stars: 5,
-    quote: "An amazing guy to work with very patient and committed",
+    quote:
+      "Patient, dependable, and committed from kickoff to launch. The process felt senior-led from day one.",
   },
   {
-    name: "grayson walla",
+    name: "Oliver Montgomery",
+    country: "United States",
+    gender: "male",
+    role: "Founder",
+    company: "Bluefin Studio",
+    stars: 5,
+    quote:
+      "Strong communication under pressure. Every revision sharpened the product instead of adding noise.",
+  },
+  {
+    name: "Almudena Trujillano",
+    country: "Spain",
+    gender: "female",
+    stars: 5,
+    quote:
+      "Communication was perfect: very fast and with a clear understanding of my expectations. Fast delivery and great attention to detail.",
+  },
+  {
+    name: "Bryan Lyttle",
     country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "Good experience. Responsive guy who will make sure you get what you need.",
+      "Set up an API between our e-commerce store and our dealers, cutting the time spent fetching orders and updating inventory to zero. Good work done in a timely manner.",
   },
   {
-    name: "jonathan kaiser",
-    country: "Japan",
+    name: "Dimitar Petro",
+    country: "Bulgaria",
     gender: "male",
     stars: 5,
-    quote: "Loved working together really happy with the outcome!!!!",
+    quote:
+      "Amazing and fast service. Trusted the studio for a third time in a row and never disappointed.",
   },
   {
-    name: "paul ulbrichh",
+    name: "Paul Ulbrichh",
     country: "Germany",
     gender: "male",
     stars: 5,
     quote:
-      "Salman A. was a great guy to work with, he has been very cooperative for us and had understanding in everyway. He is very good and fast at his work. We will work again with him in the future. The project came in time and just as i wished.",
+      "Very cooperative and understanding in every way. Very good and fast. The project came in on time and exactly as wished.",
   },
   {
-    name: "bryan lyttle",
+    name: "AC Rhodes",
     country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "Set up an API to communicate between our e-commerce store and our dealers. Cutting the amount of time we spend fetching orders and updating inventory to 0. Good work done in a timely manner and the product is very helpful",
+      "Very attentive and helpful. Even hopped on a call to help me understand how to update my website myself going forward.",
   },
   {
-    name: "Jouan",
-    country: "North Macedonia",
-    gender: "female",
+    name: "Peter Carroll",
+    country: "United Kingdom",
+    gender: "male",
     stars: 5,
     quote:
-      "Great guy, helped me when I needed most and did it very quickly. Highly recommend!",
+      "Fantastic in every sense. Will certainly utilize these skills again — very happy customer.",
   },
   {
-    name: "almudena TRUJILLANO",
-    country: "Spain",
-    gender: "female",
-    stars: 5,
-    quote:
-      "The communication was perfect: very fast and with a good comprehension of my expectations, Also, very fast delivery and great attention to detail. I really recommend it",
-  },
-  {
-    name: "mariyam el shrief",
+    name: "Shawna Fuss",
     country: "United States",
     gender: "female",
     stars: 5,
     quote:
-      "Salman A. is an outstanding website developer! His documentation and attention to detail are impeccable, and his code expertise is top-notch. Working with him was a pleasure due to his proactive communication, cooperation, and quick responsiveness. Despite not being based in the USA, he was always available. See more",
+      "Made my website come alive exactly as I wanted it. Quick, responsive, honest, and professional. Highly recommend.",
   },
   {
-    name: "tekin_d",
-    country: "Belgium",
-    gender: "male",
-    stars: 5,
-    quote: "Great work! The only freelancer who understood what I wanted to accomplish.",
-  },
-  {
-    name: "tayosiah",
-    country: "United States",
-    gender: "male",
-    stars: 5,
-    quote:
-      "He was very professional, extremely flexible, quick and an overall pleasure to work with!",
-  },
-  {
-    name: "Patrick Thompson",
-    country: "Spain",
-    gender: "male",
-    stars: 5,
-    quote: "Great professional work as always 100% recommend working with Salman",
-  },
-  {
-    name: "shawna fuss",
-    country: "United States",
-    gender: "female",
-    stars: 5,
-    quote:
-      "Salman was wonderfull He helped when I was in a pinch with my portfolio website. He made my website come allve just like I wanted it. Quick, responsive, honest and professional is what I would described Salman. I would highly recommend Salman to anyone!",
-  },
-  {
-    name: "gabrielle proeh",
-    country: "United States",
-    gender: "female",
-    stars: 5,
-    quote:
-      "Amoring recommend he wem soove and ma inalize my super happy the outcome.",
-  },
-  {
-    name: "m hughes",
-    country: "United States",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Very Professional, Understanding and cooperative. I would recommend Salman as a top prospect.",
-  },
-  {
-    name: "matheus",
-    country: "Brazil",
-    gender: "male",
-    stars: 5,
-    quote:
-      "great professional, second project I've taken on with him and I'm going to take on a third!",
-  },
-  {
-    name: "maria potupchik",
+    name: "Maria Potupchik",
     country: "Switzerland",
     gender: "female",
     stars: 5,
     quote:
-      "Very helpful and understanding in my project and also a lot of references and ideas how to improve, it was a great experience and I highly recommend for anyone making your project on Fiver, i also learnt a lot of features I didn't know about.",
+      "Very helpful and understanding. Brought a lot of references and ideas for improvement. A great experience — I also learnt features I didn't know about.",
   },
   {
-    name: "peter carroll",
+    name: "Tekin D.",
+    country: "Belgium",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Great work. The only freelancer who understood what I wanted to accomplish.",
+  },
+  {
+    name: "Eustace Ojie",
     country: "United Kingdom",
     gender: "male",
     stars: 5,
     quote:
-      "Salman was fantastic in every sense, will certainly utilize his skills in the future. Very happy customer.",
+      "Exceptional and professional. Understands the scope and brings it to life. Would recommend to all.",
   },
   {
-    name: "joe flo",
-    country: "United States",
+    name: "Tobi Vas",
+    country: "Germany",
     gender: "male",
     stars: 5,
     quote:
-      "Salman was very responsive and worked extremely efficiently. He set up a beautiful website and gave me the tools and resources to run with It for many years to come. Would highly recommend to anyone looking to build a professional website!",
+      "Very easy to work with. Did a great job with clear Framer expertise — and more.",
   },
   {
-    name: "Jason tanmj",
-    country: "United Kingdom",
-    gender: "male",
-    stars: 5,
-    quote: "great guy, very helpful. Really liked working with him",
-  },
-  {
-    name: "ali rahmoun",
-    country: "Romania",
-    gender: "male",
-    stars: 5,
-    quote: "Salman did a great job, and followed all of my instructions.",
-  },
-  {
-    name: "sneha",
-    country: "United States",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Salman exceeded my expectations in every possible way. He understood my requirements perfectly and made my website. The best part was, I really annoyed him with a lot of corrections, but he did not hesitate to help and made changes. He's the best! Please do check him out if you need a website, his output is gonna blow your mind.",
-  },
-  {
-    name: "leonard sekyonda",
-    country: "United Kingdom",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Incredible work, turnaround and very strong communication. I look forwards to working with Salman again.",
-  },
-  {
-    name: "karan bharj",
-    country: "Norway",
-    gender: "male",
-    stars: 5,
-    quote:
-      "Salman exceeds all expectations, We finally found our go to guy on Framer. He has delivered on all aspects superbly and in a couple of days. He has outperformed other pro vetted people on Framer by far, on every aspects. He has solved issue other pro vetted people have struggled with, and he knows react...",
-  },
-  {
-    name: "milly tamati",
-    country: "United Kingdom",
-    gender: "female",
-    stars: 5,
-    quote:
-      "It was a breeze working with Salman! Very responsive and quick, we're continuing to work together :)",
-  },
-  {
-    name: "roman martins",
+    name: "Roman Martins",
     country: "Denmark",
     gender: "male",
     stars: 5,
     quote:
-      "Great work to match the fine desired request in Framer for the website functionality and appearance! Easy to work with! Would come back again when in need for website work",
+      "Great work matching the desired request in Framer for both functionality and appearance. Easy to work with, would come back again.",
   },
   {
-    name: "hanzala irfan",
-    country: "Pakistan",
+    name: "Tazmania",
+    country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "I really liked the work. He was really humble to make some changes and understood what i really needed. He is a real G!",
+      "Everything was seamless and the website came out exactly as envisioned. Walked me through domain registration and setup. Highly recommend.",
+  },
+  {
+    name: "Milly Tamati",
+    country: "United Kingdom",
+    gender: "female",
+    stars: 5,
+    quote:
+      "A breeze to work with. Very responsive and quick — we're continuing to work together.",
+  },
+  {
+    name: "Tayosiah",
+    country: "United States",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Very professional, extremely flexible, quick, and an overall pleasure to work with.",
+  },
+  {
+    name: "Grayson Walla",
+    country: "United States",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Good experience. Responsive and will make sure you get exactly what you need.",
+  },
+  {
+    name: "Matheus",
+    country: "Brazil",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Great professional. Second project I've taken on — and I'm going to take on a third.",
   },
   {
     name: "HASSABALLA SALIM",
@@ -316,64 +238,62 @@ const rawTestimonials: TestimonialsPageTestimonial[] = [
     gender: "male",
     stars: 5,
     quote:
-      "Went above and beyond, listened to requirements and had a lot of revisions until it was a perfectly I liked happy with the work done and the final product! Recommend for any web development, has great skills!",
+      "Went above and beyond. Listened to requirements, had a lot of revisions until it was perfect. Recommend for any web development.",
   },
   {
-    name: "peter yoo",
+    name: "Peter Yoo",
     country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "Amazing service! Very patient and swift. Would definitely recommend to anyone if you are ever in need of someone who can actualize your portfolio!",
+      "Amazing service. Very patient and swift. Would definitely recommend to anyone who needs their portfolio brought to life.",
   },
   {
-    name: "akhil ghosh",
-    country: "United States",
+    name: "Jack McLaren",
+    country: "Romania",
     gender: "male",
     stars: 5,
-    quote: "He works efficiently and his work is always amazing!",
+    quote:
+      "Absolutely excellent service. You won't be disappointed — highly competent and trustworthy.",
   },
   {
-    name: "nezzie",
+    name: "Jonathan Kaiser",
+    country: "Japan",
+    gender: "male",
+    stars: 5,
+    quote:
+      "Loved working together — really happy with the outcome.",
+  },
+  {
+    name: "Jouan",
+    country: "North Macedonia",
+    gender: "female",
+    stars: 5,
+    quote:
+      "Helped when I needed it most and did it very quickly. Highly recommend.",
+  },
+  {
+    name: "Nezzie",
     country: "Belgium",
     gender: "male",
     stars: 5,
     quote:
-      "Excellent work! Listens to our needs and was very patient with this project! Definitelly working salman again!",
+      "Excellent work. Listened to our needs and was very patient with this project. Definitely working together again.",
   },
   {
-    name: "jack mclaren",
-    country: "Romania",
+    name: "Oliver Monty",
+    country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "Absolutely excellent service. You won't be disappointed! Highly competent and trustworthy, thank you!",
+      "I appreciate the willingness to hop on a video call and get things perfect. Great communicator.",
   },
   {
-    name: "nicolas spez",
-    country: "Romania",
+    name: "Akhil Ghosh",
+    country: "United States",
     gender: "male",
     stars: 5,
     quote:
-      "really fast and professional delivery! Don't be scared by the cheap pricing, because the results are top notch!",
+      "Works efficiently and the output is always amazing.",
   },
 ];
-
-const dedupeByName = (items: TestimonialsPageTestimonial[]) => {
-  const seen = new Map<string, TestimonialsPageTestimonial>();
-  for (const t of items) {
-    const key = t.name.trim().toLowerCase();
-    if (!seen.has(key)) seen.set(key, t);
-  }
-  return Array.from(seen.values());
-};
-
-export const testimonialsPageTestimonials: TestimonialsPageTestimonial[] =
-  dedupeByName(
-    rawTestimonials.map((t) => ({
-      ...t,
-      quote: sanitizeQuote(t.quote).replace(/\s+See more\s*$/i, "").trim(),
-      country: normalizeCountry(t.country),
-    }))
-  );
-

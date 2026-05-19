@@ -47,6 +47,10 @@
 		/* scroll-behavior handled by Lenis */
 	}
 
+	/* §4 — text-wrap: balance on headings, pretty on body */
+	h1, h2, h3 { text-wrap: balance; }
+	p { text-wrap: pretty; }
+
 	@media (prefers-reduced-motion: reduce) {
 		body {
 			scroll-behavior: auto;

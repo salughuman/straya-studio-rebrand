@@ -14,8 +14,8 @@ interface Props {
 
 const baseUrl = import.meta.env.BASE_URL;
 const {
-  headline = `Build\nabove\nthe noise`,
-  tagline = "Straya is a digital studio building brand-defining websites and product experiences for ambitious teams. We design, build and ship - end to end.",
+  headline = `Build above\nthe noise`,
+  tagline = "Straya Studio - Premium Framer & Webflow development agency for SaaS, AI, and startup brands.",
   ctaLabel = "Start a project",
 } = Astro.props as Props;
 
@@ -29,83 +29,90 @@ const headlineLines = headline.split("\n");
   style="height: 100svh;"
 >
   <div class="relative isolate h-full overflow-hidden bg-surface-dim">
-  <p class="sr-only">
-    Straya Studio hero section with background image, headline,
-    supporting positioning statement, and a direct call to start a project.
-  </p>
+    <p class="sr-only">
+      Straya Studio hero section with background image, headline, supporting
+      positioning statement, and a direct call to start a project.
+    </p>
 
-  <img
-    src="/images/Hero/straya-hero-image.webp"
-    alt=""
-    aria-hidden="true"
-    width="2880"
-    height="1620"
-    class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
-    loading="eager"
-    decoding="async"
-    fetchpriority="high"
-  />
+    <img
+      src="/images/Hero/straya-hero-image.webp"
+      alt=""
+      aria-hidden="true"
+      width="2880"
+      height="1620"
+      class="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
 
-  <div
-    class="hero-image-grain pointer-events-none absolute inset-0 z-10"
-    aria-hidden="true"
-  ></div>
+    <div
+      class="hero-image-grain pointer-events-none absolute inset-0 z-10"
+      aria-hidden="true"
+    >
+    </div>
 
-  <div
-    class="hero-image-scrim pointer-events-none absolute inset-0 z-20"
-    aria-hidden="true"
-  ></div>
+    <div
+      class="hero-image-scrim pointer-events-none absolute inset-0 z-20"
+      aria-hidden="true"
+    >
+    </div>
 
+    <div class="absolute bottom-0 left-0 right-0 z-30 pb-card-padding lg:pb-2">
+      <div class="main-container w-full pb-2 sm:pb-4 lg:pb-10">
+        <div class="grid grid-cols-12 items-end gap-4 lg:gap-6">
+          <div class="col-span-12 lg:col-span-8">
+            <h1
+              class="hero-headline type-h1 text-on-background"
+              style="white-space: pre-line; font-size: clamp(4.4rem, 1.2rem + 8vw, 10rem);"
+            >
+              {
+                headlineLines.map((line, i) => (
+                  <span
+                    class="hero-line block"
+                    style={`animation-delay: ${0.05 + i * 0.18}s`}
+                  >
+                    {line}
+                  </span>
+                ))
+              }
+            </h1>
+          </div>
 
-  <div
-    class="absolute bottom-0 left-0 right-0 z-30 pb-card-padding lg:pb-2"
-  >
-    <div class="main-container w-full pb-2 sm:pb-4 lg:pb-10">
-      <div class="grid grid-cols-12 items-end gap-4 lg:gap-6">
-        <div class="col-span-12 lg:col-span-8">
-          <h1 class="hero-headline type-h1 text-on-background" style="white-space: pre-line; font-size: clamp(4.4rem, 1.2rem + 8vw, 10rem);">
-            {headlineLines.map((line, i) => (
-              <span
-                class="hero-line block"
-                style={`animation-delay: ${0.05 + i * 0.18}s`}
-              >{line}</span>
-            ))}
-          </h1>
-        </div>
+          <div class="col-span-12 flex flex-col gap-5 lg:col-span-4">
+            <p
+              class="hero-tagline type-body max-w-md text-pretty text-on-surface-variant"
+              style="animation-delay: 0.52s"
+            >
+              {tagline}
+            </p>
 
-        <div
-          class="col-span-12 flex flex-col gap-5 lg:col-span-4"
-        >
-          <p
-            class="hero-tagline type-body max-w-md text-pretty text-on-surface-variant"
-            style="animation-delay: 0.52s"
-          >
-            {tagline}
-          </p>
-
-          <div class="hero-cta" style="animation-delay: 0.68s">
-            <Button
-              href={`${baseUrl}contact`}
-              label={ctaLabel}
-              variant="hero-pill"
-              class="self-start"
-            />
+            <div class="hero-cta" style="animation-delay: 0.68s">
+              <Button
+                href={`${baseUrl}contact`}
+                label={ctaLabel}
+                variant="hero-pill"
+                class="self-start"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-  </div>
 </section>
 
 <style>
-  /* Gradient fades across all lines: first line lightest, last line full opacity */
-  .hero-line:nth-child(1) { color: rgba(var(--fg-rgb), 0.58); }
-  .hero-line:nth-child(2) { color: rgba(var(--fg-rgb), 0.82); }
-  .hero-line:nth-child(3) { color: rgb(var(--fg-rgb)); }
-  /* Fallback for fewer/more lines */
-  .hero-line:only-child   { color: rgb(var(--fg-rgb)); }
+  /* Gradient fade: first line slightly dimmer, second line full opacity */
+  .hero-line:nth-child(1) {
+    color: rgba(var(--fg-rgb), 0.72);
+  }
+  .hero-line:nth-child(2) {
+    color: rgb(var(--fg-rgb));
+  }
+  .hero-line:only-child {
+    color: rgb(var(--fg-rgb));
+  }
 
   /* ── Entrance animations ───────────────────────────────────── */
   @keyframes hero-reveal {

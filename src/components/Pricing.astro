@@ -1,14 +1,13 @@
 ---
 /**
  * Pricing.astro — Straya Studio
- * Premium dark editorial pricing — tier indices, oversized price, accent featured card.
+ * Premium dark editorial pricing — tier icons, oversized price, accent featured card.
  */
 import {
   PRICING_TIERS,
   PRICING_BADGE,
   PRICING_HEADLINE,
   PRICING_SUBTITLE,
-  PRICING_TRUST_LINE,
 } from "../data/pricing";
 import { SITE_CONFIG } from "../data/site-config";
 import Button from "./ui/buttons/Button.astro";
@@ -23,7 +22,8 @@ const tierCtaHref = (tierName: string, index: number) => {
   return `${baseUrl}contact?source=pricing&tier=${encodeURIComponent(tierSlug(tierName))}`;
 };
 
-const indices = ["01", "02", "03"];
+const trustLine = (index: number) =>
+  index === 2 ? "Free 30-min discovery call" : "No retainers · Pay per project";
 ---
 
 <section
@@ -40,32 +40,24 @@ const indices = ["01", "02", "03"];
   <!-- Section header -->
   <div class="main-container pt-20 pb-14 md:pt-28 md:pb-16">
     <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-16">
-
       <div class="flex-1">
         <p class="type-label-small mb-5 inline-flex items-center gap-2 uppercase tracking-blueprint text-on-background/50" role="status">
           <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
           {PRICING_BADGE}
         </p>
-        <h2 class="type-h2 m-0 max-w-2xl tracking-tight text-on-background">
+        <h2 class="type-h2 m-0 max-w-2xl text-on-background">
           {PRICING_HEADLINE}
         </h2>
       </div>
-
       <p class="type-body m-0 max-w-[44ch] text-on-background/60 md:text-right leading-relaxed">
         {PRICING_SUBTITLE}
       </p>
-
     </div>
-  </div>
-
-  <!-- Divider -->
-  <div class="main-container">
-    <div class="pricing-rule"></div>
   </div>
 
   <!-- Cards -->
   <div class="main-container py-0">
-    <div class="grid grid-cols-1 md:grid-cols-3" role="list">
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4" role="list">
       {
         PRICING_TIERS.map((tier, i) => {
           const featured = Boolean(tier.popular);
@@ -74,65 +66,94 @@ const indices = ["01", "02", "03"];
           return (
             <article
               class:list={[
-                "pricing-card group relative flex flex-col",
-                featured ? "pricing-card--featured" : "",
-                i < PRICING_TIERS.length - 1 ? "pricing-card--bordered" : "",
+                "pricing-card group relative flex flex-col transition-[background] duration-300 ease-luxury",
+                featured
+                  ? "bg-accent/10"
+                  : "bg-on-background/[0.04] hover:bg-on-background/[0.07]",
               ]}
               role="listitem"
               aria-label={`${tier.name} — ${tier.price}`}
               data-pricing-card
               data-pricing-i={i}
+              style={`transition-delay: ${i * 80}ms`}
             >
               <!-- Card inner -->
-              <div class="flex flex-1 flex-col px-8 pt-8 pb-8 md:px-10 md:pt-10 md:pb-10">
+              <div class="flex flex-1 flex-col p-6 md:p-8">
 
-                <!-- Index + name row -->
-                <div class="flex items-start justify-between mb-8">
-                  <span class="pricing-index">{indices[i]}</span>
+                <!-- Icon + badge row -->
+                <div class="flex items-start justify-between mb-5">
+                  {i === 0 && (
+                    <span class="tier-icon tier-icon--ring text-on-background/30" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 2.4" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                  )}
+                  {i === 1 && (
+                    <span class="tier-icon tier-icon--star text-accent" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 1.5 L11.55 8.45 L18.5 10 L11.55 11.55 L10 18.5 L8.45 11.55 L1.5 10 L8.45 8.45 Z"/>
+                      </svg>
+                    </span>
+                  )}
+                  {i === 2 && (
+                    <span class="tier-icon tier-icon--asterisk text-on-background/30" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+                        <line x1="10" y1="2.5" x2="10" y2="17.5"/>
+                        <line x1="2.5" y1="10" x2="17.5" y2="10"/>
+                        <line x1="4.4" y1="4.4" x2="15.6" y2="15.6"/>
+                        <line x1="15.6" y1="4.4" x2="4.4" y2="15.6"/>
+                      </svg>
+                    </span>
+                  )}
                   {featured && (
-                    <span class="pricing-badge">Most Popular</span>
+                    <span class="font-body text-[0.65rem] font-semibold uppercase tracking-widest text-accent border border-accent/35 px-2.5 py-1 leading-none">
+                      Most Popular
+                    </span>
                   )}
                 </div>
 
                 <!-- Name & tagline -->
-                <div class="mb-8">
-                  <h3 class:list={[
-                    "font-display font-semibold leading-tight tracking-tight mb-2",
-                    "text-[clamp(1.5rem,2.2vw,2rem)]",
-                    featured ? "text-on-background" : "text-on-background/90",
-                  ]}>
+                <div class="mb-5">
+                  <h3
+                    class:list={[
+                      "font-display font-semibold leading-tight tracking-tight mb-1.5 text-2xl md:text-3xl",
+                      featured ? "text-on-background" : "text-on-background/90",
+                    ]}
+                  >
                     {tier.name}
                   </h3>
-                  <p class="type-body-small m-0 text-on-background/65 leading-relaxed">
+                  <p class="type-body-small m-0 text-on-background/55 leading-relaxed">
                     {tier.tagline}
                   </p>
                 </div>
 
+                <!-- Hook line -->
+                <p class="type-label-small m-0 mb-5 uppercase tracking-blueprint text-accent/75">
+                  {tier.hook}
+                </p>
+
                 <!-- Price block -->
-                <div class="mb-8 pb-8 pricing-price-block">
-                  <p class="type-label-small mb-3 uppercase tracking-blueprint text-on-background/55">Starting from</p>
-                  <p class:list={[
-                    "pricing-price font-display font-black leading-none tracking-tight m-0",
-                    featured ? "text-on-background" : "text-on-background/85",
-                  ]}>
+                <div class="mb-5 pb-5 border-b border-on-background/[0.08]">
+                  <p
+                    class:list={[
+                      "pricing-price font-display font-black leading-none tracking-tight m-0",
+                      featured ? "text-on-background" : "text-on-background/85",
+                    ]}
+                  >
                     {tier.price}
                   </p>
-                  <p class="type-label-small mt-3 uppercase tracking-blueprint text-on-background/60 m-0">
+                  <p class="type-label-small mt-2.5 uppercase tracking-blueprint text-on-background/50 m-0">
                     {tier.timeline}
                   </p>
                 </div>
 
-                <!-- Best for -->
-                <p class="type-body-small m-0 mb-6 text-on-background/70 leading-relaxed">
-                  {tier.bestFor}
-                </p>
-
                 <!-- Features -->
-                <ul class="m-0 flex flex-1 list-none flex-col gap-3 p-0 mb-10" aria-label={`${tier.name} includes`}>
+                <ul class="m-0 flex flex-1 list-none flex-col gap-2.5 p-0 mb-5" aria-label={`${tier.name} includes`}>
                   {
                     tier.included.map((feature) => (
                       <li class="flex items-start gap-3">
-                        <span class="pricing-check-icon mt-0.5 shrink-0" aria-hidden="true">
+                        <span class="mt-0.5 shrink-0 flex items-center justify-center text-accent" aria-hidden="true">
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                             <path d="M2 6.5L4.5 9L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
@@ -156,6 +177,9 @@ const indices = ["01", "02", "03"];
                     class="w-full justify-center"
                     aria-label={`${tier.ctaLabel} — ${tier.name}`}
                   />
+                  <p class="type-label-small m-0 mt-3 text-center tracking-blueprint text-on-background/30">
+                    {trustLine(i)}
+                  </p>
                 </div>
 
               </div>
@@ -166,15 +190,12 @@ const indices = ["01", "02", "03"];
     </div>
   </div>
 
-  <!-- Trust line -->
-  <div class="main-container pb-16 md:pb-24">
-    <div class="pricing-rule mb-8"></div>
-    <p class="type-caption m-0 text-center text-on-background/55">{PRICING_TRUST_LINE}</p>
-  </div>
+  <div class="pb-16 md:pb-24"></div>
 
 </section>
 
 <script>
+  /* ~0.4KB — scroll-reveal with IntersectionObserver */
   const initPricingReveal = () => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -186,8 +207,7 @@ const indices = ["01", "02", "03"];
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           const card = entry.target as HTMLElement;
-          const i = parseInt(card.dataset.pricingI ?? "0", 10);
-          setTimeout(() => card.classList.add("is-visible"), i * 80);
+          card.classList.add("is-visible");
           observer.unobserve(card);
         });
       },
@@ -199,19 +219,49 @@ const indices = ["01", "02", "03"];
 
   initPricingReveal();
   document.addEventListener("astro:after-swap", initPricingReveal);
+  document.addEventListener("astro:before-swap", () => {});
 </script>
 
 <style>
-  /* ── Scroll-reveal ────────────────────────────────────────── */
+  /*
+   * <style> justified: @keyframes for tier icons + scroll-reveal blur/translate,
+   * ::before pseudo for accent top-line on featured card,
+   * and fluid clamp() font-size not expressible as a token.
+   */
+
+  /* Tier icons — @keyframes + inline-flex centering */
+  .tier-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+  .tier-icon--ring svg    { animation: tier-spin     10s  linear        infinite; }
+  .tier-icon--star svg    { animation: tier-pulse    2.8s ease-in-out   infinite; }
+  .tier-icon--asterisk svg { animation: tier-spin-rev 8s  linear        infinite; }
+
+  @keyframes tier-spin     { to { transform: rotate(360deg);  } }
+  @keyframes tier-spin-rev { to { transform: rotate(-360deg); } }
+  @keyframes tier-pulse {
+    0%, 100% { transform: scale(1);    opacity: 1;    }
+    50%      { transform: scale(1.22); opacity: 0.75; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tier-icon svg { animation: none; }
+  }
+
+  /* Scroll-reveal — multi-property transition with blur; transition-delay set inline */
   [data-pricing-card] {
     opacity: 0;
     transform: translateY(28px);
     filter: blur(6px);
     transition:
-      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity   700ms cubic-bezier(0.16, 1, 0.3, 1),
       transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      filter 600ms cubic-bezier(0.16, 1, 0.3, 1),
-      background 300ms cubic-bezier(0.16, 1, 0.30, 1);
+      filter    600ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 300ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   [data-pricing-card].is-visible {
     opacity: 1;
@@ -223,87 +273,23 @@ const indices = ["01", "02", "03"];
       opacity: 1;
       transform: none;
       filter: none;
-      transition: background 300ms cubic-bezier(0.16, 1, 0.30, 1);
+      transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1);
     }
   }
 
-  .pricing-rule {
-    height: 1px;
-    background: rgba(255, 237, 215, 0.08);
-  }
-
-  /* Card base */
-  .pricing-card {
-    border-top: 1px solid rgba(255, 237, 215, 0.08);
-    transition: background 300ms cubic-bezier(0.16, 1, 0.30, 1);
-  }
-
-  /* Vertical divider between cards */
-  .pricing-card--bordered {
-    border-right: 1px solid rgba(255, 237, 215, 0.08);
-  }
-
-  /* Featured / popular card */
-  .pricing-card--featured {
-    background: rgba(255, 237, 215, 0.035);
-    border-top: 1px solid rgba(220, 80, 0, 0.6);
-    position: relative;
-  }
-
-  .pricing-card--featured::before {
+  /* ::before accent gradient line — pseudo-elements require <style> */
+  .pricing-card.bg-accent\/10 { position: relative; }
+  .pricing-card.bg-accent\/10::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
+    top: 0; left: 0; right: 0;
+    height: 2px;
     background: linear-gradient(90deg, transparent 0%, rgba(220, 80, 0, 0.9) 40%, rgba(220, 80, 0, 0.4) 100%);
   }
 
-  /* Hover lift for non-featured */
-  .pricing-card:not(.pricing-card--featured):hover {
-    background: rgba(255, 237, 215, 0.02);
-  }
-
-  /* Tier index */
-  .pricing-index {
-    font-family: var(--font-body);
-    font-size: clamp(0.625rem, 0.6rem + 0.12vw, 0.72rem);
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 237, 215, 0.25);
-  }
-
-  /* Popular badge */
-  .pricing-badge {
-    font-family: var(--font-body);
-    font-size: clamp(0.6rem, 0.58rem + 0.1vw, 0.68rem);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #DC5000;
-    border: 1px solid rgba(220, 80, 0, 0.35);
-    padding: 0.25rem 0.6rem;
-    line-height: 1;
-  }
-
-  /* Price */
+  /* Fluid price — clamp() not expressible as a design token class */
   .pricing-price {
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-size: clamp(2.2rem, 5vw, 4rem);
     letter-spacing: -0.04em;
-  }
-
-  /* Separator below price block */
-  .pricing-price-block {
-    border-bottom: 1px solid rgba(255, 237, 215, 0.07);
-  }
-
-  /* Check icon */
-  .pricing-check-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #DC5000;
   }
 </style>

@@ -40,7 +40,10 @@ const baseUrl = import.meta.env.BASE_URL;
           {
             SELECTED_PROJECTS.map((project, i) => (
               <div
-                class={`work-media ${i % 2 === 0 ? "" : "invisible pointer-events-none"}`}
+                class:list={[
+                  "flex justify-start min-h-[280px] lg:min-h-[220px]",
+                  i % 2 !== 0 && "invisible pointer-events-none",
+                ]}
                 data-work-media-slot
                 data-work-index={i}
               >
@@ -64,7 +67,7 @@ const baseUrl = import.meta.env.BASE_URL;
                           decoding="async"
                         />
                       ) : (
-                        <div class="h-full w-full flex items-center justify-center type-label text-[#E1E0CC]/45">
+                        <div class="h-full w-full flex items-center justify-center type-label text-on-background/45">
                           {project.title}
                         </div>
                       )}
@@ -89,7 +92,7 @@ const baseUrl = import.meta.env.BASE_URL;
                 {
                   SELECTED_PROJECTS.map((project, i) => (
                     <li
-                      class="work-title-item w-full text-center font-display font-normal tracking-tight leading-[0.88] text-[clamp(2.5rem,5.5vw,5.5rem)] uppercase text-[#E1E0CC]/26 transition-all duration-300"
+                      class="work-title-item w-full text-center font-display font-normal tracking-tight leading-[0.88] text-[clamp(2.5rem,5.5vw,5.5rem)] uppercase text-on-background/[0.26] transition-all duration-300"
                       data-work-title-item
                       data-index={i}
                     >
@@ -109,7 +112,10 @@ const baseUrl = import.meta.env.BASE_URL;
           {
             SELECTED_PROJECTS.map((project, i) => (
               <div
-                class={`work-media ${i % 2 !== 0 ? "" : "invisible pointer-events-none"}`}
+                class:list={[
+                  "flex justify-end min-h-[280px] lg:min-h-[220px]",
+                  i % 2 === 0 && "invisible pointer-events-none",
+                ]}
                 data-work-media-slot
                 data-work-index={i}
               >
@@ -133,7 +139,7 @@ const baseUrl = import.meta.env.BASE_URL;
                           decoding="async"
                         />
                       ) : (
-                        <div class="h-full w-full flex items-center justify-center type-label text-[#E1E0CC]/45">
+                        <div class="h-full w-full flex items-center justify-center type-label text-on-background/45">
                           {project.title}
                         </div>
                       )}
@@ -150,8 +156,12 @@ const baseUrl = import.meta.env.BASE_URL;
       <div class="lg:hidden">
         <!-- Section header -->
         <div class="main-container pb-8 pt-0">
-          <p class="mobile-work-eyebrow">Selected Work</p>
-          <h2 class="mobile-work-heading">Projects<br/>that define us.</h2>
+          <p class="font-sans text-[0.65rem] font-semibold tracking-[0.12em] uppercase text-on-background/40 mb-4">
+            Selected Work
+          </p>
+          <h2 class="mobile-work-heading type-h2 text-on-background m-0">
+            Projects<br/>that define us.
+          </h2>
         </div>
 
         <!-- Card list -->
@@ -162,7 +172,10 @@ const baseUrl = import.meta.env.BASE_URL;
                 href={project.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="mobile-work-card main-container block border-b border-on-background/10 pb-8 pt-0 mb-0"
+                class:list={[
+                  "group main-container block no-underline pt-7 pb-8 mb-0 border-b border-on-background/10 transition-opacity duration-200 ease-in-out",
+                  i === 0 && "border-t border-on-background/10",
+                ]}
                 aria-label={`View ${project.title} project`}
               >
                 <!-- Image -->
@@ -173,12 +186,12 @@ const baseUrl = import.meta.env.BASE_URL;
                       alt={project.title}
                       width="960"
                       height="640"
-                      class="h-full w-full object-cover"
+                      class="h-full w-full object-cover transition-transform duration-500 ease-luxury group-hover:scale-[1.03]"
                       loading="lazy"
                       decoding="async"
                     />
                   ) : (
-                    <div class="h-full w-full flex items-center justify-center text-[#E1E0CC]/40 text-sm tracking-widest uppercase">
+                    <div class="h-full w-full flex items-center justify-center text-on-background/40 text-sm tracking-widest uppercase">
                       {project.title}
                     </div>
                   )}
@@ -188,12 +201,18 @@ const baseUrl = import.meta.env.BASE_URL;
                 <div class="flex items-start justify-between gap-4">
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-3 mb-2">
-                      <span class="mobile-work-index">0{i + 1}</span>
-                      <span class="mobile-work-sector">{project.sector}</span>
+                      <span class="font-sans text-[0.6rem] font-medium tracking-[0.1em] text-on-background/[0.28] uppercase">
+                        0{i + 1}
+                      </span>
+                      <span class="font-sans text-[0.62rem] font-medium tracking-[0.08em] uppercase text-accent border border-accent/30 px-2 py-[0.15rem] leading-[1.4]">
+                        {project.sector}
+                      </span>
                     </div>
-                    <h3 class="mobile-work-title">{project.title}</h3>
+                    <h3 class="mobile-work-title font-display font-semibold tracking-[-0.03em] leading-none text-on-background m-0">
+                      {project.title}
+                    </h3>
                   </div>
-                  <div class="mobile-work-arrow shrink-0 mt-1">
+                  <div class="mobile-work-arrow shrink-0 mt-1 text-on-background/35 group-hover:text-accent group-hover:translate-x-[3px] group-hover:-translate-y-[3px]">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                       <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -209,83 +228,26 @@ const baseUrl = import.meta.env.BASE_URL;
 </section>
 
 <style>
-  /* ── Mobile work layout ───────────────────────────────────── */
-  .mobile-work-eyebrow {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(225, 224, 204, 0.4);
-    margin: 0 0 1rem;
-  }
-  .mobile-work-heading {
-    font-family: var(--font-display);
-    font-size: clamp(2.4rem, 9vw, 3.5rem);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-    color: #e1e0cc;
-    margin: 0;
-  }
-  .mobile-work-card {
-    text-decoration: none;
-    display: block;
-    padding-top: 1.75rem;
-    transition: opacity 200ms ease;
-  }
-  .mobile-work-card:first-of-type {
-    border-top: 1px solid rgba(225, 224, 204, 0.10);
-  }
-  .mobile-work-img {
-    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
-  }
-  .mobile-work-card:hover .mobile-work-img img {
-    transform: scale(1.03);
-    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .mobile-work-index {
-    font-family: var(--font-body);
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: rgba(225, 224, 204, 0.28);
-    text-transform: uppercase;
-  }
-  .mobile-work-sector {
-    font-family: var(--font-body);
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #dc5000;
-    border: 1px solid rgba(220, 80, 0, 0.3);
-    padding: 0.15rem 0.5rem;
-    line-height: 1.4;
-  }
-  .mobile-work-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    color: #e1e0cc;
-    margin: 0;
-  }
+  /*
+   * <style> justified:
+   * — clamp() fluid font-sizes (.mobile-work-heading, .mobile-work-title) not expressible as token classes
+   * — .mobile-work-arrow mixed-duration transition (transform 280ms, color 200ms) — two durations, not composable in Tailwind
+   * — .media-card complex multi-value box-shadow + gradient background not expressible in Tailwind without theme extension
+   * — .work-title-item.is-active JS-toggled active state (must live in <style>)
+   */
+
+  /* Fluid heading — custom mobile clamp overrides type-h2 token size for tighter mobile context */
+  .mobile-work-heading { font-size: clamp(2.4rem, 9vw, 3.5rem); }
+
+  /* Fluid title — clamp() not expressible as a token class */
+  .mobile-work-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+
+  /* Mixed-duration arrow transition — two properties with differing durations */
   .mobile-work-arrow {
-    color: rgba(225, 224, 204, 0.35);
     transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms ease;
   }
-  .mobile-work-card:hover .mobile-work-arrow {
-    color: #dc5000;
-    transform: translate(3px, -3px);
-  }
 
-  .sw-kicker {
-    color: rgba(225, 224, 204, 0.62);
-    letter-spacing: 0.08em;
-  }
+  /* Desktop media cards — multi-value box-shadow + gradient; cannot extend theme without config change */
   .media-card {
     display: block;
     width: 100%;
@@ -308,38 +270,24 @@ const baseUrl = import.meta.env.BASE_URL;
       max-width: none;
       width: 50%;
     }
-    .media-card--edge-left,
-    .media-card--edge-right {
-      border-radius: 0;
-    }
   }
-  .work-media {
-    min-height: 280px;
-  }
-  @media (min-width: 1024px) {
-    .work-media {
-      min-height: 220px;
-    }
-  }
-  [data-left-rail] .work-media {
-    display: flex;
-    justify-content: flex-start;
-  }
-  [data-right-rail] .work-media {
-    display: flex;
-    justify-content: flex-end;
-  }
+
+  /* JS-toggled active state — must live in <style> */
   .work-title-item.is-active {
     color: var(--color-accent, #dc5000);
     transform: translateY(-1px) scale(1.01);
   }
+
   @media (prefers-reduced-motion: reduce) {
     .media-card {
-      transition: none !important;
-      transform: none !important;
+      transition: none;
+      transform: none;
     }
     .work-title-item {
-      transition: none !important;
+      transition: none;
+    }
+    .mobile-work-arrow {
+      transition: none;
     }
   }
 </style>

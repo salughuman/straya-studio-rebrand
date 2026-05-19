@@ -6,9 +6,9 @@
 export interface PricingTier {
   name: string
   tagline: string
+  hook: string
   price: string
   timeline: string
-  bestFor: string
   included: string[]
   popular?: boolean
   ctaLabel: string
@@ -30,7 +30,7 @@ export const PRICING_TRUST_LINE =
 export const PRICING_FOOTER = {
   title: "Not sure which engagement fits?",
   description:
-    "Book a short discovery call or send over your brief. We’ll review the scope, recommend the right engagement, and provide a fixed project quote — no obligation.",
+    "Book a short discovery call or send over your brief. We'll review the scope, recommend the right engagement, and provide a fixed project quote — no obligation.",
   ctaLabel: "Book a discovery call",
 }
 
@@ -41,18 +41,15 @@ export const PRICING_TIERS: PricingTier[] = [
     tagline:
       "A focused, high-converting launch experience.",
 
+    hook: "Live in 1–2 weeks.",
+
     price: "$2,500",
 
     timeline: "1–2 weeks",
 
-    bestFor:
-      "Founders, SaaS products, campaigns, and businesses that need a premium single-page website built fast.",
-
     included: [
       "Custom landing page design",
       "Development in Framer or Webflow",
-      "Responsive optimisation",
-      "Core SEO and performance setup",
       "Smooth interactions and animations",
       "Launch support and final handoff",
     ],
@@ -66,21 +63,17 @@ export const PRICING_TIERS: PricingTier[] = [
     tagline:
       "A complete website designed to scale your brand.",
 
+    hook: "Your full brand, online.",
+
     price: "$5,000",
 
     timeline: "2–5 weeks",
 
-    bestFor:
-      "Multi-page websites, SaaS marketing sites, premium service brands, and modern e-commerce experiences.",
-
     included: [
-      "Everything included in Landing Page",
-      "Custom-designed multi-page experience",
-      "CMS setup and scalable content structure",
-      "Advanced interactions and motion systems",
-      "Brand direction and refined UI design",
+      "Everything in Landing Page",
+      "CMS setup and scalable structure",
+      "Advanced motion systems",
       "Performance and accessibility optimisation",
-      "Collaborative review process",
     ],
 
     popular: true,
@@ -96,21 +89,17 @@ export const PRICING_TIERS: PricingTier[] = [
     tagline:
       "Enterprise-level strategy, systems, and execution.",
 
+    hook: "Built for scale.",
+
     price: "Custom",
 
     timeline: "4–8+ weeks",
 
-    bestFor:
-      "Complex platforms, custom applications, product ecosystems, and high-scale digital experiences.",
-
     included: [
-      "Product strategy and discovery workshops",
-      "Custom UX systems and scalable architecture",
-      "Advanced development and API integrations",
+      "Product strategy and discovery",
+      "Custom UX systems and architecture",
       "Design systems and reusable components",
-      "Analytics and conversion optimisation",
-      "Priority collaboration workflow",
-      "Post-launch support and iteration planning",
+      "Post-launch support and iteration",
     ],
 
     ctaLabel: "Book a call",
